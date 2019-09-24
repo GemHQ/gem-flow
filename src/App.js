@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-
 class App extends Component {
+
+
+
   constructor(props) {
     super(props);
+
     this.state = {
       name: '',
       greeting: ''
@@ -14,12 +17,20 @@ class App extends Component {
   }
 
   handleChange(event) {
+
+    console.log(process.env.REACT_APP_SERVER_HOST)
+    console.log(process.env.REACT_APP_SERVER_PORT)
+
+
     this.setState({ name: event.target.value });
   }
 
   handleSubmit(event) {
+
+    const baseUrl = `http://${process.env.REACT_APP_SERVER_HOST}:${process.env.REACT_APP_SERVER_PORT}`
+
     event.preventDefault();
-    fetch(`/api/greeting?name=${encodeURIComponent(this.state.name)}`)
+    fetch(`${baseUrl}/api/greeting?name=${encodeURIComponent(this.state.name)}`)
       .then(response => response.json())
       .then(state => this.setState(state));
   }
