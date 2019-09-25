@@ -45,7 +45,9 @@ export default () => {
 
         {instructions.map((item, index) => {
           return (
-            <div>
+            <div className="Step" key={index} >
+
+
               <Label className="StepNumber">STEP {index + 1}</Label>
               <div>{item.description}</div>
               {/* <Label color="black" className="StepDescription">{item.description}</Label> */}

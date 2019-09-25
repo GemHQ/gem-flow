@@ -34,15 +34,6 @@ export default () => {
 
     <Container className="App">
 
-      <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", backgroundColor: "red" }}>
-        <div style={{ flex: 1 }}>
-          aaaa
-        </div>
-        <div style={{ flex: 1 }}>
-          bbbb
-        </div>
-      </div>
-
       <Header as='h1'>Welcome to Gem Flow.
         <Header.Subheader>
           This is an example app that demonstrates an end-to-end flow with Gem APIs.

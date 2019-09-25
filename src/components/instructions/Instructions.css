@@ -1,26 +1,27 @@
 .Container {
   display: flex;
-  flex-direction: row;
-  align-items: flex-start;
+  flex-direction: row !important;
+  align-items: flex-start !important;
 }
 
 .Dropdown {
-  width: 300px;
+  width: 200px;
   margin-right: 50px;
-  margin-top: 15px;
-}
-
-.StepNumber {
-  margin-right: 50px;
-}
-
-.StepDescription {
-  background-color: white;
 }
 
 .Stepper {
   display: flex;
   flex: 1;
   flex-direction: column;
-  background-color: "green";
+}
+
+.Step {
+  display: flex;
+  height: 35px;
+  margin-bottom: 10px;
+  align-items: flex-start;
+}
+
+.StepNumber {
+  margin-right: 20px !important;
 }

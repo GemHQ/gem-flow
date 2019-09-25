@@ -21,9 +21,5 @@ export const Instructions =
     {
       title: "Step 2 for Buy",
       description: "Step 2 description for Buy"
-    },
-    {
-      title: "Step 3 for Buy",
-      description: "Step 3 description for Buy"
     }]
 }
