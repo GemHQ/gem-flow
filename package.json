@@ -16,8 +16,9 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "dev": "concurrently \"cd server && yarn run start\" \"yarn run start\"",
-    "docker-build": "docker build . -t gem-flow",
-    "docker-run": "docker run -p 3000:3000 -p 3001:3001 gem-flow"
+    "docker-build": "docker-compose build",
+    "docker-run": "docker-compose up",
+    "docker-stop": "docker stop gem-flow-app gem-flow-db"
   },
   "eslintConfig": {
     "extends": "react-app"
