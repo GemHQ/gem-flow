@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Step, Icon, Dropdown, Label } from 'semantic-ui-react'
-import './Instructions.css';
-import { Instructions } from "./Instructions";
+import './instructions.css';
+import { Instructions } from "./instructions";
 
 export default () => {
 
@@ -30,7 +30,7 @@ export default () => {
   return (
 
 
-    <div className="Container">
+    <div className="InstructionsContainer">
 
       <Dropdown
         className="Dropdown"
@@ -42,19 +42,14 @@ export default () => {
 
 
       <div className="Stepper">
-
         {instructions.map((item, index) => {
           return (
             <div className="Step" key={index} >
-
-
               <Label className="StepNumber">STEP {index + 1}</Label>
-              <div>{item.description}</div>
-              {/* <Label color="black" className="StepDescription">{item.description}</Label> */}
+              <div class="StepDescription">{item.description}</div>
             </div>
           );
         })}
-
       </div>
 
 
