@@ -8,13 +8,21 @@ services:
     volumes:
       - db-data:/var/lib/postgresql/data
 
-  app:
-    container_name: gem-flow-app
+  server:
+    container_name: gem-flow-server
     build: ./server
     ports:
       - "3001:3001"
     depends_on:
       - db
+
+  ui:
+    container_name: gem-flow-ui
+    build: ./ui
+    ports:
+      - "3000:3000"
+    depends_on:
+      - server
 
 volumes:
   db-data:
