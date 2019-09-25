@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Label, Container, Input, Button } from 'semantic-ui-react'
+import { Input, Button } from 'semantic-ui-react'
 import './addUser.css';
 
 export default () => {

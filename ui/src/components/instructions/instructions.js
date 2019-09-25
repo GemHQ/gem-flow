@@ -23,3 +23,16 @@ export const Instructions =
       description: "Step 2 description for Buy"
     }]
 }
+
+
+export const Options = [
+  {
+    key: "Connect",
+    text: "Connect",
+    value: "Connect"
+  }, {
+    key: "Buy",
+    text: "Buy",
+    value: "Buy"
+  }
+];

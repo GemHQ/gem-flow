@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './App.css';
 import { Container, Divider } from 'semantic-ui-react'
 import Instructions from './components/instructions';

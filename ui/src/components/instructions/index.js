@@ -1,28 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { Step, Icon, Dropdown, Label } from 'semantic-ui-react'
+import { Dropdown, Label } from 'semantic-ui-react'
 import './instructions.css';
-import { Instructions } from "./instructions";
+import { Instructions, Options } from "./instructions";
 
 export default () => {
 
-  const options = [
-    {
-      key: "Connect",
-      text: "Connect",
-      value: "Connect"
-    }, {
-      key: "Buy",
-      text: "Buy",
-      value: "Buy"
-    }
-  ];
 
-  const [selectedOption, setSelectedOption] = useState(options[0].value);
+
+  const [selectedOption, setSelectedOption] = useState(Options[0].value);
   const [instructions, setInstructions] = useState(Instructions.connect);
 
   useEffect(() => {
 
-    const option = options.filter(item => item.value === selectedOption);
+    const option = Options.filter(item => item.value === selectedOption);
     setInstructions(Instructions[option[0].value.toLowerCase()])
 
   }, [selectedOption])
@@ -34,7 +24,7 @@ export default () => {
 
       <Dropdown
         className="Dropdown"
-        selection options={options}
+        selection options={Options}
         value={selectedOption}
         onChange={(e, { value }) => {
           setSelectedOption(value);
@@ -46,7 +36,7 @@ export default () => {
           return (
             <div className="Step" key={index} >
               <Label className="StepNumber">STEP {index + 1}</Label>
-              <div class="StepDescription">{item.description}</div>
+              <div className="StepDescription">{item.description}</div>
             </div>
           );
         })}

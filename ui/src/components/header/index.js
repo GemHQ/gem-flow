@@ -1,17 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Header, Image } from 'semantic-ui-react'
 import logo from '../../assets/logo.jpg'
 
 import './header.css';
 
 export default () => {
-
-  const [val, setVaL] = useState(null);
-
-
-  useEffect(() => {
-
-  }, [])
 
   return (
 
