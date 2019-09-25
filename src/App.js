@@ -1,71 +1,67 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
-class App extends Component {
+import { Container, Dropdown, Label, Header, Divider, Card } from 'semantic-ui-react'
+import Instructions from './components/instructions';
+
+export default () => {
 
 
 
-  constructor(props) {
-    super(props);
+  // constructor(props) {
+  //   super(props);
 
-    this.state = {
-      name: '',
-      greeting: ''
-    };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
+  // }
 
-  handleChange(event) {
-
-    console.log(process.env.REACT_APP_SERVER_HOST)
-    console.log(process.env.REACT_APP_SERVER_PORT)
+  // handleChange(event) {
 
 
-    this.setState({ name: event.target.value });
-  }
+  // }
 
-  handleSubmit(event) {
+  // handleSubmit(event) {
 
-    const baseUrl = `http://${process.env.REACT_APP_SERVER_HOST}:${process.env.REACT_APP_SERVER_PORT}`
+  //   const baseUrl = `http://${process.env.REACT_APP_SERVER_HOST}:${process.env.REACT_APP_SERVER_PORT}`
 
-    event.preventDefault();
-    fetch(`${baseUrl}/api/greeting?name=${encodeURIComponent(this.state.name)}`)
-      .then(response => response.json())
-      .then(state => this.setState(state));
-  }
+  //   event.preventDefault();
+  //   fetch(`${baseUrl}/api/greeting?name=${encodeURIComponent(this.state.name)}`)
+  //     .then(response => response.json())
+  //     .then(state => this.setState(state));
+  // }
 
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <form onSubmit={this.handleSubmit}>
-            <label htmlFor="name">Enter your name: </label>
-            <input
-              id="name"
-              type="text"
-              value={this.state.name}
-              onChange={this.handleChange}
-            />
-            <button type="submit">Submit</button>
-          </form>
-          <p>{this.state.greeting}</p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+
+
+  return (
+
+    <Container className="App">
+
+      <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", backgroundColor: "red" }}>
+        <div style={{ flex: 1 }}>
+          aaaa
+        </div>
+        <div style={{ flex: 1 }}>
+          bbbb
+        </div>
       </div>
-    );
-  }
-}
 
-export default App;
+      <Header as='h1'>Welcome to Gem Flow.
+        <Header.Subheader>
+          This is an example app that demonstrates an end-to-end flow with Gem APIs.
+    </Header.Subheader>
+      </Header>
+
+      <Divider />
+
+      <Instructions />
+      {/* 
+      <Card.Group>
+        <Card fluid color='red' header='Option 1' className="Ta" />
+        <Card fluid color='orange' header='Option 2' />
+        <Card fluid color='yellow' header='Option 3' />
+      </Card.Group> */}
+
+
+    </Container>
+
+  );
+
+}
