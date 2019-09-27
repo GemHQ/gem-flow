@@ -2,27 +2,31 @@
 version: "3.7"
 services:
 
-  db:
-    container_name: gem-flow-db
-    image: postgres:9.4
+  database:
+    container_name: gem-flow-database
+    build: ./database
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
     volumes:
-      - db-data:/var/lib/postgresql/data
+      - gem-flow-db-data:/var/lib/postgresql/data
 
-  server:
-    container_name: gem-flow-server
-    build: ./server
-    ports:
-      - "3001:3001"
-    depends_on:
-      - db
+  # server:
+  #   container_name: gem-flow-server
+  #   build: ./server
+  #   ports:
+  #     - "3001:3001"
+  #   depends_on:
+  #     - db
 
-  ui:
-    container_name: gem-flow-ui
-    build: ./ui
-    ports:
-      - "3000:3000"
-    depends_on:
-      - server
+  # ui:
+  #   container_name: gem-flow-ui
+  #   build: ./ui
+  #   ports:
+  #     - "3000:3000"
+  #   depends_on:
+  #     - server
 
 volumes:
-  db-data:
+  gem-flow-db-data:

@@ -1,0 +1,3 @@
+CREATE TABLE mytable (
+  id INT PRIMARY KEY
+);

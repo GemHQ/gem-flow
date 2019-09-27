@@ -5,8 +5,10 @@ import Instructions from './components/instructions';
 import AddUser from "./components/addUser";
 import Users from './components/users';
 import Header from './components/header';
+// import { httpGet } from './util';
 
 export default () => {
+
 
 
   return (
@@ -36,8 +38,15 @@ export default () => {
 
 
 
-  //   const baseUrl = `http://${process.env.REACT_APP_SERVER_HOST}:${process.env.REACT_APP_SERVER_PORT}`
-  //   fetch(`${baseUrl}/api/greeting?name=${encodeURIComponent(this.state.name)}`)
-  //     .then(response => response.json())
-  //     .then(state => this.setState(state));
-  // }
+
+// useEffect(() => {
+
+//   const path = `/api/greeting?name=${encodeURIComponent('rawadss')}`;
+//   httpGet(path).then(result => console.log(result))
+// }, [])
+
+
+
+
+
+
