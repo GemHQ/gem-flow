@@ -1,15 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { Input, Button } from 'semantic-ui-react'
 import './addUser.css';
+const util = require("../../util");
 
 export default () => {
 
   const [editMode, setEditMode] = useState(false);
-
+  const [email, setEmail] = useState("");
 
   useEffect(() => {
 
   }, [])
+
+  const createUser = async () => {
+    const result = await util.httpPost("/users", { email });
+    console.log(result);
+    setEditMode(false);
+  };
 
   return (
 
@@ -22,13 +29,27 @@ export default () => {
         </div>}
 
       {editMode &&
-        <Input size="big" placeholder="USER_EMAIL" className="UserEmail"></Input>}
+        <Input value={email}
+
+          onChange={(event, e) => {
+            console.log(e.value)
+            setEmail(e.value)
+          }}
+          size="large"
+          placeholder="USER_EMAIL"
+          className="UserEmail">
+
+        </Input>}
 
       {!editMode &&
-        <Button size="big" primary content='Create User' onClick={() => setEditMode(true)} />}
+        <Button size="large" primary content='Create User' onClick={() => setEditMode(true)} />}
 
       {editMode &&
-        <Button size="big" primary content='Save User' onClick={() => setEditMode(false)} />}
+        <Button size="large" content='Cancel' onClick={() => setEditMode(false)} />}
+
+      {editMode &&
+        <Button size="large" primary content='Save User' onClick={createUser} />}
+
 
     </div >
   );

@@ -1,5 +1,42 @@
 .UsersContainer {
   display: flex;
+  flex-direction: column !important;
+  align-items: stretch !important;
+}
+
+.UserBox {
+  display: flex;
+  flex:1;
   flex-direction: row !important;
   align-items: flex-start !important;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: lightgray;
+  border-radius: 10px;
+  border-bottom-width: 2px;
+  border-bottom-color: lightsteelblue;
+}
+
+
+.UserPropertyBox {
+  display: flex;
+  flex-direction: column !important;
+  justify-content: center !important;
+  margin: 10px;
+}
+
+
+.UserPropertyLabel {
+  margin-bottom: 10px !important;
+  background-color: transparent !important;
+  font-size: 13px !important;
+  font-weight: bolder !important;
+  color: darkslategray !important;
+}
+
+.UserPropertyValue {
+  background-color: transparent !important;
+  font-size: 12px !important;
 }
