@@ -1,3 +1,4 @@
-CREATE TABLE mytable (
-  id INT PRIMARY KEY
+CREATE TABLE users (
+  id INT PRIMARY KEY,
+  email VARCHAR(200)
 );
