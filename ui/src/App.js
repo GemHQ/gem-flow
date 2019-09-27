@@ -5,47 +5,24 @@ import Instructions from './components/instructions';
 import AddUser from "./components/addUser";
 import Users from './components/users';
 import Header from './components/header';
-// import { httpGet } from './util';
+import Store from './state/Store';
 
 export default () => {
 
-
-
   return (
-
-    <Container className="App">
-
-      <Header />
-      <Divider />
-
-      <Instructions />
-
-      <Divider />
-
-      <AddUser />
-      <Divider />
-      <Users />
-    </Container>
-
+    <Store>
+      <Container className="App">
+        <Header />
+        <Divider />
+        <Instructions />
+        <Divider />
+        <AddUser />
+        <Divider />
+        <Users />
+      </Container>
+    </Store>
   );
-
 }
-
-
-
-
-
-
-
-
-
-// useEffect(() => {
-
-//   const path = `/api/greeting?name=${encodeURIComponent('rawadss')}`;
-//   httpGet(path).then(result => console.log(result))
-// }, [])
-
-
 
 
 

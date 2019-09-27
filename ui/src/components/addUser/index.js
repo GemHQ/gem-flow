@@ -1,21 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import { Input, Button } from 'semantic-ui-react'
 import './addUser.css';
+import { CTX } from '../../state/Store';
+import { TYPES } from '../../state/Constants';
 const util = require("../../util");
 
 export default () => {
 
+  const [appState, doAction] = useContext(CTX);
   const [editMode, setEditMode] = useState(false);
   const [email, setEmail] = useState("");
 
-  useEffect(() => {
-
-  }, [])
-
   const createUser = async () => {
     const result = await util.httpPost("/users", { email });
-    console.log(result);
     setEditMode(false);
+
+    console.log('result', result);
+
+    doAction({ type: TYPES.CREATE_USER, payload: result })
   };
 
   return (

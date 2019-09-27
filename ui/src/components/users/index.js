@@ -1,17 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import { Card, Label } from 'semantic-ui-react'
+import React, { useState, useEffect, useContext } from 'react';
+import { Label } from 'semantic-ui-react'
 import './users.css';
+import { CTX } from '../../state/Store';
+import { TYPES } from '../../state/Constants';
 const util = require("../../util");
 
 export default () => {
 
-  const [users, setUsers] = useState([]);
+  const [appState, doAction] = useContext(CTX);
 
   useEffect(() => {
 
     util.httpGet("/users").then(res => {
       console.log("users are:", res)
-      setUsers(res);
+      doAction({ type: TYPES.SET_USERS, payload: res });
     })
 
   }, [])
@@ -21,7 +23,7 @@ export default () => {
 
     <div className="UsersContainer">
 
-      {users && users.map((item, index) => {
+      {appState.users && appState.users.map((item, index) => {
 
         return (
           <div key={index} className="UserBox">

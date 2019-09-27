@@ -23,7 +23,7 @@ app.post('/users', async (req, res) => {
   const result = await pg.createUser({ email });
 
   res.setHeader('Content-Type', 'application/json');
-  res.send(JSON.stringify(result));
+  res.json(result);
 });
 
 /**
@@ -34,7 +34,7 @@ app.get('/users', async (req, res) => {
   const result = await pg.getUsers();
 
   res.setHeader('Content-Type', 'application/json');
-  res.send(JSON.stringify(result));
+  res.json(result);
 });
 
 app.listen(process.env.PORT || 3001, () =>
