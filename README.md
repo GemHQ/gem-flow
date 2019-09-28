@@ -1,6 +1,6 @@
 ## Prerequisites
 
-You must have docker installed. Please refer Docker's official site:
+You must have docker installed. Please refer to Docker's official site:
 
 Mac: https://docs.docker.com/docker-for-mac/install/
 
