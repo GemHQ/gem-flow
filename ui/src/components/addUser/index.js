@@ -7,13 +7,14 @@ const util = require("../../util");
 
 export default () => {
 
-  const [appState, doAction] = useContext(CTX);
+  const [, doAction] = useContext(CTX);
   const [editMode, setEditMode] = useState(false);
   const [email, setEmail] = useState("");
 
   const createUser = async () => {
     const result = await util.httpPost("/users", { email });
     setEditMode(false);
+    setEmail("");
 
     console.log('result', result);
 

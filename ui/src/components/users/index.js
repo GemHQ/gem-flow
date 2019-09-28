@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { Label } from 'semantic-ui-react'
 import './users.css';
 import { CTX } from '../../state/Store';
@@ -7,9 +7,11 @@ const util = require("../../util");
 
 export default () => {
 
-  const [appState, doAction] = useContext(CTX);
+  const [appState,] = useContext(CTX);
 
   useEffect(() => {
+
+    const [, doAction] = useContext(CTX);
 
     util.httpGet("/users").then(res => {
       console.log("users are:", res)

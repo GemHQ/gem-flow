@@ -14,7 +14,12 @@ const httpPost = async (path, data) => {
 
   const response = await fetch(`${baseUrl}${path}`, {
     method: 'POST',
-    body: JSON.stringify(data)
+    mode: 'cors',
+    cache: 'no-cache',
+    body: JSON.stringify(data),
+    headers: {
+      'Content-Type': 'application/json'
+    },
   })
   const result = await response.json();
 

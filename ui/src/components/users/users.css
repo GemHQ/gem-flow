@@ -17,6 +17,7 @@
   border-radius: 10px;
   border-bottom-width: 2px;
   border-bottom-color: lightsteelblue;
+  box-shadow: 2px;
 }
 
 
@@ -39,4 +40,5 @@
 .UserPropertyValue {
   background-color: transparent !important;
   font-size: 12px !important;
+  
 }

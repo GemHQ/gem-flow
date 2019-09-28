@@ -12,5 +12,7 @@ export default (state, action) => {
       console.log("payload:", action.payload)
       return { ...state, users: [...state.users, action.payload] };
 
+    default:
+      return;
   }
 }

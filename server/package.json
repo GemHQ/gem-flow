@@ -9,6 +9,7 @@
     "express": "^4.17.1",
     "express-pino-logger": "^4.0.0",
     "pg": "^7.12.1",
+    "util": "^0.12.1",
     "uuid": "^3.3.3"
   },
   "scripts": {
