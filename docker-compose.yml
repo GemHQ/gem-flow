@@ -14,21 +14,21 @@ services:
     volumes:
       - gem-flow-db-data:/var/lib/postgresql/data
 
-  # server:
-  #   container_name: gem-flow-server
-  #   build: ./server
-  #   ports:
-  #     - "3001:3001"
-  #   depends_on:
-  #     - database
+  server:
+    container_name: gem-flow-server
+    build: ./server
+    ports:
+      - "3001:3001"
+    depends_on:
+      - database
 
-  # ui:
-  #   container_name: gem-flow-ui
-  #   build: ./ui
-  #   ports:
-  #     - "3000:3000"
-  #   depends_on:
-  #     - server
+  ui:
+    container_name: gem-flow-ui
+    build: ./ui
+    ports:
+      - "3000:3000"
+    depends_on:
+      - server
 
 volumes:
   gem-flow-db-data:
