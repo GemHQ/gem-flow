@@ -7,11 +7,10 @@ const util = require("../../util");
 
 export default () => {
 
-  const [appState,] = useContext(CTX);
+  const [appState, doAction] = useContext(CTX);
 
   useEffect(() => {
 
-    const [, doAction] = useContext(CTX);
 
     util.httpGet("/users").then(res => {
       console.log("users are:", res)
