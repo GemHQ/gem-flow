@@ -4,8 +4,8 @@ dotenv.config();
 
 const createUser = async (input) => {
 
-  const text = 'INSERT INTO users(email) VALUES($1) RETURNING *';
-  const values = [input.email];
+  const text = 'INSERT INTO users(gem_user_id, access_token) VALUES($1, $2) RETURNING *';
+  const values = [input.gem_user_id, input.access_token];
 
   const pool = new Pool();
   const result = await pool.query(text, values);
@@ -13,7 +13,7 @@ const createUser = async (input) => {
   return result.rows[0];
 }
 
-const getUsers = async () => {
+const listUsers = async () => {
 
   const text = 'SELECT * FROM USERS';
 
@@ -23,4 +23,4 @@ const getUsers = async () => {
   return result.rows;
 }
 
-module.exports = { createUser, getUsers };
+module.exports = { createUser, listUsers };
