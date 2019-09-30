@@ -15,9 +15,6 @@ export default () => {
     const result = await util.httpPost("/users", { email });
     setEditMode(false);
     setEmail("");
-
-    console.log('result', result);
-
     doAction({ type: TYPES.CREATE_USER, payload: result })
   };
 
@@ -35,7 +32,6 @@ export default () => {
         <Input value={email}
 
           onChange={(event, e) => {
-            console.log(e.value)
             setEmail(e.value)
           }}
           size="large"
