@@ -8,6 +8,14 @@ const gemApi = require('./gemApi');
 const dotenv = require('dotenv');
 dotenv.config();
 
+// import the Gem SDK
+const { Gem, Models } = require('@gem.co/api').SDK;
+const { GEM_API_KEY, GEM_API_SECRET } = process.env;
+
+const gem = new Gem({
+  apiKey: GEM_API_KEY,
+  secretKey: GEM_API_SECRET,
+});
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -15,10 +23,12 @@ app.use(bodyParser.json());
 app.use(pino);
 app.use(cors());
 
+
+
 /**
  * Creates a new user
  */
-app.post('/users', async (req, res) => {
+app.post('/user', async (req, res) => {
 
   const email = req.body.email;
   const result = await gemApi.createUser(email);
@@ -40,7 +50,7 @@ app.post('/users', async (req, res) => {
 /**
  * Gets a list of users
  */
-app.get('/users', async (req, res) => {
+app.get('/user', async (req, res) => {
 
   const result = await gemApi.listUsers();
   // const result = await pg.listUsers();
@@ -49,6 +59,62 @@ app.get('/users', async (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   res.json(result);
 });
+
+/**
+ * Gets a single user
+ */
+app.get('/user/:id', async (req, res) => {
+
+  const result = await gemApi.getUser(req.params.id);
+  prettyPrintResponse(result);
+
+  res.setHeader('Content-Type', 'application/json');
+  res.json(result);
+});
+
+
+
+/**
+ * Gets a single profile
+ */
+app.get('/profile/:id', async (req, res) => {
+
+  const result = await gemApi.getProfile(req.params.id);
+  prettyPrintResponse(result);
+
+  res.setHeader('Content-Type', 'application/json');
+  res.json(result);
+});
+
+
+
+/**
+ * Creates a new profile
+ */
+// app.post('/profile', async (req, res) => {
+
+//   const email = req.body.email;
+//   const result = await gemApi.createProfile();
+//   prettyPrintResponse(result);
+
+//   // create user in local database
+//   const localUser = await pg.createUser(
+//     {
+//       gem_user_id: result.id,
+//       access_token: 'fake access token' //result.access_token
+//     });
+
+//   prettyPrintResponse(`User ${result.id} saved in local database under user ${localUser.id}`);
+
+//   res.setHeader('Content-Type', 'application/json');
+//   res.json(result);
+// });
+
+
+
+
+
+
 
 app.listen(process.env.PORT || 3001, () =>
   console.log(`Express server is running on ${process.env.PORT || 3001}`)

@@ -1,7 +1,7 @@
 const { Gem, Models } = require('@gem.co/api').SDK;
-// const { GEM_API_KEY, GEM_API_SECRET } = process.env;
-const GEM_API_KEY = '24bcace60a36d575762f1ba6fa4788b097ee53884cb2cb52e04992fb58afa51a'
-const GEM_API_SECRET = 'bbe7ec6188e62a2c31d2e0379146d28884ff00f3c6444990c89c1b09b925b2b2'
+const { GEM_API_KEY, GEM_API_SECRET } = process.env;
+// const GEM_API_KEY = '24bcace60a36d575762f1ba6fa4788b097ee53884cb2cb52e04992fb58afa51a'
+// const GEM_API_SECRET = 'bbe7ec6188e62a2c31d2e0379146d28884ff00f3c6444990c89c1b09b925b2b2'
 
 const gem = new Gem({
   apiKey: GEM_API_KEY,
@@ -9,10 +9,10 @@ const gem = new Gem({
 });
 
 
-const createUser = async () => {
+const createUser = async (email) => {
 
   try {
-    const user = await gem.createUser();
+    const user = await gem.createUser(email);
     return user;
   } catch (e) {
     console.error(e);
@@ -29,5 +29,33 @@ const listUsers = async () => {
   }
 }
 
-module.exports = { createUser, listUsers };
+const getUser = async (id) => {
 
+  try {
+    const user = await gem.getUser(id);
+    return user;
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+const createProfile = async (id, profile) => {
+
+  try {
+    const profile = await gem.createProfile(id, profile);
+    return profile;
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+const getProfile = async (id) => {
+
+  try {
+    const user = await gem.getUser(id);
+    return user;
+  } catch (e) {
+    console.error(e);
+  }
+}
+module.exports = { createUser, getUser, listUsers, createProfile, getProfile };

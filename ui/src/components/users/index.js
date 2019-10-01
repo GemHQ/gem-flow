@@ -12,7 +12,7 @@ export default () => {
   useEffect(() => {
 
 
-    util.httpGet("/users").then(res => {
+    util.httpGet("/user").then(res => {
       console.log("users are:", res)
       doAction({ type: TYPES.SET_USERS, payload: res });
     })
