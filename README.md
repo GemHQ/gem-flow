@@ -27,7 +27,7 @@ cp .env.template ./server
 
 ### 3. **Build your environment**
 ```
-sh scripts/rebuild.sh
+sh build.sh
 ```
 Then navigate to http://localhost:3000
 
