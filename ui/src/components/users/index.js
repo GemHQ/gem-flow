@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from 'react';
-import { Label } from 'semantic-ui-react'
+import { Label, Icon } from 'semantic-ui-react'
 import './users.css';
 import { CTX } from '../../state/Store';
 import { TYPES } from '../../state/Constants';
@@ -41,6 +41,10 @@ export default () => {
 
             <div className="UserPropertyBox">
               <Label className="UserPropertyLabel">Access Token</Label>
+            </div>
+
+            <div>
+              <Icon name="close" color="red"></Icon>
             </div>
           </div>
 

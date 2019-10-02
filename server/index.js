@@ -8,15 +8,6 @@ const gemApi = require('./gemApi');
 const dotenv = require('dotenv');
 dotenv.config();
 
-// import the Gem SDK
-const { Gem, Models } = require('@gem.co/api').SDK;
-const { GEM_API_KEY, GEM_API_SECRET } = process.env;
-
-const gem = new Gem({
-  apiKey: GEM_API_KEY,
-  secretKey: GEM_API_SECRET,
-});
-
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -73,6 +64,24 @@ app.get('/user/:id', async (req, res) => {
 });
 
 
+/**
+ * Creates a new profile
+ */
+app.post('/profile', async (req, res) => {
+
+  const profile = req.body.profile;
+  const result = await gemApi.createProfile(profile);
+  prettyPrintResponse(result);
+
+
+  // TODO: update PG user with profile access token
+
+  prettyPrintResponse(`User ${result.id} saved in local database under user ${localUser.id}`);
+
+  res.setHeader('Content-Type', 'application/json');
+  res.json(result);
+});
+
 
 /**
  * Gets a single profile
@@ -89,26 +98,40 @@ app.get('/profile/:id', async (req, res) => {
 
 
 /**
- * Creates a new profile
+ * Creates a new temporary profile
  */
-// app.post('/profile', async (req, res) => {
+app.post('/temporary_profile', async (req, res) => {
 
-//   const email = req.body.email;
-//   const result = await gemApi.createProfile();
-//   prettyPrintResponse(result);
+  const profile = req.body.profile;
+  const result = await gemApi.createTemporaryProfile(profile);
+  prettyPrintResponse(result);
 
-//   // create user in local database
-//   const localUser = await pg.createUser(
-//     {
-//       gem_user_id: result.id,
-//       access_token: 'fake access token' //result.access_token
-//     });
+  // TODO: update PG user with profile access token
 
-//   prettyPrintResponse(`User ${result.id} saved in local database under user ${localUser.id}`);
+  prettyPrintResponse(`User ${result.id} saved in local database under user ${localUser.id}`);
 
-//   res.setHeader('Content-Type', 'application/json');
-//   res.json(result);
-// });
+  res.setHeader('Content-Type', 'application/json');
+  res.json(result);
+});
+
+
+
+/**
+ * Deletes a profile
+ */
+app.delete('/profile/:id', async (req, res) => {
+
+  const result = await gemApi.deleteProfile(req.params.id);
+  prettyPrintResponse(result);
+
+
+  // TODO: update PG user with profile access token
+
+  prettyPrintResponse(`User ${result.id} saved in local database under user ${localUser.id}`);
+
+  res.setHeader('Content-Type', 'application/json');
+  res.json(result);
+});
 
 
 
