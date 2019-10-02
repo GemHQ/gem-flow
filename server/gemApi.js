@@ -12,8 +12,8 @@ const gem = new Gem({
 const createUser = async (email) => {
 
   try {
-    const user = await gem.createUser(email);
-    return user;
+    const result = await gem.createUser(email);
+    return result;
   } catch (e) {
     console.error(e);
   }
@@ -22,8 +22,8 @@ const createUser = async (email) => {
 const listUsers = async () => {
 
   try {
-    const users = await gem.listUsers();
-    return users;
+    const result = await gem.listUsers();
+    return result;
   } catch (e) {
     console.error(e);
   }
@@ -32,18 +32,20 @@ const listUsers = async () => {
 const getUser = async (id) => {
 
   try {
-    const user = await gem.getUser(id);
-    return user;
+    const result = await gem.getUser(id);
+    return result;
   } catch (e) {
     console.error(e);
   }
 }
 
-const createProfile = async (id, profile) => {
+const createProfile = async (id, input) => {
+
+  const profile = new Models.Profile(input)
 
   try {
-    const profile = await gem.createProfile(id, profile);
-    return profile;
+    const result = await gem.createProfile(id, profile);
+    return result;
   } catch (e) {
     console.error(e);
   }
@@ -52,10 +54,41 @@ const createProfile = async (id, profile) => {
 const getProfile = async (id) => {
 
   try {
-    const user = await gem.getUser(id);
-    return user;
+    const result = await gem.getUser(id);
+    return result;
   } catch (e) {
     console.error(e);
   }
 }
-module.exports = { createUser, getUser, listUsers, createProfile, getProfile };
+
+const createTemporaryProfile = async (id, input) => {
+
+  const profile = new Models.Profile(input);
+
+  try {
+    const result = await gem.createTemporaryProfile(id, profile);
+    return result;
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+const deleteProfile = async (id) => {
+
+  try {
+    const result = await gem.deleteProfile(id);
+    return result;
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+module.exports = {
+  createUser,
+  getUser,
+  listUsers,
+  createProfile,
+  getProfile,
+  createTemporaryProfile,
+  deleteProfile
+};
