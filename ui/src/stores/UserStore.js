@@ -1,14 +1,14 @@
-import { observable } from "mobx";
+import { observable, computed } from "mobx";
 import util from "../../util";
 
 class UserStore {
-  @observable users = [];
+  @observable usersMap = new Map();
 
   constructor() {
     this.getUsers();
   }
 
-  @action getUsers = () => {
+  @action getUsers = async () => {
     const users = await util.httpGet("/user");
     this.setUsers(users);
   }
@@ -17,10 +17,13 @@ class UserStore {
     this.users = users;
   }
 
-  @action createUser = email => {
+  @action createUser = async email => {
     const user = await util.httpPost("/user", { email });
-    this.users.push(user);
+    this.users.set(user.id, user);
+  }
 
+  @computed get users() {
+    return [...this.usersMap.values()];
   }
 }
 
