@@ -12,7 +12,9 @@ export default () => {
   const [email, setEmail] = useState("");
 
   const createUser = async () => {
+    console.log('000000')
     const result = await util.httpPost("/user", { email });
+    console.log('something', result)
     setEditMode(false);
     setEmail("");
     doAction({ type: TYPES.CREATE_USER, payload: result })
