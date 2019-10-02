@@ -28,7 +28,7 @@ app.post('/user', async (req, res) => {
   // create user in local database
   const localUser = await pg.createUser(
     {
-      gem_user_id: email,
+      gem_user_id: result.id,
       access_token: 'fake access token' //result.access_token
     });
 

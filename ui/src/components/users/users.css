@@ -57,10 +57,12 @@
   display: flex;
   align-items: center !important;
   margin-right: 15px;
+  margin-left: 15px;
 }
 
 .ViewText {
   background-color: transparent !important;
   font-size: 12px !important;
   font-weight: lighter !important;
+
 }
