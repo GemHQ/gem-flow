@@ -8,10 +8,11 @@ services:
     environment:
       POSTGRES_DB: postgres
       POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
     ports:
       - "5432:5432"
-    volumes:
-      - gem-flow-db-data:/var/lib/postgresql/data
+    # volumes:
+    #   - gem-flow-db-data:/var/lib/postgresql/data
 
   # server:
   #   container_name: gem-flow-server
