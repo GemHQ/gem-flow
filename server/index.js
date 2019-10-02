@@ -8,15 +8,6 @@ const gemApi = require('./gemApi');
 const dotenv = require('dotenv');
 dotenv.config();
 
-// import the Gem SDK
-const { Gem, Models } = require('@gem.co/api').SDK;
-const { GEM_API_KEY, GEM_API_SECRET } = process.env;
-
-const gem = new Gem({
-  apiKey: GEM_API_KEY,
-  secretKey: GEM_API_SECRET,
-});
-
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
