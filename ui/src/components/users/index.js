@@ -11,8 +11,6 @@ export default () => {
 
   useEffect(() => {
 
-    const [, doAction] = useContext(CTX);
-
     util.httpGet("/user").then(res => {
       doAction({ type: TYPES.SET_USERS, payload: res });
     })
