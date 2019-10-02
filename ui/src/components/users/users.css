@@ -8,7 +8,7 @@
   display: flex;
   flex:1;
   flex-direction: row !important;
-  align-items: flex-start !important;
+  align-items: stretch !important;
   margin-top: 10px;
   margin-bottom: 10px;
   border-width: 1px;
@@ -40,5 +40,27 @@
 .UserPropertyValue {
   background-color: transparent !important;
   font-size: 12px !important;
-  
+}
+
+.SpaceFiller {
+  flex:1;
+}
+
+.ActionBox {
+  display: flex;
+  flex-direction: column !important;
+  justify-content: center !important;
+  margin: 10px;
+}
+
+.DeleteBox {
+  display: flex;
+  align-items: center !important;
+  margin-right: 15px;
+}
+
+.ViewText {
+  background-color: transparent !important;
+  font-size: 12px !important;
+  font-weight: lighter !important;
 }
