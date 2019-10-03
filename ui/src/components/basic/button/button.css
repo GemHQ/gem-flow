@@ -7,8 +7,13 @@ button {
   font-weight: 500;
   font-size: 14px;
   min-width: 124px;
+  transition: opacity 0.3s ease;
 }
 
 button:focus {
   outline: none;
+}
+
+button:disabled {
+  opacity: 0.4;
 }

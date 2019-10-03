@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto:400,500&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap');
 
 * {
   box-sizing: border-box;
@@ -6,4 +6,6 @@
 
 p, h1, h2, h3, h4, h5, h6, button, input {
   font-family: 'Roboto', sans-serif;
+  color: #424242;
+  font-weight: 300;
 }

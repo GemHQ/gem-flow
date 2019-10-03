@@ -1,0 +1,28 @@
+.InputContainer {
+  height: 60px;
+  width: 310px;
+  position: relative;
+}
+
+input {
+  height: 100%;
+  width: 100%;
+  padding: 12px;
+  font-size: 14px;
+  background-color: white;
+  box-shadow: 0rem 6px 8px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+  outline: 0;
+  border: none;
+}
+input::placeholder {
+  color: #C0C0C0;
+}
+
+.floatingLabel {
+  position: absolute;
+  top: 2px;
+  left: 12px;
+  font-size: 10px;
+  color: #C0C0C0;
+}

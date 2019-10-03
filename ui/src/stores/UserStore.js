@@ -1,4 +1,4 @@
-import { observable, computed } from "mobx";
+import { observable, action, computed } from "mobx";
 import util from "../../util";
 
 class UserStore {
