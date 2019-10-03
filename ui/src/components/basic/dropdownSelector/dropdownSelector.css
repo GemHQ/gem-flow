@@ -1,0 +1,37 @@
+.Dropdown-root {
+  width: 310px;
+  box-shadow: 0rem 6px 8px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+  border-color: transparent;
+}
+
+.Dropdown-control {
+  height: 60px;
+  padding-left: 16px;
+  cursor: pointer;
+  border-color: transparent;
+  border-width: 0px
+}
+
+.Dropdown-arrow {
+  top: calc(50% - 2px);
+  right: 20px;
+  color: #C0C0C0;
+}
+
+.Dropdown-menu {
+  border-width: 0px;
+  border-color: transparent;
+  box-shadow: 0rem 6px 8px 0 rgba(0, 0, 0, 0.1);
+}
+
+.Dropdown-option {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  padding-left: 16px;
+}
+
+.Dropdown-option.is-selected, .Dropdown-option:hover {
+  background-color: white;
+}

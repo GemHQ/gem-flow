@@ -3,6 +3,7 @@ import { action } from '@storybook/addon-actions';
 import Button from '../components/basic/button/Button';
 import Input from '../components/basic/input/Input';
 import { PrimaryColors } from '../stores/Constants';
+import DropdownSelector from '../components/basic/dropdownSelector/DropdownSelector';
 
 export default {
   title: 'Basic Components',
@@ -17,3 +18,5 @@ export const buttonDiabled = () => <Button onClick={action('clicked')} backgroun
 export const inputWithoutValue = () => <Input value="" placeholder="User Email" />
 
 export const inputWithValue = () => <Input value="rawad@gem.co" placeholder="User Email" />
+
+export const dropdown = () => <DropdownSelector selectedOption="Connect" setSelectedOption={() => {}} />
