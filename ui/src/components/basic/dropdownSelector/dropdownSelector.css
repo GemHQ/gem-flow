@@ -1,5 +1,6 @@
 .Dropdown-root {
-  width: 310px;
+  width: 100%;
+  max-width: 310px;
   box-shadow: 0rem 6px 8px 0 rgba(0, 0, 0, 0.1);
   border-radius: 3px;
   border-color: transparent;

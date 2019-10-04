@@ -8,4 +8,6 @@ p, h1, h2, h3, h4, h5, h6, button, input, div {
   font-family: 'Roboto', sans-serif;
   color: #424242;
   font-weight: 300;
+  padding: 0;
+  margin: 0;
 }
