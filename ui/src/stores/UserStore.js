@@ -1,30 +1,38 @@
-import { observable, action, computed } from "mobx";
+import { observable, action, computed, decorate } from "mobx";
 import util from "../../util";
 
 class UserStore {
-  @observable usersMap = new Map();
+  usersMap = new Map();
 
   constructor() {
     this.getUsers();
   }
 
-  @action getUsers = async () => {
+  getUsers = action(async () => {
     const users = await util.httpGet("/user");
     this.setUsers(users);
-  }
+  })
   
-  @action setUsers = users => {
+  setUsers = action(users => {
     this.users = users;
-  }
+  })
 
-  @action createUser = async email => {
+  @action createUser = action(async email => {
     const user = await util.httpPost("/user", { email });
     this.users.set(user.id, user);
-  }
+  })
 
   @computed get users() {
     return [...this.usersMap.values()];
   }
 }
+
+decorate(UserStore, {
+  usersMap: observable,
+  getUsers: action,
+  setUsers: action,
+  createUser: action,
+  users: computed
+});
 
 export default UserStore;

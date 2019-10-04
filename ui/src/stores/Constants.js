@@ -1,9 +1,9 @@
 export const FlowNames = {
-  CONNECT: 'CONNECT',
-  ONRAMP: 'ONRAMP',
+  Connect: 'Connect',
+  Onramp: 'Onramp',
 }
 
 export const PrimaryColors = {
-  CONNECT: '#C0CA33',
-  ONRAMP: '#9C27B0',
+  Connect: '#C0CA33',
+  Onramp: '#9C27B0',
 }

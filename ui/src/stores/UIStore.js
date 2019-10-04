@@ -1,14 +1,20 @@
-import { observable, action, computed } from "mobx";
+import { observable, action, computed, decorate } from "mobx";
 import { FlowNames, PrimaryColors } from './Constants';
 
-class UserStore {
-  @observable flowName = FlowNames.ONRAMP;
+class UIStore {
+  flowName = FlowNames.Onramp;
 
-  @action setFlowName = flowName => this.flowName = flowName;
+  setFlowName = flowName => this.flowName = flowName;
 
-  @computed get primaryColor() {
+  get primaryColor() {
     return PrimaryColors[this.flowName];
   }
 }
 
-export default UserStore;
+decorate(UIStore, {
+  flowName: observable,
+  setFlowName: action,
+  primaryColor: computed,
+});
+
+export default UIStore;
