@@ -1,6 +1,6 @@
 import { observable, action, decorate, computed } from "mobx";
 
-class OnrampStore {
+class ConnectStore {
   dotsMap = new Map();
   markerSubtitles = new Map();
   activeMarker = ProgressMarkers.User;
@@ -26,7 +26,7 @@ class OnrampStore {
   }
 }
 
-decorate(OnrampStore, {
+decorate(ConnectStore, {
   dotsMap: observable,
   activeMarker: observable,
   setActiveMarker: action,
@@ -34,11 +34,10 @@ decorate(OnrampStore, {
   dots: computed
 });
 
-export default OnrampStore;
+export default ConnectStore;
 
 const ProgressMarkers = {
   User: 'User', 
-  Profile: 'Profile',
   Connection: 'Connection',
   Account: 'Account',
   Transaction: 'Transaction'
