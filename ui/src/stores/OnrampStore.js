@@ -13,8 +13,12 @@ class OnrampStore {
     this.markerSubtitles.set('User', 'Create a new user')
   }
 
-  setActiveMarker = () => {
+  setActiveMarker = (marker) => {
+    this.activeMarker = marker;
+  }
 
+  fillDot = (marker) => {
+    this.dotsMap.set(marker, true);
   }
 
   get markerTitles() {

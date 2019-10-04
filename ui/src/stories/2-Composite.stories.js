@@ -7,8 +7,10 @@ import { PrimaryColors } from '../stores/Constants';
 import ConnectStore from '../stores/ConnectStore';
 
 const uiStore = new UIStore();
-const onrampStore = new OnrampStore();
 const connectStore = new ConnectStore();
+const onrampStore = new OnrampStore();
+onrampStore.fillDot('User');
+onrampStore.setActiveMarker('Profile');
 
 export default {
   title: 'Composite Components',

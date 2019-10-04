@@ -9,7 +9,7 @@ const RectangleTitle = ({ title, subtitle, color, activeMarker, isCompleted }) =
     boxStyle = {  border: `2px solid ${color}` };
     titleStyle = { color };
   } else if (isCompleted) {
-    boxStyle = {  backgroundColor: `#D9D9D9` };
+    boxStyle = {  backgroundColor: `#EEF1F4` };
     titleStyle = { color: '#424242' };
   }
 

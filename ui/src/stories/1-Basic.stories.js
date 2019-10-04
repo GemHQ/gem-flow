@@ -16,7 +16,7 @@ export const buttonShort = () => <Button onClick={action('clicked')} backgroundC
 
 export const buttonLong = () => <Button onClick={action('clicked')} backgroundColor={uiStore.primaryColor}>Create Transaction</Button>;
 
-export const buttonDiabled = () => <Button onClick={action('clicked')} backgroundColor={uiStore.primaryColor} disabled>Create</Button>;
+export const buttonDisabled = () => <Button onClick={action('clicked')} backgroundColor={uiStore.primaryColor} disabled>Create</Button>;
 
 export const inputWithoutValue = () => <Input value="" placeholder="User Email" />;
 
