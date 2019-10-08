@@ -2,6 +2,7 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import './progressMap.css';
 import RectangleTitle from './rectangleTitle/RectangleTitle';
+import FlowDots from './flowDots/FlowDots';
 
 const ProgressMap = ({ progressStore, primaryColor }) => (
   <div className="ProgressContainer">
@@ -15,7 +16,11 @@ const ProgressMap = ({ progressStore, primaryColor }) => (
         color={primaryColor}
       />)}
     </div>
-    {/* <FlowDots /> */}
+    <FlowDots 
+      dots={progressStore.dots} 
+      activeMarker={progressStore.activeMarker} 
+      primaryColor={primaryColor} 
+    />
   </div>
 );
 

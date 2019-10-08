@@ -69,7 +69,7 @@ class ProgressStore {
   }
 
   get dots() {
-    return [...this.dotsMap.values];
+    return [...this.dotsMap.entries()];
   }
 }
 
