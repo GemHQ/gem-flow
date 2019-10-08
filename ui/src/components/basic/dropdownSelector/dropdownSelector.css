@@ -8,10 +8,10 @@
 }
 
 .Dropdown-control {
-  height: 60px;
+  height: 50px;
   padding-left: 16px;
   font-size: 16px;
-  cursor: pointer;
+  /* cursor: pointer; */
   border-color: transparent;
   border-width: 0px;
   display: flex;
@@ -20,12 +20,15 @@
 
 .Dropdown-placeholder {
   font-size: 16px;
+  font-weight: 400;
+  color: #9C27B0;
 }
 
 .Dropdown-arrow {
   top: calc(50% - 2px);
   right: 20px;
   color: #C0C0C0;
+  display: none;
 }
 
 .Dropdown-menu {
@@ -36,7 +39,7 @@
 
 .Dropdown-option {
   font-size: 16px;
-  height: 60px;
+  height: 50px;
   display: flex;
   align-items: center;
   padding-left: 16px;

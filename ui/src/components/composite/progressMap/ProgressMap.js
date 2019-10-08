@@ -3,15 +3,15 @@ import { observer } from 'mobx-react';
 import './progressMap.css';
 import RectangleTitle from './rectangleTitle/RectangleTitle';
 
-const ProgressMap = ({ flowStore, primaryColor }) => (
+const ProgressMap = ({ progressStore, primaryColor }) => (
   <div className="ProgressContainer">
     <div className="RectangleTitlesContainer">
-      {flowStore.markerTitles.map(([title, subtitle]) => <RectangleTitle 
+      {progressStore.markerTitles.map(([title, subtitle]) => <RectangleTitle 
         key={title} 
         title={title} 
         subtitle={subtitle} 
-        activeMarker={flowStore.activeMarker} 
-        isCompleted={flowStore.dotsMap.get(title)}
+        activeMarker={progressStore.activeMarker} 
+        isCompleted={progressStore.dotsMap.get(title)}
         color={primaryColor}
       />)}
     </div>

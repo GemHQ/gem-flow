@@ -2,19 +2,19 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import './instructions.css';
 import DropdownSelector from '../../basic/dropdownSelector/DropdownSelector';
-import { FlowNames, PrimaryColors } from '../../../stores/Constants';
+import { Flows } from '../../../stores/Constants';
 
 const InstructionsCmp = ({ uiStore }) => (
   <div className="InstructionsContainer">
     <div className="DropdownContainer">
       <DropdownSelector
-        options={Object.values(FlowNames)}
-        selectedOption={uiStore.flowName}
-        selectOption={option => uiStore.setFlowName(option)} 
+        options={uiStore.dropdownOptions}
+        selectedOption={uiStore.dropdownTitle}
+        selectOption={option => uiStore.setFlow(option.value)} 
       />
     </div>
     <div className="Steps">
-      {descriptions[uiStore.flowName].map((Description, i) => <Step Description={Description} index={i} key={`${uiStore.flowName}-${i}`} />)}
+      {descriptions[uiStore.flow.id].map((Description, i) => <Step Description={Description} index={i} key={uiStore.flow.id} />)}
     </div>
   </div>
 );
@@ -30,16 +30,19 @@ const Step = ({ Description, index }) => (
   </div>
 );
 
+const connectColor = Flows.Connect.primaryColor;
+const onrampColor = Flows.Onramp.primaryColor
+
 const descriptions = {
-  [FlowNames.Connect]: [
-    <p>Add a <Highlighted color={PrimaryColors.Connect}>new user</Highlighted></p>,
-    <p>Create a <Highlighted color={PrimaryColors.Connect}>connection</Highlighted> using the <Highlighted color={PrimaryColors.Connect}>test credentials</Highlighted> provided in the sandbox mode</p>,
-    <p>Exchange the returned <Highlighted color={PrimaryColors.Connect}>public_token</Highlighted> for an <Highlighted color={PrimaryColors.Connect}>access_token</Highlighted> that securely represents and authorizes later access to a connection</p>
+  [Flows.Connect.id]: [
+    <p>Add a <Highlighted color={connectColor}>new user</Highlighted></p>,
+    <p>Create a <Highlighted color={connectColor}>connection</Highlighted> using the <Highlighted color={connectColor}>test credentials</Highlighted> provided in the sandbox mode</p>,
+    <p>Exchange the returned <Highlighted color={connectColor}>public_token</Highlighted> for an <Highlighted color={connectColor}>access_token</Highlighted> that securely represents and authorizes later access to a connection</p>
   ],
-  [FlowNames.Onramp]: [
-    <p>Add a <Highlighted color={PrimaryColors.Onramp}>new user</Highlighted></p>,
-    <p>Create a <Highlighted color={PrimaryColors.Onramp}>connection</Highlighted> using the <Highlighted color={PrimaryColors.Onramp}>test credentials</Highlighted> provided in the sandbox mode</p>,
-    <p>Exchange the returned <Highlighted color={PrimaryColors.Onramp}>public_token</Highlighted> for an <Highlighted color={PrimaryColors.Onramp}>access_token</Highlighted> that securely represents and authorizes later access to a connection</p>
+  [Flows.Onramp.id]: [
+    <p>Add a <Highlighted color={onrampColor}>new user</Highlighted></p>,
+    <p>Create a <Highlighted color={onrampColor}>connection</Highlighted> using the <Highlighted color={onrampColor}>test credentials</Highlighted> provided in the sandbox mode</p>,
+    <p>Exchange the returned <Highlighted color={onrampColor}>public_token</Highlighted> for an <Highlighted color={onrampColor}>access_token</Highlighted> that securely represents and authorizes later access to a connection</p>
   ]
 };
 

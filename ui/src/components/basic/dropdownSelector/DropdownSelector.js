@@ -10,6 +10,8 @@ const DropdownSelector = ({ selectedOption, selectOption, options }) => (
     options={options}
     value={selectedOption}
     onChange={({ value }) => selectOption(value)} 
+    disabled={true}
+    arrowClassName='dropdownArrow'
   />
 );
 
