@@ -26,3 +26,18 @@ input::placeholder {
   font-size: 10px;
   color: #C0C0C0;
 }
+
+.TipInput {
+  padding-right: 36px;
+}
+
+.InputRightSubcontainer {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 36px;
+  height: 100%;
+  top: 0;
+  right: 0;
+}

@@ -1,7 +1,7 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
 import Button, { BorderedButton } from '../components/basic/button/Button';
-import Input from '../components/basic/input/Input';
+import Input, { TipInput } from '../components/basic/input/Input';
 import DropdownSelector from '../components/basic/dropdownSelector/DropdownSelector';
 import UIStore from '../stores/UIStore';
 import { Flows } from '../stores/Constants';
@@ -26,10 +26,10 @@ export const inputWithoutValue = () => <Input value="" placeholder="User Email" 
 
 export const inputWithValue = () => <Input value="rawad@gem.co" placeholder="User Email" />;
 
+export const tipInput = () => <TipInput value="" placeholder="Business account ID (optional)" tipText="Tooltip text here" />
+
 export const dropdown = () => <DropdownSelector options={uiStore.dropdownOptions} selectedOption={uiStore.dropdownTitle} selectOption={option => uiStore.setFlow(option.value)} />;
 
 export const threeDots = () => <ThreeDots />
 
-const HelpTipContainer = ({ children }) => <div style={{ marginTop: '200px' }}>{children}</div>
-
-export const helpTip = () => <HelpTipContainer><HelpTip text="Tooltip text here" /></HelpTipContainer>
+export const helpTip = () => <HelpTip text="Tooltip text here" />
