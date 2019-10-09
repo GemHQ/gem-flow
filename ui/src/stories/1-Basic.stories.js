@@ -6,6 +6,7 @@ import DropdownSelector from '../components/basic/dropdownSelector/DropdownSelec
 import UIStore from '../stores/UIStore';
 import { Flows } from '../stores/Constants';
 import ThreeDots from '../components/basic/threeDots/ThreeDots';
+import HelpTip from '../components/basic/helpTip/HelpTip';
 
 const uiStore = new UIStore();
 
@@ -28,3 +29,7 @@ export const inputWithValue = () => <Input value="rawad@gem.co" placeholder="Use
 export const dropdown = () => <DropdownSelector options={uiStore.dropdownOptions} selectedOption={uiStore.dropdownTitle} selectOption={option => uiStore.setFlow(option.value)} />;
 
 export const threeDots = () => <ThreeDots />
+
+const HelpTipContainer = ({ children }) => <div style={{ marginTop: '200px' }}>{children}</div>
+
+export const helpTip = () => <HelpTipContainer><HelpTip text="Tooltip text here" /></HelpTipContainer>
