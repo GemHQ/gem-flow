@@ -28,7 +28,12 @@ export const inputWithValue = () => <Input value="rawad@gem.co" placeholder="Use
 
 export const tipInput = () => <TipInput value="" placeholder="Business account ID (optional)" tipText="Tooltip text here" />
 
-export const dropdown = () => <DropdownSelector options={uiStore.dropdownOptions} selectedOption={uiStore.dropdownTitle} selectOption={option => uiStore.setFlow(option.value)} />;
+export const dropdown = () => <DropdownSelector 
+  options={uiStore.dropdownOptions} 
+  selectedOption={uiStore.dropdownTitle} 
+  selectOption={uiStore.setFlow} 
+  selectedClassName={uiStore.flow.colorClassname}
+/>;
 
 export const threeDots = () => <ThreeDots />
 

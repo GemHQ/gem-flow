@@ -11,7 +11,7 @@
   height: 50px;
   padding-left: 16px;
   font-size: 16px;
-  /* cursor: pointer; */
+  cursor: pointer;
   border-color: transparent;
   border-width: 0px;
   display: flex;
@@ -21,14 +21,13 @@
 .Dropdown-placeholder {
   font-size: 16px;
   font-weight: 400;
-  color: #9C27B0;
 }
 
 .Dropdown-arrow {
   top: calc(50% - 2px);
   right: 20px;
   color: #C0C0C0;
-  display: none;
+  /* display: none; */
 }
 
 .Dropdown-menu {
@@ -39,12 +38,26 @@
 
 .Dropdown-option {
   font-size: 16px;
+  font-weight: 400;
   height: 50px;
   display: flex;
   align-items: center;
   padding-left: 16px;
 }
+.Dropdown-option:hover {
+  color: inherit;
+}
 
 .Dropdown-option.is-selected, .Dropdown-option:hover {
   background-color: white;
+}
+
+.OnrampColor {
+  color: #9C27B0 !important;
+}
+.TransferColor {
+  color: #478FCC !important;
+}
+.ConnectColor {
+  color: #C0CA33 !important;
 }

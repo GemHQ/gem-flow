@@ -11,7 +11,10 @@ class UIStore {
     });
   }
 
-  setFlow = flowId => this.flow = Flows[flowId];
+  setFlow = flowId => {
+    this.flow = Flows[flowId];
+    console.log(flowId)
+  };
 
   get primaryColor() {
     return this.flow.primaryColor;
@@ -22,7 +25,7 @@ class UIStore {
   }
 
   get dropdownOptions() {
-    return Object.values(Flows).map(flow => ({ value: flow.id, label: flow.dropdownTitle }));
+    return Object.values(Flows).map(flow => ({ value: flow.id, label: flow.dropdownTitle, className: flow.colorClassname }));
   }
 
   get progressStore() {
@@ -31,7 +34,7 @@ class UIStore {
 }
 
 decorate(UIStore, {
-  flowName: observable,
+  flow: observable,
   progressMaps: observable,
   setFlowName: action,
   primaryColor: computed,

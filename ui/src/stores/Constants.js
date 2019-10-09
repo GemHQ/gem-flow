@@ -1,22 +1,35 @@
 export const Flows = {
-  Connect: {
-    id: 'Connect',
-    dropdownTitle: 'Connect',
-    primaryColor: '#C0CA33',
+  Onramp: {
+    id: 'Onramp',
+    dropdownTitle: 'Onramp (Gem API)',
+    primaryColor: '#9C27B0',
+    colorClassname: 'OnrampColor',
     progressMarkers: [
       'User', 
+      'Profile',
       'Connection',
       'Account',
       'Transaction'
     ]
   },
-  Onramp: {
-    id: 'Onramp',
-    dropdownTitle: 'Onramp (Gem API)',
-    primaryColor: '#9C27B0',
+  Connect: {
+    id: 'Connect',
+    dropdownTitle: 'Connect',
+    primaryColor: '#C0CA33',
+    colorClassname: 'ConnectColor',
     progressMarkers: [
       'User', 
-      'Profile',
+      'Connection',
+      'Account',
+    ],
+  },
+  Transfer: {
+    id: 'Transfer',
+    dropdownTitle: 'Transfer',
+    primaryColor: '#478FCC',
+    colorClassname: 'TransferColor',
+    progressMarkers: [
+      'User', 
       'Connection',
       'Account',
       'Transaction'
