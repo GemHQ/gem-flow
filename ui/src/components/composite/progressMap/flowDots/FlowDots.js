@@ -1,6 +1,7 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 import './flowDots.css';
+import { bkgColorWithShadow } from '../../../../util/StyleUtil';
 
 const FlowDots = ({ dots, activeMarker, primaryColor }) => (
   <div className="DotsContainer">
@@ -10,14 +11,16 @@ const FlowDots = ({ dots, activeMarker, primaryColor }) => (
   </div>
 );
 
-const Dot = ({ isActive, isFilled, primaryColor, isFirstDot }) => (
-  <>
-    {!isFirstDot && <div className="FlowLine" style={{ borderBottom: `2px solid ${isFilled || isActive ? primaryColor : '#D9D9D9' }`}} />}
-    <div className="FlowDot" style={{ 
-      backgroundColor: isFilled ? primaryColor : 'white',
-      border: `2px solid ${isFilled || isActive ? primaryColor : '#D9D9D9'}`
-    }} />
-  </>
-);
+const Dot = ({ isActive, isFilled, primaryColor, isFirstDot }) => {
+  const background = isFilled ? bkgColorWithShadow(primaryColor, '0 0 4px 2px') : { backgroundColor: 'white '};
+  return (
+    <>
+      {!isFirstDot && <div className="FlowLine" style={{ borderBottom: `2px solid ${isFilled || isActive ? primaryColor : '#D9D9D9' }`}} />}
+      <div className="FlowDot" style={{ 
+        ...background,
+        border: `2px solid ${isFilled || isActive ? primaryColor : '#D9D9D9'}`
+      }} />
+    </>
+)};
 
 export default observer(FlowDots);

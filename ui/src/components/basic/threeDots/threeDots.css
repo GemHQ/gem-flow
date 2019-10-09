@@ -1,0 +1,18 @@
+.ThreeDotsContainer {
+  padding: 10px;
+  height: 38px;
+  width: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.OneDot {
+  width: 4px;
+  min-width: 4px;
+  height: 4px;
+  min-height: 4px;
+  border-radius: 50%;
+  background-color: #D9D9D9;
+}

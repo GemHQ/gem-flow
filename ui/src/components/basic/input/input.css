@@ -21,7 +21,7 @@ input::placeholder {
 
 .floatingLabel {
   position: absolute;
-  top: 2px;
+  top: 8px;
   left: 12px;
   font-size: 10px;
   color: #C0C0C0;

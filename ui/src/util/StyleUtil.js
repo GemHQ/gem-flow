@@ -1,6 +1,6 @@
 import hexToRgba from 'hex-to-rgba';
 
-export const bkgColorWithShadow = (backgroundColor) => ({
+export const bkgColorWithShadow = (backgroundColor, blur = '0rem 6px 8px 0') => ({
   backgroundColor,
-  boxShadow: `0rem 6px 8px 0 ${hexToRgba(backgroundColor, 0.4)}`
+  boxShadow: `${blur} ${hexToRgba(backgroundColor, 0.4)}`
 });
