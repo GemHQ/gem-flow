@@ -8,8 +8,17 @@ const Button = ({
   backgroundColor,
   children
 }) => (
-  <button type="submit" disabled={disabled} onSubmit={onClick} style={bkgColorWithShadow(backgroundColor)}>{children}</button>
+  <button 
+    type="submit" 
+    disabled={disabled} 
+    onSubmit={e => {
+      e.preventDefault();
+      onClick();
+    }}
+    style={bkgColorWithShadow(backgroundColor)}>{children}</button>
 );
+
+export default Button;
 
 export const BorderedButton = ({
   disabled,
@@ -24,4 +33,12 @@ export const BorderedButton = ({
   }}>{children}</button>
 );
 
-export default Button;
+export const ButtonWithCancel = ({
+  onCancel,
+  ...props
+}) => (
+  <div className="FlexAlignCenter FlexEnd">
+    <p className="Cancel">Cancel</p>
+    <Button {...props}/>
+  </div>
+)
