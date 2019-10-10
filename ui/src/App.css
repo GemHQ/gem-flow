@@ -12,3 +12,42 @@ p, h1, h2, h3, h4, h5, h6, button, input, div {
   margin: 0;
   font-size: 14px;
 }
+
+h2, h2, h3 {
+  font-weight: 400;
+}
+
+.OnrampColor {
+  color: #9C27B0 !important;
+}
+.TransferColor {
+  color: #478FCC !important;
+}
+.ConnectColor {
+  color: #C0CA33 !important;
+}
+
+.SmallText {
+  font-size: 12px;
+}
+.ThinText {
+  font-weight: 300;
+}
+.BoldText {
+  font-weight: 400;
+}
+.GreyText {
+  color: #8E8E8E;
+}
+.Pointer {
+  cursor: pointer;
+}
+
+.FlexAlignCenter {
+  display: flex;
+  align-items: center;
+}
+
+.SpaceBetween {
+  justify-content: space-between;
+}

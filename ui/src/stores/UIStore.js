@@ -20,10 +20,6 @@ class UIStore {
     return this.flow.primaryColor;
   }
 
-  get dropdownTitle() {
-    return this.flow.dropdownTitle;
-  }
-
   get dropdownOptions() {
     return Object.values(Flows).map(flow => ({ value: flow.id, label: flow.dropdownTitle, className: flow.colorClassname }));
   }
@@ -38,7 +34,6 @@ decorate(UIStore, {
   progressMaps: observable,
   setFlowName: action,
   primaryColor: computed,
-  dropdownTitle: computed,
   dropdownOptions: computed,
   progressStore: computed,
 });

@@ -7,6 +7,7 @@ import UIStore from '../stores/UIStore';
 import { Flows } from '../stores/Constants';
 import ThreeDots from '../components/basic/threeDots/ThreeDots';
 import HelpTip from '../components/basic/helpTip/HelpTip';
+import TitleAndValue from '../components/basic/titleAndValue/TitleAndValue';
 
 const uiStore = new UIStore();
 
@@ -26,15 +27,27 @@ export const inputWithoutValue = () => <Input value="" placeholder="User Email" 
 
 export const inputWithValue = () => <Input value="rawad@gem.co" placeholder="User Email" />;
 
-export const tipInput = () => <TipInput value="" placeholder="Business account ID (optional)" tipText="Tooltip text here" />
+export const tipInput = () => <TipInput value="" placeholder="Business account ID (optional)" tipText="Tooltip text here" />;
 
 export const dropdown = () => <DropdownSelector 
   options={uiStore.dropdownOptions} 
-  selectedOption={uiStore.dropdownTitle} 
+  selectedOption={uiStore.flow.dropdownTitle} 
   selectOption={uiStore.setFlow} 
   selectedClassName={uiStore.flow.colorClassname}
 />;
 
-export const threeDots = () => <ThreeDots />
+export const threeDots = () => <ThreeDots />;
 
-export const helpTip = () => <HelpTip text="Tooltip text here" />
+export const helpTip = () => <HelpTip text="Tooltip text here" />;
+
+export const titleAndValue = () => <TitleAndValue title="Enter User's Email" value="Enter an email address for your new user" maxWidth="150px" />;
+
+export const titleAndGreyValue = () => <TitleAndValue title="Enter User's Email" value="Enter an email address for your new user" maxWidth="150px" greyValue/>;
+
+export const GreyTitleAndBoldValue = () => <TitleAndValue title="CONNECTION_NAME" value="Wyre" greyTitle thinTitle smallTitle boldValue/>;
+
+export const titleWithTipAndValue = () => <TitleAndValue 
+  title={<div className="FlexAlignCenter"><h3 style={{ paddingRight: '4px' }}>Create InstituationUser</h3><HelpTip text="This form will open a new trading account at the selected Institution and return a Connection object." /></div>}
+  value={<p>Choose an institution to create an <span className="OnrampColor Pointer">InstitutionUser</span> to establish the connection.Why do we need this?</p>} 
+  maxWidth="175px"
+/>;

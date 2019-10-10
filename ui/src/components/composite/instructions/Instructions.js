@@ -9,8 +9,9 @@ const InstructionsCmp = ({ uiStore }) => (
     <div className="DropdownContainer">
       <DropdownSelector
         options={uiStore.dropdownOptions}
-        selectedOption={uiStore.dropdownTitle}
-        selectOption={option => uiStore.setFlow(option.value)} 
+        selectedOption={uiStore.flow.dropdownTitle}
+        selectOption={uiStore.setFlow}
+        selectedClassName={uiStore.flow.colorClassname}
       />
     </div>
     <div className="Steps">
@@ -34,12 +35,17 @@ const connectColor = Flows.Connect.primaryColor;
 const onrampColor = Flows.Onramp.primaryColor
 
 const descriptions = {
+  [Flows.Onramp.id]: [
+    <p>Add a <Highlighted color={onrampColor}>new user</Highlighted></p>,
+    <p>Create a <Highlighted color={onrampColor}>connection</Highlighted> using the <Highlighted color={onrampColor}>test credentials</Highlighted> provided in the sandbox mode</p>,
+    <p>Exchange the returned <Highlighted color={onrampColor}>public_token</Highlighted> for an <Highlighted color={onrampColor}>access_token</Highlighted> that securely represents and authorizes later access to a connection</p>
+  ],
   [Flows.Connect.id]: [
     <p>Add a <Highlighted color={connectColor}>new user</Highlighted></p>,
     <p>Create a <Highlighted color={connectColor}>connection</Highlighted> using the <Highlighted color={connectColor}>test credentials</Highlighted> provided in the sandbox mode</p>,
     <p>Exchange the returned <Highlighted color={connectColor}>public_token</Highlighted> for an <Highlighted color={connectColor}>access_token</Highlighted> that securely represents and authorizes later access to a connection</p>
   ],
-  [Flows.Onramp.id]: [
+  [Flows.Transfer.id]: [
     <p>Add a <Highlighted color={onrampColor}>new user</Highlighted></p>,
     <p>Create a <Highlighted color={onrampColor}>connection</Highlighted> using the <Highlighted color={onrampColor}>test credentials</Highlighted> provided in the sandbox mode</p>,
     <p>Exchange the returned <Highlighted color={onrampColor}>public_token</Highlighted> for an <Highlighted color={onrampColor}>access_token</Highlighted> that securely represents and authorizes later access to a connection</p>

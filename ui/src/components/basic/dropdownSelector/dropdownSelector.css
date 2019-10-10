@@ -51,13 +51,3 @@
 .Dropdown-option.is-selected, .Dropdown-option:hover {
   background-color: white;
 }
-
-.OnrampColor {
-  color: #9C27B0 !important;
-}
-.TransferColor {
-  color: #478FCC !important;
-}
-.ConnectColor {
-  color: #C0CA33 !important;
-}
