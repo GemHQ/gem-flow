@@ -1,9 +1,9 @@
 import React from 'react';
 import './App.css';
 import { Container, Divider } from 'semantic-ui-react'
-import Instructions from './components/instructions';
-import AddUser from "./components/addUser";
-import Users from './components/users';
+import Instructions from './components/old/instructions';
+import AddUser from "./components/old/addUser";
+import Users from './components/old/users';
 import Header from './components/header';
 import Store from './state/Store';
 
@@ -14,11 +14,11 @@ export default () => {
       <Container className="App">
         <Header />
         <Divider />
-        <Instructions />
+        {/* <Instructions />
         <Divider />
         <AddUser />
         <Divider />
-        <Users />
+        <Users /> */}
       </Container>
     </Store>
   );

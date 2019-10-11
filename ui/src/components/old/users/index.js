@@ -1,9 +1,9 @@
 import React, { useEffect, useContext } from 'react';
 import { Label, Icon, Button } from 'semantic-ui-react'
 import './users.css';
-import { CTX } from '../../state/Store';
-import { TYPES } from '../../state/Constants';
-const util = require("../../util");
+import { CTX } from '../../../state/Store';
+import { TYPES } from '../../../state/Constants';
+const util = require("../../../util");
 
 export default () => {
 

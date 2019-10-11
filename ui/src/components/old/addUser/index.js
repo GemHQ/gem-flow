@@ -1,9 +1,9 @@
 import React, { useState, useContext } from 'react';
 import { Input, Button } from 'semantic-ui-react'
 import './addUser.css';
-import { CTX } from '../../state/Store';
-import { TYPES } from '../../state/Constants';
-const util = require("../../util");
+import { CTX } from '../../../state/Store';
+import { TYPES } from '../../../state/Constants';
+const util = require("../../../util");
 
 export default () => {
 
