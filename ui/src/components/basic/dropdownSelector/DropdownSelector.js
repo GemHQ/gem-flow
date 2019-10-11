@@ -5,8 +5,6 @@ import './dropdownSelector.css';
 import { observer} from 'mobx-react';
 
 const DropdownSelector = ({ selectedOption, selectOption, options, selectedClassName }) => {
-  // const [color, setColor] = useState(selectedClassName);
-  console.log(selectedClassName)
   return (
   <Dropdown
     className="Dropdown"

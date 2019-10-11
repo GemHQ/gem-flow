@@ -1,0 +1,30 @@
+import React, { useState } from 'react';
+import DropdownSelector from '../basic/dropdownSelector/DropdownSelector';
+import TitleAndValue from '../basic/titleAndValue/TitleAndValue';
+import { ButtonWithCancel } from '../basic/button/Button';
+
+const description = `An account type is a payment method to purchase the assets.`;
+
+const placeholderOption = 'Choose an Account Type';
+
+const accountOptions = [
+  { value: 'bank ach', label: 'Bank ACH (via Plaid)', className: 'OnrampColor' },
+  { value: 'debit card', label: 'Debit Card', className: 'OnrampColor' },
+];
+
+const AccountForm = ({ onCancel, onSubmit, primaryColor }) => {
+  const [selectedOption, selectOption] = useState(placeholderOption);
+  const disabled = selectedOption === placeholderOption;
+  return (
+    <form onSubmit={e => {
+      e.preventDefault();
+      onSubmit();
+    }}>
+      <TitleAndValue title="Account Type" value={description} />
+      <DropdownSelector selectedOption={selectedOption} selectOption={selectOption} options={accountOptions} selectedClassName={disabled ? 'LightGreyText ThinText' : 'OnrampColor'} />
+      <ButtonWithCancel onCancel={onCancel} onClick={onSubmit} disabled={disabled} backgroundColor={primaryColor}>Add Account</ButtonWithCancel>
+    </form>
+  )
+}
+
+export default AccountForm;

@@ -27,8 +27,11 @@ h2, h2, h3 {
   color: #C0CA33 !important;
 }
 
+.MediumTextSize {
+  font-size: 14px !important;
+}
 .SmallText {
-  font-size: 12px;
+  font-size: 12px !important;
 }
 .ThinText {
   font-weight: 300;
@@ -38,6 +41,9 @@ h2, h2, h3 {
 }
 .GreyText {
   color: #8E8E8E;
+}
+.LightGreyText {
+  color: #C0C0C0;
 }
 .Pointer {
   cursor: pointer;

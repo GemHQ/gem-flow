@@ -47,7 +47,7 @@ export const titleAndGreyValue = () => <TitleAndValue title="Enter User's Email"
 export const GreyTitleAndBoldValue = () => <TitleAndValue title="CONNECTION_NAME" value="Wyre" greyTitle thinTitle smallTitle boldValue/>;
 
 export const titleWithTipAndValue = () => <TitleAndValue 
-  title={<div className="FlexAlignCenter"><h3 style={{ paddingRight: '4px' }}>Create InstituationUser</h3><HelpTip text="This form will open a new trading account at the selected Institution and return a Connection object." /></div>}
+  title={<div className="FlexAlignCenter"><h3 style={{ paddingRight: '4px' }}>Create InstitutionUser</h3><HelpTip text="This form will open a new trading account at the selected Institution and return a Connection object." /></div>}
   value={<p>Choose an institution to create an <span className="OnrampColor Pointer">InstitutionUser</span> to establish the connection.Why do we need this?</p>} 
   maxWidth="175px"
 />;

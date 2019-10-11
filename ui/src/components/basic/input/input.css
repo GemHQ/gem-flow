@@ -1,6 +1,7 @@
 .InputContainer {
   height: 60px;
-  width: 310px;
+  width: 100%;
+  max-width: 360px;
   position: relative;
 }
 
