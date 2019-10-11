@@ -8,21 +8,21 @@ class UserStore {
     this.getUsers();
   }
 
-  getUsers = action(async () => {
+  getUsers = async () => {
     const users = await util.httpGet("/user");
     this.setUsers(users);
-  })
+  }
   
-  setUsers = action(users => {
+  setUsers = users => {
     this.users = users;
-  })
+  }
 
-  @action createUser = action(async email => {
+  createUser = async email => {
     const user = await util.httpPost("/user", { email });
     this.users.set(user.id, user);
-  })
+  }
 
-  @computed get users() {
+  get users() {
     return [...this.usersMap.values()];
   }
 }
