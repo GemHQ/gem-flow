@@ -1,5 +1,6 @@
 .InstructionsContainer {
   display: flex;
+  margin-bottom: 42px;
 }
 
 .DropdownContainer {
@@ -12,7 +13,7 @@
 }
 
 .Step {
-  padding-bottom: 32px;
+  padding-bottom: 12px;
   display: flex;
 }
 
@@ -23,6 +24,7 @@
 .StepTitle {
   font-weight: 400; 
   padding-right: 12px;
+  white-space: nowrap;
 }
 
 .Hyphen {

@@ -1,3 +1,7 @@
+.ProgressContainer {
+  max-width: 1000px;
+}
+
 .RectangleTitlesContainer {
   display: flex;
   justify-content: space-between;

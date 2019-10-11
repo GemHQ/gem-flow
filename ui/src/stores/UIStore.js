@@ -21,7 +21,8 @@ class UIStore {
   }
 
   get dropdownOptions() {
-    return Object.values(Flows).map(flow => ({ value: flow.id, label: flow.dropdownTitle, className: flow.colorClassname }));
+    // return Object.values(Flows).map(flow => ({ value: flow.id, label: flow.dropdownTitle, className: flow.colorClassname }));
+    return [{ value: Flows.Onramp.id, label: Flows.Onramp.dropdownTitle, className: Flows.Onramp.colorClassname }]
   }
 
   get progressStore() {

@@ -17,6 +17,12 @@ h2, h2, h3 {
   font-weight: 400;
 }
 
+.App {
+  width: 900px;
+  max-width: 900px;
+  padding-top: 60px;
+}
+
 .OnrampColor {
   color: #9C27B0 !important;
 }
