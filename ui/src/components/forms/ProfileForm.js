@@ -4,21 +4,36 @@ import TitleAndValue from '../basic/titleAndValue/TitleAndValue';
 import Button, { ButtonWithCancel } from '../basic/button/Button';
 import Input from '../basic/input/Input';
 
-const mockProfile = {
-  profileName: 'Jean-Luc Picard',
-  firstName: 'Jean-Luc',
-  lastName: 'Picard',
-  email: 'jeanluc@starfleet.org',
-  dateOfBirth: '07-13-2305',
-  ssn: '948-38-0021',
-  phoneNumber: '(555) 555-5555',
-  addressLine1: '123 Enterprise St.',
-  addressLine2: '',
-  postalCode: '94016',
-  city: 'San Fransisco',
-  state: 'CA',
-  country: 'United States'
-}
+const mockProfiles = [{
+    profileName: 'Jean-Luc Picard',
+    firstName: 'Jean-Luc',
+    lastName: 'Picard',
+    email: 'jeanluc@starfleet.org',
+    dateOfBirth: '07-13-2305',
+    ssn: '948-38-0021',
+    phoneNumber: '(555) 555-5555',
+    addressLine1: '123 Enterprise St.',
+    addressLine2: '',
+    postalCode: '94016',
+    city: 'San Fransisco',
+    state: 'CA',
+    country: 'United States'
+  },
+  {
+    profileName: 'Samwise Gamgee',
+    firstName: 'Samwise',
+    lastName: 'Gamgee',
+    email: 'samwise@theshire.com',
+    dateOfBirth: '04-06-2980',
+    ssn: '548-29-0927',
+    phoneNumber: '(888) 888-8888',
+    addressLine1: '123 Hobbiton St.',
+    addressLine2: '',
+    postalCode: '97035',
+    city: 'Portland',
+    state: 'OR',
+    country: 'United States'
+}];
 
 const Placeholders = {
   PROFILE_NAME: 'Profile Name',
@@ -68,6 +83,8 @@ class ProfileForm extends Component {
   }
 
   fillWithData = () => {
+    const randomIndex = Math.floor(Math.random() * mockProfiles.length);
+    const mockProfile = mockProfiles[randomIndex];
     for (let i in mockProfile) {
       this.setState({ [i]: mockProfile[i] });
     }
