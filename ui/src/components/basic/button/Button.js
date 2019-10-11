@@ -6,9 +6,11 @@ const Button = ({
   disabled,
   onClick,
   backgroundColor,
+  marginRight,
   children
 }) => (
-  <button 
+  <button
+    className={marginRight ? 'ButtonRightMargin' : ''}
     type="submit" 
     disabled={disabled} 
     onSubmit={e => {
