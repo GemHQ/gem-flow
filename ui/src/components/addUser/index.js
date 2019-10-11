@@ -12,7 +12,9 @@ export default () => {
   const [email, setEmail] = useState("");
 
   const createUser = async () => {
+    console.log('000000')
     const result = await util.httpPost("/user", { email });
+    console.log('something', result)
     setEditMode(false);
     setEmail("");
     doAction({ type: TYPES.CREATE_USER, payload: result })
@@ -41,13 +43,13 @@ export default () => {
         </Input>}
 
       {!editMode &&
-        <Button size="large" primary content='Create User' onClick={() => setEditMode(true)} />}
+        <Button primary content='Create User' onClick={() => setEditMode(true)} />}
 
       {editMode &&
-        <Button size="large" content='Cancel' onClick={() => setEditMode(false)} />}
+        <Button content='Cancel' onClick={() => setEditMode(false)} />}
 
       {editMode &&
-        <Button size="large" primary content='Save User' onClick={createUser} />}
+        <Button primary content='Save User' onClick={createUser} />}
 
 
     </div >

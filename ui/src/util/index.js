@@ -26,4 +26,16 @@ const httpPost = async (path, data) => {
   return result;
 }
 
-export { httpGet, httpPost }
+const httpDelete = async (path) => {
+  const baseUrl = `http://${process.env.REACT_APP_SERVER_HOST}:${process.env.REACT_APP_SERVER_PORT}`
+
+
+  const response = await fetch(`${baseUrl}${path}`, {
+    method: 'DELETE'
+  })
+
+  const result = await response.json();
+  return result;
+}
+
+export { httpGet, httpPost, httpDelete }

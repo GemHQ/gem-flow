@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from 'react';
-import { Label, Icon } from 'semantic-ui-react'
+import { Label, Icon, Button } from 'semantic-ui-react'
 import './users.css';
 import { CTX } from '../../state/Store';
 import { TYPES } from '../../state/Constants';
@@ -11,14 +11,27 @@ export default () => {
 
   useEffect(() => {
 
-
     util.httpGet("/user").then(res => {
-      console.log("users are:", res)
       doAction({ type: TYPES.SET_USERS, payload: res });
     })
 
   }, [])
 
+  const deleteUser = async (id) => {
+
+    util.httpDelete("/user/" + id).then(res => {
+      console.log('user deleted')
+      doAction({ type: TYPES.SET_USERS, payload: res });
+    })
+  }
+
+  const seeProfiles = () => {
+
+  }
+
+  const seeConnections = () => {
+
+  }
 
   return (
 
@@ -41,10 +54,26 @@ export default () => {
 
             <div className="UserPropertyBox">
               <Label className="UserPropertyLabel">Access Token</Label>
+              <Label className="UserPropertyValue">{item.accessToken}</Label>
             </div>
 
-            <div>
-              <Icon name="close" color="red"></Icon>
+            <div className="SpaceFiller">
+            </div>
+
+            <div className="ActionBox">
+              <Button size="mini" primary content="+ Profile" />
+              <Label className="ViewText" onClick={seeProfiles}>see profiles</Label>
+            </div>
+
+            <div className="ActionBox">
+              <Button size="mini" primary content="+ Connection" />
+              <Label className="ViewText" onClick={seeConnections}>see connections</Label>
+            </div>
+
+            <div className="DeleteBox">
+              <div onClick={() => deleteUser(item.id)}>
+                <Icon name="window close" color="pink"></Icon>
+              </div>
             </div>
           </div>
 
