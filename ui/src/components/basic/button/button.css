@@ -27,3 +27,8 @@ button:disabled {
   color: #A7A7A7;
   cursor: pointer;
 }
+
+.MaxButtonWidth {
+  max-width: 124px;
+  padding-top: 16px;
+}

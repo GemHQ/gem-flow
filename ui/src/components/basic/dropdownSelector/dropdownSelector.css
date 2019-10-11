@@ -1,7 +1,7 @@
 .Dropdown-root {
   width: 100%;
   max-height: 60px;
-  min-width: 200px;
+  min-width: 150px;
   max-width: 360px;
   box-shadow: 0rem 6px 8px 0 rgba(0, 0, 0, 0.1);
   border-radius: 3px;
@@ -45,6 +45,7 @@
   display: flex;
   align-items: center;
   padding-left: 16px;
+  border-top: 1px solid #D9D9D9;
 }
 .Dropdown-option:hover {
   color: inherit;

@@ -9,13 +9,13 @@ const assetPlaceholder = `Asset`;
 const fiatPlaceholder = `Pay with`;
 
 const assetOptions = [
-  { value: 'bitcoin', label: 'Bitcoin', className: 'BlackText ThinText MediumTextSize' },
-  { value: 'ethereum', label: 'Ethereum', className: 'BlackText ThinText MediumTextSize' },
+  { value: 'bitcoin', label: 'Bitcoin', className: 'OnrampColor MediumTextSize' },
+  { value: 'ethereum', label: 'Ethereum', className: 'OnrampColor MediumTextSize' },
 ];
 
 const fiatOptions = [
-  { value: 'usd', label: 'USD', className: 'BlackText ThinText MediumTextSize' },
-  { value: 'eur', label: 'EUR', className: 'BlackText ThinText MediumTextSize' },
+  { value: 'usd', label: 'USD', className: 'OnrampColor MediumTextSize' },
+  { value: 'eur', label: 'EUR', className: 'OnrampColor MediumTextSize' },
 ];
 
 const TransactionForm = ({ onCancel, onSubmit, primaryColor }) => {

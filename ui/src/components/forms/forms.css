@@ -9,6 +9,16 @@ form {
   width: 920px;
 }
 
-.TallGap {
-  gap: 42px 34px;
+.ShortGap {
+  gap: 14px 34px;
+}
+
+.TallRow {
+  padding-bottom: 28px;
+}
+
+.DoubleInputGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 10px;
 }

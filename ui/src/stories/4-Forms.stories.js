@@ -6,6 +6,7 @@ import { Flows } from '../stores/Constants';
 import AccountForm from '../components/forms/AccountForm';
 import InstitutionUserForm from '../components/forms/InstitutionUserForm';
 import TransactionForm from '../components/forms/TransactionForm';
+import ProfileForm from '../components/forms/ProfileForm';
 
 const props = {
   onCancel: action('cancel'),
@@ -21,7 +22,7 @@ export const user = () => <UserForm {...props} />;
 
 export const intitutionUser  = () => <InstitutionUserForm {...props} />;
 
-export const profile  = () => <div />;
+export const profile  = () => <ProfileForm {...props} />;
 
 export const account = () => <AccountForm {...props} />
 
