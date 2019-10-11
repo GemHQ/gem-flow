@@ -27,7 +27,8 @@ const InstitutionUserForm = ({ onCancel, onSubmit, primaryColor }) => {
     }}>
       <TitleAndValue 
         title={<div className="FlexAlignCenter"><h3 style={{ paddingRight: '4px' }}>Create InstitutionUser</h3><HelpTip text={titleTip} /></div>}
-        value={<p>Choose an institution to create an <span className="OnrampColor Pointer">InstitutionUser</span> to establish the connection.Why do we need this?</p>} 
+        value={<p>Choose an institution to create an <span className="OnrampColor Pointer">InstitutionUser</span> to establish the connection.</p>}
+        maxHeight="60px"
       />
       <DropdownSelector
         selectedOption={selectedOption} 
@@ -43,7 +44,7 @@ const InstitutionUserForm = ({ onCancel, onSubmit, primaryColor }) => {
       />
       <div />
       <div />
-      <ButtonWithCancel onCancel={onCancel} onClick={onSubmit} disabled={disabled} backgroundColor={primaryColor}>Add Account</ButtonWithCancel>
+      <ButtonWithCancel onCancel={onCancel} onClick={onSubmit} disabled={disabled} backgroundColor={primaryColor}>Create</ButtonWithCancel>
     </form>
   )
 }
