@@ -21,7 +21,7 @@ const AccountForm = ({ onCancel, onSubmit, primaryColor }) => {
       onSubmit();
     }}>
       <TitleAndValue title="Account Type" value={description} />
-      <DropdownSelector selectedOption={selectedOption} selectOption={selectOption} options={accountOptions} selectedClassName={disabled ? 'LightGreyText ThinText' : 'OnrampColor'} />
+      <DropdownSelector selectedOption={selectedOption} selectOption={selectOption} options={accountOptions} selectedClassName={disabled ? 'LightGreyText ThinText MediumTextSize' : 'OnrampColor'} />
       <ButtonWithCancel onCancel={onCancel} onClick={onSubmit} disabled={disabled} backgroundColor={primaryColor}>Add Account</ButtonWithCancel>
     </form>
   )
