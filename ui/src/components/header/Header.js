@@ -5,6 +5,7 @@ import './header.css';
 const Header = ({ flowName }) => {
   return (
     <header>
+      <h3 className="SmallText LightGreyText">SANDBOX USER</h3>
       <div className="FlexAlignCenter">
         <img src={logo} className="Logo" />
         <h1>Gem {flowName} Flow</h1>
