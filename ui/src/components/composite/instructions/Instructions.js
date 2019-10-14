@@ -15,7 +15,7 @@ const InstructionsCmp = ({ uiStore }) => (
       />
     </div>
     <div className="Steps">
-      {descriptions[uiStore.flow.id].map((Description, i) => <Step Description={Description} index={i} key={uiStore.flow.id} />)}
+      {descriptions[uiStore.flow.id].map((Description, i) => <Step Description={Description} index={i} key={`${uiStore.flow.id}-i`} />)}
     </div>
   </div>
 );
@@ -33,6 +33,7 @@ const Step = ({ Description, index }) => (
 
 const connectColor = Flows.Connect.primaryColor;
 const onrampColor = Flows.Onramp.primaryColor
+const transferColor = Flows.Transfer.primaryColor;
 
 const descriptions = {
   [Flows.Onramp.id]: [
@@ -46,9 +47,9 @@ const descriptions = {
     <p>Exchange the returned <Highlighted color={connectColor}>public_token</Highlighted> for an <Highlighted color={connectColor}>access_token</Highlighted> that securely represents and authorizes later access to a connection</p>
   ],
   [Flows.Transfer.id]: [
-    <p>Add a <Highlighted color={onrampColor}>new user</Highlighted></p>,
-    <p>Create a <Highlighted color={onrampColor}>connection</Highlighted> using the <Highlighted color={onrampColor}>test credentials</Highlighted> provided in the sandbox mode</p>,
-    <p>Exchange the returned <Highlighted color={onrampColor}>public_token</Highlighted> for an <Highlighted color={onrampColor}>access_token</Highlighted> that securely represents and authorizes later access to a connection</p>
+    <p>Add a <Highlighted color={transferColor}>new user</Highlighted></p>,
+    <p>Create a <Highlighted color={transferColor}>connection</Highlighted> using the <Highlighted color={transferColor}>test credentials</Highlighted> provided in the sandbox mode</p>,
+    <p>Exchange the returned <Highlighted color={transferColor}>public_token</Highlighted> for an <Highlighted color={transferColor}>access_token</Highlighted> that securely represents and authorizes later access to a connection</p>
   ]
 };
 
