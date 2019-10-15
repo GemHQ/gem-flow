@@ -8,7 +8,7 @@ const uiStore = new UIStore();
 const connectProgressStore = uiStore.progressMaps.get(Flows.Connect.id);
 const onrampProgressStore = uiStore.progressMaps.get(Flows.Onramp.id);
 onrampProgressStore.fillDot('User');
-onrampProgressStore.setActiveMarker('Profile');
+onrampProgressStore.setCurrentScreen('Profile');
 
 export default {
   title: 'Composite Components',

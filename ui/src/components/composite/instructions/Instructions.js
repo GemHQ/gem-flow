@@ -12,10 +12,13 @@ const InstructionsCmp = ({ uiStore }) => (
         selectedOption={uiStore.flow.dropdownTitle}
         selectOption={uiStore.setFlow}
         selectedClassName={uiStore.flow.colorClassname}
+        // remove attributes below when other flows are available
+        arrowClassName="hidden"
+        disabled={true}
       />
     </div>
     <div className="Steps">
-      {descriptions[uiStore.flow.id].map((Description, i) => <Step Description={Description} index={i} key={`${uiStore.flow.id}-i`} />)}
+      {descriptions[uiStore.flow.id].map((Description, i) => <Step Description={Description} index={i} key={`${uiStore.flow.id}-${i}`} />)}
     </div>
   </div>
 );

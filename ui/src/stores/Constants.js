@@ -4,7 +4,7 @@ export const Flows = {
     dropdownTitle: 'Onramp (Gem API)',
     primaryColor: '#9C27B0',
     colorClassname: 'OnrampColor',
-    progressMarkers: [
+    screens: [
       'User', 
       'Profile',
       'Connection',
@@ -17,7 +17,7 @@ export const Flows = {
     dropdownTitle: 'Connect',
     primaryColor: '#C0CA33',
     colorClassname: 'ConnectColor',
-    progressMarkers: [
+    screens: [
       'User', 
       'Connection',
       'Account',
@@ -28,7 +28,7 @@ export const Flows = {
     dropdownTitle: 'Transfer',
     primaryColor: '#478FCC',
     colorClassname: 'TransferColor',
-    progressMarkers: [
+    screens: [
       'User', 
       'Connection',
       'Account',

@@ -54,3 +54,7 @@
 .Dropdown-option.is-selected, .Dropdown-option:hover {
   background-color: white;
 }
+
+.hidden {
+  display: none;
+}

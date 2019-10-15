@@ -7,13 +7,12 @@ class UIStore {
 
   constructor() {
     Object.values(Flows).forEach(flow => {
-      this.progressMaps.set(flow.id, new ProgressStore(flow.progressMarkers));
+      this.progressMaps.set(flow.id, new ProgressStore(flow.screens));
     });
   }
 
   setFlow = flowId => {
     this.flow = Flows[flowId];
-    console.log(flowId)
   };
 
   get primaryColor() {
@@ -22,7 +21,6 @@ class UIStore {
 
   get dropdownOptions() {
     return Object.values(Flows).map(flow => ({ value: flow.id, label: flow.dropdownTitle, className: flow.colorClassname }));
-    // return [{ value: Flows.Onramp.id, label: Flows.Onramp.dropdownTitle, className: Flows.Onramp.colorClassname }]
   }
 
   get progressStore() {
@@ -44,23 +42,23 @@ export default UIStore;
 class ProgressStore {
   dotsMap = new Map();
   markerSubtitles = new Map();
-  activeMarker = '';
+  currentScreen = '';
 
-  constructor(progressMarkers) {
-    progressMarkers.forEach(marker => {
-      this.dotsMap.set(marker, false);
-      this.markerSubtitles.set(marker, '-');
+  constructor(screens) {
+    screens.forEach(screen => {
+      this.dotsMap.set(screen, false);
+      this.markerSubtitles.set(screen, '-');
     });
     this.markerSubtitles.set('User', 'Create a new user');
-    this.activeMarker = progressMarkers[0];
+    this.currentScreen = screens[0];
   }
 
-  setActiveMarker = (marker) => {
-    this.activeMarker = marker;
+  setCurrentScreen = (screen) => {
+    this.currentScreen = screen;
   }
 
-  fillDot = (marker) => {
-    this.dotsMap.set(marker, true);
+  fillDot = (screen) => {
+    this.dotsMap.set(screen, true);
   }
 
   get markerTitles() {
@@ -74,8 +72,8 @@ class ProgressStore {
 
 decorate(ProgressStore, {
   dotsMap: observable,
-  activeMarker: observable,
-  setActiveMarker: action,
+  currentScreen: observable,
+  setCurrentScreen: action,
   markerTitles: computed,
   dots: computed
 });
