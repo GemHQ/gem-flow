@@ -9,10 +9,10 @@ import Header from './components/header/Header';
 import Divider from './components/basic/divider/Divider';
 import { observer, Provider } from 'mobx-react';
 import { ScreenNames } from './stores/Constants';
-import OnrampStore from './stores/OnrampStore';
+import FlowStore from './stores/FlowStore';
 
 const uiStore = new UIStore();
-const flowStore = new OnrampStore();
+const flowStore = new FlowStore();
 
 const App = () => {
   return (

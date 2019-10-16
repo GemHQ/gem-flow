@@ -2,7 +2,7 @@ import { observable, action, decorate, computed } from "mobx";
 
 const createId = () => ({ id: Math.random().toString(), created_at: Date.now().toString() });
 
-class OnrampStore {
+class FlowStore {
   usersMap = new Map();
   profilesMap = new Map();
   connectionsMap = new Map();
@@ -10,7 +10,6 @@ class OnrampStore {
   transactionsMap = new Map();
 
   createUser = user => {
-    console.log(user)
     const data = createId();
     this.usersMap.set(data.id, { ...user, ...data });
   }
@@ -48,7 +47,7 @@ class OnrampStore {
   }
 }
 
-decorate(OnrampStore, {
+decorate(FlowStore, {
   usersMap: observable,
   profilesMap: observable,
   connectionsMap: observable,
@@ -66,4 +65,4 @@ decorate(OnrampStore, {
   transactions: computed,
 });
 
-export default OnrampStore;
+export default FlowStore;

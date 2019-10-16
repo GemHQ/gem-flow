@@ -4,7 +4,7 @@ import UserCard from '../components/cards/UserCard';
 import GenericScreen from './GenericScreen';
 import { withFlowStore } from '../stores/StoresUtil';
 
-const UserScreen = ({ flowStore, primaryColor }) => (
+const UserScreen = ({ flowStore }) => (
   <GenericScreen
     ItemForm={UserForm}
     numberOfItems={flowStore.users.length}
@@ -15,7 +15,6 @@ const UserScreen = ({ flowStore, primaryColor }) => (
     flowStore.users.map(user => (
     <UserCard
       user={user} 
-      primaryColor={primaryColor} 
       key={user.id} 
       removeUser={() => flowStore.removeUser(user.id)}
     />))

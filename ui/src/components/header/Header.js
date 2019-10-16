@@ -7,7 +7,7 @@ const Header = ({ flowName }) => {
     <header>
       <h3 className="SmallText LightGreyText">SANDBOX USER</h3>
       <div className="FlexAlignCenter">
-        <img src={logo} className="Logo" />
+        <img src={logo} className="Logo" alt=""/>
         <h1>Gem {flowName} Flow</h1>
       </div>
       <h2>This is an example app that demonstrates an end-to-end flow with Gem APIs.</h2>
