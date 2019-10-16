@@ -9,12 +9,19 @@ class FlowStore {
   accountsMap = new Map();
   transactionsMap = new Map();
 
+  getUsers = async () => {
+    // const users = await util.httpGet("/user");
+    // users.forEach(user => this.usersMap.set(user.id, user));
+  }
+
   createUser = user => {
     const data = createId();
     this.usersMap.set(data.id, { ...user, ...data });
   }
   createProfile = profile => {
-    this.profilesMap.set(profile.id, profile);
+    const data = createId();
+    console.log(profile)
+    this.profilesMap.set(data.id, { ...profile, ...data });
   }
   createConnection = connection => {
     this.connectionsMap.set(connection.id, connection);
@@ -28,6 +35,9 @@ class FlowStore {
 
   removeUser = id => {
     this.usersMap.delete(id);
+  }
+  removeProfile = id => {
+    this.profilesMap.delete(id);
   }
 
   get users() {

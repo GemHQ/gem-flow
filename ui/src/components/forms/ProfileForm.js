@@ -3,6 +3,7 @@ import DropdownSelector from '../basic/dropdownSelector/DropdownSelector';
 import TitleAndValue from '../basic/titleAndValue/TitleAndValue';
 import Button, { ButtonWithCancel } from '../basic/button/Button';
 import Input from '../basic/input/Input';
+import { withPrimaryColor } from '../../stores/StoresUtil';
 
 const mockProfiles = [{
     profileName: 'Jean-Luc Picard',
@@ -126,10 +127,7 @@ class ProfileForm extends Component {
     return (
       <form 
         className="ShortGap"
-        onSubmit={e => {
-          e.preventDefault();
-          onSubmit();
-      }}>
+        onSubmit={e => e.preventDefault()}>
         <TitleAndValue 
           title="Name the profile"
           value=""
@@ -226,14 +224,14 @@ class ProfileForm extends Component {
           title="Upload photo ID"
           value="A driver license, a ID card or a passport with a clear photo."
         />
-        <div className="MaxButtonWidth"><Button backgroundColor={primaryColor} onClick={() => {}}>Upload</Button></div>
+        <div className="MaxButtonWidth"><Button primaryColor={primaryColor} onClick={() => {}} type="button">Upload</Button></div>
         <div />
         <div />
         <div />
-        <ButtonWithCancel onCancel={onCancel} onClick={onSubmit} disabled={buttonDisabled} backgroundColor={primaryColor}>Create</ButtonWithCancel>
+        <ButtonWithCancel onCancel={onCancel} onClick={() => onSubmit({ ...this.state })} disabled={buttonDisabled} primaryColor={primaryColor}>Create</ButtonWithCancel>
       </form>
     )
   }
 };
 
-export default ProfileForm;
+export default withPrimaryColor(ProfileForm);

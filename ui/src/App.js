@@ -1,7 +1,6 @@
 import React from 'react';
 import './App.css';
 import './components/forms/forms.css';
-import UserScreen from './screens/UserScreen';
 import ProgressMap from './components/composite/progressMap/ProgressMap';
 import UIStore from './stores/UIStore';
 import Instructions from './components/composite/instructions/Instructions';
@@ -10,6 +9,8 @@ import Divider from './components/basic/divider/Divider';
 import { observer, Provider } from 'mobx-react';
 import { ScreenNames } from './stores/Constants';
 import FlowStore from './stores/FlowStore';
+import UserScreen from './screens/UserScreen';
+import ProfileScreen from './screens/ProfileScreen';
 
 const uiStore = new UIStore();
 const flowStore = new FlowStore();
@@ -37,9 +38,11 @@ const App = () => {
   );
 };
 
-const Screens = observer(({ flowStore }) => {
+const Screens = observer(() => {
+  console.log(uiStore.progressStore.currentScreen)
   switch (uiStore.progressStore.currentScreen) {
     case (ScreenNames.USER): return <UserScreen />;
+    case (ScreenNames.PROFILE): return <ProfileScreen />;
     default: return <UserScreen />
   }
 });

@@ -8,11 +8,12 @@ export const Button = ({
   onClick,
   primaryColor,
   marginRight,
+  type,
   children
 }) => (
   <button
     className={marginRight ? 'ButtonRightMargin' : ''}
-    type="submit" 
+    type={type || "submit"} 
     disabled={disabled} 
     onClick={onClick}
     style={bkgColorWithShadow(primaryColor)}>{children}</button>

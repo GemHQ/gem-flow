@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './threeDots.css';
 
-const ThreeDots = ({ onClick, menuOptions }) => {
+const ThreeDots = ({ menuOptions }) => {
   const [showMenu, setShowMenu] = useState(false);
 
   return (
