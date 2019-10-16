@@ -14,10 +14,6 @@ export const Button = ({
     className={marginRight ? 'ButtonRightMargin' : ''}
     type="submit" 
     disabled={disabled} 
-    onSubmit={e => {
-      e.preventDefault();
-      onClick();
-    }}
     onClick={onClick}
     style={bkgColorWithShadow(primaryColor)}>{children}</button>
 );
@@ -30,7 +26,7 @@ export const BorderedButton = ({
   color,
   children
 }) => (
-  <button type="submit" disabled={disabled} onSubmit={onClick} style={{ 
+  <button type="submit" disabled={disabled} onClick={onClick} style={{ 
     color,
     border: `2px solid ${color}`,
     height: '40px'

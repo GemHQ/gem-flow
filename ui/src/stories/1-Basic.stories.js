@@ -15,11 +15,11 @@ export default {
   title: 'Basic Components',
 };
 
-export const buttonShort = () => <Button onClick={action('clicked')} backgroundColor={Flows.Onramp.primaryColor}>Create</Button>;
+export const buttonShort = () => <Button onClick={action('clicked')} primaryColor={Flows.Onramp.primaryColor}>Create</Button>;
 
-export const buttonLong = () => <Button onClick={action('clicked')} backgroundColor={Flows.Onramp.primaryColor}>Create Transaction</Button>;
+export const buttonLong = () => <Button onClick={action('clicked')} primaryColor={Flows.Onramp.primaryColor}>Create Transaction</Button>;
 
-export const buttonDisabled = () => <Button onClick={action('clicked')} backgroundColor={Flows.Onramp.primaryColor} disabled>Create</Button>;
+export const buttonDisabled = () => <Button onClick={action('clicked')} primaryColor={Flows.Onramp.primaryColor} disabled>Create</Button>;
 
 export const borderedButton = () => <BorderedButton onClick={action('clicked')} color={Flows.Onramp.primaryColor}>+ Add new user</BorderedButton>
 

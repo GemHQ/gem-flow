@@ -1,5 +1,7 @@
 import { observable, action, decorate, computed } from "mobx";
 
+const createId = () => ({ id: Math.random().toString(), created_at: Date.now().toString() });
+
 class OnrampStore {
   usersMap = new Map();
   profilesMap = new Map();
@@ -8,7 +10,8 @@ class OnrampStore {
   transactionsMap = new Map();
 
   createUser = user => {
-    this.usersMap.set(user.id, user);
+    const data = createId();
+    this.usersMap.set(data.id, { ...user, ...data });
   }
   createProfile = profile => {
     this.profilesMap.set(profile.id, profile);

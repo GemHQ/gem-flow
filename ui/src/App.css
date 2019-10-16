@@ -30,7 +30,13 @@ h2, h2, h3 {
 .App {
   width: 900px;
   max-width: 900px;
-  padding-top: 60px;
+  padding: 60px 0;
+}
+
+.ScreenHeading {
+  font-size: 20px;
+  font-weight: 400;
+  padding: 8px 0;
 }
 
 .OnrampColor {
