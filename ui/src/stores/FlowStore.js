@@ -1,4 +1,4 @@
-import { observable, action, decorate, computed } from "mobx";
+import { observable, action, decorate, computed, toJS } from "mobx";
 
 const createId = () => ({ id: Math.random().toString(), created_at: Date.now().toString() });
 
@@ -39,13 +39,16 @@ class FlowStore {
     this.profilesMap.set(data.id, { ...profile, ...data });
   }
   createConnection = connection => {
-    this.connectionsMap.set(connection.id, connection);
+    const data = createId();
+    this.connectionsMap.set(data.id, { ...connection, ...data });
   }
   createAccount = account => {
-    this.accountsMap.set(account.id, account);
+    const data = createId();
+    this.accountsMap.set(data.id, { ...account, ...data, last_updated_at: data.created_at });
   }
   createTransaction = transaction => {
-    this.transactionsMap.set(transaction.id, transaction);
+    const data = createId();
+    this.transactionsMap.set(data.id, { ...transaction, ...data });
   }
 
   removeUser = id => {

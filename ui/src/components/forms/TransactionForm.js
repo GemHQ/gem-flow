@@ -3,6 +3,7 @@ import DropdownSelector from '../basic/dropdownSelector/DropdownSelector';
 import TitleAndValue from '../basic/titleAndValue/TitleAndValue';
 import { ButtonWithCancel } from '../basic/button/Button';
 import Input from '../basic/input/Input';
+import { withPrimaryColor } from '../../stores/StoresUtil';
 
 const assetPlaceholder = `Asset`;
 
@@ -18,7 +19,7 @@ const fiatOptions = [
   { value: 'eur', label: 'EUR', className: 'OnrampColor MediumTextSize' },
 ];
 
-const TransactionForm = ({ onCancel, onSubmit, primaryColor }) => {
+export const TransactionForm = ({ onCancel, onSubmit, primaryColor }) => {
   const [amount, setAmount] = useState('');
   const [destinationAddress, setDestinationAddress] = useState('');
   const [selectedAsset, selectAsset] = useState(assetPlaceholder);
@@ -59,9 +60,9 @@ const TransactionForm = ({ onCancel, onSubmit, primaryColor }) => {
       />
       <div />
       <div />
-      <ButtonWithCancel onCancel={onCancel} onClick={onSubmit} disabled={disabled} backgroundColor={primaryColor}>Create</ButtonWithCancel>
+      <ButtonWithCancel onCancel={onCancel} onClick={onSubmit} disabled={disabled} primaryColor={primaryColor}>Create</ButtonWithCancel>
     </form>
   )
 }
 
-export default TransactionForm;
+export default withPrimaryColor(TransactionForm);

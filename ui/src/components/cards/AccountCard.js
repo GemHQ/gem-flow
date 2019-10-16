@@ -2,7 +2,7 @@ import React from 'react';
 import GenericCard from './GenericCard';
 
 
-const AccountCard = ({ account, createTransaction, primaryColor }) => (
+const AccountCard = ({ account, createTransaction, primaryColor, removeAccount }) => (
   <GenericCard 
     titlesAndValues={[
       { title: 'ACCOUNT_ID', value: account.id },
@@ -13,6 +13,7 @@ const AccountCard = ({ account, createTransaction, primaryColor }) => (
     buttonText="Create Transaction"
     onButtonClick={createTransaction}
     primaryColor={primaryColor}
+    dotsMenuOptions={[{ title: 'Remove account', onClick: removeAccount }]}
   />
 );
 

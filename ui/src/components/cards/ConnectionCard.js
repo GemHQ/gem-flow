@@ -1,7 +1,8 @@
 import React from 'react';
 import GenericCard from './GenericCard';
+import { withPrimaryColor } from '../../stores/StoresUtil';
 
-const ConnectionCard = ({ connection, createAccount, primaryColor }) => (
+const ConnectionCard = ({ connection, createAccount, removeConnection, primaryColor }) => (
   <GenericCard
     titlesAndValues={[
       { title: 'CONNECTION_ID', value: connection.id },
@@ -11,7 +12,8 @@ const ConnectionCard = ({ connection, createAccount, primaryColor }) => (
     buttonText="Add Account"
     onButtonClick={createAccount}
     primaryColor={primaryColor}
+    dotsMenuOptions={[{ title: 'Remove connection', onClick: removeConnection }]}
   />
 );
 
-export default ConnectionCard;
+export default withPrimaryColor(ConnectionCard);

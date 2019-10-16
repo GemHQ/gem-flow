@@ -4,6 +4,7 @@ import TitleAndValue from '../basic/titleAndValue/TitleAndValue';
 import { ButtonWithCancel } from '../basic/button/Button';
 import HelpTip from '../basic/helpTip/HelpTip';
 import { TipInput } from '../basic/input/Input';
+import { withPrimaryColor } from '../../stores/StoresUtil';
 
 const titleTip = `This form will open a new trading account at the selected Institution and return a Connection object.`;
 
@@ -16,15 +17,12 @@ const institutionOptions = [
   { value: 'coinify', label: 'Coinify', className: 'OnrampColor' },
 ];
 
-const InstitutionUserForm = ({ onCancel, onSubmit, primaryColor }) => {
+export const InstitutionUserForm = ({ onCancel, onSubmit, primaryColor }) => {
   const [businessAccountId, setBusinessAccountId] = useState('');
   const [selectedOption, selectOption] = useState(placeholderOption);
   const disabled = selectedOption === placeholderOption;
   return (
-    <form onSubmit={e => {
-      e.preventDefault();
-      onSubmit();
-    }}>
+    <form onSubmit={e => e.preventDefault()}>
       <TitleAndValue 
         title={<div className="FlexAlignCenter"><h3 style={{ paddingRight: '4px' }}>Create InstitutionUser</h3><HelpTip text={titleTip} /></div>}
         value={<p>Choose an institution to create an <span className="OnrampColor Pointer">InstitutionUser</span> to establish the connection.</p>}
@@ -44,9 +42,9 @@ const InstitutionUserForm = ({ onCancel, onSubmit, primaryColor }) => {
       />
       <div />
       <div />
-      <ButtonWithCancel onCancel={onCancel} onClick={onSubmit} disabled={disabled} backgroundColor={primaryColor}>Create</ButtonWithCancel>
+      <ButtonWithCancel onCancel={onCancel} onClick={() => onSubmit({ name: selectedOption, businessAccountId })} disabled={disabled} primaryColor={primaryColor}>Create</ButtonWithCancel>
     </form>
   )
 }
 
-export default InstitutionUserForm;
+export default withPrimaryColor(InstitutionUserForm);

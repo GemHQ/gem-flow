@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import DropdownSelector from '../basic/dropdownSelector/DropdownSelector';
 import TitleAndValue from '../basic/titleAndValue/TitleAndValue';
-import Button, { ButtonWithCancel } from '../basic/button/Button';
+import { Button, ButtonWithCancel } from '../basic/button/Button';
 import Input from '../basic/input/Input';
 import { withPrimaryColor } from '../../stores/StoresUtil';
 
@@ -56,7 +56,7 @@ const countryOptions = [
   { value: 'united states', label: 'United States', className: 'OnrampColor MediumTextSize' },
 ];
 
-class ProfileForm extends Component {
+export class ProfileForm extends Component {
   state = {
     profileName: '',
     firstName: '',

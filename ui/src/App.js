@@ -11,6 +11,8 @@ import { ScreenNames } from './stores/Constants';
 import FlowStore from './stores/FlowStore';
 import UserScreen from './screens/UserScreen';
 import ProfileScreen from './screens/ProfileScreen';
+import ConnectionScreen from './screens/ConnectionScreen';
+import AccountScreen from './screens/AccountScreen';
 
 const uiStore = new UIStore();
 const flowStore = new FlowStore();
@@ -43,6 +45,8 @@ const Screens = observer(() => {
   switch (uiStore.progressStore.currentScreen) {
     case (ScreenNames.USER): return <UserScreen />;
     case (ScreenNames.PROFILE): return <ProfileScreen />;
+    case (ScreenNames.CONNECTION): return <ConnectionScreen />;
+    case (ScreenNames.ACCOUNT): return <AccountScreen />;
     default: return <UserScreen />
   }
 });

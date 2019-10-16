@@ -46,7 +46,7 @@ export default UIStore;
 class ProgressStore {
   dotsMap = new Map();
   markerSubtitles = new Map();
-  currentScreen = ScreenNames.PROFILE;
+  currentScreen = ScreenNames.ACCOUNT;
   // currentScreen = ScreenNames.USER;
 
   constructor(screens) {

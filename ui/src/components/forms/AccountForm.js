@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import DropdownSelector from '../basic/dropdownSelector/DropdownSelector';
 import TitleAndValue from '../basic/titleAndValue/TitleAndValue';
 import { ButtonWithCancel } from '../basic/button/Button';
+import { withPrimaryColor } from '../../stores/StoresUtil';
 
 const description = `An account type is a payment method to purchase the assets.`;
 
@@ -12,7 +13,7 @@ const accountOptions = [
   { value: 'debit card', label: 'Debit Card', className: 'OnrampColor' },
 ];
 
-const AccountForm = ({ onCancel, onSubmit, primaryColor }) => {
+export const AccountForm = ({ onCancel, onSubmit, primaryColor }) => {
   const [selectedOption, selectOption] = useState(placeholderOption);
   const disabled = selectedOption === placeholderOption;
   return (
@@ -22,9 +23,9 @@ const AccountForm = ({ onCancel, onSubmit, primaryColor }) => {
     }}>
       <TitleAndValue title="Account Type" value={description} />
       <DropdownSelector selectedOption={selectedOption} selectOption={selectOption} options={accountOptions} selectedClassName={disabled ? 'LightGreyText ThinText MediumTextSize' : 'OnrampColor'} />
-      <ButtonWithCancel onCancel={onCancel} onClick={onSubmit} disabled={disabled} backgroundColor={primaryColor}>Add Account</ButtonWithCancel>
+      <ButtonWithCancel onCancel={onCancel} onClick={() => onSubmit({ name: selectedOption })} disabled={disabled} primaryColor={primaryColor}>Add Account</ButtonWithCancel>
     </form>
   )
 }
 
-export default AccountForm;
+export default withPrimaryColor(AccountForm);
