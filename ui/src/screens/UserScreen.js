@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import UserForm from '../components/forms/UserForm';
-import { Flows } from '../stores/Constants';
+import Button from '../components/basic/button/Button';
 
-const UserScreen = () => {
+const UserScreen = ({ flowStore }) => {
+  const [creatingUser, setCreatingUser] = useState(false);
+
+  if (flowStore.users.length || creatingUser) return (
+    <UserForm onCancel={() => setCreatingUser(false)} />
+  )
   return (
-    // <UserForm primaryColor={Flows.Onramp.primaryColor} />
-    <div />
+    <Button 
+      onClick={() => setCreatingUser(true)}>Create New User</Button>
   )
 }
 

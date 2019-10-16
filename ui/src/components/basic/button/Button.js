@@ -1,11 +1,12 @@
 import React from 'react';
 import './button.css';
 import { bkgColorWithShadow } from '../../../util/StyleUtil'
+import { withPrimaryColor } from '../../../stores/StoresUtil';
 
-const Button = ({
+export const Button = ({
   disabled,
   onClick,
-  backgroundColor,
+  primaryColor,
   marginRight,
   children
 }) => (
@@ -17,10 +18,11 @@ const Button = ({
       e.preventDefault();
       onClick();
     }}
-    style={bkgColorWithShadow(backgroundColor)}>{children}</button>
+    onClick={onClick}
+    style={bkgColorWithShadow(primaryColor)}>{children}</button>
 );
 
-export default Button;
+export default withPrimaryColor(Button);
 
 export const BorderedButton = ({
   disabled,
@@ -40,7 +42,7 @@ export const ButtonWithCancel = ({
   ...props
 }) => (
   <div className="FlexAlignCenter FlexEnd">
-    <p className="Cancel">Cancel</p>
+    <p className="Cancel" onClick={onCancel}>Cancel</p>
     <Button {...props}/>
   </div>
-)
+);

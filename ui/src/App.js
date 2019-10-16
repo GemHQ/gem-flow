@@ -7,25 +7,44 @@ import UIStore from './stores/UIStore';
 import Instructions from './components/composite/instructions/Instructions';
 import Header from './components/header/Header';
 import Divider from './components/basic/divider/Divider';
+import { observer, Provider } from 'mobx-react';
+import { ScreenNames } from './stores/Constants';
+import OnrampStore from './stores/OnrampStore';
 
 const uiStore = new UIStore();
+const onrampStore = new OnrampStore();
 
-export default () => {
-
+const App = () => {
   return (
-    <div className="AppContainer">
-      <div className="App">
-        <Header flowName={uiStore.flow.id} />
-        <Divider marginBottom="30px" />
-        <Instructions uiStore={uiStore} />
-        <Divider marginBottom="30px" marginTop="30px" />
-        <ProgressMap progressStore={uiStore.progressStore} primaryColor={uiStore.flow.primaryColor} />
-        <UserScreen />
+    <Provider uiStore={uiStore}>
+      <div className="AppContainer">
+        <div className="App">
+          <Header flowName={uiStore.flow.id} />
+          <Divider marginBottom />
+          {
+            uiStore.showInstructions &&
+            <>
+              <Instructions uiStore={uiStore} />
+              <Divider marginBottom marginTop />
+            </>
+          }
+          <ProgressMap progressStore={uiStore.progressStore} />
+          <Divider marginBottom marginTop />
+          <Screens flowStore={onrampStore} />
+        </div>
       </div>
-    </div>
+    </Provider>
   );
-}
+};
 
+const Screens = observer(({ flowStore }) => {
+  switch (uiStore.progressStore.currentScreen) {
+    case (ScreenNames.USER): return <UserScreen flowStore={flowStore} />;
+    default: return <UserScreen flowStore={flowStore} />
+  }
+});
+
+export default observer(App);
 
 
 

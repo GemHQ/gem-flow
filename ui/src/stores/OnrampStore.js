@@ -27,13 +27,13 @@ class OnrampStore {
     return [...this.usersMap.values()];
   }
   get profiles() {
-    return [...this.usersMap.values()];
+    return [...this.profilesMap.values()];
   }
   get connections() {
-    return [...this.usersMap.values()];
+    return [...this.connectionsMap.values()];
   }
   get accounts() {
-    return [...this.usersMap.values()];
+    return [...this.accountsMap.values()];
   }
   get transactions() {
     return [...this.transactionsMap.values()];

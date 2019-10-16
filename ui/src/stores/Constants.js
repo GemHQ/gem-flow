@@ -1,3 +1,11 @@
+export const ScreenNames = {
+  USER: 'User',
+  PROFILE: 'Profile',
+  CONNECTION: 'Connection',
+  ACCOUNT: 'Account',
+  TRANSACTION: 'Transaction'
+};
+
 export const Flows = {
   Onramp: {
     id: 'Onramp',
@@ -5,11 +13,11 @@ export const Flows = {
     primaryColor: '#9C27B0',
     colorClassname: 'OnrampColor',
     screens: [
-      'User', 
-      'Profile',
-      'Connection',
-      'Account',
-      'Transaction'
+      ScreenNames.USER, 
+      ScreenNames.PROFILE,
+      ScreenNames.CONNECTION,
+      ScreenNames.ACCOUNT,
+      ScreenNames.TRANSACTION
     ]
   },
   Connect: {
@@ -18,9 +26,9 @@ export const Flows = {
     primaryColor: '#C0CA33',
     colorClassname: 'ConnectColor',
     screens: [
-      'User', 
-      'Connection',
-      'Account',
+      ScreenNames.USER, 
+      ScreenNames.CONNECTION,
+      ScreenNames.ACCOUNT,
     ],
   },
   Transfer: {
@@ -29,11 +37,12 @@ export const Flows = {
     primaryColor: '#478FCC',
     colorClassname: 'TransferColor',
     screens: [
-      'User', 
-      'Connection',
-      'Account',
-      'Transaction'
+      ScreenNames.USER, 
+      ScreenNames.CONNECTION,
+      ScreenNames.ACCOUNT,
+      ScreenNames.TRANSACTION
     ]
   }
 };
+
 

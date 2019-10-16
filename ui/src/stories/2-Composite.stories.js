@@ -1,14 +1,14 @@
 import React from 'react';
 import UIStore from '../stores/UIStore';
 import Instructions from '../components/composite/instructions/Instructions';
-import ProgressMap from '../components/composite/progressMap/ProgressMap';
-import { Flows } from '../stores/Constants';
+import { ProgressMap } from '../components/composite/progressMap/ProgressMap';
+import { Flows, ScreenNames } from '../stores/Constants';
 
 const uiStore = new UIStore();
 const connectProgressStore = uiStore.progressMaps.get(Flows.Connect.id);
 const onrampProgressStore = uiStore.progressMaps.get(Flows.Onramp.id);
-onrampProgressStore.fillDot('User');
-onrampProgressStore.setCurrentScreen('Profile');
+onrampProgressStore.fillDot(ScreenNames.USER);
+onrampProgressStore.setCurrentScreen(ScreenNames.PROFILE);
 
 export default {
   title: 'Composite Components',

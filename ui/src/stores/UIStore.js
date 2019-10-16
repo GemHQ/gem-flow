@@ -1,5 +1,5 @@
 import { observable, action, computed, decorate } from "mobx";
-import { Flows } from './Constants';
+import { Flows, ScreenNames } from './Constants';
 
 class UIStore {
   flow = Flows.Onramp;
@@ -26,6 +26,10 @@ class UIStore {
   get progressStore() {
     return this.progressMaps.get(this.flow.id);
   }
+
+  get showInstructions() {
+    return this.progressStore.currentScreen === ScreenNames.USER;
+  }
 }
 
 decorate(UIStore, {
@@ -42,14 +46,14 @@ export default UIStore;
 class ProgressStore {
   dotsMap = new Map();
   markerSubtitles = new Map();
-  currentScreen = '';
+  currentScreen = ScreenNames.USER;
 
   constructor(screens) {
     screens.forEach(screen => {
       this.dotsMap.set(screen, false);
       this.markerSubtitles.set(screen, '-');
     });
-    this.markerSubtitles.set('User', 'Create a new user');
+    this.markerSubtitles.set(ScreenNames.USER, 'Create a new user');
     this.currentScreen = screens[0];
   }
 
