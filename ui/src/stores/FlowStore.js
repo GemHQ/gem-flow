@@ -13,6 +13,22 @@ class FlowStore {
     // const users = await util.httpGet("/user");
     // users.forEach(user => this.usersMap.set(user.id, user));
   }
+  getProfiles = async () => {
+    // const profiles = await util.httpGet("/profile");
+    // profiles.forEach(user => this.profilesMap.set(profile.id, profile));
+  }
+  getConnections = async () => {
+    // const connections = await util.httpGet("/connection");
+    // users.forEach(connection => this.usersMap.set(connection.id, connection));
+  }
+  getAccounts = async () => {
+    // const accounts = await util.httpGet("/account");
+    // users.forEach(account => this.usersMap.set(account.id, account));
+  }
+  getTransactions = async () => {
+    // const transactions = await util.httpGet("/transaction");
+    // users.forEach(transaction => this.usersMap.set(transaction.id, transaction));
+  }
 
   createUser = user => {
     const data = createId();
@@ -20,7 +36,6 @@ class FlowStore {
   }
   createProfile = profile => {
     const data = createId();
-    console.log(profile)
     this.profilesMap.set(data.id, { ...profile, ...data });
   }
   createConnection = connection => {
@@ -38,6 +53,15 @@ class FlowStore {
   }
   removeProfile = id => {
     this.profilesMap.delete(id);
+  }
+  removeConnection = id => {
+    this.connectionsMap.delete(id);
+  }
+  removeAccount = id => {
+    this.accountsMap.delete(id);
+  }
+  removeTransaction = id => {
+    this.transactionsMap.delete(id);
   }
 
   get users() {
