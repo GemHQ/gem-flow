@@ -1,51 +1,26 @@
-import React, { useState } from 'react';
+import React from 'react';
 import UserForm from '../components/forms/UserForm';
-import Button, { BorderedButton } from '../components/basic/button/Button';
-import { withPrimaryColor } from '../stores/StoresUtil';
 import UserCard from '../components/cards/UserCard';
+import GenericScreen from './GenericScreen';
+import { withFlowStore } from '../stores/StoresUtil';
 
-const UserScreen = ({ flowStore, primaryColor }) => {
-  const [creatingUser, setCreatingUser] = useState(false);
-  const startCreating = () => setCreatingUser(true);
-  const stopCreating = () => setCreatingUser(false);
-  const numOfUsers = flowStore.users.length;
+const UserScreen = ({ flowStore, primaryColor }) => (
+  <GenericScreen
+    ItemForm={UserForm}
+    numberOfItems={flowStore.users.length}
+    itemTitle="User"
+    createItem={flowStore.createUser}
+  >
+  {
+    flowStore.users.map(user => (
+    <UserCard
+      user={user} 
+      primaryColor={primaryColor} 
+      key={user.id} 
+      removeUser={() => flowStore.removeUser(user.id)}
+    />))
+  }
+  </GenericScreen>
+)
 
-  if (!numOfUsers && !creatingUser) return (
-    <Button onClick={startCreating}>Create New User</Button>
-  )
-
-  return (
-    <>
-    {
-      creatingUser 
-      ?
-      <>
-        <h2 className="ScreenHeading">Creating User</h2>
-        <UserForm
-          onCancel={stopCreating}
-          onSubmit={user => {
-            flowStore.createUser(user);
-            stopCreating();
-          }}
-        />
-      </>
-      :
-      <div className="FlexAlignCenter SpaceBetween">
-        <h2 className="ScreenHeading noPadding">{`${numOfUsers} User${numOfUsers > 1 ? 's' : ''}`}</h2>
-        <BorderedButton color={primaryColor} onClick={startCreating}>+ Add new user</BorderedButton>
-      </div>
-    }
-    {
-      flowStore.users.map(user => (
-      <UserCard 
-        user={user} 
-        primaryColor={primaryColor} 
-        key={user.id} 
-        removeUser={() => flowStore.removeUser(user.id)}
-      />))
-    }
-    </>
-  )
-}
-
-export default withPrimaryColor(UserScreen);
+export default withFlowStore(UserScreen);

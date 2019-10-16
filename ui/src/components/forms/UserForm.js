@@ -7,7 +7,7 @@ const description = `Enter an email address for your new user`;
 
 export const UserForm = ({ onCancel, onSubmit, primaryColor }) => {
   const [email, setEmail] = useState('');
-  console.log(primaryColor);
+
   return (
     <form onSubmit={e => {
       e.preventDefault();

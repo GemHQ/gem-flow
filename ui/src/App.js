@@ -12,11 +12,11 @@ import { ScreenNames } from './stores/Constants';
 import OnrampStore from './stores/OnrampStore';
 
 const uiStore = new UIStore();
-const onrampStore = new OnrampStore();
+const flowStore = new OnrampStore();
 
 const App = () => {
   return (
-    <Provider uiStore={uiStore}>
+    <Provider uiStore={uiStore} flowStore={flowStore}>
       <div className="AppContainer">
         <div className="App">
           <Header flowName={uiStore.flow.id} />
@@ -30,7 +30,7 @@ const App = () => {
           }
           <ProgressMap progressStore={uiStore.progressStore} />
           <Divider marginBottom marginTop />
-          <Screens flowStore={onrampStore} />
+          <Screens />
         </div>
       </div>
     </Provider>
@@ -39,8 +39,8 @@ const App = () => {
 
 const Screens = observer(({ flowStore }) => {
   switch (uiStore.progressStore.currentScreen) {
-    case (ScreenNames.USER): return <UserScreen flowStore={flowStore} />;
-    default: return <UserScreen flowStore={flowStore} />
+    case (ScreenNames.USER): return <UserScreen />;
+    default: return <UserScreen />
   }
 });
 

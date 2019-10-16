@@ -10,6 +10,7 @@ class OnrampStore {
   transactionsMap = new Map();
 
   createUser = user => {
+    console.log(user)
     const data = createId();
     this.usersMap.set(data.id, { ...user, ...data });
   }

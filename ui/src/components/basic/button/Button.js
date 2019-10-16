@@ -26,7 +26,7 @@ export const BorderedButton = ({
   color,
   children
 }) => (
-  <button type="submit" disabled={disabled} onClick={onClick} style={{ 
+  <button type="button" disabled={disabled} onClick={onClick} style={{ 
     color,
     border: `2px solid ${color}`,
     height: '40px'
