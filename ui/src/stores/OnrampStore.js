@@ -26,6 +26,10 @@ class OnrampStore {
     this.transactionsMap.set(transaction.id, transaction);
   }
 
+  removeUser = id => {
+    this.usersMap.delete(id);
+  }
+
   get users() {
     return [...this.usersMap.values()];
   }

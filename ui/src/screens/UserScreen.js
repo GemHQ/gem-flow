@@ -23,8 +23,8 @@ const UserScreen = ({ flowStore, primaryColor }) => {
         <h2 className="ScreenHeading">Creating User</h2>
         <UserForm
           onCancel={stopCreating}
-          onSubmit={() => {
-            flowStore.createUser();
+          onSubmit={user => {
+            flowStore.createUser(user);
             stopCreating();
           }}
         />
@@ -36,7 +36,13 @@ const UserScreen = ({ flowStore, primaryColor }) => {
       </div>
     }
     {
-      flowStore.users.map(user => <UserCard user={user} primaryColor={primaryColor} key={user.id} />)
+      flowStore.users.map(user => (
+      <UserCard 
+        user={user} 
+        primaryColor={primaryColor} 
+        key={user.id} 
+        removeUser={() => flowStore.removeUser(user.id)}
+      />))
     }
     </>
   )
