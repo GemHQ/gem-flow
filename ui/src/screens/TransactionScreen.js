@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
-import { withFlowStore } from '../stores/StoresUtil';
+import { withStores } from '../stores/StoresUtil';
 import AccountCard from '../components/cards/AccountCard';
 import TransactionForm from '../components/forms/TransactionForm';
+import { ScreenNames } from '../stores/Constants';
 
-const TransactionScreen = ({ flowStore }) => {
-  const [creatingItem, setCreatingItem] = useState(true);
+const TransactionScreen = ({ flowStore, uiStore }) => {
+  const initialScreenState = uiStore.progressStore.initialScreenStates.get(ScreenNames.TRANSACTION);
+  const initiallyOpenForm = initialScreenState.withOpenForm;
+  const [creatingItem, setCreatingItem] = useState(initiallyOpenForm);
   const startCreatingItem = () => setCreatingItem(true);
   const stopCreatingItem = () => setCreatingItem(false);
   const numberOfItems = flowStore.transactions.length;
@@ -45,4 +48,4 @@ const TransactionScreen = ({ flowStore }) => {
 }
 
 
-export default withFlowStore(TransactionScreen);
+export default withStores(TransactionScreen);

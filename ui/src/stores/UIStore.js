@@ -48,6 +48,7 @@ class ProgressStore {
   markerSubtitles = new Map();
   currentScreen = ScreenNames.ACCOUNT;
   // currentScreen = ScreenNames.USER;
+  initialScreenStates = new Map();
 
   constructor(screens) {
     screens.forEach(screen => {
@@ -58,8 +59,9 @@ class ProgressStore {
     // this.currentScreen = screens[0];
   }
 
-  setCurrentScreen = (screen) => {
+  setCurrentScreen = (screen, initialState) => {
     this.currentScreen = screen;
+    initialState && this.initialScreenStates.set(screen, initialState);
   }
 
   fillDot = (screen) => {
