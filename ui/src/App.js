@@ -13,6 +13,7 @@ import UserScreen from './screens/UserScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import ConnectionScreen from './screens/ConnectionScreen';
 import AccountScreen from './screens/AccountScreen';
+import TransactionScreen from './screens/TransactionScreen';
 
 const uiStore = new UIStore();
 const flowStore = new FlowStore();
@@ -41,12 +42,12 @@ const App = () => {
 };
 
 const Screens = observer(() => {
-  console.log(uiStore.progressStore.currentScreen)
   switch (uiStore.progressStore.currentScreen) {
     case (ScreenNames.USER): return <UserScreen />;
     case (ScreenNames.PROFILE): return <ProfileScreen />;
     case (ScreenNames.CONNECTION): return <ConnectionScreen />;
     case (ScreenNames.ACCOUNT): return <AccountScreen />;
+    case (ScreenNames.TRANSACTION): return <TransactionScreen />;
     default: return <UserScreen />
   }
 });

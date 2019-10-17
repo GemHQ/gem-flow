@@ -1,8 +1,9 @@
 import React from 'react';
 import GenericCard from './GenericCard';
+import { withPrimaryColor } from '../../stores/StoresUtil';
 
 
-const AccountCard = ({ account, createTransaction, primaryColor, removeAccount }) => (
+const AccountCard = ({ account, createTransaction, primaryColor, removeAccount, dots, withUnderButton, disabled }) => (
   <GenericCard 
     titlesAndValues={[
       { title: 'ACCOUNT_ID', value: account.id },
@@ -14,7 +15,18 @@ const AccountCard = ({ account, createTransaction, primaryColor, removeAccount }
     onButtonClick={createTransaction}
     primaryColor={primaryColor}
     dotsMenuOptions={[{ title: 'Remove account', onClick: removeAccount }]}
+    UnderButton={withUnderButton ? <UnderButton primaryColor={primaryColor} onClick={() => {}}/> : null}
+    dots={dots}
+    disabled={disabled}
   />
 );
 
-export default AccountCard;
+const UnderButton = ({ primaryColor, onClick }) => (
+  <p 
+    className="SmallText ExtraBold Pointer" 
+    style={{ color: primaryColor, marginTop: '4px' }}
+    onClick={onClick}
+  >View Transactions{console.log(primaryColor)}</p>
+)
+
+export default withPrimaryColor(AccountCard);

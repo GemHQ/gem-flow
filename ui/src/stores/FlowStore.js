@@ -1,4 +1,4 @@
-import { observable, action, decorate, computed, toJS } from "mobx";
+import { observable, action, decorate, computed } from "mobx";
 
 const createId = () => ({ id: Math.random().toString(), created_at: Date.now().toString() });
 
@@ -8,6 +8,11 @@ class FlowStore {
   connectionsMap = new Map();
   accountsMap = new Map();
   transactionsMap = new Map();
+
+  selectedUser = null;
+  selectedProfile = null;
+  selectedConnection = null;
+  selectedAccount = null;
 
   getUsers = async () => {
     // const users = await util.httpGet("/user");
@@ -51,6 +56,19 @@ class FlowStore {
     this.transactionsMap.set(data.id, { ...transaction, ...data });
   }
 
+  selectUser = id => {
+    this.selectedUser = this.usersMap.get(id);
+  }
+  selectProfile = id => {
+    this.selectedProfile = this.profilesMap.get(id);
+  }
+  selectConnection = id => {
+    this.selectedConnection = this.connectionsMap.get(id);
+  }
+  selectAccount = id => {
+    this.selectedAccount = this.accountsMap.get(id);
+  }
+
   removeUser = id => {
     this.usersMap.delete(id);
   }
@@ -62,9 +80,6 @@ class FlowStore {
   }
   removeAccount = id => {
     this.accountsMap.delete(id);
-  }
-  removeTransaction = id => {
-    this.transactionsMap.delete(id);
   }
 
   get users() {
@@ -90,11 +105,28 @@ decorate(FlowStore, {
   connectionsMap: observable,
   accountsMap: observable,
   transactionsMap: observable,
+  selectedUser: observable,
+  selectedProfile: observable,
+  selectedConnection: observable,
+  selectedAccount: observable,
+  getUsers: action,
+  getProfiles: action,
+  getConnections: action,
+  getAccounts: action,
+  getTransactions: action,
   createUser: action,
   createProfile: action,
   createConnection: action,
   createAccount: action,
   createTransaction: action,
+  selectUser: action,
+  selectProfile: action,
+  selectConnection: action,
+  selectAccount: action,
+  removeUser: action,
+  removeProfile: action,
+  removeConnection: action,
+  removeAccount: action,
   users: computed,
   profiles: computed,
   connections: computed,

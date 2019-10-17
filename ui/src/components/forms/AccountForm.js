@@ -9,8 +9,8 @@ const description = `An account type is a payment method to purchase the assets.
 const placeholderOption = 'Choose an Account Type';
 
 const accountOptions = [
-  { value: 'bank ach', label: 'Bank ACH (via Plaid)', className: 'OnrampColor' },
-  { value: 'debit card', label: 'Debit Card', className: 'OnrampColor' },
+  { value: 'Bank ACH', label: 'Bank ACH (via Plaid)', className: 'OnrampColor' },
+  { value: 'Debit Card', label: 'Debit Card', className: 'OnrampColor' },
 ];
 
 export const AccountForm = ({ onCancel, onSubmit, primaryColor }) => {
@@ -23,7 +23,7 @@ export const AccountForm = ({ onCancel, onSubmit, primaryColor }) => {
     }}>
       <TitleAndValue title="Account Type" value={description} />
       <DropdownSelector selectedOption={selectedOption} selectOption={selectOption} options={accountOptions} selectedClassName={disabled ? 'LightGreyText ThinText MediumTextSize' : 'OnrampColor'} />
-      <ButtonWithCancel onCancel={onCancel} onClick={() => onSubmit({ name: selectedOption })} disabled={disabled} primaryColor={primaryColor}>Add Account</ButtonWithCancel>
+      <ButtonWithCancel onCancel={onCancel} onClick={() => onSubmit({ type: selectedOption, name: 'Bank of America'  })} disabled={disabled} primaryColor={primaryColor}>Add Account</ButtonWithCancel>
     </form>
   )
 }

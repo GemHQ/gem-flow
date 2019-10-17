@@ -61,6 +61,7 @@ export const TransactionForm = ({ onCancel, onSubmit, primaryColor }) => {
       <div />
       <div />
       <ButtonWithCancel onCancel={onCancel} onClick={onSubmit} disabled={disabled} primaryColor={primaryColor}>Create</ButtonWithCancel>
+      {console.log(primaryColor)}
     </form>
   )
 }

@@ -2,9 +2,10 @@ import React from 'react';
 import AccountForm from '../components/forms/AccountForm';
 import AccountCard from '../components/cards/AccountCard';
 import GenericScreen from './GenericScreen';
-import { withFlowStore } from '../stores/StoresUtil';
+import { withStores } from '../stores/StoresUtil';
+import { ScreenNames } from '../stores/Constants';
 
-const AccountScreen = ({ flowStore }) => (
+const AccountScreen = ({ flowStore, uiStore }) => (
   <GenericScreen
     ItemForm={AccountForm}
     numberOfItems={flowStore.accounts.length}
@@ -17,9 +18,14 @@ const AccountScreen = ({ flowStore }) => (
       account={account} 
       key={account.id} 
       removeAccount={() => flowStore.removeAccount(account.id)}
+      createTransaction={() => {
+        flowStore.selectAccount(account.id);
+        uiStore.progressStore.setCurrentScreen(ScreenNames.TRANSACTION);
+      }}
+      withUnderButton
     />))
   }
   </GenericScreen>
 )
 
-export default withFlowStore(AccountScreen);
+export default withStores(AccountScreen);
