@@ -18,7 +18,7 @@ const AccountScreen = ({ flowStore, uiStore }) => (
       account={account} 
       key={account.id} 
       removeAccount={() => flowStore.removeAccount(account.id)}
-      createTransaction={() => {
+      onButtonClick={() => {
         flowStore.selectAccount(account.id);
         uiStore.progressStore.setCurrentScreen(ScreenNames.TRANSACTION, { withOpenForm: true });
       }}

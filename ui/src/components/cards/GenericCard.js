@@ -15,7 +15,6 @@ const GenericCard = ({
   dots = true 
 }) => (
   <div className="Card">
-    {console.log(UnderButton)}
     <div className="FlexAlignCenter">
       {titlesAndValues.map(({ title, value }) => <TitleAndValue key={title} title={title} value={value} greyTitle smallTitle boldValue rightPadding/>)}
     </div>

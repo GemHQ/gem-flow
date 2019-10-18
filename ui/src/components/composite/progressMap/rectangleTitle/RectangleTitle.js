@@ -2,7 +2,7 @@ import React from 'react';
 import './rectangleTitle.css';
 import { observer } from 'mobx-react';
 
-const RectangleTitle = ({ title, subtitle, color, activeMarker, isCompleted }) => {
+const RectangleTitle = ({ title, subtitle, color, activeMarker, isCompleted, onClick }) => {
   let boxStyle = {  border: `2px solid #D9D9D9` };
   let titleStyle = { color: '#D9D9D9' };
   if (activeMarker === title) {
@@ -15,7 +15,7 @@ const RectangleTitle = ({ title, subtitle, color, activeMarker, isCompleted }) =
 
   return (
     <div className="RectangleTitleContainer">
-      <div className="TitleBox" style={boxStyle}>
+      <div className="TitleBox" style={boxStyle} onClick={onClick}>
         <p style={titleStyle}>{title}</p>
       </div>
       <p className="RectangleSubtitle">{subtitle}</p>

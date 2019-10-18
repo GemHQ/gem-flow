@@ -3,7 +3,7 @@ import GenericCard from './GenericCard';
 import { withPrimaryColor } from '../../stores/StoresUtil';
 
 
-const AccountCard = ({ account, createTransaction, primaryColor, removeAccount, dots, UnderButton, disabled }) => (
+const AccountCard = ({ account, onButtonClick, primaryColor, removeAccount, dots, UnderButton, disabled }) => (
   <GenericCard
     titlesAndValues={[
       { title: 'ACCOUNT_ID', value: account.id },
@@ -12,7 +12,7 @@ const AccountCard = ({ account, createTransaction, primaryColor, removeAccount, 
       { title: 'LAST_UPDATED_AT', value: account.last_updated_at },
     ]}
     buttonText="Create Transaction"
-    onButtonClick={createTransaction}
+    onButtonClick={onButtonClick}
     primaryColor={primaryColor}
     dotsMenuOptions={[{ title: 'Remove account', onClick: removeAccount }]}
     UnderButton={UnderButton}

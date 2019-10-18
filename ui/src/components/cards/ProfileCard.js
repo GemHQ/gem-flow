@@ -1,7 +1,7 @@
 import React from 'react';
 import GenericCard from './GenericCard';
 
-const ProfileCard = ({ profile, createConnection, primaryColor, removeProfile }) => (
+const ProfileCard = ({ profile, onButtonClick, primaryColor, removeProfile }) => (
   <GenericCard 
     titlesAndValues={[
       { title: 'PROFILE_ID', value: profile.id },
@@ -9,7 +9,7 @@ const ProfileCard = ({ profile, createConnection, primaryColor, removeProfile })
       { title: 'CREATED_AT', value: profile.created_at },
     ]}
     buttonText="Create Connection"
-    onButtonClick={createConnection}
+    onButtonClick={onButtonClick}
     primaryColor={primaryColor}
     dotsMenuOptions={[{ title: 'Remove profile', onClick: removeProfile }]}
   />

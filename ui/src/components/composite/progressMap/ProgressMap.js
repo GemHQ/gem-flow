@@ -7,13 +7,14 @@ import { withPrimaryColor } from '../../../stores/StoresUtil';
 export const ProgressMap = ({ progressStore, primaryColor }) => (
   <div className="ProgressContainer">
     <div className="RectangleTitlesContainer">
-      {progressStore.markerTitles.map(([title, subtitle]) => <RectangleTitle 
+      {progressStore.markerTitles.map(([title, subtitle]) => <RectangleTitle
         key={title} 
         title={title} 
         subtitle={subtitle} 
         activeMarker={progressStore.currentScreen} 
         isCompleted={progressStore.dotsMap.get(title)}
         color={primaryColor}
+        onClick={() => progressStore.setCurrentScreen(title)}
       />)}
     </div>
     <FlowDots 

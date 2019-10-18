@@ -2,9 +2,10 @@ import React from 'react';
 import ProfileForm from '../components/forms/ProfileForm';
 import ProfileCard from '../components/cards/ProfileCard';
 import GenericScreen from './GenericScreen';
-import { withFlowStore } from '../stores/StoresUtil';
+import { withStores } from '../stores/StoresUtil';
+import { ScreenNames } from '../stores/Constants';
 
-const ProfileScreen = ({ flowStore }) => (
+const ProfileScreen = ({ flowStore, uiStore }) => (
   <GenericScreen
     ItemForm={ProfileForm}
     numberOfItems={flowStore.profiles.length}
@@ -17,9 +18,13 @@ const ProfileScreen = ({ flowStore }) => (
       profile={profile} 
       key={profile.id} 
       removeProfile={() => flowStore.removeProfile(profile.id)}
+      onButtonClick={() => {
+        flowStore.selectProfile(profile.id);
+        uiStore.progressStore.setCurrentScreen(ScreenNames.CONNECTION);
+      }}
     />))
   }
   </GenericScreen>
 )
 
-export default withFlowStore(ProfileScreen);
+export default withStores(ProfileScreen);

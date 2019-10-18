@@ -2,7 +2,7 @@ import React from 'react';
 import GenericCard from './GenericCard';
 import { withPrimaryColor } from '../../stores/StoresUtil';
 
-const ConnectionCard = ({ connection, createAccount, removeConnection, primaryColor }) => (
+const ConnectionCard = ({ connection, onButtonClick, removeConnection, primaryColor }) => (
   <GenericCard
     titlesAndValues={[
       { title: 'CONNECTION_ID', value: connection.id },
@@ -10,7 +10,7 @@ const ConnectionCard = ({ connection, createAccount, removeConnection, primaryCo
       { title: 'CREATED_AT', value: connection.created_at },
     ]}
     buttonText="Add Account"
-    onButtonClick={createAccount}
+    onButtonClick={onButtonClick}
     primaryColor={primaryColor}
     dotsMenuOptions={[{ title: 'Remove connection', onClick: removeConnection }]}
   />

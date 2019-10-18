@@ -6,7 +6,7 @@ import { ScreenNames } from '../stores/Constants';
 
 const TransactionScreen = ({ flowStore, uiStore }) => {
   const initialScreenState = uiStore.progressStore.initialScreenStates.get(ScreenNames.TRANSACTION);
-  const initiallyOpenForm = initialScreenState.withOpenForm;
+  const initiallyOpenForm = initialScreenState && initialScreenState.withOpenForm;
   const [creatingItem, setCreatingItem] = useState(initiallyOpenForm);
   const startCreatingItem = () => setCreatingItem(true);
   const stopCreatingItem = () => setCreatingItem(false);

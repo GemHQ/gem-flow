@@ -2,9 +2,10 @@ import React from 'react';
 import InstitutionUserForm from '../components/forms/InstitutionUserForm';
 import ConnectionCard from '../components/cards/ConnectionCard';
 import GenericScreen from './GenericScreen';
-import { withFlowStore } from '../stores/StoresUtil';
+import { withStores } from '../stores/StoresUtil';
+import { ScreenNames } from '../stores/Constants';
 
-const ConnectionScreen = ({ flowStore }) => (
+const ConnectionScreen = ({ flowStore, uiStore }) => (
   <GenericScreen
     ItemForm={InstitutionUserForm}
     numberOfItems={flowStore.connections.length}
@@ -17,9 +18,13 @@ const ConnectionScreen = ({ flowStore }) => (
       connection={connection} 
       key={connection.id} 
       removeConnection={() => flowStore.removeConnection(connection.id)}
+      onButtonClick={() => {
+        flowStore.selectConnection(connection.id);
+        uiStore.progressStore.setCurrentScreen(ScreenNames.ACCOUNT);
+      }}
     />))
   }
   </GenericScreen>
 )
 
-export default withFlowStore(ConnectionScreen);
+export default withStores(ConnectionScreen);

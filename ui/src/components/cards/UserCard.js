@@ -1,7 +1,7 @@
 import React from 'react';
 import GenericCard from './GenericCard';
 
-const UserCard = ({ user, createProfile, primaryColor, removeUser }) => (
+const UserCard = ({ user, onButtonClick, primaryColor, removeUser }) => (
   <GenericCard
     titlesAndValues={[
       { title: 'USER_ID', value: user.id },
@@ -9,7 +9,7 @@ const UserCard = ({ user, createProfile, primaryColor, removeUser }) => (
       { title: 'CREATED_AT', value: user.created_at },
     ]}
     buttonText="Create Profile"
-    onButtonClick={createProfile}
+    onButtonClick={onButtonClick}
     primaryColor={primaryColor}
     dotsMenuOptions={[{ title: 'Remove user', onClick: removeUser }]}
   />

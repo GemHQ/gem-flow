@@ -46,8 +46,7 @@ export default UIStore;
 class ProgressStore {
   dotsMap = new Map();
   markerSubtitles = new Map();
-  currentScreen = ScreenNames.ACCOUNT;
-  // currentScreen = ScreenNames.USER;
+  currentScreen = ScreenNames.USER;
   initialScreenStates = new Map();
 
   constructor(screens) {
@@ -56,7 +55,6 @@ class ProgressStore {
       this.markerSubtitles.set(screen, '-');
     });
     this.markerSubtitles.set(ScreenNames.USER, 'Create a new user');
-    // this.currentScreen = screens[0];
   }
 
   setCurrentScreen = (screen, initialState) => {
