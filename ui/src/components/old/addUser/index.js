@@ -3,7 +3,7 @@ import { Input, Button } from 'semantic-ui-react'
 import './addUser.css';
 import { CTX } from '../../../state/Store';
 import { TYPES } from '../../../state/Constants';
-const util = require("../../../util");
+const util = require("../../../util/RequestUtil");
 
 export default () => {
 

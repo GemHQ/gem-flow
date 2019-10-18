@@ -1,5 +1,6 @@
 import { observable, action, decorate, computed } from "mobx";
 import { ScreenNames } from "./Constants";
+import { httpGet, httpPost, httpDelete } from '../util/RequestUtil';
 
 const createId = () => ({ id: Math.random().toString(), created_at: Date.now().toString() });
 
@@ -15,9 +16,13 @@ class FlowStore {
   selectedConnection = null;
   selectedAccount = null;
 
+  constructor() {
+    this.getUsers();
+  }
+
   getUsers = async () => {
-    // const users = await util.httpGet("/user");
-    // users.forEach(user => this.usersMap.set(user.id, user));
+    const users = await httpGet("/user");
+    users.forEach(user => this.usersMap.set(user.id, user));
   }
   getProfiles = async () => {
     // const profiles = await util.httpGet("/profile");
@@ -36,9 +41,9 @@ class FlowStore {
     // users.forEach(transaction => this.usersMap.set(transaction.id, transaction));
   }
 
-  createUser = user => {
-    const data = createId();
-    this.usersMap.set(data.id, { ...user, ...data });
+  createUser = async ({ email }) => {
+    const result = await httpPost("/user", { email });
+    this.usersMap.set(result, { ...result, email });
   }
   createProfile = profile => {
     const data = createId();
@@ -82,6 +87,7 @@ class FlowStore {
 
   removeUser = id => {
     this.usersMap.delete(id);
+    httpDelete(`/user/${id}`);
   }
   removeProfile = id => {
     this.profilesMap.delete(id);
@@ -132,7 +138,7 @@ class FlowStore {
   }
 
   determineSubtitle(itemTitle, itemKey, selectedItem, numberOfItems, placeholder = '-') {
-    return selectedItem ? selectedItem[itemKey] : (numberOfItems ? `${numberOfItems} ${itemTitle}` : placeholder)
+    return selectedItem ? selectedItem[itemKey] : (numberOfItems ? `${numberOfItems} ${itemTitle}${numberOfItems > 1 ? 's' : ''}` : placeholder)
   }
 }
 
