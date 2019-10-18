@@ -1,0 +1,9 @@
+.TitleAndValueContainer > p {
+  font-size: 12px;
+  line-height: 16px;
+  padding-top: 8px;
+}
+
+.TitleValuePadding {
+  padding-right: 60px;
+}

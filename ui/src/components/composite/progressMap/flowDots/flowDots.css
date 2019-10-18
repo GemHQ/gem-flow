@@ -1,0 +1,21 @@
+.DotsContainer {
+  width: 100%;
+  margin-top: 18px;
+  padding: 0 74px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 900px;
+}
+
+.FlowDot {
+  width: 12px;
+  height: 12px;
+  min-width: 12px;
+  border-radius: 50%;
+}
+
+.FlowLine {
+  flex-grow: 1;
+}
+

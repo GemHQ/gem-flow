@@ -1,0 +1,44 @@
+.InputContainer {
+  height: 60px;
+  width: 100%;
+  max-width: 360px;
+  position: relative;
+}
+
+input {
+  height: 100%;
+  width: 100%;
+  padding: 12px;
+  font-size: 14px;
+  background-color: white;
+  box-shadow: 0rem 6px 8px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+  outline: 0;
+  border: none;
+}
+input::placeholder {
+  color: #C0C0C0;
+}
+
+.floatingLabel {
+  position: absolute;
+  top: 8px;
+  left: 12px;
+  font-size: 10px;
+  color: #C0C0C0;
+}
+
+.TipInput {
+  padding-right: 36px;
+}
+
+.InputRightSubcontainer {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 36px;
+  height: 100%;
+  top: 0;
+  right: 0;
+}

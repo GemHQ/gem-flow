@@ -1,0 +1,38 @@
+button {
+  padding: 0 12px;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  font-weight: 500;
+  font-size: 14px;
+  min-width: 124px;
+  height: 48px;
+  transition: opacity 0.3s ease;
+}
+
+button:focus {
+  outline: none;
+}
+
+button:disabled {
+  opacity: 0.4;
+}
+
+.Cancel {
+  font-size: 16px;
+  font-weight: 400;
+  padding: 10px;
+  margin-right: 20px;
+  color: #A7A7A7;
+  cursor: pointer;
+}
+
+.MaxButtonWidth {
+  max-width: 124px;
+  padding-top: 16px;
+}
+
+.ButtonRightMargin {
+  margin: 0 12px;
+}

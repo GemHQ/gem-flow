@@ -1,0 +1,25 @@
+form {
+  background-color: #EEF1F4;
+  border-radius: 3px;
+  padding: 22px;
+  display: grid;
+  grid-template-columns: 1fr 2fr 2fr;
+  grid-template-rows: auto;
+  gap: 24px 34px;
+  width: 900px;
+  margin-top: 20px;
+}
+
+.ShortGap {
+  gap: 14px 34px;
+}
+
+.TallRow {
+  padding-bottom: 28px;
+}
+
+.DoubleInputGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 10px;
+}

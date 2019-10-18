@@ -1,32 +1,104 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+p, h1, h2, h3, h4, h5, h6, button, input, form, div, header {
+  font-family: 'Roboto', sans-serif;
+  color: #424242;
+  font-weight: 300;
+  padding: 0;
+  margin: 0;
+  font-size: 14px;
+}
+
+h1 {
+  font-size: 24px;
+  font-weight: 400;
+}
+
+h2, h2, h3 {
+  font-weight: 400;
+}
+
+.AppContainer {
+  display: flex;
+  padding: 0 50px;
+}
+
 .App {
-  margin-top: 5rem;
+  width: 900px;
+  max-width: 900px;
+  padding: 60px 0;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
+.ScreenHeading {
+  font-size: 20px;
+  font-weight: 400;
+  padding: 8px 0;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.OnrampColor {
+  color: #9C27B0 !important;
+}
+.TransferColor {
+  color: #478FCC !important;
+}
+.ConnectColor {
+  color: #C0CA33 !important;
+}
+
+.MediumTextSize {
+  font-size: 14px !important;
+}
+.SmallText {
+  font-size: 12px !important;
+}
+.ThinText {
+  font-weight: 300 !important;
+}
+.BoldText {
+  font-weight: 400 !important;
+}
+.ExtraBold {
+  font-weight: 500 !important;
+}
+.BlackText {
+  color: #424242 !important;
+}
+.GreyText {
+  color: #8E8E8E !important;
+}
+.LightGreyText {
+  color: #C0C0C0 !important;
+}
+.Pointer {
+  cursor: pointer;
+}
+
+.Flex {
+  display: flex;
+}
+.FlexAlignCenter {
+  display: flex;
+  align-items: center;
+}
+.SpaceBetween {
+  justify-content: space-between;
+}
+.FlexEnd {
+  justify-content: flex-end;
+}
+.ColumnCenter {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
+@media (min-width: 1000px) {
+  .AppContainer {
+    justify-content: center;
   }
 }

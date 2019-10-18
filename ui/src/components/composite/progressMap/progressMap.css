@@ -1,0 +1,9 @@
+.ProgressContainer {
+  max-width: 1000px;
+}
+
+.RectangleTitlesContainer {
+  display: flex;
+  justify-content: space-between;
+  min-width: 900px;
+}
