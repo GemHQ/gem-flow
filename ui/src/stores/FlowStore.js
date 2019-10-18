@@ -59,12 +59,18 @@ class FlowStore {
 
   selectUser = id => {
     this.selectedUser = this.usersMap.get(id);
+    this.selectedProfile = null;
+    this.selectedConnection = null;
+    this.selectedAccount = null;
   }
   selectProfile = id => {
     this.selectedProfile = this.profilesMap.get(id);
+    this.selectedConnection = null;
+    this.selectedAccount = null;
   }
   selectConnection = id => {
     this.selectedConnection = this.connectionsMap.get(id);
+    this.selectedAccount = null;
   }
   selectAccount = id => {
     this.selectedAccount = this.accountsMap.get(id);
@@ -99,6 +105,7 @@ class FlowStore {
     return [...this.transactionsMap.values()];
   }
 
+  // which dots are filled in the progress map
   get dots() {
     return [
       [ScreenNames.USER, Boolean(this.usersMap.size)],
@@ -107,6 +114,21 @@ class FlowStore {
       [ScreenNames.ACCOUNT, Boolean(this.accountsMap.size)],
       [ScreenNames.TRANSACTION, Boolean(this.transactionsMap.size)],
     ]
+  }
+
+  // subtitles for the markers on the progress map
+  get markerSubtitles() {
+    return {
+      [ScreenNames.USER]: this.determineSubtitle('User', 'email', this.selectedUser, this.usersMap.size, 'Create a new user'),
+      [ScreenNames.PROFILE]: this.determineSubtitle('Profile', 'profileName', this.selectedProfile, this.profilesMap.size),
+      [ScreenNames.CONNECTION]: this.determineSubtitle('Connection', 'name', this.selectedConnection, this.connectionsMap.size),
+      [ScreenNames.ACCOUNT]: this.determineSubtitle('Account', 'name', this.selectedAccount, this.accountsMap.size),
+      [ScreenNames.TRANSACTION]: this.transactionsMap.size ? `${this.transactionsMap.size} Transactions` : '-',
+    }
+  }
+
+  determineSubtitle(itemTitle, itemKey, selectedItem, numberOfItems, placeholder = '-') {
+    return selectedItem ? selectedItem[itemKey] : (numberOfItems ? `${numberOfItems} ${itemTitle}` : placeholder)
   }
 }
 
@@ -144,6 +166,7 @@ decorate(FlowStore, {
   accounts: computed,
   transactions: computed,
   dots: computed,
+  markerSubtitles: computed,
 });
 
 export default FlowStore;

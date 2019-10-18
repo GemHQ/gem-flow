@@ -44,29 +44,17 @@ decorate(UIStore, {
 export default UIStore;
 
 class ProgressStore {
-  markerSubtitles = new Map();
   currentScreen = ScreenNames.USER;
   initialScreenStates = new Map();
-
-  constructor(screens) {
-    screens.forEach(screen => {
-      this.markerSubtitles.set(screen, '-');
-    });
-    this.markerSubtitles.set(ScreenNames.USER, 'Create a new user');
-  }
 
   setCurrentScreen = (screen, initialState) => {
     this.currentScreen = screen;
     initialState && this.initialScreenStates.set(screen, initialState);
   }
-
-  get markerTitles() {
-    return [...this.markerSubtitles.entries()];
-  }
 }
 
 decorate(ProgressStore, {
+  markerSubtitles: observable,
   currentScreen: observable,
   setCurrentScreen: action,
-  markerTitles: computed,
 });
