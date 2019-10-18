@@ -11,6 +11,7 @@ const ProfileScreen = ({ flowStore, uiStore }) => (
     numberOfItems={flowStore.profiles.length}
     itemTitle="Profile"
     createItem={flowStore.createProfile}
+    buttonDisabled={!flowStore.selectedUser}
   >
   {
     flowStore.profiles.map(profile => (

@@ -8,14 +8,15 @@ const GenericScreen = ({
   itemTitle,
   createItem,
   primaryColor,
-  children
+  children,
+  buttonDisabled
 }) => {
   const [creatingItem, setCreatingItem] = useState(false);
   const startCreatingItem = () => setCreatingItem(true);
   const stopCreatingItem = () => setCreatingItem(false);
 
   if (!numberOfItems && !creatingItem) return (
-    <Button onClick={startCreatingItem}>{`Create New ${itemTitle}`}</Button>
+    <Button onClick={startCreatingItem} disabled={buttonDisabled}>{`Create New ${itemTitle}`}</Button>
   )
 
   return (

@@ -11,6 +11,7 @@ const AccountScreen = ({ flowStore, uiStore }) => (
     numberOfItems={flowStore.accounts.length}
     itemTitle="Account"
     createItem={flowStore.createAccount}
+    buttonDisabled={!flowStore.selectedConnection}
   >
   {
     flowStore.accounts.map(account => (

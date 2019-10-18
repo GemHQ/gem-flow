@@ -11,6 +11,7 @@ const ConnectionScreen = ({ flowStore, uiStore }) => (
     numberOfItems={flowStore.connections.length}
     itemTitle="Connection"
     createItem={flowStore.createConnection}
+    buttonDisabled={!flowStore.selectedProfile}
   >
   {
     flowStore.connections.map(connection => (

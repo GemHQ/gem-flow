@@ -29,7 +29,7 @@ const TransactionScreen = ({ flowStore, uiStore }) => {
       </>
       :
       <div className="FlexAlignCenter SpaceBetween">
-        <h2 className="ScreenHeading noPadding">{`${numberOfItems} Transaction${numberOfItems > 1 ? 's' : ''}`}</h2>
+        <h2 className="ScreenHeading noPadding">{`${numberOfItems} Transaction${numberOfItems === 1 ? '' : 's'}`}</h2>
       </div>
     }
     {

@@ -58,21 +58,25 @@ class FlowStore {
   }
 
   selectUser = id => {
+    if (this.selectedUser && id === this.selectedUser.id) return;
     this.selectedUser = this.usersMap.get(id);
     this.selectedProfile = null;
     this.selectedConnection = null;
     this.selectedAccount = null;
   }
   selectProfile = id => {
+    if (this.selectedProfile && id === this.selectedProfile.id) return;
     this.selectedProfile = this.profilesMap.get(id);
     this.selectedConnection = null;
     this.selectedAccount = null;
   }
   selectConnection = id => {
+    if (this.selectedConnection && id === this.selectedConnection.id) return;
     this.selectedConnection = this.connectionsMap.get(id);
     this.selectedAccount = null;
   }
   selectAccount = id => {
+    if (this.selectedAccount && id === this.selectedAccount.id) return;
     this.selectedAccount = this.accountsMap.get(id);
   }
 
@@ -108,10 +112,10 @@ class FlowStore {
   // which dots are filled in the progress map
   get dots() {
     return [
-      [ScreenNames.USER, Boolean(this.usersMap.size)],
-      [ScreenNames.PROFILE, Boolean(this.profilesMap.size)],
-      [ScreenNames.CONNECTION, Boolean(this.connectionsMap.size)],
-      [ScreenNames.ACCOUNT, Boolean(this.accountsMap.size)],
+      [ScreenNames.USER, Boolean(this.selectedUser)],
+      [ScreenNames.PROFILE, Boolean(this.selectedProfile)],
+      [ScreenNames.CONNECTION, Boolean(this.selectedConnection)],
+      [ScreenNames.ACCOUNT, Boolean(this.selectedAccount)],
       [ScreenNames.TRANSACTION, Boolean(this.transactionsMap.size)],
     ]
   }
