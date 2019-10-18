@@ -1,10 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const pino = require('express-pino-logger')();
-var cors = require('cors');
+const cors = require('cors');
 const util = require('util');
 const pg = require('./pg');
 const gemApi = require('./gemApi');
+const userRoutes = require('./routes/userRoutes');
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -19,49 +20,49 @@ app.use(cors());
 /**
  * Creates a new user
  */
-app.post('/user', async (req, res) => {
+// app.post('/user', async (req, res) => {
 
-  const email = req.body.email;
-  const result = await gemApi.createUser(email);
-  prettyPrintResponse(result);
+//   const email = req.body.email;
+//   const result = await gemApi.createUser(email);
+//   prettyPrintResponse(result);
 
-  // create user in local database
-  const localUser = await pg.createUser(
-    {
-      gem_user_id: result.id,
-      access_token: 'fake access token' //result.access_token
-    });
+//   // create user in local database
+//   const localUser = await pg.createUser(
+//     {
+//       gem_user_id: result.id,
+//       access_token: 'fake access token' //result.access_token
+//     });
 
-  prettyPrintResponse(`User ${result.id} saved in local database under user ${localUser.id}`);
+//   prettyPrintResponse(`User ${result.id} saved in local database under user ${localUser.id}`);
 
-  res.setHeader('Content-Type', 'application/json');
-  res.json(result);
-});
+//   res.setHeader('Content-Type', 'application/json');
+//   res.json(result);
+// });
 
-/**
- * Gets a list of users
- */
-app.get('/user', async (req, res) => {
+// /**
+//  * Gets a list of users
+//  */
+// app.get('/user', async (req, res) => {
 
-  const result = await gemApi.listUsers();
-  // const result = await pg.listUsers();
-  prettyPrintResponse(result);
+//   const result = await gemApi.listUsers();
+//   // const result = await pg.listUsers();
+//   prettyPrintResponse(result);
 
-  res.setHeader('Content-Type', 'application/json');
-  res.json(result);
-});
+//   res.setHeader('Content-Type', 'application/json');
+//   res.json(result);
+// });
 
-/**
- * Gets a single user
- */
-app.get('/user/:id', async (req, res) => {
+// /**
+//  * Gets a single user
+//  */
+// app.get('/user/:id', async (req, res) => {
 
-  const result = await gemApi.getUser(req.params.id);
-  prettyPrintResponse(result);
+//   const result = await gemApi.getUser(req.params.id);
+//   prettyPrintResponse(result);
 
-  res.setHeader('Content-Type', 'application/json');
-  res.json(result);
-});
+//   res.setHeader('Content-Type', 'application/json');
+//   res.json(result);
+// });
 
 
 /**
@@ -76,7 +77,7 @@ app.post('/profile', async (req, res) => {
 
   // TODO: update PG user with profile access token
 
-  prettyPrintResponse(`User ${result.id} saved in local database under user ${localUser.id}`);
+  prettyPrintResponse(result);
 
   res.setHeader('Content-Type', 'application/json');
   res.json(result);
@@ -135,9 +136,7 @@ app.delete('/profile/:id', async (req, res) => {
 
 
 
-
-
-
+app.use('/user', userRoutes);
 
 app.listen(process.env.PORT || 3001, () =>
   console.log(`Express server is running on ${process.env.PORT || 3001}`)
