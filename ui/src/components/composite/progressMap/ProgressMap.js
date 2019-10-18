@@ -2,27 +2,36 @@ import React from 'react';
 import './progressMap.css';
 import RectangleTitle from './rectangleTitle/RectangleTitle';
 import FlowDots from './flowDots/FlowDots';
-import { withPrimaryColor } from '../../../stores/StoresUtil';
+import { injector } from '../../../stores/StoresUtil';
 
-export const ProgressMap = ({ progressStore, primaryColor }) => (
-  <div className="ProgressContainer">
-    <div className="RectangleTitlesContainer">
-      {progressStore.markerTitles.map(([title, subtitle]) => <RectangleTitle
-        key={title} 
-        title={title} 
-        subtitle={subtitle} 
-        activeMarker={progressStore.currentScreen} 
-        isCompleted={progressStore.dotsMap.get(title)}
-        color={primaryColor}
-        onClick={() => progressStore.setCurrentScreen(title)}
-      />)}
+export const ProgressMap = ({ screens, progressStore, primaryColor, dots }) => {
+  const currentScreenIndex =  screens.indexOf(progressStore.currentScreen);
+  return (
+    <div className="ProgressContainer">
+      <div className="RectangleTitlesContainer">
+        {progressStore.markerTitles.map(([title, subtitle], i) => <RectangleTitle
+          key={title} 
+          title={title} 
+          subtitle={subtitle} 
+          isCurrentScreen={currentScreenIndex === i} 
+          isCompleted={currentScreenIndex > i}
+          color={primaryColor}
+          onClick={() => progressStore.setCurrentScreen(title)}
+        />)}
+      </div>
+      <FlowDots 
+        dots={dots} 
+        primaryColor={primaryColor}
+        currentScreenIndex={currentScreenIndex}
+      />
     </div>
-    <FlowDots 
-      dots={progressStore.dots} 
-      activeMarker={progressStore.currentScreen} 
-      primaryColor={primaryColor} 
-    />
-  </div>
-);
+)};
 
-export default withPrimaryColor(ProgressMap);
+const mapStoresToProps = ({ flowStore, uiStore }) => ({ 
+  screens: uiStore.flow.screens,
+  progressStore: uiStore.progressStore, 
+  primaryColor: uiStore.primaryColor,
+  dots: flowStore.dots
+});
+
+export default injector(mapStoresToProps)(ProgressMap);

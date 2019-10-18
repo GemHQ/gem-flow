@@ -1,4 +1,5 @@
 import { observable, action, decorate, computed } from "mobx";
+import { ScreenNames } from "./Constants";
 
 const createId = () => ({ id: Math.random().toString(), created_at: Date.now().toString() });
 
@@ -97,6 +98,16 @@ class FlowStore {
   get transactions() {
     return [...this.transactionsMap.values()];
   }
+
+  get dots() {
+    return [
+      [ScreenNames.USER, Boolean(this.usersMap.size)],
+      [ScreenNames.PROFILE, Boolean(this.profilesMap.size)],
+      [ScreenNames.CONNECTION, Boolean(this.connectionsMap.size)],
+      [ScreenNames.ACCOUNT, Boolean(this.accountsMap.size)],
+      [ScreenNames.TRANSACTION, Boolean(this.transactionsMap.size)],
+    ]
+  }
 }
 
 decorate(FlowStore, {
@@ -132,6 +143,7 @@ decorate(FlowStore, {
   connections: computed,
   accounts: computed,
   transactions: computed,
+  dots: computed,
 });
 
 export default FlowStore;

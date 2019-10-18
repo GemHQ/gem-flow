@@ -3,22 +3,28 @@ import { observer } from 'mobx-react';
 import './flowDots.css';
 import { bkgColorWithShadow } from '../../../../util/StyleUtil';
 
-const FlowDots = ({ dots, activeMarker, primaryColor }) => (
+const FlowDots = ({ dots, primaryColor, currentScreenIndex }) => (
   <div className="DotsContainer">
     {
-      dots.map(([marker, isFilled], i) => <Dot isActive={marker === activeMarker} isFilled={isFilled} primaryColor={primaryColor} key={marker} isFirstDot={i === 0} />)
+      dots.map(([marker, isFilled], i) => <Dot 
+        isFilled={isFilled} 
+        primaryColor={primaryColor} 
+        key={marker} 
+        isFirstDot={i === 0} 
+        hasColoredLine={currentScreenIndex >= i}
+      />)
     }
   </div>
 );
 
-const Dot = ({ isActive, isFilled, primaryColor, isFirstDot }) => {
-  const background = isFilled ? bkgColorWithShadow(primaryColor, '0 0 4px 2px') : { backgroundColor: 'white '};
+const Dot = ({ isFilled, primaryColor, isFirstDot, hasColoredLine }) => {
+  const background = isFilled ? bkgColorWithShadow(hasColoredLine ? primaryColor : '#D9D9D9', '0 0 4px 2px') : { backgroundColor: 'white '};
   return (
     <>
-      {!isFirstDot && <div className="FlowLine" style={{ borderBottom: `2px solid ${isFilled || isActive ? primaryColor : '#D9D9D9' }`}} />}
+      {!isFirstDot && <div className="FlowLine" style={{ borderBottom: `2px solid ${hasColoredLine ? primaryColor : '#D9D9D9' }`}} />}
       <div className="FlowDot" style={{ 
         ...background,
-        border: `2px solid ${isFilled || isActive ? primaryColor : '#D9D9D9'}`
+        border: `2px solid ${hasColoredLine ? primaryColor : '#D9D9D9'}`
       }} />
     </>
 )};

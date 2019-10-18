@@ -2,10 +2,10 @@ import React from 'react';
 import './rectangleTitle.css';
 import { observer } from 'mobx-react';
 
-const RectangleTitle = ({ title, subtitle, color, activeMarker, isCompleted, onClick }) => {
+const RectangleTitle = ({ title, subtitle, color, isCurrentScreen, isCompleted, onClick }) => {
   let boxStyle = {  border: `2px solid #D9D9D9` };
   let titleStyle = { color: '#D9D9D9' };
-  if (activeMarker === title) {
+  if (isCurrentScreen) {
     boxStyle = {  border: `2px solid ${color}` };
     titleStyle = { color };
   } else if (isCompleted) {

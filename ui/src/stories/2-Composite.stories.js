@@ -7,7 +7,6 @@ import { Flows, ScreenNames } from '../stores/Constants';
 const uiStore = new UIStore();
 const connectProgressStore = uiStore.progressMaps.get(Flows.Connect.id);
 const onrampProgressStore = uiStore.progressMaps.get(Flows.Onramp.id);
-onrampProgressStore.fillDot(ScreenNames.USER);
 onrampProgressStore.setCurrentScreen(ScreenNames.PROFILE);
 
 export default {
@@ -16,6 +15,6 @@ export default {
 
 export const instructions = () => <Instructions uiStore={uiStore} />;
 
-export const onrampProgressMap = () => <ProgressMap progressStore={onrampProgressStore} primaryColor={Flows.Onramp.primaryColor} />
+export const onrampProgressMap = () => <ProgressMap progressStore={onrampProgressStore} primaryColor={Flows.Onramp.primaryColor} dots={[ScreenNames.USER, true]} />
 
 export const connectProgressMap = () => <ProgressMap progressStore={connectProgressStore} primaryColor={Flows.Connect.primaryColor} />

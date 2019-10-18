@@ -44,14 +44,12 @@ decorate(UIStore, {
 export default UIStore;
 
 class ProgressStore {
-  dotsMap = new Map();
   markerSubtitles = new Map();
   currentScreen = ScreenNames.USER;
   initialScreenStates = new Map();
 
   constructor(screens) {
     screens.forEach(screen => {
-      this.dotsMap.set(screen, false);
       this.markerSubtitles.set(screen, '-');
     });
     this.markerSubtitles.set(ScreenNames.USER, 'Create a new user');
@@ -62,23 +60,13 @@ class ProgressStore {
     initialState && this.initialScreenStates.set(screen, initialState);
   }
 
-  fillDot = (screen) => {
-    this.dotsMap.set(screen, true);
-  }
-
   get markerTitles() {
     return [...this.markerSubtitles.entries()];
-  }
-
-  get dots() {
-    return [...this.dotsMap.entries()];
   }
 }
 
 decorate(ProgressStore, {
-  dotsMap: observable,
   currentScreen: observable,
   setCurrentScreen: action,
   markerTitles: computed,
-  dots: computed
 });
