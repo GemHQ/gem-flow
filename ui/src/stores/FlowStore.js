@@ -1,6 +1,7 @@
 import { observable, action, decorate, computed } from "mobx";
 import { ScreenNames } from "./Constants";
 import { httpGet, httpPost, httpDelete } from '../util/RequestUtil';
+import { formatProfileRequestBody } from "./StoresUtil";
 
 const createId = () => ({ id: Math.random().toString(), created_at: Date.now().toString() });
 
@@ -18,6 +19,7 @@ class FlowStore {
 
   constructor() {
     this.getUsers();
+    this.getProfiles();
   }
 
   getUsers = async () => {
@@ -25,8 +27,8 @@ class FlowStore {
     users.forEach(user => this.usersMap.set(user.id, user));
   }
   getProfiles = async () => {
-    // const profiles = await util.httpGet("/profile");
-    // profiles.forEach(user => this.profilesMap.set(profile.id, profile));
+    const profiles = await httpGet("/profile");
+    profiles.forEach(profile => this.profilesMap.set(profile.id, profile));
   }
   getConnections = async () => {
     // const connections = await util.httpGet("/connection");
@@ -43,11 +45,12 @@ class FlowStore {
 
   createUser = async ({ email }) => {
     const result = await httpPost("/user", { email });
-    this.usersMap.set(result, { ...result, email });
+    this.usersMap.set(result.id, { ...result, email });
   }
-  createProfile = profile => {
-    const data = createId();
-    this.profilesMap.set(data.id, { ...profile, ...data });
+  createProfile = async profile => {
+    const body = formatProfileRequestBody(profile);
+    const result = await httpPost("/profile", body);
+    this.profilesMap.set(result.id, { ...result, profileName: profile.profileName });
   }
   createConnection = connection => {
     const data = createId();
@@ -100,19 +103,19 @@ class FlowStore {
   }
 
   get users() {
-    return [...this.usersMap.values()];
+    return [...this.usersMap.values()].reverse();
   }
   get profiles() {
-    return [...this.profilesMap.values()];
+    return [...this.profilesMap.values()].reverse();
   }
   get connections() {
-    return [...this.connectionsMap.values()];
+    return [...this.connectionsMap.values()].reverse();
   }
   get accounts() {
-    return [...this.accountsMap.values()];
+    return [...this.accountsMap.values()].reverse();
   }
   get transactions() {
-    return [...this.transactionsMap.values()];
+    return [...this.transactionsMap.values()].reverse();
   }
 
   // which dots are filled in the progress map

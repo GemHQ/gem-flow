@@ -8,7 +8,7 @@ const { prettyPrintResponse } = require('./routesUtil');
  */
 router.post('/', async (req, res, next) => {
   try {
-    const result = await gemApi.createUser(req.body.email);
+    const result = await gemApi.createUser();
     res.json(result);
   } catch(e) {
     res.status(500).json({ error: e });
