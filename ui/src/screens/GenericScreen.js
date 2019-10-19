@@ -11,7 +11,7 @@ const GenericScreen = ({
   children,
   buttonDisabled
 }) => {
-  const [creatingItem, setCreatingItem] = useState(false);
+  const [creatingItem, setCreatingItem] = useState(true);
   const startCreatingItem = () => setCreatingItem(true);
   const stopCreatingItem = () => setCreatingItem(false);
 

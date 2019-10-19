@@ -19,7 +19,7 @@ class FlowStore {
 
   constructor() {
     this.getUsers();
-    this.getProfiles();
+    // this.getProfiles();
   }
 
   getUsers = async () => {
@@ -48,9 +48,11 @@ class FlowStore {
     this.usersMap.set(result.id, { ...result, email });
   }
   createProfile = async profile => {
-    const body = formatProfileRequestBody(profile);
-    const result = await httpPost("/profile", body);
-    this.profilesMap.set(result.id, { ...result, profileName: profile.profileName });
+    const data = createId();
+    this.profilesMap.set(data.id, { ...profile, ...data });
+    // const body = formatProfileRequestBody(profile);
+    // const result = await httpPost("/profile", body);
+    // this.profilesMap.set(result.id, { ...result, profileName: profile.profileName });
   }
   createConnection = connection => {
     const data = createId();

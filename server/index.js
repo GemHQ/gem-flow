@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const pino = require('express-pino-logger')();
 const cors = require('cors');
 const userRoutes = require('./routes/userRoutes');
-const profileRoutes = require('./routes/userRoutes');
+const profileRoutes = require('./routes/profileRoutes');
 const dotenv = require('dotenv');
 dotenv.config();
 

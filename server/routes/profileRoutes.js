@@ -5,7 +5,7 @@ const gemApi = require('../gemApi');
 /**
  * Gets a single profile
  */
-app.get('/profile', async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const result = await gemApi.listProfiles();
     res.json(result);
@@ -17,7 +17,7 @@ app.get('/profile', async (req, res) => {
 /**
  * Creates a new profile
  */
-app.post('/profile', async (req, res) => {
+router.post('/', async (req, res) => {
   try {
     const profile = req.body.profile;
     const result = await gemApi.createProfile(profile);
@@ -32,7 +32,7 @@ app.post('/profile', async (req, res) => {
 /**
  * Gets a single profile
  */
-app.get('/profile/:id', async (req, res) => {
+router.get('/:id', async (req, res) => {
   try {
     const result = await gemApi.getProfile(req.params.id);
     res.json(result);
@@ -44,7 +44,7 @@ app.get('/profile/:id', async (req, res) => {
 /**
  * Gets a single profile
  */
-app.delete('/profile/:id', async (req, res) => {
+router.delete('/:id', async (req, res) => {
   try {
     res.json({ message: 'endpoint not yet supported' });
     // const result = await gemApi.deleteProfile(req.params.id);
@@ -57,7 +57,7 @@ app.delete('/profile/:id', async (req, res) => {
 /**
  * Creates a new temporary profile
  */
-app.post('/temporary_profile', async (req, res) => {
+router.post('/temporary_profile', async (req, res) => {
   try {
     const profile = req.body.profile;
     const result = await gemApi.createTemporaryProfile(profile);
