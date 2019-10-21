@@ -10,7 +10,7 @@ export const withStores = (Cmp) => injector(stores => stores)(Cmp);
 
 export const formatProfileRequestBody = profile => ({
   "name": {
-    "given_names": profile.fistName,
+    "given_names": profile.firstName,
     "family_names": profile.lastName
   },
   "phone_number": profile.phoneNumber,

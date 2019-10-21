@@ -56,9 +56,8 @@ router.get('/:id', async (req, res) => {
  */
 router.delete('/:id', async (req, res) => {
   try {
-    // const result = await gemApi.deleteUser(req.params.id);
-    // res.json(result);
-    res.json({ message: 'endpoint not yet supported' });
+    const result = await gemApi.deleteUser(req.params.id);
+    res.json(result);
   } catch(e) {
     res.status(500).json({ error: e });
   }

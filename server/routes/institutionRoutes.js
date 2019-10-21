@@ -6,23 +6,21 @@ const gemApi = require('../gemApi');
  * List all supported institutions
  */
 router.get('/', async (req, res) => {
-  res.status(204).json({ message: 'endpoint not yet supported' });
   try {
-    // const result = await gemApi.listInstitutions();
-    // res.json(result);
+    const result = await gemApi.listInstitutions();
+    res.json(result);
   } catch(e) {
     res.status(500).json({ error: e });
   }
 });
 
 /**
- * Creates a new intitutionUser
+ * Get an institution by ID
  */
 router.get('/:id', async (req, res) => {
-  res.status(204).json({ message: 'endpoint not yet supported' });
   try {
-    // const result = await gemApi.getInstitution(req.params.id);
-    // res.json(result);
+    const result = await gemApi.getInstitution(req.params.id);
+    res.json(result);
   } catch(e) {
     res.status(500).json({ error: e });
   }
@@ -32,10 +30,9 @@ router.get('/:id', async (req, res) => {
  * Gets a single intitutionUser
  */
 router.get('/user', async (req, res) => {
-  res.status(204).json({ message: 'endpoint not yet supported' });
   try {
-    // const result = await gemApi.listProfiles();
-    // res.json(result);
+    const result = await gemApi.listProfiles();
+    res.json(result);
   } catch(e) {
     res.status(500).json({ error: e });
   }
@@ -45,10 +42,8 @@ router.get('/user', async (req, res) => {
  * Creates a new intitutionUser
  */
 router.post('/user', async (req, res) => {
-  res.status(204).json({ message: 'endpoint not yet supported' });
   try {
-    const intitutionUser = req.body.intitutionUser;
-    const result = await gemApi.createInstitutionUser(intitutionUser);
+    const result = await gemApi.createInstitutionUser(req.body);
     res.json(result);
     // TODO: update PG user with intitutionUser access token
   } catch(e) {

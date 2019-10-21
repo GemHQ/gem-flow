@@ -13,7 +13,7 @@ dotenv.config({path: '../.env'});
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(pino);
+// app.use(pino);
 app.use(cors());
 app.use('/user', userRoutes);
 app.use('/profile', profileRoutes);
