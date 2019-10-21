@@ -1,44 +1,35 @@
 const SERVER_HOST = process.env.REACT_APP_SERVER_HOST || 'localhost';
 const SERVER_PORT = process.env.REACT_APP_SERVER_PORT || 3001;
 
-const httpGet = async (path) => {
-  const baseUrl = `http://${SERVER_HOST}:${SERVER_PORT}`
-  const response = await fetch(`${baseUrl}${path}`)
-  const result = await response.json();
+const BASE_URL =  `http://${SERVER_HOST}:${SERVER_PORT}`;
 
-  return result;
+export const httpGet = async (path) => {
+  const response = await fetch(`${BASE_URL}${path}`)
+  const data = await response.json();
+  const status = response.status
+  return { data, status };
 }
 
-const httpPost = async (path, data) => {
-  const baseUrl = `http://${SERVER_HOST}:${SERVER_PORT}`
-
-  console.log(JSON.stringify(data))
-
-
-  const response = await fetch(`${baseUrl}${path}`, {
+export const httpPost = async (path, body) => {
+  const response = await fetch(`${BASE_URL}${path}`, {
     method: 'POST',
     mode: 'cors',
     cache: 'no-cache',
-    body: JSON.stringify(data),
+    body: JSON.stringify(body),
     headers: {
       'Content-Type': 'application/json'
     },
-  })
-  const result = await response.json();
-
-  return result;
+  });
+  const data = await response.json();
+  const status = response.status
+  return { data, status };
 }
 
-const httpDelete = async (path) => {
-  const baseUrl = `http://${SERVER_HOST}:${SERVER_PORT}`
-
-
-  const response = await fetch(`${baseUrl}${path}`, {
+export const httpDelete = async (path) => {
+  const response = await fetch(`${BASE_URL}${path}`, {
     method: 'DELETE'
-  })
-
-  const result = await response.json();
-  return result;
+  });
+  const data = await response.json();
+  const status = response.status
+  return { data, status };
 }
-
-export { httpGet, httpPost, httpDelete }

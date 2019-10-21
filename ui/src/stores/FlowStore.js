@@ -23,48 +23,52 @@ class FlowStore {
   }
 
   getUsers = async () => {
-    const users = await httpGet("/user");
-    users.forEach(user => this.usersMap.set(user.id, user));
+    const { data, status } = await httpGet("/user");
+    if (status >= 204) return;
+    data.forEach(user => this.usersMap.set(user.id, user));
   }
   getProfiles = async () => {
-    const profiles = await httpGet("/profile");
-    profiles.forEach(profile => this.profilesMap.set(profile.id, profile));
+    const { data, status } = await httpGet("/profile");
+    if (status >= 204) return;
+    data.forEach(profile => this.profilesMap.set(profile.id, profile));
   }
   getConnections = async () => {
-    // const connections = await util.httpGet("/connection");
-    // users.forEach(connection => this.usersMap.set(connection.id, connection));
+    const { data, status } = await httpGet("/connection");
+    if (status >= 204) return;
+    data.forEach(connection => this.connectionsMap.set(connection.id, connection));
   }
   getAccounts = async () => {
-    // const accounts = await util.httpGet("/account");
-    // users.forEach(account => this.usersMap.set(account.id, account));
+    const { data, status } = await httpGet("/account");
+    if (status >= 204) return;
+    data.forEach(account => this.accountsMap.set(account.id, account));
   }
-  getTransactions = async () => {
-    // const transactions = await util.httpGet("/transaction");
-    // users.forEach(transaction => this.usersMap.set(transaction.id, transaction));
-  }
+  getTransactions = async () => {}
 
-  createUser = async ({ email }) => {
-    const result = await httpPost("/user", { email });
-    this.usersMap.set(result.id, { ...result, email });
+  createUser = async user => {
+    const { data, status } = await httpPost("/user", { user });
+    if (status >= 204) return;
+    this.usersMap.set(data.id, { ...data, ...user });
   }
   createProfile = async profile => {
-    const data = createId();
-    this.profilesMap.set(data.id, { ...profile, ...data });
-    // const body = formatProfileRequestBody(profile);
-    // const result = await httpPost("/profile", body);
-    // this.profilesMap.set(result.id, { ...result, profileName: profile.profileName });
+    const body = formatProfileRequestBody(profile);
+    const { data, status } = await httpPost("/profile", body);
+    if (status >= 204) return;
+    this.profilesMap.set(data.id, { ...data, profileName: profile.profileName });
   }
   createConnection = connection => {
-    const data = createId();
-    this.connectionsMap.set(data.id, { ...connection, ...data });
+    const { data, status } = await httpPost("/connection", connection);
+    if (status >= 204) return;
+    this.connectionsMap.set(data.id, { ...data, connectionName: connection.name });
   }
   createAccount = account => {
-    const data = createId();
-    this.accountsMap.set(data.id, { ...account, ...data, last_updated_at: data.created_at });
+    const { data, status } = await httpPost("/account", account);
+    if (status >= 204) return;
+    this.accountsMap.set(data.id, { ...data, accountName: account.name });
   }
   createTransaction = transaction => {
-    const data = createId();
-    this.transactionsMap.set(data.id, { ...transaction, ...data });
+    const { data, status } = await httpPost("/transaction", transaction);
+    if (status >= 204) return;
+    this.transactionsMap.set(data.id, data);
   }
 
   selectUser = id => {
