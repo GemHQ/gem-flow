@@ -55,17 +55,17 @@ class FlowStore {
     if (status >= 204) return;
     this.profilesMap.set(data.id, { ...data, profileName: profile.profileName });
   }
-  createConnection = connection => {
+  createConnection = async connection => {
     const { data, status } = await httpPost("/connection", connection);
     if (status >= 204) return;
     this.connectionsMap.set(data.id, { ...data, connectionName: connection.name });
   }
-  createAccount = account => {
+  createAccount = async account => {
     const { data, status } = await httpPost("/account", account);
     if (status >= 204) return;
     this.accountsMap.set(data.id, { ...data, accountName: account.name });
   }
-  createTransaction = transaction => {
+  createTransaction = async transaction => {
     const { data, status } = await httpPost("/transaction", transaction);
     if (status >= 204) return;
     this.transactionsMap.set(data.id, data);
