@@ -14,8 +14,8 @@
     "uuid": "^3.3.3"
   },
   "scripts": {
-    "start": "node index.js",
-    "watch": "nodemon index.js"
+    "start": "node server.js",
+    "watch": "nodemon server.js"
   },
   "devDependencies": {}
 }

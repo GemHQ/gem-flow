@@ -42,11 +42,11 @@ router.get('/:id', async (req, res) => {
 });
 
 /**
- * Gets a single profile
+ * Delets a single profile
  */
 router.delete('/:id', async (req, res) => {
   try {
-    res.json({ message: 'endpoint not yet supported' });
+    res.status(204).json({ message: 'endpoint not yet supported' });
     // const result = await gemApi.deleteProfile(req.params.id);
     // res.json(result);
   } catch(e) {
