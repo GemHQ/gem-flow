@@ -25,4 +25,4 @@ export const formatProfileRequestBody = profile => ({
   "email_address":  profile.email,
   "social_security_number":  profile.ssn,
   "date_of_birth":  profile.dateOfBirth
-})
+});

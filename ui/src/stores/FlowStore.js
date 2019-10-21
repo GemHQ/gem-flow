@@ -1,7 +1,9 @@
 import { observable, action, decorate, computed } from "mobx";
-import { ScreenNames, Endpoints } from "./Constants";
+import { ScreenNames, Endpoints, InstitutionIcons } from "./Constants";
 import { httpGet, httpPost, httpDelete } from '../util/RequestUtil';
 import { formatProfileRequestBody } from "./StoresUtil";
+
+const createMockId = (ext = {}) => ({ id: Math.random().toString(), created_at: Date.now().toString(), ...ext });
 
 class FlowStore {
   usersMap = new Map();
@@ -9,6 +11,7 @@ class FlowStore {
   connectionsMap = new Map();
   accountsMap = new Map();
   transactionsMap = new Map();
+  institutionMap = new Map();
 
   selectedUser = null;
   selectedProfile = null;
@@ -17,6 +20,7 @@ class FlowStore {
 
   constructor() {
     this.getUsers();
+    this.getInstitutions();
   }
 
   getUsers = async () => {
@@ -40,6 +44,14 @@ class FlowStore {
     data.forEach(account => this.accountsMap.set(account.id, account));
   }
   getTransactions = async () => {}
+  getInstitutions = async () => {
+    const { data, status } = await httpGet(Endpoints.INSTITUTION);
+    if (status >= 400) return;
+    data.forEach(institution => this.institutionMap.set(institution.id, { 
+      ...institution, 
+      icon: InstitutionIcons[institution.id] 
+    }));
+  }
 
   createUser = async user => {
     const { data, status } = await httpPost(Endpoints.USER, { user });
@@ -55,14 +67,17 @@ class FlowStore {
     await httpPost(Endpoints.PROFILE_DOCUMENT, { profileId: data.id, document: profileFormData.document });
   }
   createConnection = async connection => {
-    const { data, status } = await httpPost(Endpoints.INSTITUTION_USER, connection);
-    if (status >= 400) return;
-    this.connectionsMap.set(data.id, { ...data, connectionName: connection.name });
+    // const { data, status } = await httpPost(Endpoints.INSTITUTION_USER, connection);
+    // if (status >= 400) return;
+    const institution = this.institutionMap.get(connection.institution_id);
+    const data = createMockId();
+    this.connectionsMap.set(data.id, { ...data, institution });
   }
   createAccount = async account => {
-    const { data, status } = await httpPost(Endpoints.ACCOUNT, account);
-    if (status >= 400) return;
-    this.accountsMap.set(data.id, { ...data, accountName: account.name });
+    // const { data, status } = await httpPost(Endpoints.ACCOUNT, account);
+    // if (status >= 400) return;
+    const data = createMockId({ name: account.name, type: account.type });
+    this.accountsMap.set(data.id, data);
   }
   createTransaction = async transaction => {
     const { data, status } = await httpPost(Endpoints.TRANSACTION, transaction);
@@ -158,6 +173,7 @@ decorate(FlowStore, {
   connectionsMap: observable,
   accountsMap: observable,
   transactionsMap: observable,
+  institutionMap: observable,
   selectedUser: observable,
   selectedProfile: observable,
   selectedConnection: observable,
@@ -167,6 +183,7 @@ decorate(FlowStore, {
   getConnections: action,
   getAccounts: action,
   getTransactions: action,
+  getInstitutions: action,
   createUser: action,
   createProfile: action,
   createConnection: action,

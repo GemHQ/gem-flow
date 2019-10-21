@@ -1,3 +1,7 @@
+import wyreIcon from '../assets/wyre_icon.svg';
+import coinifyIcon from '../assets/coinify_icon.svg';
+
+
 export const ScreenNames = {
   USER: 'User',
   PROFILE: 'Profile',
@@ -53,4 +57,9 @@ export const Endpoints = {
   INSTITUTION_USER: '/institution_user',
   ACCOUNT: '/account',
   TRANSACTION: '/transaction'
+}
+
+export const InstitutionIcons = {
+  wyre: wyreIcon,
+  coinify: coinifyIcon,
 }
