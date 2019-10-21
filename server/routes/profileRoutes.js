@@ -71,8 +71,9 @@ router.post('/temporary_profile', async (req, res) => {
  * Attach a document to a profile. (Documents may have many files associated.)
  */
 router.post('/document', async (req, res) => {
+  const { profileId, document } = req.body;
   try {
-    const result = await gemApi.createProfileDocument(req.body);
+    const result = await gemApi.createProfileDocument(profileId, document);
     res.json(result);
     // TODO: update PG user with profile access token
   } catch(e) {

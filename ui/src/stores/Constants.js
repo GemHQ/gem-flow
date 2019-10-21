@@ -48,6 +48,7 @@ export const Flows = {
 export const Endpoints = {
   USER: '/user',
   PROFILE: '/profile',
+  PROFILE_DOCUMENT: '/profile/document',
   INSTITUTION: '/institution',
   INSTITUTION_USER: '/institution_user',
   ACCOUNT: '/account',
