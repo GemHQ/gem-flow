@@ -45,4 +45,11 @@ export const Flows = {
   }
 };
 
-
+export const Endpoints = {
+  USER: '/user',
+  PROFILE: '/profile',
+  INSTITUTION: '/institution',
+  INSTITUTION_USER: '/institution_user',
+  ACCOUNT: '/account',
+  TRANSACTION: '/transaction'
+}

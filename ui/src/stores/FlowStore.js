@@ -1,9 +1,7 @@
 import { observable, action, decorate, computed } from "mobx";
-import { ScreenNames } from "./Constants";
+import { ScreenNames, Endpoints } from "./Constants";
 import { httpGet, httpPost, httpDelete } from '../util/RequestUtil';
 import { formatProfileRequestBody } from "./StoresUtil";
-
-const createId = () => ({ id: Math.random().toString(), created_at: Date.now().toString() });
 
 class FlowStore {
   usersMap = new Map();
@@ -23,50 +21,50 @@ class FlowStore {
   }
 
   getUsers = async () => {
-    const { data, status } = await httpGet("/user");
+    const { data, status } = await httpGet(Endpoints.USER);
     if (status >= 204) return;
     data.forEach(user => this.usersMap.set(user.id, user));
   }
   getProfiles = async () => {
-    const { data, status } = await httpGet("/profile");
+    const { data, status } = await httpGet(Endpoints.PROFILE);
     if (status >= 204) return;
     data.forEach(profile => this.profilesMap.set(profile.id, profile));
   }
   getConnections = async () => {
-    const { data, status } = await httpGet("/connection");
+    const { data, status } = await httpGet(Endpoints.INSTITUTION_USER);
     if (status >= 204) return;
     data.forEach(connection => this.connectionsMap.set(connection.id, connection));
   }
   getAccounts = async () => {
-    const { data, status } = await httpGet("/account");
+    const { data, status } = await httpGet(Endpoints.ACCOUNT);
     if (status >= 204) return;
     data.forEach(account => this.accountsMap.set(account.id, account));
   }
   getTransactions = async () => {}
 
   createUser = async user => {
-    const { data, status } = await httpPost("/user", { user });
+    const { data, status } = await httpPost(Endpoints.USER, { user });
     if (status >= 204) return;
     this.usersMap.set(data.id, { ...data, ...user });
   }
   createProfile = async profile => {
     const body = formatProfileRequestBody(profile);
-    const { data, status } = await httpPost("/profile", body);
+    const { data, status } = await httpPost(Endpoints.PROFILE, body);
     if (status >= 204) return;
     this.profilesMap.set(data.id, { ...data, profileName: profile.profileName });
   }
   createConnection = async connection => {
-    const { data, status } = await httpPost("/connection", connection);
+    const { data, status } = await httpPost(Endpoints.INSTITUTION_USER, connection);
     if (status >= 204) return;
     this.connectionsMap.set(data.id, { ...data, connectionName: connection.name });
   }
   createAccount = async account => {
-    const { data, status } = await httpPost("/account", account);
+    const { data, status } = await httpPost(Endpoints.ACCOUNT, account);
     if (status >= 204) return;
     this.accountsMap.set(data.id, { ...data, accountName: account.name });
   }
   createTransaction = async transaction => {
-    const { data, status } = await httpPost("/transaction", transaction);
+    const { data, status } = await httpPost(Endpoints.TRANSACTION, transaction);
     if (status >= 204) return;
     this.transactionsMap.set(data.id, data);
   }
@@ -96,10 +94,11 @@ class FlowStore {
 
   removeUser = id => {
     this.usersMap.delete(id);
-    httpDelete(`/user/${id}`);
+    httpDelete(`${Endpoints.USER}/${id}`);
   }
   removeProfile = id => {
     this.profilesMap.delete(id);
+    httpDelete(`${Endpoints.PROFILE}/${id}`);
   }
   removeConnection = id => {
     this.connectionsMap.delete(id);
