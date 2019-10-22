@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@gem.co/api@^1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@gem.co/api/-/api-1.1.1.tgz#72c797f40dc643d0558193c4858f7fb52c19eca2"
-  integrity sha512-1iaZmSydXIrkZ93X2UMIZwiFWIMfdddu3sHIz7GcwwvIc7gVMfzvaKv7iwgEO/64MrXWPqeFLtsX3e9pwtHPsA==
+"@gem.co/api@^1.3.3":
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/@gem.co/api/-/api-1.3.3.tgz#ebe5074e783258b39349c0eaf0118bdc2e1bca3b"
+  integrity sha512-jfRF8z9c94FoF/7ng0p282cuXWBwkVoFL9bIZlPbvY0/qYyP6HqVYka6Tm7W878um7Wm5BQLwunJ2Fu7eYrGvg==
   dependencies:
     debug "^4.1.1"
     es6-shim "^0.35.3"

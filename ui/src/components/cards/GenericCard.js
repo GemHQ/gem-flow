@@ -12,11 +12,13 @@ const GenericCard = ({
   dotsMenuOptions, 
   disabled, 
   UnderButton = null, 
-  dots = true 
+  dots = true,
+  iconUrl,
 }) => (
   <div className="Card">
     <div className="FlexAlignCenter">
-      {titlesAndValues.map(({ title, value }) => <TitleAndValue key={title} title={title} value={value} greyTitle smallTitle boldValue rightPadding/>)}
+      {iconUrl && <img src={iconUrl} className="AccountIcon" />}
+      {titlesAndValues.map(({ title, value }) => <TitleAndValue key={title} title={title} value={value || '-'} greyTitle smallTitle boldValue rightPadding/>)}
     </div>
     <div className="FlexAlignCenter">
       <div className="ColumnCenter">

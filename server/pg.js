@@ -1,6 +1,6 @@
 const { Pool } = require('pg');
 const dotenv = require('dotenv');
-dotenv.config();
+dotenv.config({path: '../.env'});
 
 const createUser = async (input) => {
 

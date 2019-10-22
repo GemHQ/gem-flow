@@ -37,7 +37,7 @@ const mockProfiles = [{
 }];
 
 const Placeholders = {
-  PROFILE_NAME: 'Profile Name',
+  profileName: 'Profile Name',
   FIRST_NAME: 'First Name',
   LAST_NAME: 'Last Name',
   EMAIL: 'Email',
@@ -136,7 +136,7 @@ export class ProfileForm extends Component {
           <Input 
             value={profileName} 
             onChange={({ target }) => this.setInputValue('profileName', target.value)} 
-            placeholder={Placeholders.PROFILE_NAME}
+            placeholder={Placeholders.profileName}
           />
         </div>
         <div className="Flex FlexEnd">

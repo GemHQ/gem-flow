@@ -1,7 +1,9 @@
 import { observable, action, decorate, computed } from "mobx";
-import { ScreenNames } from "./Constants";
+import { ScreenNames, Endpoints, InstitutionIcons } from "./Constants";
+import { httpGet, httpPost, httpDelete } from '../util/RequestUtil';
+import { formatProfileRequestBody } from "./StoresUtil";
 
-const createId = () => ({ id: Math.random().toString(), created_at: Date.now().toString() });
+const createMockId = (ext = {}) => ({ id: Math.random().toString(), created_at: Date.now().toString(), ...ext });
 
 class FlowStore {
   usersMap = new Map();
@@ -9,52 +11,78 @@ class FlowStore {
   connectionsMap = new Map();
   accountsMap = new Map();
   transactionsMap = new Map();
+  institutionMap = new Map();
 
   selectedUser = null;
   selectedProfile = null;
   selectedConnection = null;
   selectedAccount = null;
 
-  getUsers = async () => {
-    // const users = await util.httpGet("/user");
-    // users.forEach(user => this.usersMap.set(user.id, user));
-  }
-  getProfiles = async () => {
-    // const profiles = await util.httpGet("/profile");
-    // profiles.forEach(user => this.profilesMap.set(profile.id, profile));
-  }
-  getConnections = async () => {
-    // const connections = await util.httpGet("/connection");
-    // users.forEach(connection => this.usersMap.set(connection.id, connection));
-  }
-  getAccounts = async () => {
-    // const accounts = await util.httpGet("/account");
-    // users.forEach(account => this.usersMap.set(account.id, account));
-  }
-  getTransactions = async () => {
-    // const transactions = await util.httpGet("/transaction");
-    // users.forEach(transaction => this.usersMap.set(transaction.id, transaction));
+  constructor() {
+    this.getUsers();
+    this.getInstitutions();
   }
 
-  createUser = user => {
-    const data = createId();
-    this.usersMap.set(data.id, { ...user, ...data });
+  getUsers = async () => {
+    const { data, status } = await httpGet(Endpoints.USER);
+    if (status >= 400) return;
+    data.forEach(user => this.usersMap.set(user.id, user));
   }
-  createProfile = profile => {
-    const data = createId();
-    this.profilesMap.set(data.id, { ...profile, ...data });
+  getProfiles = async (userId) => {
+    const { data, status } = await httpGet(`${Endpoints.PROFILE}/${userId}`);
+    if (status >= 400) return;
+    data.forEach(profile => this.profilesMap.set(profile.id, profile));
   }
-  createConnection = connection => {
-    const data = createId();
-    this.connectionsMap.set(data.id, { ...connection, ...data });
+  getConnections = async () => {
+    const { data, status } = await httpGet(Endpoints.INSTITUTION_USER);
+    if (status >= 400) return;
+    data.forEach(connection => this.connectionsMap.set(connection.id, connection));
   }
-  createAccount = account => {
-    const data = createId();
-    this.accountsMap.set(data.id, { ...account, ...data, last_updated_at: data.created_at });
+  getAccounts = async () => {
+    const { data, status } = await httpGet(Endpoints.ACCOUNT);
+    if (status >= 400) return;
+    data.forEach(account => this.accountsMap.set(account.id, account));
   }
-  createTransaction = transaction => {
-    const data = createId();
-    this.transactionsMap.set(data.id, { ...transaction, ...data });
+  getTransactions = async () => {}
+  getInstitutions = async () => {
+    const { data, status } = await httpGet(Endpoints.INSTITUTION);
+    if (status >= 400) return;
+    data.forEach(institution => this.institutionMap.set(institution.id, { 
+      ...institution, 
+      icon: InstitutionIcons[institution.id] 
+    }));
+  }
+
+  createUser = async user => {
+    const { data, status } = await httpPost(Endpoints.USER, { user });
+    if (status >= 400) return;
+    this.usersMap.set(data.id, { ...data, ...user });
+  }
+  createProfile = async profileFormData => {
+    const profile = formatProfileRequestBody(profileFormData);
+    const userId = this.selectedUser.id;
+    const { data, status } = await httpPost(Endpoints.PROFILE, { userId, profile });
+    if (status >= 400) return;
+    this.profilesMap.set(data.id, { ...data, profileName: profileFormData.profileName });
+    await httpPost(Endpoints.PROFILE_DOCUMENT, { profileId: data.id, document: profileFormData.document });
+  }
+  createConnection = async connection => {
+    // const { data, status } = await httpPost(Endpoints.INSTITUTION_USER, connection);
+    // if (status >= 400) return;
+    const institution = this.institutionMap.get(connection.institution_id);
+    const data = createMockId();
+    this.connectionsMap.set(data.id, { ...data, institution });
+  }
+  createAccount = async account => {
+    // const { data, status } = await httpPost(Endpoints.ACCOUNT, account);
+    // if (status >= 400) return;
+    const data = createMockId({ name: account.name, type: account.type });
+    this.accountsMap.set(data.id, data);
+  }
+  createTransaction = async transaction => {
+    const { data, status } = await httpPost(Endpoints.TRANSACTION, transaction);
+    if (status >= 400) return;
+    this.transactionsMap.set(data.id, data);
   }
 
   selectUser = id => {
@@ -63,6 +91,7 @@ class FlowStore {
     this.selectedProfile = null;
     this.selectedConnection = null;
     this.selectedAccount = null;
+    this.getProfiles(id);
   }
   selectProfile = id => {
     if (this.selectedProfile && id === this.selectedProfile.id) return;
@@ -82,9 +111,11 @@ class FlowStore {
 
   removeUser = id => {
     this.usersMap.delete(id);
+    httpDelete(`${Endpoints.USER}/${id}`);
   }
   removeProfile = id => {
     this.profilesMap.delete(id);
+    httpDelete(`${Endpoints.PROFILE}/${id}`);
   }
   removeConnection = id => {
     this.connectionsMap.delete(id);
@@ -94,19 +125,19 @@ class FlowStore {
   }
 
   get users() {
-    return [...this.usersMap.values()];
+    return [...this.usersMap.values()].reverse();
   }
   get profiles() {
-    return [...this.profilesMap.values()];
+    return [...this.profilesMap.values()].reverse();
   }
   get connections() {
-    return [...this.connectionsMap.values()];
+    return [...this.connectionsMap.values()].reverse();
   }
   get accounts() {
-    return [...this.accountsMap.values()];
+    return [...this.accountsMap.values()].reverse();
   }
   get transactions() {
-    return [...this.transactionsMap.values()];
+    return [...this.transactionsMap.values()].reverse();
   }
 
   // which dots are filled in the progress map
@@ -132,7 +163,7 @@ class FlowStore {
   }
 
   determineSubtitle(itemTitle, itemKey, selectedItem, numberOfItems, placeholder = '-') {
-    return selectedItem ? selectedItem[itemKey] : (numberOfItems ? `${numberOfItems} ${itemTitle}` : placeholder)
+    return selectedItem ? selectedItem[itemKey] : (numberOfItems ? `${numberOfItems} ${itemTitle}${numberOfItems > 1 ? 's' : ''}` : placeholder)
   }
 }
 
@@ -142,6 +173,7 @@ decorate(FlowStore, {
   connectionsMap: observable,
   accountsMap: observable,
   transactionsMap: observable,
+  institutionMap: observable,
   selectedUser: observable,
   selectedProfile: observable,
   selectedConnection: observable,
@@ -151,6 +183,7 @@ decorate(FlowStore, {
   getConnections: action,
   getAccounts: action,
   getTransactions: action,
+  getInstitutions: action,
   createUser: action,
   createProfile: action,
   createConnection: action,

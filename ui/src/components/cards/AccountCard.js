@@ -18,6 +18,7 @@ const AccountCard = ({ account, onButtonClick, primaryColor, removeAccount, dots
     UnderButton={UnderButton}
     dots={dots}
     disabled={disabled}
+    // iconUrl={account.institution.icon}
   />
 );
 

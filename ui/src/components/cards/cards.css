@@ -10,3 +10,8 @@
 	background-color: #FFFFFF;
 	box-shadow: 0 2px 20px -3px rgba(0,0,0,0.1);
 }
+
+.AccountIcon {
+  height: 36px;
+  margin-right: 30px;
+}

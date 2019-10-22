@@ -42,7 +42,7 @@ export const InstitutionUserForm = ({ onCancel, onSubmit, primaryColor }) => {
       />
       <div />
       <div />
-      <ButtonWithCancel onCancel={onCancel} onClick={() => onSubmit({ name: selectedOption, businessAccountId })} disabled={disabled} primaryColor={primaryColor}>Create</ButtonWithCancel>
+      <ButtonWithCancel onCancel={onCancel} onClick={() => onSubmit({ institution_id: selectedOption, businessAccountId })} disabled={disabled} primaryColor={primaryColor}>Create</ButtonWithCancel>
     </form>
   )
 }
