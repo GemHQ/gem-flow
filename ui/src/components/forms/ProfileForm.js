@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import DropdownSelector from '../basic/dropdownSelector/DropdownSelector';
 import TitleAndValue from '../basic/titleAndValue/TitleAndValue';
 import { Button, ButtonWithCancel } from '../basic/button/Button';
 import Input from '../basic/input/Input';
 import { withPrimaryColor } from '../../stores/StoresUtil';
+import DocumentUpload from '../composite/documentUpload/DocumentUpload';
 
 const mockProfiles = [{
     profileName: 'Jean-Luc Picard',
@@ -37,7 +38,7 @@ const mockProfiles = [{
 }];
 
 const Placeholders = {
-  profileName: 'Profile Name',
+  PROFILE_NAME: 'Profile Name',
   FIRST_NAME: 'First Name',
   LAST_NAME: 'Last Name',
   EMAIL: 'Email',
@@ -136,7 +137,7 @@ export class ProfileForm extends Component {
           <Input 
             value={profileName} 
             onChange={({ target }) => this.setInputValue('profileName', target.value)} 
-            placeholder={Placeholders.profileName}
+            placeholder={Placeholders.PROFILE_NAME}
           />
         </div>
         <div className="Flex FlexEnd">
@@ -224,6 +225,7 @@ export class ProfileForm extends Component {
           title="Upload photo ID"
           value="A driver license, a ID card or a passport with a clear photo."
         />
+        {/* <DocumentUpload /> */}
         <div className="MaxButtonWidth"><Button primaryColor={primaryColor} onClick={() => {}} type="button">Upload</Button></div>
         <div />
         <div />
@@ -233,5 +235,7 @@ export class ProfileForm extends Component {
     )
   }
 };
+
+
 
 export default withPrimaryColor(ProfileForm);
