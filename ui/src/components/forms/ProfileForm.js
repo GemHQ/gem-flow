@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { Component } from 'react';
 import DropdownSelector from '../basic/dropdownSelector/DropdownSelector';
 import TitleAndValue from '../basic/titleAndValue/TitleAndValue';
 import { Button, ButtonWithCancel } from '../basic/button/Button';
@@ -71,7 +71,8 @@ export class ProfileForm extends Component {
     postalCode: '',
     city: '',
     state: '',
-    country: ''
+    country: '',
+    documents: null,
   }
 
   setInputValue = (field, value) => {
@@ -122,7 +123,8 @@ export class ProfileForm extends Component {
       postalCode,
       city,
       state,
-      country
+      country,
+      documents
     } = this.state;
     const buttonDisabled = this.isButtonDisabled();
     return (
@@ -225,8 +227,12 @@ export class ProfileForm extends Component {
           title="Upload photo ID"
           value="A driver license, a ID card or a passport with a clear photo."
         />
-        {/* <DocumentUpload /> */}
-        <div className="MaxButtonWidth"><Button primaryColor={primaryColor} onClick={() => {}} type="button">Upload</Button></div>
+        <DocumentUpload
+          isUploaded={Boolean(documents)}
+          onUpload={documents => this.setInputValue('documents', documents)}
+          onClear={() => this.setInputValue('documents', null)}
+        />
+        {/* <div className="MaxButtonWidth"><Button primaryColor={primaryColor} onClick={() => {}} type="button">Upload</Button></div> */}
         <div />
         <div />
         <div />
