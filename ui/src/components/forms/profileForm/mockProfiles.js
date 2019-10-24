@@ -1,3 +1,11 @@
+import passportDoc from '../../../assets/exampleImageSeeds/passport.json';
+
+const mockPhotoIdDoc = {
+  files: passportDoc,
+  type: 'passport',
+  description: 'My passport',
+}
+
 const mockProfiles = [{
   profileName: 'Jean-Luc Picard',
   firstName: 'Jean-Luc',
@@ -11,7 +19,8 @@ const mockProfiles = [{
   postalCode: '94016',
   city: 'San Fransisco',
   state: 'CA',
-  country: 'United States'
+  country: 'United States',
+  documents: mockPhotoIdDoc
 },
 {
   profileName: 'Samwise Gamgee',
@@ -26,7 +35,8 @@ const mockProfiles = [{
   postalCode: '97035',
   city: 'Portland',
   state: 'OR',
-  country: 'United States'
+  country: 'United States',
+  documents: mockPhotoIdDoc
 },
 {
   profileName: 'Obi-Wan Kenobi',
@@ -41,7 +51,8 @@ const mockProfiles = [{
   postalCode: '84532',
   city: 'Moab',
   state: 'UT',
-  country: 'United States'
+  country: 'United States',
+  documents: mockPhotoIdDoc
 }];
 
 export default mockProfiles;

@@ -8,13 +8,14 @@ const Input = ({
   onChange,
   className,
   autoFocus,
+  readOnly,
   children,
 }) => {
 
   return (
     <div className="InputContainer">
       {value.length > 0 && <p className="floatingLabel">{placeholder}</p>}
-      <input className={className} type="text" value={value} placeholder={placeholder} onChange={onChange} autoFocus={autoFocus} />
+      <input className={className} type="text" value={value} placeholder={placeholder} onChange={onChange} autoFocus={autoFocus} readOnly={readOnly} />
       {children}
     </div>
   );

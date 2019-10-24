@@ -76,6 +76,7 @@ export class ProfileForm extends Component {
       || !this.state.city
       || !this.state.state
       || !this.state.country
+      || !this.state.documents
   }
 
   render() {
@@ -198,11 +199,10 @@ export class ProfileForm extends Component {
           value="A driver license, a ID card or a passport with a clear photo."
         />
         <DocumentUpload
-          isUploaded={Boolean(documents)}
+          documents={documents}
           onUpload={documents => this.setInputValue('documents', documents)}
           onClear={() => this.setInputValue('documents', null)}
         />
-        {/* <div className="MaxButtonWidth"><Button primaryColor={primaryColor} onClick={() => {}} type="button">Upload</Button></div> */}
         <div />
         <div />
         <div />

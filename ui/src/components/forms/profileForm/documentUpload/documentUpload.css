@@ -117,3 +117,38 @@
   align-self: flex-end;
 }
 
+.RemoveEditContainer {
+  position: absolute;
+  height: 100%;
+  top: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  z-index: 2;
+}
+
+.Remove {
+  margin-right: 12px;
+  padding: 10px 0;
+  cursor: pointer;
+  color: #8E8E8E;
+  font-weight: 400;
+  font-size: 12;
+}
+
+.Edit {
+  margin-right: 16px;
+  padding: 10px 0;
+  cursor: pointer;
+  color: #9C27B0;
+  font-weight: 500;
+  font-size: 12;
+}
+
+.DocumentImageInput {
+  padding-right: 112px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
