@@ -3,6 +3,9 @@ import './documentUpload.css';
 import { ButtonWithCancel } from '../../basic/button/Button';
 import Dropzone from './Dropzone';
 import DropdownSelector from '../../basic/dropdownSelector/DropdownSelector';
+import passportDoc from '../../../assets/exampleImageSeeds/passport.json';
+import driversLicenseDocs from '../../../assets/exampleImageSeeds/driversLicense.json';
+import governmentIdDocs from '../../../assets/exampleImageSeeds/governmentId.json';
 
 
 // example document structure 
@@ -19,17 +22,24 @@ import DropdownSelector from '../../basic/dropdownSelector/DropdownSelector';
 //   ],
 // };
 
+const DocumentTypes = {
+  PASSPORT: 'passport',
+  DRIVERS_LICENSE: 'driversLicense',
+  GOVERNMENT_ID: 'governmentId'
+}
 
 const photoIdLabels = {
-  passport: 'Passport',
-  driversLicense: `Driver's License`,
-  governmentId: 'Government Issued ID'
+  [DocumentTypes.PASSPORT]: 'Passport',
+  [DocumentTypes.DRIVERS_LICENSE]: `Driver's License`,
+  [DocumentTypes.GOVERNMENT_ID]: 'Government Issued ID'
 }
+
 const photoIdOptions = [
-  { value: 'passport', label: photoIdLabels.passport, className: 'OnrampColor MediumTextSize' },
-  { value: 'driversLicense', label: photoIdLabels.driversLicense, className: 'OnrampColor MediumTextSize' },
-  { value: 'governmentId', label: photoIdLabels.governmentId, className: 'OnrampColor MediumTextSize' },
+  { value: DocumentTypes.PASSPORT, label: photoIdLabels[DocumentTypes.PASSPORT], className: 'OnrampColor MediumTextSize' },
+  { value: DocumentTypes.DRIVERS_LICENSE, label: photoIdLabels[DocumentTypes.DRIVERS_LICENSE], className: 'OnrampColor MediumTextSize' },
+  { value: DocumentTypes.GOVERNMENT_ID, label: photoIdLabels[DocumentTypes.GOVERNMENT_ID], className: 'OnrampColor MediumTextSize' },
 ];
+
 const dropdownPlaceholder = 'Choose ID Type';
 
 
@@ -83,7 +93,7 @@ const documentTypeDescriptions = {
 
 const UploadModal = ({ closeModal, onUpload, documentType, clearDocumentType }) => {
   const photoIdLabel = photoIdLabels[documentType];
-  const twoDropzones = documentType !== 'passport';
+  const twoDropzones = documentType !== DocumentTypes.PASSPORT;
   const dropzoneLabels = twoDropzones ? [`Front of ${photoIdLabel}`, `Back of ${photoIdLabel}`] : ['',''];
   const initialDocumentArray = twoDropzones ? ['','']: [''];
   const [documents, loadDocuments] = useState(initialDocumentArray);
@@ -118,6 +128,12 @@ const UploadModal = ({ closeModal, onUpload, documentType, clearDocumentType }) 
     }
   }
 
+  const loadExampleImage = () => {
+    if (documentType === DocumentTypes.PASSPORT) { return loadDocuments(passportDoc) }
+    if (documentType === DocumentTypes.DRIVERS_LICENSE) { return loadDocuments(driversLicenseDocs) }
+    if (documentType === DocumentTypes.GOVERNMENT_ID) { return loadDocuments(governmentIdDocs) }
+  }
+
   const cancelModal = () => {
     closeModal();
     clearDocumentType();
@@ -133,6 +149,7 @@ const UploadModal = ({ closeModal, onUpload, documentType, clearDocumentType }) 
           <h2 className="ModalTitle">{`Upload ${photoIdLabel}`}</h2>
         </div>
         <p className="DocumentTypeDescription">{`${documentTypeDescriptions[documentType]} ${documentTypeDescriptions.shared}`}</p>
+        <p className="OnrampColor ExtraBold Pointer" onClick={loadExampleImage}>Use example image</p>
         <div className={`DropzoneContainer ${twoDropzones ? 'DropzoneGrid' : ''}`}>
           <Dropzone onDrop={onDrop(0)} onClear={onClearImage(0)} document={documents[0]} label={dropzoneLabels[0]} />
           {twoDropzones && <Dropzone onDrop={onDrop(1)} onClear={onClearImage(1)} document={documents[1]} label={dropzoneLabels[1]} />}
