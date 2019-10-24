@@ -1,34 +1,35 @@
 import React from "react";
 import { useDropzone } from "react-dropzone";
 
-const Dropzone = ({ onDrop, onClear, document }) => {
+const Dropzone = ({ onDrop, onClear, document, label }) => {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop, accept: 'image/*' });
 
   return (
-    <div className={getClassName("Dropzone", isDragActive, Boolean(document))} {...getRootProps()}>
-      {
-        Boolean(document) ?
-        <>
-          <img src={document.data} className="DocumentImage" />
-          <div className="Flex SpaceBetween">
-            <p className="SmallText">{document.description}</p>
-            <p className="Pointer" onClick={onClear}>Clear file</p>
+    <div className="Relative FlexCenter">
+      <div className={getClassName("Dropzone", isDragActive, Boolean(document))} {...getRootProps()}>
+        {
+          Boolean(document) ?
+          <div className="UploadedDocument">
+            <img src={document.data} className="DocumentImage" />
+            <div className="Flex SpaceBetween">
+              <p className="DocumentImageName">{document.description}</p>
+              <p className="SmallText Pointer GreyText" onClick={onClear}>Clear file</p>
+            </div>
           </div>
-        </>
-        :
-        <>
-          <input className="DropzoneInput" {...getInputProps()} />
-          <div className="text-center">
-            {isDragActive ? (
-              <p className="OnrampColor ExtraBold">Release to drop the files here</p>
-            ) : (
-              <p className="OnrampColor ExtraBold">
-                Drag 'n' drop some files here, or <span className="Underline">click</span> to select files
-              </p>
-            )}
-          </div>
-        </>
-      }
+          :
+          <>
+            <input className="DropzoneInput" {...getInputProps()} />
+              {isDragActive ? (
+                <p className="OnrampColor ExtraBold TextCenter LineHeight">Release to drop the files here</p>
+              ) : (
+                <p className="OnrampColor ExtraBold TextCenter LineHeight">
+                  Drag 'n' drop some files here, or <span className="Underline">click</span> to select files
+                </p>
+              )}
+          </>
+        }
+      </div>
+      <p className="DropzoneLabel">{label}</p>
     </div>
   );
 };

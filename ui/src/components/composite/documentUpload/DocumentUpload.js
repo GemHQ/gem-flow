@@ -65,6 +65,7 @@ const DocumentUpload = ({ isUploaded, onUpload, onClear }) => {
               documentType={documentType}
               onUpload={uploadToProfileForm}
               closeModal={() => setIsUploading(false)}
+              clearDocumentType={() => setDocumentType(dropdownPlaceholder)}
             />
           }
         </>
@@ -80,8 +81,10 @@ const documentTypeDescriptions = {
   shared: 'Make sure the information on the image is clear and legible. Accepted file formats are: png, jpg, pdf, doc, docx.'
 }
 
-const UploadModal = ({ closeModal, onUpload, documentType }) => {
+const UploadModal = ({ closeModal, onUpload, documentType, clearDocumentType }) => {
+  const photoIdLabel = photoIdLabels[documentType];
   const twoDropzones = documentType !== 'passport';
+  const dropzoneLabels = twoDropzones ? [`Front of ${photoIdLabel}`, `Back of ${photoIdLabel}`] : ['',''];
   const initialDocumentArray = twoDropzones ? ['','']: [''];
   const [documents, loadDocuments] = useState(initialDocumentArray);
 
@@ -97,7 +100,8 @@ const UploadModal = ({ closeModal, onUpload, documentType }) => {
           orientation: index === 0 ? 'front' : 'back',
         };
         if (index === 0) {
-          loadDocuments([newDocument, documents[1]]);
+          const newDocuments = twoDropzones ? [newDocument, documents[1]] : [newDocument];
+          loadDocuments(newDocuments);
         } else {
           loadDocuments([documents[0], newDocument]);
         }
@@ -106,7 +110,7 @@ const UploadModal = ({ closeModal, onUpload, documentType }) => {
     });
   };
 
-  const onClear = index => () => {
+  const onClearImage = index => () => {
     if (index === 0) {
       loadDocuments(['', documents[1]]);
     } else {
@@ -114,27 +118,35 @@ const UploadModal = ({ closeModal, onUpload, documentType }) => {
     }
   }
 
+  const cancelModal = () => {
+    closeModal();
+    clearDocumentType();
+  }
+
+  const filesAreUploaded = documents.reduce((acc, doc) => acc && Boolean(doc), true);
+
   return (
     <div className="UploadModal">
-      <div className="UploadModalBackground" onClick={closeModal} />
+      <div className="UploadModalBackground" onClick={cancelModal} />
       <div className="ModalBox">
         <div className="ModalBoxHeader">
-          <h2 className="ModalTitle">{`Upload ${photoIdLabels[documentType]}`}</h2>
+          <h2 className="ModalTitle">{`Upload ${photoIdLabel}`}</h2>
         </div>
         <p className="DocumentTypeDescription">{`${documentTypeDescriptions[documentType]} ${documentTypeDescriptions.shared}`}</p>
-        <div className="DropzonesContainer">
-          <Dropzone onDrop={onDrop(0)} onClear={onClear(0)} document={documents[0]} />
-          {twoDropzones && <Dropzone onDrop={onDrop(1)} onClear={onClear(1)} document={documents[1]} />}
+        <div className={`DropzoneContainer ${twoDropzones ? 'DropzoneGrid' : ''}`}>
+          <Dropzone onDrop={onDrop(0)} onClear={onClearImage(0)} document={documents[0]} label={dropzoneLabels[0]} />
+          {twoDropzones && <Dropzone onDrop={onDrop(1)} onClear={onClearImage(1)} document={documents[1]} label={dropzoneLabels[1]} />}
         </div>
         <div className="ModalButtonContainer">
           <ButtonWithCancel
             primaryColor="#9C27B0"
-            disabled={!documents.length}
+            disabled={!filesAreUploaded}
             onClick={() => {
+              console.log(JSON.stringify(documents))
               onUpload(documents);
               closeModal();
             }}
-            onCancel={closeModal}
+            onCancel={cancelModal}
           >Save</ButtonWithCancel>
         </div>
       </div>
