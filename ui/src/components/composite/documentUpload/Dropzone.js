@@ -1,16 +1,19 @@
 import React from "react";
 import { useDropzone } from "react-dropzone";
 
-const Dropzone = ({ onDrop, documents }) => {
+const Dropzone = ({ onDrop, onClear, document }) => {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop, accept: 'image/*' });
 
   return (
-    <div className={getClassName("Dropzone", isDragActive)} {...getRootProps()}>
+    <div className={getClassName("Dropzone", isDragActive, Boolean(document))} {...getRootProps()}>
       {
-        documents.length ?
+        Boolean(document) ?
         <>
-          <img src={documents[0]} className="DocumentImage" />
-          <p>{documents[0].name}</p>
+          <img src={document.data} className="DocumentImage" />
+          <div className="Flex SpaceBetween">
+            <p className="SmallText">{document.description}</p>
+            <p className="Pointer" onClick={onClear}>Clear file</p>
+          </div>
         </>
         :
         <>
@@ -30,8 +33,8 @@ const Dropzone = ({ onDrop, documents }) => {
   );
 };
 
-const getClassName = (className, isActive) => {
-  if (!isActive) return className;
+const getClassName = (className, isActive, hasDocument) => {
+  if (!isActive) return `${className} ${hasDocument ? '' : 'Pointer'}`;
   return `${className} ${className}-active`;
 };
 

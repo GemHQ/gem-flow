@@ -81,24 +81,38 @@ const documentTypeDescriptions = {
 }
 
 const UploadModal = ({ closeModal, onUpload, documentType }) => {
-  const [documents, loadDocuments] = useState([]);
+  const twoDropzones = documentType !== 'passport';
+  const initialDocumentArray = twoDropzones ? ['','']: [''];
+  const [documents, loadDocuments] = useState(initialDocumentArray);
 
-  const onDrop = acceptedFiles => {
-    acceptedFiles.forEach((file, i) => {
-      if (i > 0) return;
+  const onDrop = index => acceptedFiles => {
+    acceptedFiles.forEach((file, j) => {
+      if (j > 0) return;
       const reader = new FileReader();
       reader.onload = e => {
         const newDocument = {
           data: e.target.result,
           media_type: file.type,
           description: file.name,
-          orientation: documents.length ? 'front' : 'back',
+          orientation: index === 0 ? 'front' : 'back',
         };
-        loadDocuments([...documents, newDocument]);
+        if (index === 0) {
+          loadDocuments([newDocument, documents[1]]);
+        } else {
+          loadDocuments([documents[0], newDocument]);
+        }
       };
       reader.readAsDataURL(file);
     });
   };
+
+  const onClear = index => () => {
+    if (index === 0) {
+      loadDocuments(['', documents[1]]);
+    } else {
+      loadDocuments([documents[0], '']);
+    }
+  }
 
   return (
     <div className="UploadModal">
@@ -108,7 +122,10 @@ const UploadModal = ({ closeModal, onUpload, documentType }) => {
           <h2 className="ModalTitle">{`Upload ${photoIdLabels[documentType]}`}</h2>
         </div>
         <p className="DocumentTypeDescription">{`${documentTypeDescriptions[documentType]} ${documentTypeDescriptions.shared}`}</p>
-        <Dropzone onDrop={onDrop} documents={documents} />
+        <div className="DropzonesContainer">
+          <Dropzone onDrop={onDrop(0)} onClear={onClear(0)} document={documents[0]} />
+          {twoDropzones && <Dropzone onDrop={onDrop(1)} onClear={onClear(1)} document={documents[1]} />}
+        </div>
         <div className="ModalButtonContainer">
           <ButtonWithCancel
             primaryColor="#9C27B0"
