@@ -19,6 +19,10 @@ input {
 input::placeholder {
   color: #C0C0C0;
 }
+input:focus, input:active {
+  outline: 0;
+  border: none;
+}
 
 .floatingLabel {
   position: absolute;
