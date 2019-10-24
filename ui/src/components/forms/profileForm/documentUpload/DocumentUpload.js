@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import './documentUpload.css';
-import { ButtonWithCancel } from '../../basic/button/Button';
+import { ButtonWithCancel } from '../../../basic/button/Button';
 import Dropzone from './Dropzone';
-import DropdownSelector from '../../basic/dropdownSelector/DropdownSelector';
-import passportDoc from '../../../assets/exampleImageSeeds/passport.json';
-import driversLicenseDocs from '../../../assets/exampleImageSeeds/driversLicense.json';
-import governmentIdDocs from '../../../assets/exampleImageSeeds/governmentId.json';
+import DropdownSelector from '../../../basic/dropdownSelector/DropdownSelector';
+import passportDoc from '../../../../assets/exampleImageSeeds/passport.json';
+import driversLicenseDocs from '../../../../assets/exampleImageSeeds/driversLicense.json';
+import governmentIdDocs from '../../../../assets/exampleImageSeeds/governmentId.json';
 
 
 // example document structure 
