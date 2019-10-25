@@ -1,5 +1,5 @@
 import React from 'react';
-import ProfileForm from '../components/forms/ProfileForm';
+import ProfileForm from '../components/forms/profileForm/ProfileForm';
 import ProfileCard from '../components/cards/ProfileCard';
 import GenericScreen from './GenericScreen';
 import { withStores } from '../stores/StoresUtil';

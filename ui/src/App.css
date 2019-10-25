@@ -76,6 +76,15 @@ h2, h2, h3 {
 .Pointer {
   cursor: pointer;
 }
+.Underline {
+  text-decoration: underline;
+}
+.TextCenter {
+  text-align: center;
+}
+.LineHeight {
+  line-height: 1.4;
+}
 
 .Flex {
   display: flex;
@@ -95,6 +104,9 @@ h2, h2, h3 {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+.Relative {
+  position: relative;
 }
 
 @media (min-width: 1000px) {

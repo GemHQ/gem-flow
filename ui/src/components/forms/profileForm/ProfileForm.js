@@ -1,43 +1,14 @@
 import React, { Component } from 'react';
-import DropdownSelector from '../basic/dropdownSelector/DropdownSelector';
-import TitleAndValue from '../basic/titleAndValue/TitleAndValue';
-import { Button, ButtonWithCancel } from '../basic/button/Button';
-import Input from '../basic/input/Input';
-import { withPrimaryColor } from '../../stores/StoresUtil';
-
-const mockProfiles = [{
-    profileName: 'Jean-Luc Picard',
-    firstName: 'Jean-Luc',
-    lastName: 'Picard',
-    email: 'jeanluc@starfleet.org',
-    dateOfBirth: '07-13-2305',
-    ssn: '948-38-0021',
-    phoneNumber: '(555) 555-5555',
-    addressLine1: '123 Enterprise St.',
-    addressLine2: '',
-    postalCode: '94016',
-    city: 'San Fransisco',
-    state: 'CA',
-    country: 'United States'
-  },
-  {
-    profileName: 'Samwise Gamgee',
-    firstName: 'Samwise',
-    lastName: 'Gamgee',
-    email: 'samwise@theshire.com',
-    dateOfBirth: '04-06-2980',
-    ssn: '548-29-0927',
-    phoneNumber: '(888) 888-8888',
-    addressLine1: '123 Hobbiton St.',
-    addressLine2: '',
-    postalCode: '97035',
-    city: 'Portland',
-    state: 'OR',
-    country: 'United States'
-}];
+import DropdownSelector from '../../basic/dropdownSelector/DropdownSelector';
+import TitleAndValue from '../../basic/titleAndValue/TitleAndValue';
+import { ButtonWithCancel } from '../../basic/button/Button';
+import Input from '../../basic/input/Input';
+import { withPrimaryColor } from '../../../stores/StoresUtil';
+import DocumentUpload from './documentUpload/DocumentUpload';
+import mockProfiles from './mockProfiles';
 
 const Placeholders = {
-  profileName: 'Profile Name',
+  PROFILE_NAME: 'Profile Name',
   FIRST_NAME: 'First Name',
   LAST_NAME: 'Last Name',
   EMAIL: 'Email',
@@ -70,7 +41,8 @@ export class ProfileForm extends Component {
     postalCode: '',
     city: '',
     state: '',
-    country: ''
+    country: '',
+    documents: null,
   }
 
   setInputValue = (field, value) => {
@@ -104,6 +76,7 @@ export class ProfileForm extends Component {
       || !this.state.city
       || !this.state.state
       || !this.state.country
+      || !this.state.documents
   }
 
   render() {
@@ -121,7 +94,8 @@ export class ProfileForm extends Component {
       postalCode,
       city,
       state,
-      country
+      country,
+      documents
     } = this.state;
     const buttonDisabled = this.isButtonDisabled();
     return (
@@ -136,7 +110,7 @@ export class ProfileForm extends Component {
           <Input 
             value={profileName} 
             onChange={({ target }) => this.setInputValue('profileName', target.value)} 
-            placeholder={Placeholders.profileName}
+            placeholder={Placeholders.PROFILE_NAME}
           />
         </div>
         <div className="Flex FlexEnd">
@@ -224,7 +198,11 @@ export class ProfileForm extends Component {
           title="Upload photo ID"
           value="A driver license, a ID card or a passport with a clear photo."
         />
-        <div className="MaxButtonWidth"><Button primaryColor={primaryColor} onClick={() => {}} type="button">Upload</Button></div>
+        <DocumentUpload
+          documents={documents}
+          onUpload={documents => this.setInputValue('documents', documents)}
+          onClear={() => this.setInputValue('documents', null)}
+        />
         <div />
         <div />
         <div />
@@ -233,5 +211,7 @@ export class ProfileForm extends Component {
     )
   }
 };
+
+
 
 export default withPrimaryColor(ProfileForm);
