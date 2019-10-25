@@ -34,7 +34,7 @@ class FlowStore {
     data.forEach(profile => this.profilesMap.set(profile.id, profile));
   }
   getConnections = async () => {
-    const { data, status } = await httpGet(Endpoints.INSTITUTION_USER);
+    const { data, status } = await httpGet(`${Endpoints.CONNECTIONS}/${this.selectedUser.id}`);
     if (status >= 400) return;
     data.forEach(connection => this.connectionsMap.set(connection.id, connection));
   }
@@ -95,10 +95,11 @@ class FlowStore {
     this.getProfiles(id);
   }
   selectProfile = id => {
-    if (this.selectedProfile && id === this.selectedProfile.id) return;
+    // if (this.selectedProfile && id === this.selectedProfile.id) return;
     this.selectedProfile = this.profilesMap.get(id);
     this.selectedConnection = null;
     this.selectedAccount = null;
+    this.getConnections();
   }
   selectConnection = id => {
     if (this.selectedConnection && id === this.selectedConnection.id) return;

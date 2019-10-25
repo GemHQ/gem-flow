@@ -29,9 +29,9 @@ router.get('/:id', async (req, res) => {
 /**
  * Gets a single intitutionUser
  */
-router.get('/user/:instituitonUserId', async (req, res) => {
+router.get('/user/:instituiton_user_id', async (req, res) => {
   try {
-    const result = await gemApi.getInstitutionUser(req.params.instituitonUserId);
+    const result = await gemApi.getInstitutionUser(req.params.instituiton_user_id);
     res.json(result);
   } catch(e) {
     res.status(500).json({ error: e });

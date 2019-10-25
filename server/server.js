@@ -5,6 +5,7 @@ const cors = require('cors');
 const userRoutes = require('./routes/userRoutes');
 const profileRoutes = require('./routes/profileRoutes');
 const intitutionRoutes = require('./routes/institutionRoutes');
+const connectionRoutes = require('./routes/connectionRoutes');
 const accountRoutes = require('./routes/accountRoutes');
 const transactionRoutes = require('./routes/transactionRoutes');
 const dotenv = require('dotenv');
@@ -18,6 +19,7 @@ app.use(cors());
 app.use('/user', userRoutes);
 app.use('/profile', profileRoutes);
 app.use('/institution', intitutionRoutes);
+app.use('/connections', connectionRoutes);
 app.use('/account', accountRoutes);
 app.use('/transaction', transactionRoutes);
 

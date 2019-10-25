@@ -55,6 +55,7 @@ export const Endpoints = {
   PROFILE_DOCUMENT: '/profile/document',
   INSTITUTION: '/institution',
   INSTITUTION_USER: '/institution/user',
+  CONNECTIONS: '/connections',
   ACCOUNT: '/account',
   TRANSACTION: '/transaction'
 }
