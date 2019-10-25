@@ -24,7 +24,7 @@ const mockProfiles = [{
   city: 'San Fransisco',
   state: 'CA',
   country: 'US',
-  documents: mockPhotoIdDoc
+  document: mockPhotoIdDoc
 },
 {
   profileName: 'Samwise Gamgee',
@@ -39,7 +39,7 @@ const mockProfiles = [{
   city: 'Portland',
   state: 'OR',
   country: 'US',
-  documents: mockPhotoIdDoc
+  document: mockPhotoIdDoc
 },
 {
   profileName: 'Obi-Wan Kenobi',
@@ -54,7 +54,7 @@ const mockProfiles = [{
   city: 'Moab',
   state: 'UT',
   country: 'US',
-  documents: mockPhotoIdDoc
+  document: mockPhotoIdDoc
 }];
 
 export default mockProfiles;
