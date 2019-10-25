@@ -75,9 +75,8 @@ class FlowStore {
     this.connectionsMap.set(data.id, { ...data, institution });
   }
   createAccount = async account => {
-    // const { data, status } = await httpPost(Endpoints.ACCOUNT, account);
-    // if (status >= 400) return;
-    const data = createMockId({ name: account.name, type: account.type });
+    const { data, status } = await httpPost(Endpoints.ACCOUNT, account);
+    if (status >= 400) return;
     this.accountsMap.set(data.id, data);
   }
   createTransaction = async transaction => {
