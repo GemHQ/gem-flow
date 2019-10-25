@@ -1,9 +1,10 @@
 import React from 'react';
-import InstitutionUserForm from '../components/forms/InstitutionUserForm';
-import ConnectionCard from '../components/cards/ConnectionCard';
-import GenericScreen from './GenericScreen';
-import { withStores } from '../stores/StoresUtil';
-import { ScreenNames } from '../stores/Constants';
+import InstitutionUserForm from '../../components/forms/InstitutionUserForm';
+import ConnectionCard from '../../components/cards/ConnectionCard';
+import GenericScreen from '../GenericScreen';
+import { withStores } from '../../stores/StoresUtil';
+import { ScreenNames } from '../../stores/Constants';
+import { openPmWidget } from './PmWidget';
 
 const ConnectionScreen = ({ flowStore, uiStore }) => (
   <GenericScreen
@@ -20,8 +21,9 @@ const ConnectionScreen = ({ flowStore, uiStore }) => (
       key={connection.id} 
       removeConnection={() => flowStore.removeConnection(connection.id)}
       onButtonClick={() => {
-        flowStore.selectConnection(connection.id);
-        uiStore.progressStore.setCurrentScreen(ScreenNames.ACCOUNT);
+        // flowStore.selectConnection(connection.id);
+        // uiStore.progressStore.setCurrentScreen(ScreenNames.ACCOUNT);
+        openPmWidget();
       }}
     />))
   }
