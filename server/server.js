@@ -11,8 +11,8 @@ const dotenv = require('dotenv');
 dotenv.config({path: '../.env'});
 
 const app = express();
-app.use(bodyParser.urlencoded({ limit: '50mb', extended: false }));
-app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '25mb', extended: false }));
+app.use(bodyParser.json({ limit: '25mb' }));
 // app.use(pino);
 app.use(cors());
 app.use('/user', userRoutes);

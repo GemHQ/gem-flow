@@ -25,6 +25,7 @@ const UploadModal = ({ closeModal, onUpload, documentType, clearDocumentType, do
     acceptedFiles.forEach((file, j) => {
       if (j > 0) return;
       const reader = new FileReader();
+      reader.readAsDataURL(file);
       reader.onload = e => {
         const newDocument = {
           data: e.target.result,
@@ -39,7 +40,6 @@ const UploadModal = ({ closeModal, onUpload, documentType, clearDocumentType, do
           loadDocuments([documents[0], newDocument]);
         }
       };
-      reader.readAsDataURL(file);
     });
   };
 

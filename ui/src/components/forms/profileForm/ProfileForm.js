@@ -5,7 +5,7 @@ import { ButtonWithCancel } from '../../basic/button/Button';
 import Input from '../../basic/input/Input';
 import { withPrimaryColor } from '../../../stores/StoresUtil';
 import DocumentUpload from './documentUpload/DocumentUpload';
-import mockProfiles from './mockProfiles';
+import mockProfiles, { createMockPhoneNumber } from './mockProfiles';
 
 const Placeholders = {
   PROFILE_NAME: 'Profile Name',
@@ -24,7 +24,7 @@ const Placeholders = {
 };
 
 const countryOptions = [
-  { value: 'united states', label: 'United States', className: 'OnrampColor MediumTextSize' },
+  { value: 'US', label: 'United States', className: 'OnrampColor MediumTextSize' },
 ];
 
 export class ProfileForm extends Component {
@@ -57,6 +57,8 @@ export class ProfileForm extends Component {
 
   fillWithData = () => {
     const randomIndex = Math.floor(Math.random() * mockProfiles.length);
+    const mockPhoneNumber = createMockPhoneNumber();
+    this.setInputValue('phoneNumber', mockPhoneNumber);
     const mockProfile = mockProfiles[randomIndex];
     for (let i in mockProfile) {
       this.setState({ [i]: mockProfile[i] });

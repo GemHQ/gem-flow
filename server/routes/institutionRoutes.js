@@ -29,9 +29,9 @@ router.get('/:id', async (req, res) => {
 /**
  * Gets a single intitutionUser
  */
-router.get('/user', async (req, res) => {
+router.get('/user/:instituitonUserId', async (req, res) => {
   try {
-    const result = await gemApi.listProfiles();
+    const result = await gemApi.getInstitutionUser(req.params.instituitonUserId);
     res.json(result);
   } catch(e) {
     res.status(500).json({ error: e });
@@ -43,7 +43,8 @@ router.get('/user', async (req, res) => {
  */
 router.post('/user', async (req, res) => {
   try {
-    const result = await gemApi.createInstitutionUser(req.body);
+    const { profile_id, institution_id, business_account_id } = req.body;
+    const result = await gemApi.createInstitutionUser(profile_id, institution_id, business_account_id);
     res.json(result);
     // TODO: update PG user with intitutionUser access token
   } catch(e) {

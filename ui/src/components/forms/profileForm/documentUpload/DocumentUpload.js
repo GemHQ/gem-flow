@@ -40,12 +40,13 @@ const photoIdOptions = [
 const dropdownPlaceholder = 'Choose ID Type';
 
 
-const DocumentUpload = ({ onUpload, onClear, documents }) => {
+const DocumentUpload = ({ onUpload, onClear, document }) => {
   const [isUploading, setIsUploading] = useState(false);
   const [documentType, setDocumentType] = useState(dropdownPlaceholder);
-  const documentNames = documents && documents.files.map(d => d.description).join(', ');
+  const documentNames = document && document.files.map(d => d.description).join(', ');
   
   const uploadToProfileForm = files => onUpload({
+    // files: files.map(f => window.atob(f)),
     files,
     type: documentType,
     description: photoIdLabels[documentType],
@@ -54,7 +55,7 @@ const DocumentUpload = ({ onUpload, onClear, documents }) => {
   return (
     <div>
       {
-        Boolean(documents) ?
+        Boolean(document) ?
         <div className="Relative">
           <Input className="DocumentImageInput" value={documentNames} placeholder="Photo ID" readOnly={true} />
           <RemoveEdit onRemove={onClear} onEdit={() => setIsUploading(true)} />
@@ -73,7 +74,7 @@ const DocumentUpload = ({ onUpload, onClear, documents }) => {
       {
         isUploading &&
         <UploadModal
-          documentsOnForm={documents}
+          documentsOnForm={document}
           documentType={documentType === dropdownPlaceholder ? DocumentTypes.PASSPORT : documentType}
           onUpload={uploadToProfileForm}
           closeModal={() => setIsUploading(false)}
