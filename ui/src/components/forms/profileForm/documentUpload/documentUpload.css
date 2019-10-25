@@ -45,17 +45,21 @@
   font-size: 18px;
 }
 
-.ModalClose {
-  font-weight: 400;
-  font-size: 14px;
-}
-
 .DocumentTypeDescription {
   padding: 20px 0 40px 0;
   text-align: left;
   font-weight: 400;
   width: 100%;
   line-height: 1.6;
+}
+
+.UseExampleImage {
+  font-weight: 500;
+  cursor: pointer;
+  color: #9C27B0;
+  align-self: flex-end;
+  padding-bottom: 8px;
+  font-size: 12px;
 }
 
 .DropzoneContainer {

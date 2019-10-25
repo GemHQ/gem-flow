@@ -72,7 +72,7 @@ const UploadModal = ({ closeModal, onUpload, documentType, clearDocumentType, do
           <h2 className="ModalTitle">{`Upload ${photoIdLabel}`}</h2>
         </div>
         <p className="DocumentTypeDescription">{`${documentTypeDescriptions[documentType]} ${documentTypeDescriptions.shared}`}</p>
-        <p className="OnrampColor ExtraBold Pointer" onClick={loadExampleImage}>Use example image</p>
+        <p className="UseExampleImage" onClick={loadExampleImage}>{`Use example image${twoDropzones ? 's' : ''}`}</p>
         <div className={`DropzoneContainer ${twoDropzones ? 'DropzoneGrid' : ''}`}>
           <Dropzone onDrop={onDrop(0)} onClear={onClearImage(0)} document={documents[0]} label={dropzoneLabels[0]} />
           {twoDropzones && <Dropzone onDrop={onDrop(1)} onClear={onClearImage(1)} document={documents[1]} label={dropzoneLabels[1]} />}
