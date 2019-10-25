@@ -42,7 +42,7 @@ export class ProfileForm extends Component {
     city: '',
     state: '',
     country: '',
-    documents: null,
+    document: null,
   }
 
   setInputValue = (field, value) => {
@@ -76,7 +76,7 @@ export class ProfileForm extends Component {
       || !this.state.city
       || !this.state.state
       || !this.state.country
-      || !this.state.documents
+      || !this.state.document
   }
 
   render() {
@@ -95,7 +95,7 @@ export class ProfileForm extends Component {
       city,
       state,
       country,
-      documents
+      document
     } = this.state;
     const buttonDisabled = this.isButtonDisabled();
     return (
@@ -199,9 +199,9 @@ export class ProfileForm extends Component {
           value="A driver license, a ID card or a passport with a clear photo."
         />
         <DocumentUpload
-          documents={documents}
-          onUpload={documents => this.setInputValue('documents', documents)}
-          onClear={() => this.setInputValue('documents', null)}
+          document={document}
+          onUpload={document => this.setInputValue('document', document)}
+          onClear={() => this.setInputValue('document', null)}
         />
         <div />
         <div />
