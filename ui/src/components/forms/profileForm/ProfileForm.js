@@ -5,7 +5,7 @@ import { ButtonWithCancel } from '../../basic/button/Button';
 import Input from '../../basic/input/Input';
 import { withPrimaryColor } from '../../../stores/StoresUtil';
 import DocumentUpload from './documentUpload/DocumentUpload';
-import mockProfiles from './mockProfiles';
+import mockProfiles, { createMockPhoneNumber } from './mockProfiles';
 
 const Placeholders = {
   PROFILE_NAME: 'Profile Name',
@@ -24,7 +24,7 @@ const Placeholders = {
 };
 
 const countryOptions = [
-  { value: 'united states', label: 'United States', className: 'OnrampColor MediumTextSize' },
+  { value: 'US', label: 'United States', className: 'OnrampColor MediumTextSize' },
 ];
 
 export class ProfileForm extends Component {
@@ -42,7 +42,7 @@ export class ProfileForm extends Component {
     city: '',
     state: '',
     country: '',
-    documents: null,
+    document: null,
   }
 
   setInputValue = (field, value) => {
@@ -57,6 +57,8 @@ export class ProfileForm extends Component {
 
   fillWithData = () => {
     const randomIndex = Math.floor(Math.random() * mockProfiles.length);
+    const mockPhoneNumber = createMockPhoneNumber();
+    this.setInputValue('phoneNumber', mockPhoneNumber);
     const mockProfile = mockProfiles[randomIndex];
     for (let i in mockProfile) {
       this.setState({ [i]: mockProfile[i] });
@@ -76,7 +78,7 @@ export class ProfileForm extends Component {
       || !this.state.city
       || !this.state.state
       || !this.state.country
-      || !this.state.documents
+      || !this.state.document
   }
 
   render() {
@@ -95,7 +97,7 @@ export class ProfileForm extends Component {
       city,
       state,
       country,
-      documents
+      document
     } = this.state;
     const buttonDisabled = this.isButtonDisabled();
     return (
@@ -199,9 +201,9 @@ export class ProfileForm extends Component {
           value="A driver license, a ID card or a passport with a clear photo."
         />
         <DocumentUpload
-          documents={documents}
-          onUpload={documents => this.setInputValue('documents', documents)}
-          onClear={() => this.setInputValue('documents', null)}
+          document={document}
+          onUpload={document => this.setInputValue('document', document)}
+          onClear={() => this.setInputValue('document', null)}
         />
         <div />
         <div />

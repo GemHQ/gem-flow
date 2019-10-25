@@ -26,3 +26,9 @@ export const formatProfileRequestBody = profile => ({
   "social_security_number":  profile.ssn,
   "date_of_birth":  profile.dateOfBirth
 });
+
+export const formatConnectionRequestBody = (profileId, institutionUser) => ({
+  "profile_id": profileId,
+  "institution_id": institutionUser.institution_id,
+  "business_account_id": institutionUser.businessAccountId
+})

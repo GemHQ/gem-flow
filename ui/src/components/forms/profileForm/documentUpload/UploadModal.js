@@ -25,6 +25,7 @@ const UploadModal = ({ closeModal, onUpload, documentType, clearDocumentType, do
     acceptedFiles.forEach((file, j) => {
       if (j > 0) return;
       const reader = new FileReader();
+      reader.readAsDataURL(file);
       reader.onload = e => {
         const newDocument = {
           data: e.target.result,
@@ -39,7 +40,6 @@ const UploadModal = ({ closeModal, onUpload, documentType, clearDocumentType, do
           loadDocuments([documents[0], newDocument]);
         }
       };
-      reader.readAsDataURL(file);
     });
   };
 
@@ -72,7 +72,7 @@ const UploadModal = ({ closeModal, onUpload, documentType, clearDocumentType, do
           <h2 className="ModalTitle">{`Upload ${photoIdLabel}`}</h2>
         </div>
         <p className="DocumentTypeDescription">{`${documentTypeDescriptions[documentType]} ${documentTypeDescriptions.shared}`}</p>
-        <p className="OnrampColor ExtraBold Pointer" onClick={loadExampleImage}>Use example image</p>
+        <p className="UseExampleImage" onClick={loadExampleImage}>{`Use example image${twoDropzones ? 's' : ''}`}</p>
         <div className={`DropzoneContainer ${twoDropzones ? 'DropzoneGrid' : ''}`}>
           <Dropzone onDrop={onDrop(0)} onClear={onClearImage(0)} document={documents[0]} label={dropzoneLabels[0]} />
           {twoDropzones && <Dropzone onDrop={onDrop(1)} onClear={onClearImage(1)} document={documents[1]} label={dropzoneLabels[1]} />}

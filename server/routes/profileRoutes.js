@@ -72,6 +72,10 @@ router.post('/temporary_profile', async (req, res) => {
  */
 router.post('/document', async (req, res) => {
   const { profileId, document } = req.body;
+  // const documentWithBinary = {
+  //   ...document,
+  //   files: document.files.map(f => atob(f))
+  // }
   try {
     const result = await gemApi.createProfileDocument(profileId, document);
     res.json(result);

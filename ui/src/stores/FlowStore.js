@@ -1,7 +1,7 @@
 import { observable, action, decorate, computed } from "mobx";
 import { ScreenNames, Endpoints, InstitutionIcons } from "./Constants";
 import { httpGet, httpPost, httpDelete } from '../util/RequestUtil';
-import { formatProfileRequestBody } from "./StoresUtil";
+import { formatProfileRequestBody, formatConnectionRequestBody } from "./StoresUtil";
 
 const createMockId = (ext = {}) => ({ id: Math.random().toString(), created_at: Date.now().toString(), ...ext });
 
@@ -34,7 +34,7 @@ class FlowStore {
     data.forEach(profile => this.profilesMap.set(profile.id, profile));
   }
   getConnections = async () => {
-    const { data, status } = await httpGet(Endpoints.INSTITUTION_USER);
+    const { data, status } = await httpGet(`${Endpoints.CONNECTIONS}/${this.selectedUser.id}`);
     if (status >= 400) return;
     data.forEach(connection => this.connectionsMap.set(connection.id, connection));
   }
@@ -63,14 +63,15 @@ class FlowStore {
     const userId = this.selectedUser.id;
     const { data, status } = await httpPost(Endpoints.PROFILE, { userId, profile });
     if (status >= 400) return;
+    this.selectProfile(data.id);
     this.profilesMap.set(data.id, { ...data, profileName: profileFormData.profileName });
-    await httpPost(Endpoints.PROFILE_DOCUMENT, { profileId: data.id, document: profileFormData.document });
+    // await httpPost(Endpoints.PROFILE_DOCUMENT, { profileId: data.id, document: profileFormData.document });
   }
-  createConnection = async connection => {
-    // const { data, status } = await httpPost(Endpoints.INSTITUTION_USER, connection);
-    // if (status >= 400) return;
+  createConnection = async connectionFormData => {
+    const connection = formatConnectionRequestBody(this.selectedProfile.id, connectionFormData);
+    const { data, status } = await httpPost(Endpoints.INSTITUTION_USER, connection);
+    if (status >= 400) return;
     const institution = this.institutionMap.get(connection.institution_id);
-    const data = createMockId();
     this.connectionsMap.set(data.id, { ...data, institution });
   }
   createAccount = async account => {
@@ -94,10 +95,11 @@ class FlowStore {
     this.getProfiles(id);
   }
   selectProfile = id => {
-    if (this.selectedProfile && id === this.selectedProfile.id) return;
+    // if (this.selectedProfile && id === this.selectedProfile.id) return;
     this.selectedProfile = this.profilesMap.get(id);
     this.selectedConnection = null;
     this.selectedAccount = null;
+    this.getConnections();
   }
   selectConnection = id => {
     if (this.selectedConnection && id === this.selectedConnection.id) return;

@@ -5,19 +5,21 @@ const cors = require('cors');
 const userRoutes = require('./routes/userRoutes');
 const profileRoutes = require('./routes/profileRoutes');
 const intitutionRoutes = require('./routes/institutionRoutes');
+const connectionRoutes = require('./routes/connectionRoutes');
 const accountRoutes = require('./routes/accountRoutes');
 const transactionRoutes = require('./routes/transactionRoutes');
 const dotenv = require('dotenv');
 dotenv.config({path: '../.env'});
 
 const app = express();
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ limit: '25mb', extended: false }));
+app.use(bodyParser.json({ limit: '25mb' }));
 // app.use(pino);
 app.use(cors());
 app.use('/user', userRoutes);
 app.use('/profile', profileRoutes);
 app.use('/institution', intitutionRoutes);
+app.use('/connections', connectionRoutes);
 app.use('/account', accountRoutes);
 app.use('/transaction', transactionRoutes);
 
