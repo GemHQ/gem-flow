@@ -22,6 +22,7 @@ const ConnectionScreen = ({ flowStore, uiStore }) => (
       removeConnection={() => flowStore.removeConnection(connection.id)}
       onButtonClick={() => {
         try {
+          console.log(connection)
           openPmWidget(async plaidToken => {
             const account = {
               plaid_token: plaidToken,

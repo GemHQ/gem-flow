@@ -69,10 +69,9 @@ class FlowStore {
   }
   createConnection = async connectionFormData => {
     const connection = formatConnectionRequestBody(this.selectedProfile.id, connectionFormData);
-    const { data, status } = await httpPost(Endpoints.INSTITUTION_USER, connection);
+    const { status } = await httpPost(Endpoints.INSTITUTION_USER, connection);
     if (status >= 400) return;
-    const institution = this.institutionMap.get(connection.institution_id);
-    this.connectionsMap.set(data.id, { ...data, institution });
+    this.getConnections();
   }
   createAccount = async account => {
     const { data, status } = await httpPost(Endpoints.ACCOUNT, account);
