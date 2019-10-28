@@ -1,11 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const Readable = require('stream').Readable;
 const gemApi = require('../gemApi');
-const { Document, Profile } = require('@gem.co/api').SDK.Models;
-const fs = require('fs')
+const { Document } = require('@gem.co/api').SDK.Models;
 const parseDataUrl = require('parse-data-url');
-const { bufferToStream } =require('./routesUtil')
 
 /**
  * Get a list of profiles for a user
@@ -14,7 +11,7 @@ router.get('/:id', async (req, res) => {
   try {
     const result = await gemApi.listProfiles(req.params.id);
     res.json(result);
-  } catch(e) {
+  } catch (e) {
     res.status(500).json({ error: e });
   }
 });
@@ -28,11 +25,10 @@ router.post('/', async (req, res) => {
     const result = await gemApi.createProfile(userId, profile);
     res.json(result);
     // TODO: update PG user with profile access token
-  } catch(e) {
+  } catch (e) {
     res.status(500).json({ error: e });
   }
 });
-
 
 /**
  * Get a profile by ID
@@ -41,7 +37,7 @@ router.get('/:id', async (req, res) => {
   try {
     const result = await gemApi.getProfile(req.params.id);
     res.json(result);
-  } catch(e) {
+  } catch (e) {
     res.status(500).json({ error: e });
   }
 });
@@ -53,7 +49,7 @@ router.delete('/:id', async (req, res) => {
   try {
     const result = await gemApi.deleteProfile(req.params.id);
     res.json(result);
-  } catch(e) {
+  } catch (e) {
     res.status(500).json({ error: e });
   }
 });
@@ -67,7 +63,7 @@ router.post('/temporary_profile', async (req, res) => {
     const result = await gemApi.createTemporaryProfile(profile);
     res.json(result);
     // TODO: update PG user with profile access token
-  } catch(e) {
+  } catch (e) {
     res.status(500).json({ error: e });
   }
 });
@@ -82,28 +78,21 @@ router.post('/document', async (req, res) => {
     ...document,
     files: document.files.map(file => {
       const parsed = parseDataUrl(file.data);
-      const decoded = Buffer.from(parsed.data, 'base64');
-      // fs.writeFileSync('the_file.jpeg', decoded);
-      // console.log(fs.createReadStream('the_file.jpeg'));
-
-      const stream = bufferToStream(decoded)
-
-      // const stream = convert(decoded)
-      console.log(stream._read())
-      return { ...file, data: stream };
-    })
+      const data = Buffer.from(parsed.data, 'base64');
+      return { ...file, data };
+    }),
   });
 
-
-  // console.log(documentWithBinary)
   try {
-    const result = await gemApi.createProfileDocument(profileId, documentWithBinary);
+    const result = await gemApi.createProfileDocument(
+      profileId,
+      documentWithBinary
+    );
     res.json(result);
     // TODO: update PG user with profile access token
-  } catch(e) {
+  } catch (e) {
     res.status(500).json({ error: e });
   }
 });
-
 
 module.exports = router;
