@@ -27,10 +27,11 @@ const UploadModal = ({ closeModal, onUpload, documentType, clearDocumentType, do
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = e => {
+        console.log(e.target.result)
         const newDocument = {
           data: e.target.result,
           media_type: file.type,
-          description: file.name,
+          description: file.name || 'My document',
           orientation: index === 0 ? 'front' : 'back',
         };
         if (index === 0) {

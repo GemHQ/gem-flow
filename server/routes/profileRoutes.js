@@ -1,6 +1,11 @@
 const express = require('express');
 const router = express.Router();
+const Readable = require('stream').Readable;
 const gemApi = require('../gemApi');
+const { Document, Profile } = require('@gem.co/api').SDK.Models;
+const fs = require('fs')
+const parseDataUrl = require('parse-data-url');
+const { bufferToStream } =require('./routesUtil')
 
 /**
  * Get a list of profiles for a user
@@ -72,12 +77,27 @@ router.post('/temporary_profile', async (req, res) => {
  */
 router.post('/document', async (req, res) => {
   const { profileId, document } = req.body;
-  // const documentWithBinary = {
-  //   ...document,
-  //   files: document.files.map(f => atob(f))
-  // }
+
+  const documentWithBinary = new Document({
+    ...document,
+    files: document.files.map(file => {
+      const parsed = parseDataUrl(file.data);
+      const decoded = Buffer.from(parsed.data, 'base64');
+      // fs.writeFileSync('the_file.jpeg', decoded);
+      // console.log(fs.createReadStream('the_file.jpeg'));
+
+      const stream = bufferToStream(decoded)
+
+      // const stream = convert(decoded)
+      console.log(stream._read())
+      return { ...file, data: stream };
+    })
+  });
+
+
+  // console.log(documentWithBinary)
   try {
-    const result = await gemApi.createProfileDocument(profileId, document);
+    const result = await gemApi.createProfileDocument(profileId, documentWithBinary);
     res.json(result);
     // TODO: update PG user with profile access token
   } catch(e) {

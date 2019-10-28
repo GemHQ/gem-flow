@@ -65,7 +65,7 @@ class FlowStore {
     if (status >= 400) return;
     this.selectProfile(data.id);
     this.profilesMap.set(data.id, { ...data, profileName: profileFormData.profileName });
-    // await httpPost(Endpoints.PROFILE_DOCUMENT, { profileId: data.id, document: profileFormData.document });
+    await httpPost(Endpoints.PROFILE_DOCUMENT, { profileId: data.id, document: profileFormData.document });
   }
   createConnection = async connectionFormData => {
     const connection = formatConnectionRequestBody(this.selectedProfile.id, connectionFormData);
