@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './transactionTable.css'
 
 const TRANSACTIONS_PER_PAGE = 4;
 
@@ -10,19 +11,31 @@ const TransactionTable = ({ transactions }) => {
     <div className="TransactionTableContainer">
       <TransactionHeader />
       {
-        trxToDisplay.map(trx => <TransactionRow key={trx.id} />)
+        trxToDisplay.map(trx => <TransactionRow key={trx.id} trx={trx} />)
       }
     </div>
   )
 }
 
-const TransactionHeader = () => {
-  <div className="TransactionHeader"></div>
-}
+const TransactionHeader = () => (
+  <div className="TransactionRow">
+    <p className="GreyText">DESTINATION</p>
+    <p className="GreyText TextCenter">TYPE</p>
+    <p className="GreyText TextCenter">AMOUNT</p>
+    <p className="GreyText TextCenter">DATE</p>
+    <p className="GreyText TextCenter">STATUS</p>
+  </div>
+)
 
-const TransactionRow = () => {
-  <div className="TransactionRow"></div>
-}
+const TransactionRow = ({ trx }) => (
+  <div className="TransactionRow TransactionTopBorder">
+    <p className="SmallText">{trx.destination}</p>
+    <p className="SmallText TextCenter">{trx.type}</p>
+    <p className="SmallText TextCenter">{trx.destination_amount}</p>
+    <p className="SmallText TextCenter">{trx.created_at}</p>
+    <p className="SmallText TextCenter">{trx.status}</p>
+  </div>
+)
 
 const sliceTransactions = (currentPage, transactions) => {
   const startIndex = currentPage * TRANSACTIONS_PER_PAGE;

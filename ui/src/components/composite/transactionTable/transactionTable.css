@@ -1,0 +1,11 @@
+.TransactionRow {
+  display: grid;
+  grid-template-columns: 275px 1fr 1fr 1fr 1fr;
+  gap: 20px;
+  padding: 20px 0;
+  align-items: center;
+}
+
+.TransactionTopBorder {
+  border-top: 1px solid #D9D9D9;
+}
