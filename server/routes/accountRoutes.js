@@ -6,10 +6,9 @@ const gemApi = require('../gemApi');
  * Create an account
  */
 router.post('/', async (req, res) => {
-  res.status(204).json({ message: 'endpoint not yet supported' });
   try {
-    // const result = await gemApi.createAccount();
-    // res.json(result);
+    const result = await gemApi.createAccount(req.body);
+    res.json(result);
   } catch(e) {
     res.status(500).json({ error: e });
   }

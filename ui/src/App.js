@@ -11,7 +11,7 @@ import { ScreenNames } from './stores/Constants';
 import FlowStore from './stores/FlowStore';
 import UserScreen from './screens/UserScreen';
 import ProfileScreen from './screens/ProfileScreen';
-import ConnectionScreen from './screens/ConnectionScreen';
+import ConnectionScreen from './screens/connectionScreen/ConnectionScreen';
 import AccountScreen from './screens/AccountScreen';
 import TransactionScreen from './screens/TransactionScreen';
 

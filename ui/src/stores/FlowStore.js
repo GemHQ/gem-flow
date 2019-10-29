@@ -65,19 +65,17 @@ class FlowStore {
     if (status >= 400) return;
     this.selectProfile(data.id);
     this.profilesMap.set(data.id, { ...data, profileName: profileFormData.profileName });
-    // await httpPost(Endpoints.PROFILE_DOCUMENT, { profileId: data.id, document: profileFormData.document });
+    await httpPost(Endpoints.PROFILE_DOCUMENT, { profileId: data.id, document: profileFormData.document });
   }
   createConnection = async connectionFormData => {
     const connection = formatConnectionRequestBody(this.selectedProfile.id, connectionFormData);
-    const { data, status } = await httpPost(Endpoints.INSTITUTION_USER, connection);
+    const { status } = await httpPost(Endpoints.INSTITUTION_USER, connection);
     if (status >= 400) return;
-    const institution = this.institutionMap.get(connection.institution_id);
-    this.connectionsMap.set(data.id, { ...data, institution });
+    this.getConnections();
   }
   createAccount = async account => {
-    // const { data, status } = await httpPost(Endpoints.ACCOUNT, account);
-    // if (status >= 400) return;
-    const data = createMockId({ name: account.name, type: account.type });
+    const { data, status } = await httpPost(Endpoints.ACCOUNT, account);
+    if (status >= 400) return;
     this.accountsMap.set(data.id, data);
   }
   createTransaction = async transaction => {

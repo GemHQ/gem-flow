@@ -10,6 +10,7 @@
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-dropdown": "^1.6.4",
+    "react-dropzone": "^10.1.10",
     "react-scripts": "3.1.1",
     "react-tooltip": "^3.11.1",
     "semantic-ui-css": "^2.4.1",
