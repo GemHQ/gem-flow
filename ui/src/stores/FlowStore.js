@@ -3,8 +3,6 @@ import { ScreenNames, Endpoints, InstitutionIcons } from "./Constants";
 import { httpGet, httpPost, httpDelete } from '../util/RequestUtil';
 import { formatProfileRequestBody, formatConnectionRequestBody } from "./StoresUtil";
 
-const createMockId = (ext = {}) => ({ id: Math.random().toString(), created_at: Date.now().toString(), ...ext });
-
 class FlowStore {
   usersMap = new Map();
   profilesMap = new Map();
@@ -87,27 +85,28 @@ class FlowStore {
   selectUser = id => {
     if (this.selectedUser && id === this.selectedUser.id) return;
     this.selectedUser = this.usersMap.get(id);
-    this.selectedProfile = null;
-    this.selectedConnection = null;
-    this.selectedAccount = null;
+    this.clearProfiles();
+    this.clearConnections();
+    this.clearAccounts();
     this.getProfiles();
   }
   selectProfile = id => {
-    // if (this.selectedProfile && id === this.selectedProfile.id) return;
+    if (this.selectedProfile && id === this.selectedProfile.id) return;
     this.selectedProfile = this.profilesMap.get(id);
-    this.selectedConnection = null;
-    this.selectedAccount = null;
+    this.clearConnections();
+    this.clearAccounts();
     this.getConnections();
   }
   selectConnection = id => {
     if (this.selectedConnection && id === this.selectedConnection.id) return;
     this.selectedConnection = this.connectionsMap.get(id);
-    this.selectedAccount = null;
+    this.clearAccounts();
     this.getAccounts();
   }
   selectAccount = id => {
     if (this.selectedAccount && id === this.selectedAccount.id) return;
     this.selectedAccount = this.accountsMap.get(id);
+    this.clearTransactions();
   }
 
   removeUser = id => {
@@ -123,6 +122,22 @@ class FlowStore {
   }
   removeAccount = id => {
     this.accountsMap.delete(id);
+  }
+
+  clearProfiles = () => {
+    this.selectedProfile = null;
+    this.profilesMap.clear();
+  }
+  clearConnections = () => {
+    this.selectedConnection = null;
+    this.connectionsMap.clear();
+  }
+  clearAccounts = () => {
+    this.selectedAccount = null;
+    this.accountsMap.clear();
+  }
+  clearTransactions = () => {
+    this.transactionsMap.clear();
   }
 
   get users() {
@@ -198,6 +213,10 @@ decorate(FlowStore, {
   removeProfile: action,
   removeConnection: action,
   removeAccount: action,
+  clearProfiles: action,
+  clearConnections: action,
+  clearTransactions: action,
+  clearProfiles: action,
   users: computed,
   profiles: computed,
   connections: computed,
