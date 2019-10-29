@@ -19,7 +19,7 @@ const fiatOptions = [
   { value: 'eur', label: 'EUR', className: 'OnrampColor MediumTextSize' },
 ];
 
-export const TransactionForm = ({ onCancel, onSubmit, primaryColor }) => {
+export const TransactionForm = ({ accountId, onCancel, onSubmit, primaryColor }) => {
   const [amount, setAmount] = useState('');
   const [destinationAddress, setDestinationAddress] = useState('');
   const [selectedAsset, selectAsset] = useState(assetPlaceholder);
@@ -60,7 +60,23 @@ export const TransactionForm = ({ onCancel, onSubmit, primaryColor }) => {
       />
       <div />
       <div />
-      <ButtonWithCancel onCancel={onCancel} onClick={onSubmit} disabled={disabled} primaryColor={primaryColor}>Create</ButtonWithCancel>
+      <ButtonWithCancel
+        onCancel={onCancel}
+        disabled={disabled || isNaN(amount)}
+        primaryColor={primaryColor}
+        onClick={() => {
+          onSubmit({
+            source_id: accountId,
+            source_amount: amount,
+            blockchain_address: {
+              address: destinationAddress,
+              asset_id: selectedAsset,
+            },
+            type: 'buy',
+            preview: false,
+          })
+        }}
+      >Create</ButtonWithCancel>
     </form>
   )
 }

@@ -3,6 +3,7 @@ import { withStores } from '../stores/StoresUtil';
 import AccountCard from '../components/cards/AccountCard';
 import TransactionForm from '../components/forms/TransactionForm';
 import { ScreenNames } from '../stores/Constants';
+import TransactionTable from '../components/composite/transactionTable/TransactionTable';
 
 const TransactionScreen = ({ flowStore, uiStore }) => {
   const initialScreenState = uiStore.progressStore.initialScreenStates.get(ScreenNames.TRANSACTION);
@@ -10,7 +11,8 @@ const TransactionScreen = ({ flowStore, uiStore }) => {
   const [creatingItem, setCreatingItem] = useState(initiallyOpenForm);
   const startCreatingItem = () => setCreatingItem(true);
   const stopCreatingItem = () => setCreatingItem(false);
-  const numberOfItems = flowStore.transactions.length;
+  const { selectedAccount, transactions } = flowStore;
+  const numberOfItems = transactions.length;
 
   return (
     <>
@@ -25,6 +27,7 @@ const TransactionScreen = ({ flowStore, uiStore }) => {
             flowStore.createTransaction(transaction);
             stopCreatingItem();
           }}
+          accountId={selectedAccount.id}
         />
       </>
       :
@@ -33,15 +36,22 @@ const TransactionScreen = ({ flowStore, uiStore }) => {
       </div>
     }
     {
-      flowStore.selectedAccount
+      selectedAccount
       &&
       <AccountCard
-        account={flowStore.selectedAccount}
+        account={selectedAccount}
         onButtonClick={startCreatingItem}
-        key={flowStore.selectedAccount.id} 
+        key={selectedAccount.id} 
         dots={false}
         disabled={creatingItem}
       />
+    }
+    {
+      selectedAccount
+      &&
+      numberOfItems
+      &&
+      <TransactionTable transactions={transactions} />
     }
     </>
   )

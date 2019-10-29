@@ -2,6 +2,7 @@ import { observable, action, decorate, computed } from "mobx";
 import { ScreenNames, Endpoints, InstitutionIcons } from "./Constants";
 import { httpGet, httpPost, httpDelete } from '../util/RequestUtil';
 import { formatProfileRequestBody, formatConnectionRequestBody } from "./StoresUtil";
+import mockTransactions from "../components/composite/transactionTable/MockTransactions";
 
 class FlowStore {
   usersMap = new Map();
@@ -158,7 +159,8 @@ class FlowStore {
     return [...this.accountsMap.values()].reverse();
   }
   get transactions() {
-    return [...this.transactionsMap.values()].reverse();
+    // return [...this.transactionsMap.values()].reverse();
+    return mockTransactions;
   }
 
   // which dots are filled in the progress map
