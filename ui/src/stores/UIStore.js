@@ -51,10 +51,16 @@ class ProgressStore {
     this.currentScreen = screen;
     initialState && this.initialScreenStates.set(screen, initialState);
   }
+
+  get withOpenForm() {
+    const initialState = this.initialScreenStates.get(this.currentScreen);
+    return initialState && initialState.withOpenForm;
+  }
 }
 
 decorate(ProgressStore, {
   markerSubtitles: observable,
   currentScreen: observable,
   setCurrentScreen: action,
+  withOpenForm: computed,
 });

@@ -16,7 +16,7 @@ export const openPmWidget = onSuccess => {
       if (err != null) {
         // The user encountered an error prior to exiting the module
       }
-      console.log('Thingo exited:', err);
+      console.log('Wyre PM widget exited:', err);
     },
   });
 }

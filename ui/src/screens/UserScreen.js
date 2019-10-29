@@ -11,6 +11,7 @@ const UserScreen = ({ flowStore, uiStore }) => (
     numberOfItems={flowStore.users.length}
     itemTitle="User"
     createItem={flowStore.createUser}
+    withOpenForm={true}
   >
   {
     flowStore.users.map(user => (
@@ -20,7 +21,7 @@ const UserScreen = ({ flowStore, uiStore }) => (
       removeUser={() => flowStore.removeUser(user.id)}
       onButtonClick={() => {
         flowStore.selectUser(user.id);
-        uiStore.progressStore.setCurrentScreen(ScreenNames.PROFILE);
+        uiStore.progressStore.setCurrentScreen(ScreenNames.PROFILE, { withOpenForm: true });
       }}
     />))
   }
