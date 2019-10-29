@@ -29,11 +29,11 @@ const TransactionHeader = () => (
 
 const TransactionRow = ({ trx }) => (
   <div className="TransactionRow TransactionTopBorder">
-    <p className="SmallText">{trx.destination}</p>
-    <p className="SmallText TextCenter">{trx.type}</p>
-    <p className="SmallText TextCenter">{trx.destination_amount}</p>
-    <p className="SmallText TextCenter">{trx.created_at}</p>
-    <p className="SmallText TextCenter">{trx.status}</p>
+    <p>{trx.destination}</p>
+    <p className="TextCenter">{trx.type}</p>
+    <p className="TextCenter">{trx.destination_amount}</p>
+    <p className="TextCenter">{trx.created_at}</p>
+    <p className="TextCenter">{trx.status}</p>
   </div>
 )
 

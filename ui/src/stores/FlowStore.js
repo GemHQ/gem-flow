@@ -28,8 +28,8 @@ class FlowStore {
     if (status >= 400) return;
     data.forEach(user => this.usersMap.set(user.id, user));
   }
-  getProfiles = async (userId) => {
-    const { data, status } = await httpGet(`${Endpoints.PROFILE}/${userId}`);
+  getProfiles = async () => {
+    const { data, status } = await httpGet(`${Endpoints.PROFILE}/${this.selectedUser.id}`);
     if (status >= 400) return;
     data.forEach(profile => this.profilesMap.set(profile.id, profile));
   }
@@ -39,7 +39,7 @@ class FlowStore {
     data.forEach(connection => this.connectionsMap.set(connection.id, connection));
   }
   getAccounts = async () => {
-    const { data, status } = await httpGet(Endpoints.ACCOUNT);
+    const { data, status } = await httpGet(`${Endpoints.ACCOUNT}/list/${this.selectedConnection.id}`);
     if (status >= 400) return;
     data.forEach(account => this.accountsMap.set(account.id, account));
   }
@@ -90,7 +90,7 @@ class FlowStore {
     this.selectedProfile = null;
     this.selectedConnection = null;
     this.selectedAccount = null;
-    this.getProfiles(id);
+    this.getProfiles();
   }
   selectProfile = id => {
     // if (this.selectedProfile && id === this.selectedProfile.id) return;
@@ -103,6 +103,7 @@ class FlowStore {
     if (this.selectedConnection && id === this.selectedConnection.id) return;
     this.selectedConnection = this.connectionsMap.get(id);
     this.selectedAccount = null;
+    this.getAccounts();
   }
   selectAccount = id => {
     if (this.selectedAccount && id === this.selectedAccount.id) return;
@@ -154,10 +155,10 @@ class FlowStore {
   // subtitles for the markers on the progress map
   get markerSubtitles() {
     return {
-      [ScreenNames.USER]: this.determineSubtitle('User', 'email', this.selectedUser, this.usersMap.size, 'Create a new user'),
-      [ScreenNames.PROFILE]: this.determineSubtitle('Profile', 'profileName', this.selectedProfile, this.profilesMap.size),
-      [ScreenNames.CONNECTION]: this.determineSubtitle('Connection', 'name', this.selectedConnection, this.connectionsMap.size),
-      [ScreenNames.ACCOUNT]: this.determineSubtitle('Account', 'name', this.selectedAccount, this.accountsMap.size),
+      [ScreenNames.USER]: this.determineSubtitle('User', 'id', this.selectedUser, this.usersMap.size, 'Create a new user'),
+      [ScreenNames.PROFILE]: this.determineSubtitle('Profile', 'id', this.selectedProfile, this.profilesMap.size),
+      [ScreenNames.CONNECTION]: this.determineSubtitle('Connection', 'id', this.selectedConnection, this.connectionsMap.size),
+      [ScreenNames.ACCOUNT]: this.determineSubtitle('Account', 'id', this.selectedAccount, this.accountsMap.size),
       [ScreenNames.TRANSACTION]: this.transactionsMap.size ? `${this.transactionsMap.size} Transactions` : '-',
     }
   }

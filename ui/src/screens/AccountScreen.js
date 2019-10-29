@@ -23,24 +23,13 @@ const AccountScreen = ({ flowStore, uiStore }) => (
         flowStore.selectAccount(account.id);
         uiStore.progressStore.setCurrentScreen(ScreenNames.TRANSACTION, { withOpenForm: true });
       }}
-      UnderButton={<UnderButton 
-        primaryColor={uiStore.primaryColor}
-        onClick={() => {
-          flowStore.selectAccount(account.id);
-          uiStore.progressStore.setCurrentScreen(ScreenNames.TRANSACTION, { withOpenForm: false });
-        }}
-      />}
+      onViewClick={() => {
+        flowStore.selectAccount(account.id);
+        uiStore.progressStore.setCurrentScreen(ScreenNames.TRANSACTION, { withOpenForm: false });
+      }}
     />))
   }
   </GenericScreen>
-)
-
-const UnderButton = ({ primaryColor, onClick }) => (
-  <p 
-    className="SmallText ExtraBold Pointer" 
-    style={{ color: primaryColor, marginTop: '4px' }}
-    onClick={onClick}
-  >View Transactions</p>
 )
 
 export default withStores(AccountScreen);

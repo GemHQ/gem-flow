@@ -3,15 +3,17 @@ import './cards.css';
 import TitleAndValue from '../basic/titleAndValue/TitleAndValue';
 import ThreeDots from '../basic/threeDots/ThreeDots';
 import Button from '../basic/button/Button';
+import { withPrimaryColor } from '../../stores/StoresUtil';
 
 const GenericCard = ({ 
   titlesAndValues, 
   onButtonClick, 
   buttonText, 
+  onViewClick, 
+  viewText,
   primaryColor, 
   dotsMenuOptions, 
   disabled, 
-  UnderButton = null, 
   dots = true,
   iconUrl,
 }) => (
@@ -23,11 +25,19 @@ const GenericCard = ({
     <div className="FlexAlignCenter">
       <div className="ColumnCenter">
         <Button onClick={onButtonClick} backgroundColor={primaryColor} disabled={disabled} marginRight>{buttonText}</Button> 
-        {UnderButton}
+        {viewText && <UnderButton onClick={onViewClick} primaryColor={primaryColor}>{viewText}</UnderButton>}
       </div>
       {dots && <ThreeDots menuOptions={dotsMenuOptions} />}
     </div>
   </div>
 );
+
+const UnderButton = ({ primaryColor, onClick, children }) => (
+  <p 
+    className="SmallText ExtraBold Pointer" 
+    style={{ color: primaryColor, marginTop: '4px' }}
+    onClick={onClick}
+  >{children}</p>
+)
 
 export default GenericCard;
