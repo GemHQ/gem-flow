@@ -24,7 +24,6 @@ const AccountScreen = ({ flowStore, uiStore }) => (
     buttonDisabled={!flowStore.selectedConnection}
     withOpenForm={uiStore.progressStore.withOpenForm}
   >
-    {console.log(uiStore.progressStore.withOpenForm)}
   {
     flowStore.accounts.map(account => (
     <AccountCard

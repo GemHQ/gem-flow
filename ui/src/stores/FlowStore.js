@@ -41,7 +41,11 @@ class FlowStore {
     if (status >= 400) return;
     data.forEach(account => this.accountsMap.set(account.id, account));
   }
-  getTransactions = async () => {}
+  getTransactions = async () => {
+    const { data, status } = await httpGet(`${Endpoints.TRANSACTION}/list/${this.selectedAccount.id}`);
+    if (status >= 400) return;
+    data.forEach(transaction => this.transactionsMap.set(transaction.id, transaction));
+  }
   getInstitutions = async () => {
     const { data, status } = await httpGet(Endpoints.INSTITUTION);
     if (status >= 400) return;
@@ -107,6 +111,7 @@ class FlowStore {
     if (this.selectedAccount && id === this.selectedAccount.id) return;
     this.selectedAccount = this.accountsMap.get(id);
     this.clearTransactions();
+    this.getTransactions();
   }
 
   removeUser = id => {

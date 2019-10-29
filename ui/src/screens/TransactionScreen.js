@@ -36,8 +36,8 @@ const TransactionScreen = ({ flowStore, uiStore }) => {
       flowStore.selectedAccount
       &&
       <AccountCard
-        account={flowStore.selectedAccount} 
-        createTransaction={startCreatingItem}
+        account={flowStore.selectedAccount}
+        onButtonClick={startCreatingItem}
         key={flowStore.selectedAccount.id} 
         dots={false}
         disabled={creatingItem}
