@@ -1,0 +1,27 @@
+.NumericNavBarContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.NumericNavButton {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.NumericNavButton p {
+  font-size: 12px;
+  font-weight: 500px;
+  color: #A7A7A7;
+  background-color: white;
+}
+
+.NumericNavButton .SelectedNumber {
+  color: white;
+  background-color: rgba(157,28,178,0.4);
+}
