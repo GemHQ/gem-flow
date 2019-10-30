@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import './transactionTable.css'
+import NumericNavBar from './numericNavBar/NumericNavBar';
 
 const TRANSACTIONS_PER_PAGE = 4;
 
@@ -10,24 +12,53 @@ const TransactionTable = ({ transactions }) => {
     <div className="TransactionTableContainer">
       <TransactionHeader />
       {
-        trxToDisplay.map(trx => <TransactionRow key={trx.id} />)
+        trxToDisplay.map(trx => <TransactionRow key={trx.id} trx={trx} />)
+      }
+      {
+        transactions.length > TRANSACTIONS_PER_PAGE
+        &&
+        <NumericNavBar 
+          currentPage={currentPage}
+          numberOfPages={Math.ceil(transactions.length / TRANSACTIONS_PER_PAGE)}
+          setCurrentPage={setCurrentPage}
+        />
       }
     </div>
   )
 }
 
-const TransactionHeader = () => {
-  <div className="TransactionHeader"></div>
-}
+const TransactionHeader = () => (
+  <div className="TransactionRow">
+    <p className="GreyText">DESTINATION</p>
+    <p className="GreyText TextCenter">TYPE</p>
+    <p className="GreyText TextCenter">AMOUNT</p>
+    <p className="GreyText TextCenter">DATE</p>
+    <p className="GreyText TextCenter">STATUS</p>
+  </div>
+)
 
-const TransactionRow = () => {
-  <div className="TransactionRow"></div>
-}
+const TransactionRow = ({ trx }) => (
+  <div className="TransactionRow TransactionTopBorder">
+    <p>{trx.destination.address}</p>
+    <p className="TextCenter">{trx.type}</p>
+    <p className="TextCenter">{`${trx.destination_amount} ${tickerFromAsset(trx.destination.asset)}`}</p>
+    <p className="TextCenter">{trx.created_at}</p>
+    <p className="TextCenter">{trx.status}</p>
+  </div>
+)
 
 const sliceTransactions = (currentPage, transactions) => {
   const startIndex = currentPage * TRANSACTIONS_PER_PAGE;
   const endIndex = (currentPage + 1) * TRANSACTIONS_PER_PAGE;
-  return transactions;
+  return transactions.slice(startIndex, endIndex);
 };
+
+const tickerFromAsset = asset => {
+  switch (asset) {
+    case 'bitcoin': return 'BTC';
+    case 'ethereum': return 'ETH';
+    default: return '';
+  }
+}
 
 export default TransactionTable;

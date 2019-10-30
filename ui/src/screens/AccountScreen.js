@@ -4,14 +4,25 @@ import AccountCard from '../components/cards/AccountCard';
 import GenericScreen from './GenericScreen';
 import { withStores } from '../stores/StoresUtil';
 import { ScreenNames } from '../stores/Constants';
+import { openPmWidget } from '../components/PmWidget';
 
 const AccountScreen = ({ flowStore, uiStore }) => (
   <GenericScreen
     ItemForm={AccountForm}
     numberOfItems={flowStore.accounts.length}
     itemTitle="Account"
-    createItem={flowStore.createAccount}
+    createItem={() => {
+      openPmWidget(async plaidToken => {
+        const account = {
+          plaid_token: plaidToken,
+          connection_id: flowStore.selectedConnection.id,
+          type: 'PlaidAccount'
+        }
+        await flowStore.createAccount(account);
+      })
+    }}
     buttonDisabled={!flowStore.selectedConnection}
+    withOpenForm={uiStore.progressStore.withOpenForm}
   >
   {
     flowStore.accounts.map(account => (
@@ -23,24 +34,13 @@ const AccountScreen = ({ flowStore, uiStore }) => (
         flowStore.selectAccount(account.id);
         uiStore.progressStore.setCurrentScreen(ScreenNames.TRANSACTION, { withOpenForm: true });
       }}
-      UnderButton={<UnderButton 
-        primaryColor={uiStore.primaryColor}
-        onClick={() => {
-          flowStore.selectAccount(account.id);
-          uiStore.progressStore.setCurrentScreen(ScreenNames.TRANSACTION, { withOpenForm: false });
-        }}
-      />}
+      onViewClick={() => {
+        flowStore.selectAccount(account.id);
+        uiStore.progressStore.setCurrentScreen(ScreenNames.TRANSACTION, { withOpenForm: false });
+      }}
     />))
   }
   </GenericScreen>
-)
-
-const UnderButton = ({ primaryColor, onClick }) => (
-  <p 
-    className="SmallText ExtraBold Pointer" 
-    style={{ color: primaryColor, marginTop: '4px' }}
-    onClick={onClick}
-  >View Transactions</p>
 )
 
 export default withStores(AccountScreen);

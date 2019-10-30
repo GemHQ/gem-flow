@@ -1,15 +1,17 @@
 const express = require('express');
 const router = express.Router();
 const gemApi = require('../gemApi');
+const gemClient = require('../gemClient');
+const { Transaction } = gemApi;
 
 /**
  * Create a transaction
  */
 router.post('/', async (req, res) => {
-  res.status(204).json({ message: 'endpoint not yet supported' });
   try {
-    // const result = await gemApi.createTransaction(req.body);
-    // res.json(result);
+    // const result = await gemApi.createTransaction(new Transaction(req.body));
+    const result = await gemApi.createTransaction(req.body);
+    res.json(result);
   } catch(e) {
     res.status(500).json({ error: e });
   }
@@ -19,10 +21,9 @@ router.post('/', async (req, res) => {
  * Confirm a transaction preview
  */
 router.post('/confrim/:id', async (req, res) => {
-  res.status(204).json({ message: 'endpoint not yet supported' });
   try {
-    // const result = await gemApi.confirmTransaction(req.params.id);
-    // res.json(result);
+    const result = await gemApi.confirmTransaction(req.params.id);
+    res.json(result);
   } catch(e) {
     res.status(500).json({ error: e });
   }
@@ -32,10 +33,9 @@ router.post('/confrim/:id', async (req, res) => {
  * Get a transaction by ID
  */
 router.get('/:id', async (req, res) => {
-  res.status(204).json({ message: 'endpoint not yet supported' });
   try {
-    // const result = await gemApi.getTransaction(req.params.id);
-    // res.json(result);
+    const result = await gemApi.getTransaction(req.params.id);
+    res.json(result);
   } catch(e) {
     res.status(500).json({ error: e });
   }
@@ -44,11 +44,10 @@ router.get('/:id', async (req, res) => {
 /**
  * Get a list of transactions
  */
-router.get('/', async (req, res) => {
-  res.status(204).json({ message: 'endpoint not yet supported' });
+router.get('/list/:source_id', async (req, res) => {
   try {
-    // const result = await gemApi.listTransactions();
-    // res.json(result);
+    const result = await gemClient.get('/transactions', req.params);
+    res.json(result);
   } catch(e) {
     res.status(500).json({ error: e });
   }

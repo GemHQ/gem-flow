@@ -7,24 +7,16 @@ import { withPrimaryColor } from '../../stores/StoresUtil';
 
 const assetPlaceholder = `Asset`;
 
-const fiatPlaceholder = `Pay with`;
-
 const assetOptions = [
   { value: 'bitcoin', label: 'Bitcoin', className: 'OnrampColor MediumTextSize' },
   { value: 'ethereum', label: 'Ethereum', className: 'OnrampColor MediumTextSize' },
 ];
 
-const fiatOptions = [
-  { value: 'usd', label: 'USD', className: 'OnrampColor MediumTextSize' },
-  { value: 'eur', label: 'EUR', className: 'OnrampColor MediumTextSize' },
-];
-
-export const TransactionForm = ({ onCancel, onSubmit, primaryColor }) => {
+export const TransactionForm = ({ accountId, asset, onCancel, onSubmit, primaryColor }) => {
   const [amount, setAmount] = useState('');
   const [destinationAddress, setDestinationAddress] = useState('');
   const [selectedAsset, selectAsset] = useState(assetPlaceholder);
-  const [selectedFiat, selectFiat] = useState(fiatPlaceholder);
-  const disabled = (selectedAsset === assetPlaceholder) || (selectedFiat === fiatPlaceholder) || (!amount) || (!destinationAddress);
+  const disabled = (selectedAsset === assetPlaceholder) || (!amount) || (!destinationAddress);
   return (
     <form onSubmit={e => {
       e.preventDefault();
@@ -41,11 +33,10 @@ export const TransactionForm = ({ onCancel, onSubmit, primaryColor }) => {
         options={assetOptions}
         selectedClassName={selectedAsset === assetPlaceholder ? 'LightGreyText ThinText MediumTextSize' : 'BlackText ThinText MediumTextSize'}
       />
-      <DropdownSelector
-        selectedOption={selectedFiat}
-        selectOption={selectFiat}
-        options={fiatOptions}
-        selectedClassName={selectedFiat === fiatPlaceholder ? 'LightGreyText ThinText MediumTextSize' : 'BlackText ThinText MediumTextSize'}
+      <Input 
+        value={asset.toUpperCase()} 
+        placeholder="Pay with"
+        readOnly
       />
       <div />
       <Input 
@@ -60,8 +51,23 @@ export const TransactionForm = ({ onCancel, onSubmit, primaryColor }) => {
       />
       <div />
       <div />
-      <ButtonWithCancel onCancel={onCancel} onClick={onSubmit} disabled={disabled} primaryColor={primaryColor}>Create</ButtonWithCancel>
-      {console.log(primaryColor)}
+      <ButtonWithCancel
+        onCancel={onCancel}
+        disabled={disabled || isNaN(amount)}
+        primaryColor={primaryColor}
+        onClick={() => {
+          onSubmit({
+            source_id: accountId,
+            source_amount: amount,
+            blockchain_address: {
+              address: destinationAddress,
+              asset_id: selectedAsset,
+            },
+            type: 'buy',
+            preview: false,
+          })
+        }}
+      >Create</ButtonWithCancel>
     </form>
   )
 }

@@ -3,8 +3,6 @@ import { ScreenNames, Endpoints, InstitutionIcons } from "./Constants";
 import { httpGet, httpPost, httpDelete } from '../util/RequestUtil';
 import { formatProfileRequestBody, formatConnectionRequestBody } from "./StoresUtil";
 
-const createMockId = (ext = {}) => ({ id: Math.random().toString(), created_at: Date.now().toString(), ...ext });
-
 class FlowStore {
   usersMap = new Map();
   profilesMap = new Map();
@@ -28,8 +26,8 @@ class FlowStore {
     if (status >= 400) return;
     data.forEach(user => this.usersMap.set(user.id, user));
   }
-  getProfiles = async (userId) => {
-    const { data, status } = await httpGet(`${Endpoints.PROFILE}/${userId}`);
+  getProfiles = async () => {
+    const { data, status } = await httpGet(`${Endpoints.PROFILE}/${this.selectedUser.id}`);
     if (status >= 400) return;
     data.forEach(profile => this.profilesMap.set(profile.id, profile));
   }
@@ -39,15 +37,19 @@ class FlowStore {
     data.forEach(connection => this.connectionsMap.set(connection.id, connection));
   }
   getAccounts = async () => {
-    const { data, status } = await httpGet(Endpoints.ACCOUNT);
+    const { data, status } = await httpGet(`${Endpoints.ACCOUNT}/list/${this.selectedConnection.id}`);
     if (status >= 400) return;
     data.forEach(account => this.accountsMap.set(account.id, account));
   }
-  getTransactions = async () => {}
+  getTransactions = async () => {
+    const { data, status } = await httpGet(`${Endpoints.TRANSACTION}/list/${this.selectedAccount.id}`);
+    if (status >= 400) return;
+    data.forEach(transaction => this.transactionsMap.set(transaction.id, transaction));
+  }
   getInstitutions = async () => {
     const { data, status } = await httpGet(Endpoints.INSTITUTION);
     if (status >= 400) return;
-    data.forEach(institution => this.institutionMap.set(institution.id, { 
+    data.forEach(institution => this.institutionMap.set(institution.id, {
       ...institution, 
       icon: InstitutionIcons[institution.id] 
     }));
@@ -87,26 +89,29 @@ class FlowStore {
   selectUser = id => {
     if (this.selectedUser && id === this.selectedUser.id) return;
     this.selectedUser = this.usersMap.get(id);
-    this.selectedProfile = null;
-    this.selectedConnection = null;
-    this.selectedAccount = null;
-    this.getProfiles(id);
+    this.clearProfiles();
+    this.clearConnections();
+    this.clearAccounts();
+    this.getProfiles();
   }
   selectProfile = id => {
-    // if (this.selectedProfile && id === this.selectedProfile.id) return;
+    if (this.selectedProfile && id === this.selectedProfile.id) return;
     this.selectedProfile = this.profilesMap.get(id);
-    this.selectedConnection = null;
-    this.selectedAccount = null;
+    this.clearConnections();
+    this.clearAccounts();
     this.getConnections();
   }
   selectConnection = id => {
     if (this.selectedConnection && id === this.selectedConnection.id) return;
     this.selectedConnection = this.connectionsMap.get(id);
-    this.selectedAccount = null;
+    this.clearAccounts();
+    this.getAccounts();
   }
   selectAccount = id => {
     if (this.selectedAccount && id === this.selectedAccount.id) return;
     this.selectedAccount = this.accountsMap.get(id);
+    this.clearTransactions();
+    this.getTransactions();
   }
 
   removeUser = id => {
@@ -122,6 +127,22 @@ class FlowStore {
   }
   removeAccount = id => {
     this.accountsMap.delete(id);
+  }
+
+  clearProfiles = () => {
+    this.selectedProfile = null;
+    this.profilesMap.clear();
+  }
+  clearConnections = () => {
+    this.selectedConnection = null;
+    this.connectionsMap.clear();
+  }
+  clearAccounts = () => {
+    this.selectedAccount = null;
+    this.accountsMap.clear();
+  }
+  clearTransactions = () => {
+    this.transactionsMap.clear();
   }
 
   get users() {
@@ -154,11 +175,11 @@ class FlowStore {
   // subtitles for the markers on the progress map
   get markerSubtitles() {
     return {
-      [ScreenNames.USER]: this.determineSubtitle('User', 'email', this.selectedUser, this.usersMap.size, 'Create a new user'),
-      [ScreenNames.PROFILE]: this.determineSubtitle('Profile', 'profileName', this.selectedProfile, this.profilesMap.size),
-      [ScreenNames.CONNECTION]: this.determineSubtitle('Connection', 'name', this.selectedConnection, this.connectionsMap.size),
-      [ScreenNames.ACCOUNT]: this.determineSubtitle('Account', 'name', this.selectedAccount, this.accountsMap.size),
-      [ScreenNames.TRANSACTION]: this.transactionsMap.size ? `${this.transactionsMap.size} Transactions` : '-',
+      [ScreenNames.USER]: this.determineSubtitle('User', 'id', this.selectedUser, this.usersMap.size, 'Create a new user'),
+      [ScreenNames.PROFILE]: this.determineSubtitle('Profile', 'id', this.selectedProfile, this.profilesMap.size),
+      [ScreenNames.CONNECTION]: this.determineSubtitle('Connection', 'id', this.selectedConnection, this.connectionsMap.size),
+      [ScreenNames.ACCOUNT]: this.determineSubtitle('Account', 'id', this.selectedAccount, this.accountsMap.size),
+      [ScreenNames.TRANSACTION]: this.determineSubtitle('Transaction', '', null, this.transactionsMap.size),
     }
   }
 
@@ -197,6 +218,10 @@ decorate(FlowStore, {
   removeProfile: action,
   removeConnection: action,
   removeAccount: action,
+  clearProfiles: action,
+  clearConnections: action,
+  clearTransactions: action,
+  clearProfiles: action,
   users: computed,
   profiles: computed,
   connections: computed,

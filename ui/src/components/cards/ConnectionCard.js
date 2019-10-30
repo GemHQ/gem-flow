@@ -3,7 +3,7 @@ import GenericCard from './GenericCard';
 import { withPrimaryColor } from '../../stores/StoresUtil';
 import { InstitutionIcons } from '../../stores/Constants';
 
-const ConnectionCard = ({ connection, onButtonClick, removeConnection, primaryColor }) => (
+const ConnectionCard = ({ connection, onButtonClick, onViewClick, removeConnection, primaryColor }) => (
   <GenericCard
     titlesAndValues={[
       { title: 'CONNECTION_ID', value: connection.id },
@@ -13,6 +13,8 @@ const ConnectionCard = ({ connection, onButtonClick, removeConnection, primaryCo
     ]}
     buttonText="Add Account"
     onButtonClick={onButtonClick}
+    viewText="View Accounts"
+    onViewClick={onViewClick}
     primaryColor={primaryColor}
     dotsMenuOptions={[{ title: 'Remove connection', onClick: removeConnection }]}
     // iconUrl={connection.institution.icon}

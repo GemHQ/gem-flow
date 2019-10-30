@@ -17,11 +17,10 @@ router.post('/', async (req, res) => {
 /**
  * Get an account by ID
  */
-router.get('/:id', async (req, res) => {
-  res.status(204).json({ message: 'endpoint not yet supported' });
+router.get('/:account_id', async (req, res) => {
   try {
-    // const result = await gemApi.getAccount(req.params.id);
-    // res.json(result);
+    const result = await gemApi.getAccount(req.params.account_id);
+    res.json(result);
   } catch(e) {
     res.status(500).json({ error: e });
   }
@@ -30,11 +29,10 @@ router.get('/:id', async (req, res) => {
 /**
  * Get a list of accounts
  */
-router.post('/', async (req, res) => {
-  res.status(204).json({ message: 'endpoint not yet supported' });
+router.get('/list/:connection_id', async (req, res) => {
   try {
-    // const result = await gemApi.listAccounts();
-    // res.json(result);
+    const result = await gemApi.listAccounts(req.params.connection_id);
+    res.json(result);
   } catch(e) {
     res.status(500).json({ error: e });
   }

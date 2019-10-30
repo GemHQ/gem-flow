@@ -9,9 +9,10 @@ const GenericScreen = ({
   createItem,
   primaryColor,
   children,
-  buttonDisabled
+  buttonDisabled,
+  withOpenForm
 }) => {
-  const [creatingItem, setCreatingItem] = useState(true);
+  const [creatingItem, setCreatingItem] = useState(withOpenForm);
   const startCreatingItem = () => setCreatingItem(true);
   const stopCreatingItem = () => setCreatingItem(false);
 

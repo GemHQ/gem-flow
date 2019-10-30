@@ -4,7 +4,7 @@ import ConnectionCard from '../../components/cards/ConnectionCard';
 import GenericScreen from '../GenericScreen';
 import { withStores } from '../../stores/StoresUtil';
 import { ScreenNames } from '../../stores/Constants';
-import { openPmWidget } from './PmWidget';
+import { openPmWidget } from '../../components/PmWidget';
 
 const ConnectionScreen = ({ flowStore, uiStore }) => (
   <GenericScreen
@@ -13,6 +13,7 @@ const ConnectionScreen = ({ flowStore, uiStore }) => (
     itemTitle="Connection"
     createItem={flowStore.createConnection}
     buttonDisabled={!flowStore.selectedProfile}
+    withOpenForm={uiStore.progressStore.withOpenForm}
   >
   {
     flowStore.connections.map(connection => (
@@ -22,7 +23,6 @@ const ConnectionScreen = ({ flowStore, uiStore }) => (
       removeConnection={() => flowStore.removeConnection(connection.id)}
       onButtonClick={() => {
         try {
-          console.log(connection)
           openPmWidget(async plaidToken => {
             const account = {
               plaid_token: plaidToken,
@@ -31,9 +31,13 @@ const ConnectionScreen = ({ flowStore, uiStore }) => (
             }
             await flowStore.createAccount(account);
             flowStore.selectConnection(connection.id);
-            uiStore.progressStore.setCurrentScreen(ScreenNames.ACCOUNT);
+            uiStore.progressStore.setCurrentScreen(ScreenNames.ACCOUNT, { withOpenForm: false });
           });
         } catch(e) {}
+      }}
+      onViewClick={() => {
+        flowStore.selectConnection(connection.id);
+        uiStore.progressStore.setCurrentScreen(ScreenNames.ACCOUNT, { withOpenForm: false });
       }}
     />))
   }
