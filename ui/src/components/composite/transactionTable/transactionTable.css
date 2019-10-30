@@ -1,3 +1,7 @@
+.TransactionTableContainer {
+  padding: 25px;
+}
+
 .TransactionRow {
   display: grid;
   grid-template-columns: 275px 1fr 1fr 1fr 1fr;

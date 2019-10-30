@@ -36,6 +36,8 @@ const TransactionScreen = ({ flowStore, uiStore }) => {
       </div>
     }
     {
+      !creatingItem
+      &&
       selectedAccount
       &&
       <AccountCard

@@ -40,7 +40,7 @@ const TransactionRow = ({ trx }) => (
 const sliceTransactions = (currentPage, transactions) => {
   const startIndex = currentPage * TRANSACTIONS_PER_PAGE;
   const endIndex = (currentPage + 1) * TRANSACTIONS_PER_PAGE;
-  return transactions;
+  return transactions.slice(startIndex, endIndex);
 };
 
 export default TransactionTable;
