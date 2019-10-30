@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "start": "concurrently \"yarn server\" \"yarn client\"",
+    "start": "concurrently \"yarn server\" \"yarn client\"",
     "client": "cd ui && yarn start",
     "server": "cd server && yarn start"
   },
