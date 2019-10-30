@@ -33,9 +33,9 @@ const createMockTransaction = () => ({
     "reason": {
       "message": "Completed successfully."
     },
-    "destination": "735gy3bry83487r48g3r348r8g74"
+    "destination": { address: "735gy3bry83487r48g3r348r8g74" }
 });
 
-const mockTransactions = new Array(120).fill(createMockTransaction());
+const mockTransactions = new Array(50).fill(createMockTransaction());
 
 export default mockTransactions;

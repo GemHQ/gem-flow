@@ -2,12 +2,14 @@ const express = require('express');
 const router = express.Router();
 const gemApi = require('../gemApi');
 const gemClient = require('../gemClient');
+const { Transaction } = gemApi;
 
 /**
  * Create a transaction
  */
 router.post('/', async (req, res) => {
   try {
+    // const result = await gemApi.createTransaction(new Transaction(req.body));
     const result = await gemApi.createTransaction(req.body);
     res.json(result);
   } catch(e) {

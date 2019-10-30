@@ -2,7 +2,6 @@ import { observable, action, decorate, computed } from "mobx";
 import { ScreenNames, Endpoints, InstitutionIcons } from "./Constants";
 import { httpGet, httpPost, httpDelete } from '../util/RequestUtil';
 import { formatProfileRequestBody, formatConnectionRequestBody } from "./StoresUtil";
-import mockTransactions from "../components/composite/transactionTable/MockTransactions";
 
 class FlowStore {
   usersMap = new Map();
@@ -50,7 +49,7 @@ class FlowStore {
   getInstitutions = async () => {
     const { data, status } = await httpGet(Endpoints.INSTITUTION);
     if (status >= 400) return;
-    data.forEach(institution => this.institutionMap.set(institution.id, { 
+    data.forEach(institution => this.institutionMap.set(institution.id, {
       ...institution, 
       icon: InstitutionIcons[institution.id] 
     }));
@@ -159,8 +158,7 @@ class FlowStore {
     return [...this.accountsMap.values()].reverse();
   }
   get transactions() {
-    // return [...this.transactionsMap.values()].reverse();
-    return mockTransactions;
+    return [...this.transactionsMap.values()].reverse();
   }
 
   // which dots are filled in the progress map
@@ -181,7 +179,7 @@ class FlowStore {
       [ScreenNames.PROFILE]: this.determineSubtitle('Profile', 'id', this.selectedProfile, this.profilesMap.size),
       [ScreenNames.CONNECTION]: this.determineSubtitle('Connection', 'id', this.selectedConnection, this.connectionsMap.size),
       [ScreenNames.ACCOUNT]: this.determineSubtitle('Account', 'id', this.selectedAccount, this.accountsMap.size),
-      [ScreenNames.TRANSACTION]: this.transactionsMap.size ? `${this.transactionsMap.size} Transactions` : '-',
+      [ScreenNames.TRANSACTION]: this.determineSubtitle('Transaction', '', null, this.transactionsMap.size),
     }
   }
 

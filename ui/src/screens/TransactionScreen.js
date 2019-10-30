@@ -28,6 +28,7 @@ const TransactionScreen = ({ flowStore, uiStore }) => {
             stopCreatingItem();
           }}
           accountId={selectedAccount.id}
+          asset={selectedAccount.asset_id}
         />
       </>
       :
@@ -49,9 +50,7 @@ const TransactionScreen = ({ flowStore, uiStore }) => {
       />
     }
     {
-      selectedAccount
-      &&
-      numberOfItems
+      (selectedAccount && numberOfItems > 0)
       &&
       <TransactionTable transactions={transactions} />
     }

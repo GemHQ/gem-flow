@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './transactionTable.css'
+import NumericNavBar from './numericNavBar/NumericNavBar';
 
 const TRANSACTIONS_PER_PAGE = 4;
 
@@ -12,6 +13,15 @@ const TransactionTable = ({ transactions }) => {
       <TransactionHeader />
       {
         trxToDisplay.map(trx => <TransactionRow key={trx.id} trx={trx} />)
+      }
+      {
+        transactions.length > TRANSACTIONS_PER_PAGE
+        &&
+        <NumericNavBar 
+          currentPage={currentPage}
+          numberOfPages={Math.ceil(transactions.length / TRANSACTIONS_PER_PAGE)}
+          setCurrentPage={setCurrentPage}
+        />
       }
     </div>
   )
@@ -29,9 +39,9 @@ const TransactionHeader = () => (
 
 const TransactionRow = ({ trx }) => (
   <div className="TransactionRow TransactionTopBorder">
-    <p>{trx.destination}</p>
+    <p>{trx.destination.address}</p>
     <p className="TextCenter">{trx.type}</p>
-    <p className="TextCenter">{trx.destination_amount}</p>
+    <p className="TextCenter">{`${trx.destination_amount} ${tickerFromAsset(trx.destination.asset)}`}</p>
     <p className="TextCenter">{trx.created_at}</p>
     <p className="TextCenter">{trx.status}</p>
   </div>
@@ -42,5 +52,13 @@ const sliceTransactions = (currentPage, transactions) => {
   const endIndex = (currentPage + 1) * TRANSACTIONS_PER_PAGE;
   return transactions.slice(startIndex, endIndex);
 };
+
+const tickerFromAsset = asset => {
+  switch (asset) {
+    case 'bitcoin': return 'BTC';
+    case 'ethereum': return 'ETH';
+    default: return '';
+  }
+}
 
 export default TransactionTable;

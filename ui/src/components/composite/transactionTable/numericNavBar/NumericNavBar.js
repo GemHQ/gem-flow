@@ -1,15 +1,16 @@
 import React from 'react';
+import './numericNavBar.css';
 
-const NumericNavBar = ({ currentStepIndex, numberOfSteps, goToStep }) => {
+const NumericNavBar = ({ currentPage, numberOfPages, setCurrentPage }) => {
   return (
     <div className="NumericNavBarContainer">
-      {[...Array(numberOfSteps)].map((n, i) => (
-        <div className={`NumericNavButton ${i === currentStepIndex ? 'SelectedNumber' : ''}`}
-          onClick={() => goToStep(i)}
+      {[...Array(numberOfPages)].map((n, i) => (
+        <p className={`NumericNavButton ${i === currentPage ? 'SelectedNumber' : ''}`}
+          onClick={() => setCurrentPage(i)}
           key={i}
         >
           {i + 1}
-        </div>
+        </p>
       ))}
     </div>
   );
