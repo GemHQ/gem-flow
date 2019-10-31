@@ -152,18 +152,22 @@ class FlowStore {
         this.clearConnections();
         this.clearAccounts();
         this.clearTransactions();
+        break;
       case ScreenNames.PROFILE:
         this.selectedProfile = null;
         this.clearConnections();
         this.clearAccounts();
         this.clearTransactions();
+        break;
       case ScreenNames.CONNECTION: 
         this.selectedConnection = null;
         this.clearAccounts();
         this.clearTransactions();
+        break;
       case ScreenNames.ACCOUNT: 
         this.selectedAccount = null;
         this.clearTransactions();
+        break;
       default: return;
     }
   }
