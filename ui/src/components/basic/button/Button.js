@@ -27,10 +27,9 @@ export const BorderedButton = ({
   color,
   children
 }) => (
-  <button type="button" disabled={disabled} onClick={onClick} style={{ 
+  <button className="BorderedButton" type="button" disabled={disabled} onClick={onClick} style={{ 
     color,
     border: `2px solid ${color}`,
-    height: '40px'
   }}>{children}</button>
 );
 
