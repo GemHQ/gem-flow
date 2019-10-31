@@ -144,6 +144,33 @@ class FlowStore {
   clearTransactions = () => {
     this.transactionsMap.clear();
   }
+  clearItemsOnScreenChange = screenName => {
+    switch (screenName) {
+      case ScreenNames.USER:
+        this.selectedUser = null;
+        this.clearProfiles();
+        this.clearConnections();
+        this.clearAccounts();
+        this.clearTransactions();
+        break;
+      case ScreenNames.PROFILE:
+        this.selectedProfile = null;
+        this.clearConnections();
+        this.clearAccounts();
+        this.clearTransactions();
+        break;
+      case ScreenNames.CONNECTION: 
+        this.selectedConnection = null;
+        this.clearAccounts();
+        this.clearTransactions();
+        break;
+      case ScreenNames.ACCOUNT: 
+        this.selectedAccount = null;
+        this.clearTransactions();
+        break;
+      default: return;
+    }
+  }
 
   get users() {
     return [...this.usersMap.values()].reverse();
@@ -210,6 +237,7 @@ decorate(FlowStore, {
   createConnection: action,
   createAccount: action,
   createTransaction: action,
+  clearItemsOnScreenChange: action,
   selectUser: action,
   selectProfile: action,
   selectConnection: action,

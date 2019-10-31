@@ -24,6 +24,10 @@ const ProfileScreen = ({ flowStore, uiStore }) => (
         flowStore.selectProfile(profile.id);
         uiStore.progressStore.setCurrentScreen(ScreenNames.CONNECTION, { withOpenForm: true });
       }}
+      onViewClick={() => {
+        flowStore.selectProfile(profile.id);
+        uiStore.progressStore.setCurrentScreen(ScreenNames.CONNECTION, { withOpenForm: false });
+      }}
     />))
   }
   </GenericScreen>

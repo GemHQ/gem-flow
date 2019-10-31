@@ -27,7 +27,6 @@ const UploadModal = ({ closeModal, onUpload, documentType, clearDocumentType, do
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = e => {
-        console.log(e.target.result)
         const newDocument = {
           data: e.target.result,
           media_type: file.type,

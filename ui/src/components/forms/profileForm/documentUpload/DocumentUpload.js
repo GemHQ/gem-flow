@@ -46,7 +46,6 @@ const DocumentUpload = ({ onUpload, onClear, document }) => {
   const documentNames = document && document.files.map(d => d.description).join(', ');
   
   const uploadToProfileForm = files => onUpload({
-    // files: files.map(f => window.atob(f)),
     files,
     type: documentType,
     description: photoIdLabels[documentType],
@@ -58,7 +57,13 @@ const DocumentUpload = ({ onUpload, onClear, document }) => {
         Boolean(document) ?
         <div className="Relative">
           <Input className="DocumentImageInput" value={documentNames} placeholder="Photo ID" readOnly={true} />
-          <RemoveEdit onRemove={onClear} onEdit={() => setIsUploading(true)} />
+          <RemoveEdit 
+            onEdit={() => setIsUploading(true)}
+            onRemove={() => {
+              onClear();
+              setDocumentType(dropdownPlaceholder);
+            }}
+          />
         </div>
         :
         <DropdownSelector

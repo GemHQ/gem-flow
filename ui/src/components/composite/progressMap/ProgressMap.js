@@ -2,21 +2,26 @@ import React from 'react';
 import './progressMap.css';
 import RectangleTitle from './rectangleTitle/RectangleTitle';
 import FlowDots from './flowDots/FlowDots';
-import { injector } from '../../../stores/StoresUtil';
+import { withStores } from '../../../stores/StoresUtil';
 
-export const ProgressMap = ({ screens, progressStore, primaryColor, dots, markerSubtitles }) => {
-  const currentScreenIndex =  screens.indexOf(progressStore.currentScreen);
+export const ProgressMap = ({ uiStore, flowStore }) => {
+  const { flow, progressStore, primaryColor } = uiStore;
+  const { dots, markerSubtitles } = flowStore;
+  const currentScreenIndex =  flow.screens.indexOf(progressStore.currentScreen);
   return (
     <div className="ProgressContainer">
       <div className="RectangleTitlesContainer">
-        {screens.map((screen, i) => <RectangleTitle
+        {flow.screens.map((screen, i) => <RectangleTitle
           key={screen} 
           title={screen} 
           subtitle={markerSubtitles[screen]} 
           isCurrentScreen={currentScreenIndex === i} 
           isCompleted={currentScreenIndex > i}
           color={primaryColor}
-          onClick={() => progressStore.setCurrentScreen(screen)}
+          onClick={() => {
+            flowStore.clearItemsOnScreenChange(screen);
+            progressStore.setCurrentScreen(screen, { withOpenForm: false });
+          }}
         />)}
       </div>
       <FlowDots 
@@ -27,12 +32,5 @@ export const ProgressMap = ({ screens, progressStore, primaryColor, dots, marker
     </div>
 )};
 
-const mapStoresToProps = ({ flowStore, uiStore }) => ({ 
-  screens: uiStore.flow.screens,
-  progressStore: uiStore.progressStore, 
-  primaryColor: uiStore.primaryColor,
-  dots: flowStore.dots,
-  markerSubtitles: flowStore.markerSubtitles
-});
 
-export default injector(mapStoresToProps)(ProgressMap);
+export default withStores(ProgressMap);

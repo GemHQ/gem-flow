@@ -41,12 +41,13 @@ export class ProfileForm extends Component {
     postalCode: '',
     city: '',
     state: '',
-    country: '',
+    country: Placeholders.COUNTRY,
     document: null,
   }
 
   setInputValue = (field, value) => {
     this.setState({ [field]: value });
+    console.log(this.state.country)
   }
 
   clearAll = () => {
@@ -66,8 +67,7 @@ export class ProfileForm extends Component {
   }
 
   isButtonDisabled = () => {
-    return !this.state.profileName
-      || !this.state.firstName
+    return !this.state.firstName
       || !this.state.lastName
       || !this.state.email
       || !this.state.dateOfBirth
@@ -77,8 +77,8 @@ export class ProfileForm extends Component {
       || !this.state.postalCode
       || !this.state.city
       || !this.state.state
-      || !this.state.country
       || !this.state.document
+      || this.state.country === Placeholders.COUNTRY
   }
 
   render() {
@@ -192,7 +192,7 @@ export class ProfileForm extends Component {
         </div>
         <DropdownSelector
           selectedOption={country || Placeholders.COUNTRY}
-          selectOption={option => this.setInputValue('country', option.value)}
+          selectOption={option => this.setInputValue('country', option)}
           options={countryOptions}
           selectedClassName={country === Placeholders.COUNTRY ? 'LightGreyText ThinText MediumTextSize' : 'BlackText ThinText MediumTextSize'}
         />

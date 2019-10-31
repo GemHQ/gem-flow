@@ -23,6 +23,10 @@ const UserScreen = ({ flowStore, uiStore }) => (
         flowStore.selectUser(user.id);
         uiStore.progressStore.setCurrentScreen(ScreenNames.PROFILE, { withOpenForm: true });
       }}
+      onViewClick={() => {
+        flowStore.selectUser(user.id);
+        uiStore.progressStore.setCurrentScreen(ScreenNames.PROFILE, { withOpenForm: false });
+      }}
     />))
   }
   </GenericScreen>
