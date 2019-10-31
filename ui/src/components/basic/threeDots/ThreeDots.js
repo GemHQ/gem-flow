@@ -5,7 +5,11 @@ const ThreeDots = ({ menuOptions }) => {
   const [showMenu, setShowMenu] = useState(false);
 
   return (
-    <div className="ThreeDotsContainer" onClick={() => setShowMenu(!showMenu)}>
+    <div className="ThreeDotsContainer" onClick={() => {
+      // TODO: implement dots once delete endpoints are working
+      return;
+      setShowMenu(!showMenu)
+    }}>
       <div className="OneDot" />
       <div className="OneDot" />
       <div className="OneDot" />

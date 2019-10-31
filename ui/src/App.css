@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600&display=swap');
 
 * {
   box-sizing: border-box;
@@ -11,6 +11,7 @@ p, h1, h2, h3, h4, h5, h6, button, input, form, div, header {
   padding: 0;
   margin: 0;
   font-size: 14px;
+  line-height: 1.4
 }
 
 h1 {
@@ -62,7 +63,7 @@ h2, h2, h3 {
   font-weight: 400 !important;
 }
 .ExtraBold {
-  font-weight: 500 !important;
+  font-weight: 600 !important;
 }
 .BlackText {
   color: #424242 !important;

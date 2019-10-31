@@ -54,7 +54,7 @@
 }
 
 .UseExampleImage {
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
   color: #9C27B0;
   align-self: flex-end;
@@ -145,7 +145,7 @@
   padding: 10px 0;
   cursor: pointer;
   color: #9C27B0;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 12;
 }
 

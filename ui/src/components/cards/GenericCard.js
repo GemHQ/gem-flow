@@ -3,7 +3,6 @@ import './cards.css';
 import TitleAndValue from '../basic/titleAndValue/TitleAndValue';
 import ThreeDots from '../basic/threeDots/ThreeDots';
 import Button from '../basic/button/Button';
-import { withPrimaryColor } from '../../stores/StoresUtil';
 
 const GenericCard = ({ 
   titlesAndValues, 
