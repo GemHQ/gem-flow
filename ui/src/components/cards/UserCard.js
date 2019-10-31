@@ -1,7 +1,8 @@
 import React from 'react';
 import GenericCard from './GenericCard';
+import { withPrimaryColor } from '../../stores/StoresUtil';
 
-const UserCard = ({ user, onButtonClick, primaryColor, removeUser }) => (
+const UserCard = ({ user, onButtonClick, onViewClick, primaryColor, removeUser }) => (
   <GenericCard
     titlesAndValues={[
       { title: 'USER_ID', value: user.id },
@@ -10,9 +11,11 @@ const UserCard = ({ user, onButtonClick, primaryColor, removeUser }) => (
     ]}
     buttonText="Create Profile"
     onButtonClick={onButtonClick}
+    viewText="View Profiles"
+    onViewClick={onViewClick}
     primaryColor={primaryColor}
     dotsMenuOptions={[{ title: 'Remove user', onClick: removeUser }]}
   />
 );
 
-export default UserCard;
+export default withPrimaryColor(UserCard);
