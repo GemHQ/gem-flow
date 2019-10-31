@@ -41,7 +41,7 @@ const TransactionRow = ({ trx }) => (
   <div className="TransactionRow TransactionTopBorder">
     <p>{trx.destination.address}</p>
     <p className="TextCenter">{trx.type}</p>
-    <p className="TextCenter">{`${trx.destination_amount} ${tickerFromAsset(trx.destination.asset)}`}</p>
+    <p className="TextCenter">{`${trx.destination_amount} ${tickerFromAsset(trx.destination.asset_id)}`}</p>
     <p className="TextCenter">{trx.created_at}</p>
     <p className="TextCenter">{trx.status}</p>
   </div>
