@@ -1,7 +1,7 @@
 module.exports = {
   development: {
     client: 'pg',
-    connection: process.env.DATABASE_URI || 'postgres://localhost/gem_flow',
+    connection: process.env.DATABASE_URI || 'postgres://database/gem_flow',
     migrations: {
       directory: './db/migrations',
     },
