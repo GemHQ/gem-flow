@@ -3,7 +3,6 @@ import { injector } from '../../../stores/StoresUtil';
 import './errorMessage.css';
 
 export const ErrorMessage = ({ errorMessage = 'error', dismissError }) => {
-  console.log('error hi', errorMessage)
   if (!errorMessage) return null;
   return (
     <div className="ErrorMessageContainer">

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import Button, { BorderedButton } from '../components/basic/button/Button';
 import { injector } from '../stores/StoresUtil';
-import ErrorMessage from '../components/basic/errorMessage/ErrorMessage';
 
 const GenericScreen = ({
   ItemForm,
@@ -26,7 +25,6 @@ const GenericScreen = ({
 
   return (
     <>
-    <ErrorMessage />
     {
       creatingItem
       ?

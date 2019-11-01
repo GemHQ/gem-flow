@@ -29,8 +29,7 @@ class FlowStore {
     const { data, status } = await httpGet(path);
     this.isFetching = false;
     if (status >= 400) {
-      console.log(data.error)
-      return this.errorMessage = data.error;
+      return this.errorMessage = data.description;
     }
     data.forEach(item => itemMap.set(item.id, item));
   }
@@ -175,7 +174,7 @@ class FlowStore {
     }
   }
   clearError = () => {
-    this.hasError = '';
+    this.errorMessage = '';
   }
 
   get users() {
