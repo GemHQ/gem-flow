@@ -110,6 +110,13 @@ h2, h2, h3 {
   position: relative;
 }
 
+.Loading {
+  color: #8E8E8E;
+  font-weight: 400;
+  padding: 12px 0;
+  font-size: 16px;
+}
+
 @media (min-width: 1000px) {
   .AppContainer {
     justify-content: center;

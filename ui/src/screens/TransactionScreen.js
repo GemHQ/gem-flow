@@ -4,6 +4,7 @@ import AccountCard from '../components/cards/AccountCard';
 import TransactionForm from '../components/forms/TransactionForm';
 import { ScreenNames } from '../stores/Constants';
 import TransactionTable from '../components/composite/transactionTable/TransactionTable';
+import ErrorMessage from '../components/basic/errorMessage/ErrorMessage';
 
 const TransactionScreen = ({ flowStore, uiStore }) => {
   const initialScreenState = uiStore.progressStore.initialScreenStates.get(ScreenNames.TRANSACTION);
@@ -16,6 +17,7 @@ const TransactionScreen = ({ flowStore, uiStore }) => {
 
   return (
     <>
+    <ErrorMessage />
     {
       creatingItem
       ?
@@ -32,9 +34,13 @@ const TransactionScreen = ({ flowStore, uiStore }) => {
         />
       </>
       :
-      <div className="FlexAlignCenter SpaceBetween">
-        <h2 className="ScreenHeading noPadding">{`${numberOfItems} Transaction${numberOfItems === 1 ? '' : 's'}`}</h2>
-      </div>
+      (
+        flowStore.isFetching
+        ? <p className="Loading">{`Loading Transactions...`}</p>
+        :<div className="FlexAlignCenter SpaceBetween">
+          <h2 className="ScreenHeading noPadding">{`${numberOfItems} Transaction${numberOfItems === 1 ? '' : 's'}`}</h2>
+        </div>
+      )
     }
     {
       !creatingItem
