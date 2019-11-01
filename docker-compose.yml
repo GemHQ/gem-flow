@@ -1,34 +1,28 @@
-
-version: "3.7"
+version: '3.7'
 services:
-
   database:
     container_name: gem-flow-database
     build: ./database
     environment:
-      POSTGRES_DB: postgres
+      POSTGRES_DB: gem_flow
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     ports:
-      - "5432:5432"
+      - '5432:5432'
     volumes:
       - gem-flow-db-data:/var/lib/postgresql/data
-
+    networks:
+      - back-end
   server:
     container_name: gem-flow-server
     build: ./server
-    environment:
-      PORT: 3001
-      PGHOST: gem-flow-database
-      PGUSER: postgres
-      PGDATABASE: postgres
-      PGPASSWORD: postgres
-      PGPORT: 5432
+    env_file: ./.env
     ports:
-      - "3001:3001"
+      - '3001:3001'
     depends_on:
       - database
-
+    networks:
+      - back-end
   ui:
     container_name: gem-flow-ui
     build: ./ui
@@ -36,9 +30,13 @@ services:
       REACT_APP_SERVER_HOST: localhost
       REACT_APP_SERVER_PORT: 3001
     ports:
-      - "3000:3000"
+      - '3000:3000'
     depends_on:
       - server
 
 volumes:
   gem-flow-db-data:
+
+networks:
+  back-end:
+    driver: 'bridge'
