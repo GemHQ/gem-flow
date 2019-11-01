@@ -16,35 +16,34 @@ class FlowStore {
   selectedConnection = null;
   selectedAccount = null;
 
+  isFetching = false;
+
   constructor() {
     this.getUsers();
     this.getInstitutions();
   }
 
-  getUsers = async () => {
-    const { data, status } = await httpGet(Endpoints.USER);
+  getItems = async (path, itemMap) => {
+    this.isFetching = true;
+    const { data, status } = await httpGet(path);
+    this.isFetching = false;
     if (status >= 400) return;
-    data.forEach(user => this.usersMap.set(user.id, user));
+    data.forEach(item => itemMap.set(item.id, item));
+  }
+  getUsers = async () => {
+    return await this.getItems(Endpoints.USER, this.usersMap);
   }
   getProfiles = async () => {
-    const { data, status } = await httpGet(`${Endpoints.PROFILE}/${this.selectedUser.id}`);
-    if (status >= 400) return;
-    data.forEach(profile => this.profilesMap.set(profile.id, profile));
+    return await this.getItems(`${Endpoints.PROFILE}/${this.selectedUser.id}`, this.profilesMap);
   }
   getConnections = async () => {
-    const { data, status } = await httpGet(`${Endpoints.CONNECTIONS}/${this.selectedUser.id}`);
-    if (status >= 400) return;
-    data.forEach(connection => this.connectionsMap.set(connection.id, connection));
+    return await this.getItems(`${Endpoints.CONNECTIONS}/${this.selectedUser.id}`, this.connectionsMap);
   }
   getAccounts = async () => {
-    const { data, status } = await httpGet(`${Endpoints.ACCOUNT}/list/${this.selectedConnection.id}`);
-    if (status >= 400) return;
-    data.forEach(account => this.accountsMap.set(account.id, account));
+    return await this.getItems(`${Endpoints.ACCOUNT}/list/${this.selectedConnection.id}`, this.accountsMap);
   }
   getTransactions = async () => {
-    const { data, status } = await httpGet(`${Endpoints.TRANSACTION}/list/${this.selectedAccount.id}`);
-    if (status >= 400) return;
-    data.forEach(transaction => this.transactionsMap.set(transaction.id, transaction));
+    return await this.getItems(`${Endpoints.TRANSACTION}/list/${this.selectedAccount.id}`, this.transactionsMap);
   }
   getInstitutions = async () => {
     const { data, status } = await httpGet(Endpoints.INSTITUTION);
@@ -226,6 +225,8 @@ decorate(FlowStore, {
   selectedProfile: observable,
   selectedConnection: observable,
   selectedAccount: observable,
+  isFetching: observable,
+  getItems: action,
   getUsers: action,
   getProfiles: action,
   getConnections: action,
