@@ -11,7 +11,7 @@ const UserScreen = ({ flowStore, uiStore }) => (
     numberOfItems={flowStore.users.length}
     itemTitle="User"
     createItem={flowStore.createUser}
-    withOpenForm={true}
+    withOpenForm={false}
   >
   {
     flowStore.users.map(user => (
