@@ -11,7 +11,9 @@ const GenericScreen = ({
   children,
   buttonDisabled,
   withOpenForm,
-  isFetching
+  isFetching,
+  errorMessage,
+  dismissError
 }) => {
   const [creatingItem, setCreatingItem] = useState(withOpenForm);
   const startCreatingItem = () => setCreatingItem(true);
@@ -19,12 +21,18 @@ const GenericScreen = ({
 
   if (!numberOfItems && !creatingItem) {
     return isFetching
-    ? <p>loading</p>
+    ? <p className="Loading">{`Loading ${itemTitle}s...`}</p>
     : <Button onClick={startCreatingItem} disabled={buttonDisabled}>{`Create New ${itemTitle}`}</Button>
   }
 
   return (
     <>
+    { Boolean(errorMessage) && (
+      <div className="ErrorMessageContainer">
+        <p className="ErrorMessage">{errorMessage.toString()}</p>
+        <p className="Pointer ExtraBold" onClick={dismissError}>dismiss</p>
+      </div>
+    )}
     {
       creatingItem
       ?
@@ -49,6 +57,11 @@ const GenericScreen = ({
   )
 }
 
-const mapStateToProps = ({ flowStore, uiStore }) => ({ isFetching: flowStore.isFetching, primaryColor: uiStore.primaryColor });
+const mapStateToProps = ({ flowStore, uiStore }) => ({ 
+  isFetching: flowStore.isFetching,
+  errorMessage: flowStore.errorMessage,
+  dismissError: flowStore.clearError,
+  primaryColor: uiStore.primaryColor
+});
 
 export default injector(mapStateToProps)(GenericScreen);

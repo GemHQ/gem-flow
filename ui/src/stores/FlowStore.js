@@ -17,6 +17,7 @@ class FlowStore {
   selectedAccount = null;
 
   isFetching = false;
+  errorMessage = '';
 
   constructor() {
     this.getUsers();
@@ -56,32 +57,32 @@ class FlowStore {
 
   createUser = async user => {
     const { data, status } = await httpPost(Endpoints.USER, { user });
-    if (status >= 400) return;
+    if (status >= 400) return this.errorMessage = data.error || 'Unknown Error';
     this.usersMap.set(data.id, { ...data, ...user });
   }
   createProfile = async profileFormData => {
     const profile = formatProfileRequestBody(profileFormData);
     const userId = this.selectedUser.id;
     const { data, status } = await httpPost(Endpoints.PROFILE, { userId, profile });
-    if (status >= 400) return;
+    if (status >= 400) return this.errorMessage = data.error || 'Unknown Error';
     this.selectProfile(data.id);
     this.profilesMap.set(data.id, { ...data, profileName: profileFormData.profileName });
     await httpPost(Endpoints.PROFILE_DOCUMENT, { profileId: data.id, document: profileFormData.document });
   }
   createConnection = async connectionFormData => {
     const connection = formatConnectionRequestBody(this.selectedProfile.id, connectionFormData);
-    const { status } = await httpPost(Endpoints.INSTITUTION_USER, connection);
-    if (status >= 400) return;
+    const { status, data } = await httpPost(Endpoints.INSTITUTION_USER, connection);
+    if (status >= 400) return this.errorMessage = data.error || 'Unknown Error';
     this.getConnections();
   }
   createAccount = async account => {
     const { data, status } = await httpPost(Endpoints.ACCOUNT, account);
-    if (status >= 400) return;
+    if (status >= 400) return this.errorMessage = data.error || 'Unknown Error';
     this.accountsMap.set(data.id, data);
   }
   createTransaction = async transaction => {
     const { data, status } = await httpPost(Endpoints.TRANSACTION, transaction);
-    if (status >= 400) return;
+    if (status >= 400) return this.errorMessage = data.error || 'Unknown Error';
     this.transactionsMap.set(data.id, data);
   }
 
@@ -170,6 +171,9 @@ class FlowStore {
       default: return;
     }
   }
+  clearError = () => {
+    this.hasError = '';
+  }
 
   get users() {
     return [...this.usersMap.values()].reverse();
@@ -226,6 +230,7 @@ decorate(FlowStore, {
   selectedConnection: observable,
   selectedAccount: observable,
   isFetching: observable,
+  errorMessage: observable,
   getItems: action,
   getUsers: action,
   getProfiles: action,

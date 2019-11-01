@@ -32,9 +32,13 @@ const TransactionScreen = ({ flowStore, uiStore }) => {
         />
       </>
       :
-      <div className="FlexAlignCenter SpaceBetween">
-        <h2 className="ScreenHeading noPadding">{`${numberOfItems} Transaction${numberOfItems === 1 ? '' : 's'}`}</h2>
-      </div>
+      (
+        flowStore.isFetching
+        ? <p className="Loading">{`Loading Transactions...`}</p>
+        :<div className="FlexAlignCenter SpaceBetween">
+          <h2 className="ScreenHeading noPadding">{`${numberOfItems} Transaction${numberOfItems === 1 ? '' : 's'}`}</h2>
+        </div>
+      )
     }
     {
       !creatingItem
