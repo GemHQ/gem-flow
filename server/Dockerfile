@@ -1,12 +1,13 @@
-FROM node:10
+FROM node:lts-alpine
+
+RUN apk update && apk upgrade && apk add --no-cache curl vim bash
+
 WORKDIR /app
+
 COPY . ./
+
 RUN yarn
+
 EXPOSE 3001
-# RUN apt-get update
-# RUN apt-get -y install vim
-ENTRYPOINT [ "node", "server.js" ]
 
-
-
-
+ENTRYPOINT [ "./entrypoint.sh" ]
