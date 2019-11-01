@@ -28,7 +28,10 @@ class FlowStore {
     this.isFetching = true;
     const { data, status } = await httpGet(path);
     this.isFetching = false;
-    if (status >= 400) return;
+    if (status >= 400) {
+      console.log(data.error)
+      return this.errorMessage = data.error;
+    }
     data.forEach(item => itemMap.set(item.id, item));
   }
   getUsers = async () => {

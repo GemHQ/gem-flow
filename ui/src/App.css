@@ -110,11 +110,6 @@ h2, h2, h3 {
   position: relative;
 }
 
-.ErrorMessagContainer {
-  padding: 25px;
-  border: 1px solid pink;
-  border-radius: 4px;
-}
 .Loading {
   color: #8E8E8E;
   font-weight: 400;

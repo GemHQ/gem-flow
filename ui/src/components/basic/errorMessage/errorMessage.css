@@ -1,0 +1,21 @@
+.ErrorMessageContainer {
+  padding: 20px 24px;
+  border-radius: 4px;
+  width: 100%;
+  background-color: #FEEDF3;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ErrorMessage {
+  color: #EA1D63;
+  font-weight: 700;
+}
+
+.Dismiss {
+  color: #8E8E8E;
+  font-weight: 700;
+  cursor: pointer;
+  padding-right: 6px;
+}

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Button, { BorderedButton } from '../components/basic/button/Button';
 import { injector } from '../stores/StoresUtil';
+import ErrorMessage from '../components/basic/errorMessage/ErrorMessage';
 
 const GenericScreen = ({
   ItemForm,
@@ -12,8 +13,6 @@ const GenericScreen = ({
   buttonDisabled,
   withOpenForm,
   isFetching,
-  errorMessage,
-  dismissError
 }) => {
   const [creatingItem, setCreatingItem] = useState(withOpenForm);
   const startCreatingItem = () => setCreatingItem(true);
@@ -27,12 +26,7 @@ const GenericScreen = ({
 
   return (
     <>
-    { Boolean(errorMessage) && (
-      <div className="ErrorMessageContainer">
-        <p className="ErrorMessage">{errorMessage.toString()}</p>
-        <p className="Pointer ExtraBold" onClick={dismissError}>dismiss</p>
-      </div>
-    )}
+    <ErrorMessage />
     {
       creatingItem
       ?
@@ -59,8 +53,6 @@ const GenericScreen = ({
 
 const mapStateToProps = ({ flowStore, uiStore }) => ({ 
   isFetching: flowStore.isFetching,
-  errorMessage: flowStore.errorMessage,
-  dismissError: flowStore.clearError,
   primaryColor: uiStore.primaryColor
 });
 
