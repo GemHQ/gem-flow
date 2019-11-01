@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Button, { BorderedButton } from '../components/basic/button/Button';
-import { withPrimaryColor } from '../stores/StoresUtil';
+import { injector } from '../stores/StoresUtil';
 
 const GenericScreen = ({
   ItemForm,
@@ -10,15 +10,18 @@ const GenericScreen = ({
   primaryColor,
   children,
   buttonDisabled,
-  withOpenForm
+  withOpenForm,
+  isFetching
 }) => {
   const [creatingItem, setCreatingItem] = useState(withOpenForm);
   const startCreatingItem = () => setCreatingItem(true);
   const stopCreatingItem = () => setCreatingItem(false);
 
-  if (!numberOfItems && !creatingItem) return (
-    <Button onClick={startCreatingItem} disabled={buttonDisabled}>{`Create New ${itemTitle}`}</Button>
-  )
+  if (!numberOfItems && !creatingItem) {
+    return isFetching
+    ? <p>loading</p>
+    : <Button onClick={startCreatingItem} disabled={buttonDisabled}>{`Create New ${itemTitle}`}</Button>
+  }
 
   return (
     <>
@@ -46,4 +49,6 @@ const GenericScreen = ({
   )
 }
 
-export default withPrimaryColor(GenericScreen);
+const mapStateToProps = ({ flowStore, uiStore }) => ({ isFetching: flowStore.isFetching, primaryColor: uiStore.primaryColor });
+
+export default injector(mapStateToProps)(GenericScreen);
