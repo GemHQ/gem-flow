@@ -1,26 +1,27 @@
-const { Pool } = require('pg');
 const dotenv = require('dotenv');
-dotenv.config({path: '../.env'});
+dotenv.config({ path: '../.env' });
 
-const createUser = async (input) => {
+const environment = process.env.NODE_ENV || 'development',
+  config = require('./knexfile.js')[environment],
+  knex = require('knex')(config);
 
-  const text = 'INSERT INTO users(gem_user_id, access_token) VALUES($1, $2) RETURNING *';
-  const values = [input.gem_user_id, input.access_token];
-
-  const pool = new Pool();
-  const result = await pool.query(text, values);
-  await pool.end()
-  return result.rows[0];
-}
+const createUser = async ({ gem_user_id, access_token }) => {
+  try {
+    const rows = await knex('users')
+      .insert({ gem_user_id, access_token })
+      .returning('*');
+    return rows[0];
+  } catch (e) {
+    throw e;
+  }
+};
 
 const listUsers = async () => {
-
-  const text = 'SELECT * FROM USERS';
-
-  const pool = new Pool();
-  const result = await pool.query(text);
-  await pool.end()
-  return result.rows;
-}
+  try {
+    return await knex('users');
+  } catch (e) {
+    throw e;
+  }
+};
 
 module.exports = { createUser, listUsers };
