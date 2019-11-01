@@ -16,35 +16,37 @@ class FlowStore {
   selectedConnection = null;
   selectedAccount = null;
 
+  isFetching = false;
+  errorMessage = '';
+
   constructor() {
     this.getUsers();
     this.getInstitutions();
   }
 
+  getItems = async (path, itemMap) => {
+    this.isFetching = true;
+    const { data, status } = await httpGet(path);
+    this.isFetching = false;
+    if (status >= 400) {
+      return this.errorMessage = data.description;
+    }
+    data.forEach(item => itemMap.set(item.id, item));
+  }
   getUsers = async () => {
-    const { data, status } = await httpGet(Endpoints.USER);
-    if (status >= 400) return;
-    data.forEach(user => this.usersMap.set(user.id, user));
+    return await this.getItems(Endpoints.USER, this.usersMap);
   }
   getProfiles = async () => {
-    const { data, status } = await httpGet(`${Endpoints.PROFILE}/${this.selectedUser.id}`);
-    if (status >= 400) return;
-    data.forEach(profile => this.profilesMap.set(profile.id, profile));
+    return await this.getItems(`${Endpoints.PROFILE}/${this.selectedUser.id}`, this.profilesMap);
   }
   getConnections = async () => {
-    const { data, status } = await httpGet(`${Endpoints.CONNECTIONS}/${this.selectedUser.id}`);
-    if (status >= 400) return;
-    data.forEach(connection => this.connectionsMap.set(connection.id, connection));
+    return await this.getItems(`${Endpoints.CONNECTIONS}/${this.selectedUser.id}`, this.connectionsMap);
   }
   getAccounts = async () => {
-    const { data, status } = await httpGet(`${Endpoints.ACCOUNT}/list/${this.selectedConnection.id}`);
-    if (status >= 400) return;
-    data.forEach(account => this.accountsMap.set(account.id, account));
+    return await this.getItems(`${Endpoints.ACCOUNT}/list/${this.selectedConnection.id}`, this.accountsMap);
   }
   getTransactions = async () => {
-    const { data, status } = await httpGet(`${Endpoints.TRANSACTION}/list/${this.selectedAccount.id}`);
-    if (status >= 400) return;
-    data.forEach(transaction => this.transactionsMap.set(transaction.id, transaction));
+    return await this.getItems(`${Endpoints.TRANSACTION}/list/${this.selectedAccount.id}`, this.transactionsMap);
   }
   getInstitutions = async () => {
     const { data, status } = await httpGet(Endpoints.INSTITUTION);
@@ -57,32 +59,32 @@ class FlowStore {
 
   createUser = async user => {
     const { data, status } = await httpPost(Endpoints.USER, { user });
-    if (status >= 400) return;
+    if (status >= 400) return this.errorMessage = data.error || 'Unknown Error';
     this.usersMap.set(data.id, { ...data, ...user });
   }
   createProfile = async profileFormData => {
     const profile = formatProfileRequestBody(profileFormData);
     const userId = this.selectedUser.id;
     const { data, status } = await httpPost(Endpoints.PROFILE, { userId, profile });
-    if (status >= 400) return;
+    if (status >= 400) return this.errorMessage = data.error || 'Unknown Error';
     this.selectProfile(data.id);
     this.profilesMap.set(data.id, { ...data, profileName: profileFormData.profileName });
     await httpPost(Endpoints.PROFILE_DOCUMENT, { profileId: data.id, document: profileFormData.document });
   }
   createConnection = async connectionFormData => {
     const connection = formatConnectionRequestBody(this.selectedProfile.id, connectionFormData);
-    const { status } = await httpPost(Endpoints.INSTITUTION_USER, connection);
-    if (status >= 400) return;
+    const { status, data } = await httpPost(Endpoints.INSTITUTION_USER, connection);
+    if (status >= 400) return this.errorMessage = data.error || 'Unknown Error';
     this.getConnections();
   }
   createAccount = async account => {
     const { data, status } = await httpPost(Endpoints.ACCOUNT, account);
-    if (status >= 400) return;
+    if (status >= 400) return this.errorMessage = data.error || 'Unknown Error';
     this.accountsMap.set(data.id, data);
   }
   createTransaction = async transaction => {
     const { data, status } = await httpPost(Endpoints.TRANSACTION, transaction);
-    if (status >= 400) return;
+    if (status >= 400) return this.errorMessage = data.error || 'Unknown Error';
     this.transactionsMap.set(data.id, data);
   }
 
@@ -171,6 +173,9 @@ class FlowStore {
       default: return;
     }
   }
+  clearError = () => {
+    this.errorMessage = '';
+  }
 
   get users() {
     return [...this.usersMap.values()].reverse();
@@ -226,6 +231,9 @@ decorate(FlowStore, {
   selectedProfile: observable,
   selectedConnection: observable,
   selectedAccount: observable,
+  isFetching: observable,
+  errorMessage: observable,
+  getItems: action,
   getUsers: action,
   getProfiles: action,
   getConnections: action,
