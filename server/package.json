@@ -17,7 +17,9 @@
   },
   "scripts": {
     "start": "node server.js",
-    "watch": "nodemon server.js"
+    "watch": "nodemon server.js",
+    "migrate": "./node_modules/.bin/knex migrate:up",
+    "rollback": "./node_modules/.bin/knex migrate:rollback"
   },
   "devDependencies": {}
 }
