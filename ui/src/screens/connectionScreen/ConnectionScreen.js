@@ -22,18 +22,8 @@ const ConnectionScreen = ({ flowStore, uiStore }) => (
       key={connection.id} 
       removeConnection={() => flowStore.removeConnection(connection.id)}
       onButtonClick={() => {
-        try {
-          openPmWidget(async plaidToken => {
-            const account = {
-              plaid_token: plaidToken,
-              connection_id: connection.id,
-              type: 'PlaidAccount'
-            }
-            await flowStore.createAccount(account);
-            flowStore.selectConnection(connection.id);
-            uiStore.progressStore.setCurrentScreen(ScreenNames.ACCOUNT, { withOpenForm: false });
-          });
-        } catch(e) {}
+        flowStore.selectConnection(connection.id);
+        uiStore.progressStore.setCurrentScreen(ScreenNames.ACCOUNT, { withOpenForm: true });
       }}
       onViewClick={() => {
         flowStore.selectConnection(connection.id);

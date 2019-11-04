@@ -23,6 +23,7 @@ const AccountScreen = ({ flowStore, uiStore }) => (
     }}
     buttonDisabled={!flowStore.selectedConnection}
     withOpenForm={uiStore.progressStore.withOpenForm}
+    autoCloseForm={false}
   >
   {
     flowStore.accounts.map(account => (
