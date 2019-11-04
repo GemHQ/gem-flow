@@ -12,6 +12,7 @@ const GenericScreen = ({
   buttonDisabled,
   withOpenForm,
   isFetching,
+  autoCloseForm = true
 }) => {
   const [creatingItem, setCreatingItem] = useState(withOpenForm);
   const startCreatingItem = () => setCreatingItem(true);
@@ -34,7 +35,7 @@ const GenericScreen = ({
           onCancel={stopCreatingItem}
           onSubmit={item => {
             createItem(item);
-            stopCreatingItem();
+            autoCloseForm && stopCreatingItem();
           }}
         />
       </>
