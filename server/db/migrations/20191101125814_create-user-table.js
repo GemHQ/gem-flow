@@ -1,6 +1,8 @@
 exports.up = function(knex) {
-  const query = `CREATE TABLE users(
-    id SERIAL PRIMARY KEY NOT NULL,
+  const query = `
+  CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+  CREATE TABLE users(
+    id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
     gem_user_id VARCHAR(255), 
     access_token VARCHAR(255),
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
