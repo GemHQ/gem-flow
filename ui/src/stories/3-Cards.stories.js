@@ -28,7 +28,7 @@ const mockAccount = {
   id: '1',
   name: 'Bank of America',
   type: 'Bank ACH',
-  last_updated_at: 'UTC +8 16:00 Sep 19, 2019'
+  updated_at: 'UTC +8 16:00 Sep 19, 2019'
 }
 
 export default {
