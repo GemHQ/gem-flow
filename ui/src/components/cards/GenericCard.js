@@ -23,7 +23,7 @@ const GenericCard = ({
     </div>
     <div className="FlexAlignCenter">
       <div className="ColumnCenter">
-        <Button onClick={onButtonClick} backgroundColor={primaryColor} disabled={disabled} marginRight>{buttonText}</Button> 
+        <Button onClick={onButtonClick} primaryColor={primaryColor} disabled={disabled} marginRight>{buttonText}</Button> 
         {viewText && onViewClick && <UnderButton onClick={onViewClick} primaryColor={primaryColor}>{viewText}</UnderButton>}
       </div>
       {dots && <ThreeDots menuOptions={dotsMenuOptions} />}
