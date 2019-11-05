@@ -1,6 +1,7 @@
 import React from 'react';
 import GenericCard from './GenericCard';
 import { withPrimaryColor } from '../../stores/StoresUtil';
+import { formatDate } from '../../util/TextUtil';
 
 
 const AccountCard = ({ account, onButtonClick, onViewClick, primaryColor, removeAccount, dots, disabled }) => (
@@ -9,7 +10,7 @@ const AccountCard = ({ account, onButtonClick, onViewClick, primaryColor, remove
       { title: 'ACCOUNT_ID', value: account.id },
       { title: 'ACCOUNT_NAME', value: account.name },
       // { title: 'ACCOUNT_TYPE', value: account.type },
-      { title: 'LAST_UPDATED_AT', value: account.updated_at },
+      { title: 'LAST_UPDATED_AT', value: formatDate(account.updated_at) },
     ]}
     buttonText="Create Transaction"
     onButtonClick={onButtonClick}

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './transactionTable.css'
 import NumericNavBar from './numericNavBar/NumericNavBar';
+import { formatDate } from '../../../util/TextUtil';
 
 const TRANSACTIONS_PER_PAGE = 4;
 
@@ -42,7 +43,7 @@ const TransactionRow = ({ trx }) => (
     <p>{trx.destination.address}</p>
     <p className="TextCenter">{trx.type}</p>
     <p className="TextCenter">{`${trx.destination_amount} ${tickerFromAsset(trx.destination.asset_id)}`}</p>
-    <p className="TextCenter">{trx.created_at}</p>
+    <p className="TextCenter">{formatDate(trx.created_at)}</p>
     <p className="TextCenter">{trx.status}</p>
   </div>
 )
