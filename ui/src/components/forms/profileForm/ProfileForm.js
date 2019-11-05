@@ -8,7 +8,6 @@ import DocumentUpload from './documentUpload/DocumentUpload';
 import mockProfiles, { createMockPhoneNumber } from './mockProfiles';
 
 const Placeholders = {
-  PROFILE_NAME: 'Profile Name',
   FIRST_NAME: 'First Name',
   LAST_NAME: 'Last Name',
   EMAIL: 'Email',
@@ -29,7 +28,6 @@ const countryOptions = [
 
 export class ProfileForm extends Component {
   state = {
-    profileName: '',
     firstName: '',
     lastName: '',
     email: '',
@@ -47,12 +45,21 @@ export class ProfileForm extends Component {
 
   setInputValue = (field, value) => {
     this.setState({ [field]: value });
-    console.log(this.state.country)
   }
 
   clearAll = () => {
     for (let i in this.state) {
-      this.setState({ [i]: '' });
+      switch (i) {
+        case 'country':
+          this.setState({ [i]: Placeholders.COUNTRY });
+          break;
+        case 'document':
+          this.setState({ [i]: null });
+          break;
+        default:
+          this.setState({ [i]: '' });
+          break;
+      } 
     }
   }
 
@@ -84,7 +91,6 @@ export class ProfileForm extends Component {
   render() {
     const { onCancel, onSubmit, primaryColor } = this.props;
     const {
-      profileName,
       firstName,
       lastName,
       email,
@@ -104,18 +110,9 @@ export class ProfileForm extends Component {
       <form 
         className="ShortGap"
         onSubmit={e => e.preventDefault()}>
-        <TitleAndValue 
-          title="Name the profile"
-          value=""
-        />
-        <div className="TallRow">
-          <Input 
-            value={profileName} 
-            onChange={({ target }) => this.setInputValue('profileName', target.value)} 
-            placeholder={Placeholders.PROFILE_NAME}
-          />
-        </div>
-        <div className="Flex FlexEnd">
+        <div/>
+        <div/>
+        <div className="Flex FlexEnd FormPaddingBottomSmall">
           <p 
             className="OnrampColor Pointer ExtraBold SmallText" 
             onClick={buttonDisabled ? this.fillWithData : this.clearAll}
@@ -183,7 +180,7 @@ export class ProfileForm extends Component {
           />
         </div>
         <div />
-        <div className="TallRow">
+        <div className="FormPaddingBottomBig">
           <Input 
             value={phoneNumber} 
             onChange={({ target }) => this.setInputValue('phoneNumber', target.value)} 
@@ -194,7 +191,7 @@ export class ProfileForm extends Component {
           selectedOption={country || Placeholders.COUNTRY}
           selectOption={option => this.setInputValue('country', option)}
           options={countryOptions}
-          selectedClassName={country === Placeholders.COUNTRY ? 'LightGreyText ThinText MediumTextSize' : 'BlackText ThinText MediumTextSize'}
+          selectedClassName={`ThinText MediumTextSize ${country === Placeholders.COUNTRY ? 'LightGreyText' : 'BlackText'}`}
         />
         <TitleAndValue 
           title="Upload photo ID"

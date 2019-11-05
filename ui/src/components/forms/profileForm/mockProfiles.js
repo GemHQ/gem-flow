@@ -12,7 +12,6 @@ const mockPhotoIdDoc = {
 }
 
 const mockProfiles = [{
-  profileName: 'Jean-Luc Picard',
   firstName: 'Jean-Luc',
   lastName: 'Picard',
   email: 'jeanluc@starfleet.org',
@@ -27,7 +26,6 @@ const mockProfiles = [{
   document: mockPhotoIdDoc
 },
 {
-  profileName: 'Samwise Gamgee',
   firstName: 'Samwise',
   lastName: 'Gamgee',
   email: 'samwise@theshire.com',
@@ -42,7 +40,6 @@ const mockProfiles = [{
   document: mockPhotoIdDoc
 },
 {
-  profileName: 'Obi-Wan Kenobi',
   firstName: 'Obi-Wan',
   lastName: 'Kenobi',
   email: 'obiwan@jedi.org',
