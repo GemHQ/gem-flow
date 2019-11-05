@@ -1,13 +1,14 @@
 import React from 'react';
 import GenericCard from './GenericCard';
 import { withPrimaryColor } from '../../stores/StoresUtil';
+import { formatDate } from '../../util/TextUtil';
 
 const ProfileCard = ({ profile, onButtonClick, onViewClick, primaryColor, removeProfile }) => (
   <GenericCard 
     titlesAndValues={[
       { title: 'PROFILE_ID', value: profile.id },
       { title: 'PROFILE_NAME', value: profile.profileName },
-      { title: 'CREATED_AT', value: profile.created_at },
+      { title: 'CREATED_AT', value: formatDate(profile.created_at) },
     ]}
     buttonText="Create Connection"
     onButtonClick={onButtonClick}

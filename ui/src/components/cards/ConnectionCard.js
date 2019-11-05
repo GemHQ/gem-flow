@@ -2,6 +2,7 @@ import React from 'react';
 import GenericCard from './GenericCard';
 import { withPrimaryColor } from '../../stores/StoresUtil';
 import { InstitutionIcons } from '../../stores/Constants';
+import { formatDate } from '../../util/TextUtil';
 
 const ConnectionCard = ({ connection, onButtonClick, onViewClick, removeConnection, primaryColor }) => (
   <GenericCard
@@ -9,7 +10,7 @@ const ConnectionCard = ({ connection, onButtonClick, onViewClick, removeConnecti
       { title: 'CONNECTION_ID', value: connection.id },
       // { title: 'CONNECTION_NAME', value: connection.institution.name },
       { title: 'CONNECTION_NAME', value: 'Wyre' },
-      { title: 'CREATED_AT', value: connection.created_at },
+      { title: 'CREATED_AT', value: formatDate(connection.created_at) },
     ]}
     buttonText="Add Account"
     onButtonClick={onButtonClick}
