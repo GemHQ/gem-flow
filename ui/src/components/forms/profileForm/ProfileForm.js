@@ -65,8 +65,6 @@ export class ProfileForm extends Component {
 
   fillWithData = () => {
     const randomIndex = Math.floor(Math.random() * mockProfiles.length);
-    const mockPhoneNumber = createMockPhoneNumber();
-    this.setInputValue('phoneNumber', mockPhoneNumber);
     const mockProfile = mockProfiles[randomIndex];
     for (let i in mockProfile) {
       this.setState({ [i]: mockProfile[i] });
