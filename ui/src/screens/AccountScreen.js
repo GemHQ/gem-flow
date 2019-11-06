@@ -18,13 +18,13 @@ const AccountScreen = ({ flowStore, uiStore }) => (
         openPmWidget(async plaidToken => {
           const account = {
             plaid_token: plaidToken,
-            connection_id: flowStore.selectedConnection.id,
+            connection_id: flowStore.selectedInstitutionUser.id,
             type: 'PlaidAccount'
           }
           await flowStore.createAccount(account);
         })
       }}
-      buttonDisabled={!flowStore.selectedConnection}
+      buttonDisabled={!flowStore.selectedInstitutionUser}
       withOpenForm={uiStore.progressStore.withOpenForm}
       autoCloseForm={false}
     >

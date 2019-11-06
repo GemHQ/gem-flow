@@ -13,22 +13,22 @@ const ConnectionScreen = ({ flowStore, uiStore }) => (
       ItemForm={InstitutionUserForm}
       numberOfItems={flowStore.connections.length}
       itemTitle="Connection"
-      createItem={flowStore.createConnection}
+      createItem={flowStore.createInstitutionUser}
       buttonDisabled={!flowStore.selectedProfile}
       withOpenForm={uiStore.progressStore.withOpenForm}
     >
     {
-      flowStore.connections.map(connection => (
+      flowStore.connections.map(institutionUser => (
       <ConnectionCard
-        connection={connection} 
-        key={connection.id} 
-        removeConnection={() => flowStore.removeConnection(connection.id)}
+        institutionUser={institutionUser} 
+        key={institutionUser.id} 
+        removeInstitutionUser={() => flowStore.removeInstitutionUser(institutionUser.id)}
         onButtonClick={() => {
-          flowStore.selectConnection(connection.id);
+          flowStore.selectInstitutionUser(institutionUser.id);
           uiStore.progressStore.setCurrentScreen(ScreenNames.ACCOUNT, { withOpenForm: true });
         }}
         onViewClick={() => {
-          flowStore.selectConnection(connection.id);
+          flowStore.selectInstitutionUser(institutionUser.id);
           uiStore.progressStore.setCurrentScreen(ScreenNames.ACCOUNT, { withOpenForm: false });
         }}
       />))
