@@ -5,7 +5,8 @@ import { ButtonWithCancel } from '../../basic/button/Button';
 import Input from '../../basic/input/Input';
 import { withPrimaryColor } from '../../../stores/StoresUtil';
 import DocumentUpload from './documentUpload/DocumentUpload';
-import mockProfiles, { createMockPhoneNumber } from './mockProfiles';
+import mockProfiles from './mockProfiles';
+import { toDateDashedString, onlyNumbers, trimmed, toSSNDashedString, twoUpperAlphas, postalCodeFilter, phoneNumberFilter } from '../../../util/FormUtil';
 
 const Placeholders = {
   FIRST_NAME: 'First Name',
@@ -151,18 +152,18 @@ export class ProfileForm extends Component {
         <div />
         <Input 
           value={dateOfBirth} 
-          onChange={({ target }) => this.setInputValue('dateOfBirth', target.value)} 
+          onChange={({ target }) => this.setInputValue('dateOfBirth', toDateDashedString(target.value))} 
           placeholder={Placeholders.DATE_OF_BIRTH}
         />
         <Input 
           value={postalCode} 
-          onChange={({ target }) => this.setInputValue('postalCode', target.value)} 
+          onChange={({ target }) => this.setInputValue('postalCode', postalCodeFilter(target.value))} 
           placeholder={Placeholders.POSTAL_CODE}
         />
         <div />
         <Input 
           value={ssn} 
-          onChange={({ target }) => this.setInputValue('ssn', target.value)} 
+          onChange={({ target }) => this.setInputValue('ssn', toSSNDashedString(target.value))} 
           placeholder={Placeholders.SSN}
           />
         <div className="DoubleInputGrid">
@@ -173,7 +174,7 @@ export class ProfileForm extends Component {
           />
           <Input 
             value={state} 
-            onChange={({ target }) => this.setInputValue('state', target.value)} 
+            onChange={({ target }) => this.setInputValue('state', twoUpperAlphas(target.value))} 
             placeholder={Placeholders.STATE}
           />
         </div>
@@ -181,7 +182,7 @@ export class ProfileForm extends Component {
         <div className="FormPaddingBottomBig">
           <Input 
             value={phoneNumber} 
-            onChange={({ target }) => this.setInputValue('phoneNumber', target.value)} 
+            onChange={({ target }) => this.setInputValue('phoneNumber', phoneNumberFilter(target.value))} 
             placeholder={Placeholders.PHONE_NUMBER}
           />
         </div>
