@@ -5,6 +5,11 @@ export const createMockPhoneNumber = () => {
   return `+1323${rand.split('.').join('').substr(0, 7)}`;
 }
 
+const mockEmail = (firstName, domain) => {
+  const rand = (Math.random() * 1000).toFixed(7).replace(/\D/g, '');
+  return `${firstName}${rand}@${domain}`;
+}
+
 const mockPhotoIdDoc = {
   files: passportDoc,
   type: 'passport',
@@ -14,7 +19,7 @@ const mockPhotoIdDoc = {
 const mockProfiles = [{
   firstName: 'Jean-Luc',
   lastName: 'Picard',
-  email: 'jeanluc@starfleet.org',
+  email: mockEmail('jeanluc', 'starfleet.org'),
   dateOfBirth: '07-13-1980',
   ssn: '948-38-0021',
   addressLine1: '123 Enterprise St.',
@@ -28,7 +33,7 @@ const mockProfiles = [{
 {
   firstName: 'Samwise',
   lastName: 'Gamgee',
-  email: 'samwise@theshire.com',
+  email: mockEmail('samwise', '@theshire.com'),
   dateOfBirth: '04-06-1986',
   ssn: '548-29-0927',
   addressLine1: '123 Hobbiton St.',
@@ -42,7 +47,7 @@ const mockProfiles = [{
 {
   firstName: 'Obi-Wan',
   lastName: 'Kenobi',
-  email: 'obiwan@jedi.org',
+  email: mockEmail('obiwan', 'jedi.org'),
   dateOfBirth: '01-12-1953',
   ssn: '123-45-4321',
   addressLine1: '21 Tatooine Rd.',
