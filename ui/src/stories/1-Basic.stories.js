@@ -8,7 +8,7 @@ import { Flows } from '../stores/Constants';
 import ThreeDots from '../components/basic/threeDots/ThreeDots';
 import HelpTip from '../components/basic/helpTip/HelpTip';
 import TitleAndValue from '../components/basic/titleAndValue/TitleAndValue';
-import { ErrorMessage } from '../components/basic/errorMessage/ErrorMessage';
+import ErrorMessage from '../components/basic/errorMessage/ErrorMessage';
 
 const uiStore = new UIStore();
 

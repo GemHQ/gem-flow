@@ -83,11 +83,7 @@ class FlowStore {
   createConnection = async connectionFormData => {
     const connection = formatConnectionRequestBody(this.selectedProfile.id, connectionFormData);
     const { status, data } = await httpPost(Endpoints.INSTITUTION_USER, connection);
-    console.log(status)
-    if (status >= 400) {
-      console.log(data.description)
-      return this.errorMessage = data.description || 'Unknown Error';
-    }
+    if (status >= 400) return this.errorMessage = data.description || 'Unknown Error';
     this.getConnections();
   }
   createAccount = async account => {
