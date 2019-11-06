@@ -40,7 +40,16 @@ class FlowStore {
     return await this.getItems(`${Endpoints.PROFILE}/${this.selectedUser.id}`, this.profilesMap);
   }
   getConnections = async () => {
-    return await this.getItems(`${Endpoints.CONNECTIONS}/${this.selectedUser.id}`, this.connectionsMap);
+    this.isFetching = true;
+    const [connections, institutionUsers] = await Promise.all([
+      await httpGet(`${Endpoints.CONNECTIONS}/${this.selectedUser.id}`),
+      await httpGet(`${Endpoints.INSTITUTION_USER}${Endpoints.PROFILE}/${this.selectedUser.id}`),
+    ]);
+    this.isFetching = false;
+    console.log(connections, institutionUsers)
+    // if (status >= 400) {
+    //   return this.errorMessage = data.description;
+    // }
   }
   getAccounts = async () => {
     return await this.getItems(`${Endpoints.ACCOUNT}/list/${this.selectedConnection.id}`, this.accountsMap);
