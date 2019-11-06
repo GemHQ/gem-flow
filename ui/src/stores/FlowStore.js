@@ -177,8 +177,9 @@ class FlowStore {
   clearError = () => {
     this.errorMessage = '';
   }
-  setError = (errorMessage = 'Unknown Error') => {
-    this.errorMessage = errorMessage;
+  setError = errorMessage => {
+    // errorMessage may be null, hence default value in the params (message = 'Unknown Error') will not work
+    this.errorMessage = errorMessage || 'Unknown Error';
   }
 
   get users() {

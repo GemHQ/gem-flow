@@ -33,7 +33,6 @@ router.get('/:id', async (req, res, next) => {
 router.get('/user/profile/:profile_id', async (req, res, next) => {
   try {
     const result = await gemClient.get('/institution_users', req.params);
-    console.log(req.params.profile_id)
     return res.json(result);
   } catch (e) {
     next(e);

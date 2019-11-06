@@ -24,7 +24,7 @@ export const TransactionForm = ({ accountId, asset, onCancel, onSubmit, primaryC
     }}>
       <TitleAndValue 
         title="Enter information"
-        value="Select an asset and enter the amount."
+        value="Select an asset and enter the amount. Make sure to use a testnet address if using sandbox api keys."
         maxHeight="60px"
       />
       <DropdownSelector
@@ -42,7 +42,7 @@ export const TransactionForm = ({ accountId, asset, onCancel, onSubmit, primaryC
       <Input 
         value={amount} 
         onChange={({ target }) => setAmount(target.value)} 
-        placeholder="Amount" 
+        placeholder={`Amount (${asset.toUpperCase()})`}
       />
       <Input 
         value={destinationAddress} 
