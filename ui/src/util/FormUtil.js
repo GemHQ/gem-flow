@@ -9,6 +9,8 @@ export const stringHasLength = str => str.length > 0;
 
 export const onlyNumbers = str => str.replace(/\D/g, '');
 
+export const validNumber = str => str.replace(/[^0-9\.\,]+/g, '', '');
+
 export const onlyAlpha = str => str.replace(/[^a-zA-Z]+/g, '');
 
 export const withSSNDashes = str => {
