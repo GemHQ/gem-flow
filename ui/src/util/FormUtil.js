@@ -2,6 +2,9 @@ import isEmail from 'isemail';
 
 export const validateEmail = email => isEmail.validate(email);
 
+export const trimmed = length => str =>
+  str.substring(0, length);
+
 export const stringHasLength = str => str.length > 0;
 
 export const onlyNumbers = str => str.replace(/\D/g, '');
@@ -19,6 +22,18 @@ export const withSSNDashes = str => {
   }
   const thirdPart = trimmed(4)(str.substring(5));
   return `${firstPart}-${secondPart}-${thirdPart}`;
+};
+
+export const withDateSpacing = str => {
+  const firstPart = str
+    .substring(0, 4)
+    .replace(/(\d{2})/g, '$1 ')
+    .trim();
+  if (str.length < 5) {
+    return firstPart;
+  }
+  const secondPart = trimmed(4)(str.substring(4));
+  return `${firstPart} ${secondPart}`;
 };
 
 export const toDateSpacedString = str =>
