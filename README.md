@@ -1,4 +1,18 @@
+![](gem-demo-1.gif)
+
+# Gem Flow
+
+Gem Flow is an example app demonstrating how a transaction can be made using Gem Api.
+
+## Flows
+
+### Onramp
+
+Gem Onramp flow demonstrates the steps from creating a user through excecuting a buy transaction using a Plaid linked account (via Wyre). These steps includes user creation, creating a profile for that user, using this profile to set up a Wyre connection, linking a Plaid account to the Wyre connection, and finally making a transaction with the linked Plaid account. 
+
 ## Prerequisites
+
+You must obtain a Gem API Key and Secret pair.
 
 You must have docker installed. Please refer to Docker's official site:
 
@@ -16,14 +30,14 @@ cd gem-flow
 ```
 
 ### 2. **Enter your creds**
-```
-cd gem-flow
-```
-Update `.env.template` with your **API keys** and **save** file.
+
+Create a `.env` file in the root directory with your **API keys** and **save** file.
 
 ```
-cp .env.template ./server
+GEM_API_KEY=<your-api-key>
+GEM_API_SECRET=<your-api-secret>
 ```
+
 
 ### 3. **Build your environment**
 ```
@@ -57,4 +71,14 @@ sh scripts/remove.sh
 If you run into issues, it will always be resolved by running rebuild.sh.
 Worst case, restart your docker.
 
-## Happy Coding!
+## Architecture
+
+Flow consists of multiple services handling different segments of the stack:
+
+- NodeJS and Express for the backend server
+- React frontend with MobX for state management
+- PostgreSQL database for managing access tokens
+- Docker to orchestrate these services
+
+The backend server also uses [Gem's Node SDK](https://github.com/GemHQ/gem-node) to authenticate and make requests to the API.
+

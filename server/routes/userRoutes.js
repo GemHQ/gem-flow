@@ -9,12 +9,12 @@ const pg = require('../pg');
  */
 router.post('/', async (_req, res, next) => {
   try {
-    const { id } = await gemApi.createUser();
-    const accessToken = mockAccessToken();
-    const user = await pg.createUser({
-      gem_user_id: id,
-      access_token: accessToken,
-    });
+    const user = await gemApi.createUser();
+    // const accessToken = mockAccessToken();
+    // const user = await pg.createUser({
+    //   gem_user_id: id,
+    //   access_token: accessToken,
+    // });
     return res.json(user);
   } catch (e) {
     next(e);

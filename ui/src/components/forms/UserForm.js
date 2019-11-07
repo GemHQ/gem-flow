@@ -17,7 +17,7 @@ export const UserForm = ({ onCancel, onSubmit, primaryColor, setError }) => {
         primaryColor={primaryColor}
         onCancel={onCancel} 
         onClick={() => {
-          if (validateEmail(email)) {
+          if (!email || validateEmail(email)) {
             onSubmit({ email });
           } else {
             setError('Not a valid email')
