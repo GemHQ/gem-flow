@@ -14,7 +14,7 @@ const placeholderOption = 'Choose an Institution';
 
 const institutionOptions = [
   { value: 'wyre', label: 'Wyre', className: 'OnrampColor' },
-  { value: 'coinify', label: 'Coinify', className: 'OnrampColor' },
+  // { value: 'coinify', label: 'Coinify', className: 'OnrampColor' },
 ];
 
 export const InstitutionUserForm = ({ onCancel, onSubmit, primaryColor }) => {
