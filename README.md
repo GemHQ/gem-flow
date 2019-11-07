@@ -1,3 +1,5 @@
+![](gem-demo-1.gif)
+
 # Gem Flow
 
 Gem Flow is an example app demonstrating how a transaction can be made using Gem Api.
