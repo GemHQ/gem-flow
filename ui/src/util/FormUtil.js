@@ -5,7 +5,7 @@ export const validateEmail = email => isEmail.validate(email);
 export const trimmed = length => str =>
   str.substring(0, length);
 
-export const stringHasLength = str => str.length > 0;
+const stringHasLength = str => str.length > 0;
 
 export const onlyNumbers = str => str.replace(/\D/g, '');
 
@@ -17,7 +17,7 @@ export const phoneNumberFilter = str => trimmed(12)(str.replace(/[^0-9\+\,]+/g, 
 
 export const postalCodeFilter = str => trimmed(5)(onlyNumbers(str));
 
-export const withSSNDashes = str => {
+const withSSNDashes = str => {
   const firstPart = str.substring(0, 3);
   if (str.length < 4) {
     return firstPart;
@@ -30,7 +30,7 @@ export const withSSNDashes = str => {
   return `${firstPart}-${secondPart}-${thirdPart}`;
 };
 
-export const withDateDashes = str => {
+const withDateDashes = str => {
   const firstPart = str.substring(0, 2);
   if (str.length < 3) {
     return firstPart;
@@ -52,9 +52,13 @@ export const toSSNDashedString = str =>
 export const twoUpperAlphas = str =>
   trimmed(2)(onlyAlpha(str)).toUpperCase();
 
-export const isUsStateCode = str => {
+const isUsStateCode = str => {
   return str.length === 2 && usStateCodes.includes(str);
 };
+
+const isValidPhoneNumer = str => {
+  // const firstChar = str.substring
+}
 
 export const usStateCodes = [
   'AL',

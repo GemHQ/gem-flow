@@ -17,6 +17,7 @@ class FlowStore {
   selectedAccount = null;
 
   isFetching = false;
+  isPosting = false;
   errorMessage = '';
 
   constructor() {
@@ -53,10 +54,17 @@ class FlowStore {
     if (status >= 400) return;
     data.forEach(institution => this.institutionMap.set(institution.id, {
       ...institution, 
-      icon: InstitutionIcons[institution.id] 
+      icon: InstitutionIcons[institution.id]
     }));
   }
 
+  createItem = async (path, body, itemMap, defaultError) => {
+    this.isPosting = true;
+    const { data, status } = await httpPost(path, body);
+    this.isPosting = false;
+    if (status >= 400) return this.setError(data.description || defaultError);
+    itemMap.set(data.id, data);
+  }
   createUser = async user => {
     const { data, status } = await httpPost(Endpoints.USER, { user });
     if (status >= 400) return this.setError(data.description);
