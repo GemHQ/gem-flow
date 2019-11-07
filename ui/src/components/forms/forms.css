@@ -15,8 +15,11 @@ form {
   gap: 14px 34px;
 }
 
-.TallRow {
+.FormPaddingBottomBig {
   padding-bottom: 28px;
+}
+.FormPaddingBottomSmall {
+  padding-bottom: 20px;
 }
 
 .DoubleInputGrid {

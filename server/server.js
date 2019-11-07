@@ -31,7 +31,7 @@ app.use((err, _req, res, _next) => {
   if (err instanceof GemAPIError) {
     return res
       .status(err.status)
-      .json({ description: err.description, code: err.code });
+      .json({ description: err.description, error: err.error });
   }
 
   return res.status(500).json({

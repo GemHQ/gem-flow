@@ -2,7 +2,7 @@ import React from 'react';
 import { injector } from '../../../stores/StoresUtil';
 import './errorMessage.css';
 
-export const ErrorMessage = ({ errorMessage = 'error', dismissError }) => {
+const ErrorMessage = ({ errorMessage, dismissError }) => {
   if (!errorMessage) return null;
   return (
     <div className="ErrorMessageContainer">
@@ -12,6 +12,8 @@ export const ErrorMessage = ({ errorMessage = 'error', dismissError }) => {
   );
 }
 
-const mapStoresToProps = ({ flowStore }) => ({ errorMessage: flowStore.errorMessage, dismissError: flowStore.clearError });
+// fallback flowStore object for storybook
+const storybookFlowStore = { errorMessage: 'This is an error' };
+const mapStoresToProps = ({ flowStore = storybookFlowStore }) => ({ errorMessage: flowStore.errorMessage, dismissError: flowStore.clearError });
 
 export default injector(mapStoresToProps)(ErrorMessage);

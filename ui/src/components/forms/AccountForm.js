@@ -10,7 +10,7 @@ const placeholderOption = 'Choose an Account Type';
 
 const accountOptions = [
   { value: 'Bank ACH', label: 'Bank ACH (via Plaid)', className: 'OnrampColor' },
-  { value: 'Debit Card', label: 'Debit Card', className: 'OnrampColor' },
+  // { value: 'Debit Card', label: 'Debit Card', className: 'OnrampColor' },
 ];
 
 export const AccountForm = ({ onCancel, onSubmit, primaryColor }) => {

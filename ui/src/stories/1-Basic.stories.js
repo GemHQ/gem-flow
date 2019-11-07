@@ -1,6 +1,6 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
-import { BorderedButton, Button } from '../components/basic/button/Button';
+import Button, { BorderedButton } from '../components/basic/button/Button';
 import Input, { TipInput } from '../components/basic/input/Input';
 import DropdownSelector from '../components/basic/dropdownSelector/DropdownSelector';
 import UIStore from '../stores/UIStore';
@@ -8,7 +8,7 @@ import { Flows } from '../stores/Constants';
 import ThreeDots from '../components/basic/threeDots/ThreeDots';
 import HelpTip from '../components/basic/helpTip/HelpTip';
 import TitleAndValue from '../components/basic/titleAndValue/TitleAndValue';
-import { ErrorMessage } from '../components/basic/errorMessage/ErrorMessage';
+import ErrorMessage from '../components/basic/errorMessage/ErrorMessage';
 
 const uiStore = new UIStore();
 

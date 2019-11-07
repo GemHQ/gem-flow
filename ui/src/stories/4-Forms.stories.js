@@ -26,4 +26,4 @@ export const profile  = () => <ProfileForm {...props} />;
 
 export const account = () => <AccountForm {...props} />
 
-export const transaction  = () => <TransactionForm {...props} />;
+export const transaction  = () => <TransactionForm {...props} asset='usd' />;

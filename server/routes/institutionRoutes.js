@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const gemApi = require('../gemApi');
+const gemClient = require('../gemClient');
 
 /**
  * List all supported institutions
@@ -20,6 +21,18 @@ router.get('/', async (_req, res, next) => {
 router.get('/:id', async (req, res, next) => {
   try {
     const result = await gemApi.getInstitution(req.params.id);
+    return res.json(result);
+  } catch (e) {
+    next(e);
+  }
+});
+
+/**
+ * Gets a list of institution users by profile id
+ */
+router.get('/user/profile/:profile_id', async (req, res, next) => {
+  try {
+    const result = await gemClient.get('/institution_users', req.params);
     return res.json(result);
   } catch (e) {
     next(e);

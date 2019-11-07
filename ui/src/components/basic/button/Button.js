@@ -3,7 +3,7 @@ import './button.css';
 import { bkgColorWithShadow } from '../../../util/StyleUtil'
 import { withPrimaryColor } from '../../../stores/StoresUtil';
 
-export const Button = ({
+const Button = ({
   disabled,
   onClick,
   primaryColor,

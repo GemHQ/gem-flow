@@ -5,10 +5,10 @@ import { ButtonWithCancel } from '../../basic/button/Button';
 import Input from '../../basic/input/Input';
 import { withPrimaryColor } from '../../../stores/StoresUtil';
 import DocumentUpload from './documentUpload/DocumentUpload';
-import mockProfiles, { createMockPhoneNumber } from './mockProfiles';
+import mockProfiles from './mockProfiles';
+import { toDateDashedString, onlyNumbers, trimmed, toSSNDashedString, twoUpperAlphas, postalCodeFilter, phoneNumberFilter } from '../../../util/FormUtil';
 
 const Placeholders = {
-  PROFILE_NAME: 'Profile Name',
   FIRST_NAME: 'First Name',
   LAST_NAME: 'Last Name',
   EMAIL: 'Email',
@@ -29,7 +29,6 @@ const countryOptions = [
 
 export class ProfileForm extends Component {
   state = {
-    profileName: '',
     firstName: '',
     lastName: '',
     email: '',
@@ -47,19 +46,26 @@ export class ProfileForm extends Component {
 
   setInputValue = (field, value) => {
     this.setState({ [field]: value });
-    console.log(this.state.country)
   }
 
   clearAll = () => {
     for (let i in this.state) {
-      this.setState({ [i]: '' });
+      switch (i) {
+        case 'country':
+          this.setState({ [i]: Placeholders.COUNTRY });
+          break;
+        case 'document':
+          this.setState({ [i]: null });
+          break;
+        default:
+          this.setState({ [i]: '' });
+          break;
+      } 
     }
   }
 
   fillWithData = () => {
     const randomIndex = Math.floor(Math.random() * mockProfiles.length);
-    const mockPhoneNumber = createMockPhoneNumber();
-    this.setInputValue('phoneNumber', mockPhoneNumber);
     const mockProfile = mockProfiles[randomIndex];
     for (let i in mockProfile) {
       this.setState({ [i]: mockProfile[i] });
@@ -84,7 +90,6 @@ export class ProfileForm extends Component {
   render() {
     const { onCancel, onSubmit, primaryColor } = this.props;
     const {
-      profileName,
       firstName,
       lastName,
       email,
@@ -104,18 +109,9 @@ export class ProfileForm extends Component {
       <form 
         className="ShortGap"
         onSubmit={e => e.preventDefault()}>
-        <TitleAndValue 
-          title="Name the profile"
-          value=""
-        />
-        <div className="TallRow">
-          <Input 
-            value={profileName} 
-            onChange={({ target }) => this.setInputValue('profileName', target.value)} 
-            placeholder={Placeholders.PROFILE_NAME}
-          />
-        </div>
-        <div className="Flex FlexEnd">
+        <div/>
+        <div/>
+        <div className="Flex FlexEnd FormPaddingBottomSmall">
           <p 
             className="OnrampColor Pointer ExtraBold SmallText" 
             onClick={buttonDisabled ? this.fillWithData : this.clearAll}
@@ -156,18 +152,18 @@ export class ProfileForm extends Component {
         <div />
         <Input 
           value={dateOfBirth} 
-          onChange={({ target }) => this.setInputValue('dateOfBirth', target.value)} 
+          onChange={({ target }) => this.setInputValue('dateOfBirth', toDateDashedString(target.value))} 
           placeholder={Placeholders.DATE_OF_BIRTH}
         />
         <Input 
           value={postalCode} 
-          onChange={({ target }) => this.setInputValue('postalCode', target.value)} 
+          onChange={({ target }) => this.setInputValue('postalCode', postalCodeFilter(target.value))} 
           placeholder={Placeholders.POSTAL_CODE}
         />
         <div />
         <Input 
           value={ssn} 
-          onChange={({ target }) => this.setInputValue('ssn', target.value)} 
+          onChange={({ target }) => this.setInputValue('ssn', toSSNDashedString(target.value))} 
           placeholder={Placeholders.SSN}
           />
         <div className="DoubleInputGrid">
@@ -178,15 +174,15 @@ export class ProfileForm extends Component {
           />
           <Input 
             value={state} 
-            onChange={({ target }) => this.setInputValue('state', target.value)} 
+            onChange={({ target }) => this.setInputValue('state', twoUpperAlphas(target.value))} 
             placeholder={Placeholders.STATE}
           />
         </div>
         <div />
-        <div className="TallRow">
+        <div className="FormPaddingBottomBig">
           <Input 
             value={phoneNumber} 
-            onChange={({ target }) => this.setInputValue('phoneNumber', target.value)} 
+            onChange={({ target }) => this.setInputValue('phoneNumber', phoneNumberFilter(target.value))} 
             placeholder={Placeholders.PHONE_NUMBER}
           />
         </div>
@@ -194,7 +190,7 @@ export class ProfileForm extends Component {
           selectedOption={country || Placeholders.COUNTRY}
           selectOption={option => this.setInputValue('country', option)}
           options={countryOptions}
-          selectedClassName={country === Placeholders.COUNTRY ? 'LightGreyText ThinText MediumTextSize' : 'BlackText ThinText MediumTextSize'}
+          selectedClassName={`ThinText MediumTextSize ${country === Placeholders.COUNTRY ? 'LightGreyText' : 'BlackText'}`}
         />
         <TitleAndValue 
           title="Upload photo ID"

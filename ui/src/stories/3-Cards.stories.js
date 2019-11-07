@@ -28,7 +28,7 @@ const mockAccount = {
   id: '1',
   name: 'Bank of America',
   type: 'Bank ACH',
-  last_updated_at: 'UTC +8 16:00 Sep 19, 2019'
+  updated_at: 'UTC +8 16:00 Sep 19, 2019'
 }
 
 export default {
@@ -37,7 +37,7 @@ export default {
 
 export const user  = () => <UserCard user={mockUser} createProfile={action('create profile')} primaryColor={Flows.Onramp.primaryColor} />;
 
-export const profile  = () => <ProfileCard profile={mockProfile} createConnection={action('create connection')} primaryColor={Flows.Onramp.primaryColor} />;
+export const profile  = () => <ProfileCard profile={mockProfile} createInstitutionUser={action('create connection')} primaryColor={Flows.Onramp.primaryColor} />;
 
 export const connection  = () => <ConnectionCard connection={mockConnection} createAccount={action('create account')} primaryColor={Flows.Onramp.primaryColor} />;
 

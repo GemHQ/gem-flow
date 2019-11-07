@@ -4,6 +4,7 @@ import TitleAndValue from '../basic/titleAndValue/TitleAndValue';
 import { ButtonWithCancel } from '../basic/button/Button';
 import Input from '../basic/input/Input';
 import { withPrimaryColor } from '../../stores/StoresUtil';
+import { validNumber } from '../../util/FormUtil';
 
 const assetPlaceholder = `Asset`;
 
@@ -24,7 +25,7 @@ export const TransactionForm = ({ accountId, asset, onCancel, onSubmit, primaryC
     }}>
       <TitleAndValue 
         title="Enter information"
-        value="Select an asset and enter the amount."
+        value="Select an asset and enter the amount. Make sure to use a testnet address if using sandbox api keys."
         maxHeight="60px"
       />
       <DropdownSelector
@@ -40,9 +41,9 @@ export const TransactionForm = ({ accountId, asset, onCancel, onSubmit, primaryC
       />
       <div />
       <Input 
-        value={amount} 
+        value={validNumber(amount)} 
         onChange={({ target }) => setAmount(target.value)} 
-        placeholder="Amount" 
+        placeholder={`Amount (${asset.toUpperCase()})`}
       />
       <Input 
         value={destinationAddress} 

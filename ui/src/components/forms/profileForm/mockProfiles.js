@@ -1,8 +1,13 @@
 import passportDoc from '../../../assets/exampleImageSeeds/passport.json';
 
 export const createMockPhoneNumber = () => {
-  const rand = Math.random().toString();
-  return `+1323${rand.split('.').join('').substr(0, 7)}`;
+  const rand = (Math.random() * 1000).toFixed(4).replace(/\D/g, '');
+  return `+1323${rand}`;
+}
+
+const createMockEmail = (firstName, domain) => {
+  const rand = (Math.random() * 1000).toFixed(4).replace(/\D/g, '');
+  return `${firstName}${rand}@${domain}`;
 }
 
 const mockPhotoIdDoc = {
@@ -12,10 +17,10 @@ const mockPhotoIdDoc = {
 }
 
 const mockProfiles = [{
-  profileName: 'Jean-Luc Picard',
   firstName: 'Jean-Luc',
   lastName: 'Picard',
-  email: 'jeanluc@starfleet.org',
+  email: createMockEmail('jeanluc', 'starfleet.org'),
+  phoneNumber: createMockPhoneNumber(),
   dateOfBirth: '07-13-1980',
   ssn: '948-38-0021',
   addressLine1: '123 Enterprise St.',
@@ -27,10 +32,10 @@ const mockProfiles = [{
   document: mockPhotoIdDoc
 },
 {
-  profileName: 'Samwise Gamgee',
   firstName: 'Samwise',
   lastName: 'Gamgee',
-  email: 'samwise@theshire.com',
+  email: createMockEmail('samwise', '@theshire.com'),
+  phoneNumber: createMockPhoneNumber(),
   dateOfBirth: '04-06-1986',
   ssn: '548-29-0927',
   addressLine1: '123 Hobbiton St.',
@@ -42,10 +47,10 @@ const mockProfiles = [{
   document: mockPhotoIdDoc
 },
 {
-  profileName: 'Obi-Wan Kenobi',
   firstName: 'Obi-Wan',
   lastName: 'Kenobi',
-  email: 'obiwan@jedi.org',
+  email: createMockEmail('obiwan', 'jedi.org'),
+  phoneNumber: createMockPhoneNumber(),
   dateOfBirth: '01-12-1953',
   ssn: '123-45-4321',
   addressLine1: '21 Tatooine Rd.',
