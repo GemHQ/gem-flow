@@ -1,9 +1,12 @@
 ![](flow-demo-1.gif)
 
+<br/>
+
 # Gem Flow
 
 Gem Flow is an example app demonstrating how to excecute entire flows with Gem's Api.
 
+<br/>
 
 ## Flows
 
@@ -13,6 +16,7 @@ Gem Onramp flow demonstrates the steps from creating a user through excecuting a
 
 These steps includes user creation, creating a profile for that user, using this profile to set up a Wyre connection, linking a Plaid account to the Wyre connection, and finally making a transaction with the linked Plaid account. 
 
+<br/>
 
 ## Prerequisites
 
@@ -74,6 +78,7 @@ sh scripts/remove.sh
 If you run into issues, it will always be resolved by running rebuild.sh.
 Worst case, restart your docker.
 
+<br/>
 
 ## Architecture
 
