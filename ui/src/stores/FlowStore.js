@@ -59,9 +59,7 @@ class FlowStore {
   }
 
   createItem = async (path, body, itemMap, defaultError) => {
-    this.isPosting = true;
     const { data, status } = await httpPost(path, body);
-    this.isPosting = false;
     if (status >= 400) return this.setError(data.description || defaultError);
     itemMap.set(data.id, data);
   }
