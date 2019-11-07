@@ -12,6 +12,7 @@ const GenericScreen = ({
   buttonDisabled,
   withOpenForm,
   isFetching,
+  isPosting,
   autoCloseForm = true
 }) => {
   const [creatingItem, setCreatingItem] = useState(withOpenForm);
@@ -21,7 +22,10 @@ const GenericScreen = ({
   if (!numberOfItems && !creatingItem) {
     return isFetching
     ? <p className="Loading">{`Loading ${itemTitle}s...`}</p>
-    : <Button onClick={startCreatingItem} disabled={buttonDisabled}>{`Create New ${itemTitle}`}</Button>
+    : <>
+        <Button onClick={startCreatingItem} disabled={buttonDisabled}>{`Create New ${itemTitle}`}</Button>
+        { isPosting && <p className="Creating">{`Creating ${itemTitle}...`}</p> }
+      </>
   }
 
   return (
@@ -45,6 +49,7 @@ const GenericScreen = ({
         <BorderedButton color={primaryColor} onClick={startCreatingItem}>{`+ Add new ${itemTitle.toLowerCase()}`}</BorderedButton>
       </div>
     }
+    { isPosting && <p className="Creating">{`Creating ${itemTitle}...`}</p> }
     {children}
     </>
   )
@@ -52,6 +57,7 @@ const GenericScreen = ({
 
 const mapStateToProps = ({ flowStore, uiStore }) => ({ 
   isFetching: flowStore.isFetching,
+  isPosting: flowStore.isPosting,
   primaryColor: uiStore.primaryColor
 });
 

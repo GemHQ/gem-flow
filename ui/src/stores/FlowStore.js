@@ -64,32 +64,41 @@ class FlowStore {
     itemMap.set(data.id, data);
   }
   createUser = async user => {
+    this.isPosting = true;
     const { data, status } = await httpPost(Endpoints.USER, { user });
+    this.isPosting = false;
     if (status >= 400) return this.setError(data.description);
     this.usersMap.set(data.id, { ...data, ...user });
   }
   createProfile = async profileFormData => {
+    this.isPosting = true;
     const profile = formatProfileRequestBody(profileFormData);
     const userId = this.selectedUser.id;
     const { data, status } = await httpPost(Endpoints.PROFILE, { userId, profile });
+    this.isPosting = false;
     if (status >= 400) return this.setError(data.description);
-    this.selectProfile(data.id);
-    this.profilesMap.set(data.id, { ...data, profileName: profileFormData.profileName });
+    this.profilesMap.set(data.id, data);
     await httpPost(Endpoints.PROFILE_DOCUMENT, { profileId: data.id, document: profileFormData.document });
   }
   createInstitutionUser = async connectionFormData => {
+    this.isPosting = true;
     const connection = formatConnectionRequestBody(this.selectedProfile.id, connectionFormData);
     const { status, data } = await httpPost(Endpoints.INSTITUTION_USER, connection);
+    this.isPosting = false;
     if (status >= 400) return this.setError(data.description);
     this.getInstitutionUsers();
   }
   createAccount = async account => {
+    this.isPosting = true;
     const { data, status } = await httpPost(Endpoints.ACCOUNT, account);
+    this.isPosting = false;
     if (status >= 400) return this.setError(data.description);
     this.accountsMap.set(data.id, data);
   }
   createTransaction = async transaction => {
+    this.isPosting = true;
     const { data, status } = await httpPost(Endpoints.TRANSACTION, transaction);
+    this.isPosting = false;
     if (status >= 400) return this.setError(data.description);
     this.transactionsMap.set(data.id, data);
   }
@@ -243,6 +252,7 @@ decorate(FlowStore, {
   selectedInstitutionUser: observable,
   selectedAccount: observable,
   isFetching: observable,
+  isPosting: observable,
   errorMessage: observable,
   getItems: action,
   getUsers: action,

@@ -34,7 +34,7 @@ const mockProfiles = [{
 {
   firstName: 'Samwise',
   lastName: 'Gamgee',
-  email: createMockEmail('samwise', '@theshire.com'),
+  email: createMockEmail('samwise', 'theshire.com'),
   phoneNumber: createMockPhoneNumber(),
   dateOfBirth: '04-06-1986',
   ssn: '548-29-0927',

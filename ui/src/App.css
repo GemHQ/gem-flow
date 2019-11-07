@@ -117,6 +117,13 @@ h2, h2, h3 {
   font-size: 16px;
 }
 
+.Creating {
+  color: #8E8E8E;
+  font-weight: 400;
+  padding: 24px 0;
+  font-size: 16px;
+}
+
 @media (min-width: 1000px) {
   .AppContainer {
     justify-content: center;
