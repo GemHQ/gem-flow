@@ -32,6 +32,7 @@ class FlowStore {
     if (status >= 400) {
       return this.setError(data.description);
     }
+    console.log(path, data)
     data.forEach(item => itemMap.set(item.id, item));
   }
   getUsers = async () => {

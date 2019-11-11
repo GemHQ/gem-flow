@@ -8,8 +8,8 @@ const ConnectionCard = ({ institutionUser, onButtonClick, onViewClick, removeIns
   <GenericCard
     titlesAndValues={[
       { title: 'CONNECTION_ID', value: institutionUser.connection_id },
-      // { title: 'CONNECTION_NAME', value: institutionUser.institution.name },
-      { title: 'CONNECTION_NAME', value: 'Wyre' },
+      { title: 'INSTITUTION', value: 'Wyre' },
+      { title: 'EXTERNAL_ID', value: institutionUser.external_id },
       { title: 'CREATED_AT', value: formatDate(institutionUser.created_at) },
     ]}
     buttonText="Add Account"
