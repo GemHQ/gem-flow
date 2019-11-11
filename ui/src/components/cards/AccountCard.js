@@ -8,9 +8,10 @@ const AccountCard = ({ account, onButtonClick, onViewClick, primaryColor, remove
   <GenericCard
     titlesAndValues={[
       { title: 'ACCOUNT_ID', value: account.id },
-      { title: 'ACCOUNT_NAME', value: account.name },
-      // { title: 'ACCOUNT_TYPE', value: account.type },
+      { title: 'EXTERNAL_ID', value: account.external_id },
+      // { title: 'ACCOUNT_NAME', value: account.name },
       { title: 'LAST_UPDATED_AT', value: formatDate(account.updated_at) },
+      { title: 'STATUS', value: account.status },
     ]}
     buttonText="Create Transaction"
     onButtonClick={onButtonClick}

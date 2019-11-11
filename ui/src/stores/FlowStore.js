@@ -32,6 +32,7 @@ class FlowStore {
     if (status >= 400) {
       return this.setError(data.description);
     }
+    console.log(path, data)
     data.forEach(item => itemMap.set(item.id, item));
   }
   getUsers = async () => {
@@ -59,16 +60,14 @@ class FlowStore {
   }
 
   createItem = async (path, body, itemMap, defaultError) => {
+    this.isPosting = true;
     const { data, status } = await httpPost(path, body);
+    this.isPosting = false;
     if (status >= 400) return this.setError(data.description || defaultError);
     itemMap.set(data.id, data);
   }
   createUser = async user => {
-    this.isPosting = true;
-    const { data, status } = await httpPost(Endpoints.USER, { user });
-    this.isPosting = false;
-    if (status >= 400) return this.setError(data.description);
-    this.usersMap.set(data.id, { ...data, ...user });
+    this.createItem(Endpoints.USER, { user }, this.usersMap);
   }
   createProfile = async profileFormData => {
     this.isPosting = true;
@@ -81,26 +80,14 @@ class FlowStore {
     await httpPost(Endpoints.PROFILE_DOCUMENT, { profileId: data.id, document: profileFormData.document });
   }
   createInstitutionUser = async connectionFormData => {
-    this.isPosting = true;
     const connection = formatConnectionRequestBody(this.selectedProfile.id, connectionFormData);
-    const { status, data } = await httpPost(Endpoints.INSTITUTION_USER, connection);
-    this.isPosting = false;
-    if (status >= 400) return this.setError(data.description);
-    this.getInstitutionUsers();
+    this.createItem(Endpoints.INSTITUTION_USER, connection, this.institutionUsersMap);
   }
   createAccount = async account => {
-    this.isPosting = true;
-    const { data, status } = await httpPost(Endpoints.ACCOUNT, account);
-    this.isPosting = false;
-    if (status >= 400) return this.setError(data.description);
-    this.accountsMap.set(data.id, data);
+    this.createItem(Endpoints.ACCOUNT, account, this.accountsMap);
   }
   createTransaction = async transaction => {
-    this.isPosting = true;
-    const { data, status } = await httpPost(Endpoints.TRANSACTION, transaction);
-    this.isPosting = false;
-    if (status >= 400) return this.setError(data.description);
-    this.transactionsMap.set(data.id, data);
+    this.createItem(Endpoints.TRANSACTION, transaction, this.transactionsMap);
   }
 
   selectUser = id => {
