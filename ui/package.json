@@ -13,7 +13,7 @@
     "react-dom": "^16.9.0",
     "react-dropdown": "^1.6.4",
     "react-dropzone": "^10.1.10",
-    "react-scripts": "3.1.1",
+    "react-scripts": "3.2.0",
     "react-tooltip": "^3.11.1",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.88.1"
@@ -42,10 +42,16 @@
     ]
   },
   "devDependencies": {
-    "@babel/plugin-proposal-decorators": "^7.6.0",
+    "@babel/core": "^7.7.2",
     "@storybook/addon-actions": "^5.2.1",
     "@storybook/addon-links": "^5.2.1",
     "@storybook/addons": "^5.2.1",
-    "@storybook/react": "^5.2.1"
+    "@storybook/react": "^5.2.1",
+    "@typescript-eslint/eslint-plugin": "^2.7.0",
+    "@typescript-eslint/parser": "^2.7.0",
+    "babel-loader": "^8.0.6",
+    "eslint": "^6.6.0",
+    "typescript": "^3.7.2",
+    "webpack": "^4.41.2"
   }
 }
