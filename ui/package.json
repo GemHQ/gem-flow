@@ -49,9 +49,8 @@
     "@storybook/react": "^5.2.1",
     "@typescript-eslint/eslint-plugin": "^2.7.0",
     "@typescript-eslint/parser": "^2.7.0",
-    "babel-loader": "^8.0.6",
+    "babel-loader": "8.0.4",
     "eslint": "^6.6.0",
-    "typescript": "^3.7.2",
-    "webpack": "^4.41.2"
+    "typescript": "^3.7.2"
   }
 }
