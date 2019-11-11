@@ -67,11 +67,6 @@ class FlowStore {
   }
   createUser = async user => {
     this.createItem(Endpoints.USER, { user }, this.usersMap);
-    // this.isPosting = true;
-    // const { data, status } = await httpPost(Endpoints.USER, { user });
-    // this.isPosting = false;
-    // if (status >= 400) return this.setError(data.description);
-    // this.usersMap.set(data.id, { ...data, ...user });
   }
   createProfile = async profileFormData => {
     this.isPosting = true;
@@ -86,26 +81,12 @@ class FlowStore {
   createInstitutionUser = async connectionFormData => {
     const connection = formatConnectionRequestBody(this.selectedProfile.id, connectionFormData);
     this.createItem(Endpoints.INSTITUTION_USER, connection, this.institutionUsersMap);
-    // this.isPosting = true;
-    // const { status, data } = await httpPost(Endpoints.INSTITUTION_USER, connection);
-    // this.isPosting = false;
-    // if (status >= 400) return this.setError(data.description);
   }
   createAccount = async account => {
     this.createItem(Endpoints.ACCOUNT, account, this.accountsMap);
-    // this.isPosting = true;
-    // const { data, status } = await httpPost(Endpoints.ACCOUNT, account);
-    // this.isPosting = false;
-    // if (status >= 400) return this.setError(data.description);
-    // this.accountsMap.set(data.id, data);
   }
   createTransaction = async transaction => {
     this.createItem(Endpoints.TRANSACTION, transaction, this.transactionsMap);
-    // this.isPosting = true;
-    // const { data, status } = await httpPost(Endpoints.TRANSACTION, transaction);
-    // this.isPosting = false;
-    // if (status >= 400) return this.setError(data.description);
-    // this.transactionsMap.set(data.id, data);
   }
 
   selectUser = id => {
