@@ -19,8 +19,9 @@ const UserScreen = ({ flowStore, uiStore }) => (
     {
       flowStore.users.map(user => (
       <UserCard
+        flowId={uiStore.flow.id}
         user={user} 
-        key={user.id} 
+        key={user.id}
         removeUser={() => flowStore.removeUser(user.id)}
         onButtonClick={() => {
           flowStore.selectUser(user.id);
@@ -30,6 +31,7 @@ const UserScreen = ({ flowStore, uiStore }) => (
           flowStore.selectUser(user.id);
           uiStore.setCurrentScreen(ScreenNames.PROFILE, { withOpenForm: false });
         }}
+        nextScreenName={uiStore.flow.id === 'Onramp' ? ScreenNames.PROFILE : ScreenNames.CONNECTION}
       />))
     }
     </GenericScreen>
