@@ -1,5 +1,5 @@
 const dotenv = require('dotenv');
-dotenv.config({path: '../.env'});
+dotenv.config();
 
 const GemClient = require('@gem.co/api').Client;
 const { GEM_API_KEY, GEM_API_SECRET } = process.env;
