@@ -25,7 +25,7 @@ const AccountScreen = ({ flowStore, uiStore }) => (
         })
       }}
       buttonDisabled={!flowStore.selectedInstitutionUser}
-      withOpenForm={uiStore.progressStore.withOpenForm}
+      withOpenForm={uiStore.withOpenForm}
     >
     {
       flowStore.accounts.map(account => (
@@ -35,11 +35,11 @@ const AccountScreen = ({ flowStore, uiStore }) => (
         removeAccount={() => flowStore.removeAccount(account.id)}
         onButtonClick={() => {
           flowStore.selectAccount(account.id);
-          uiStore.progressStore.setCurrentScreen(ScreenNames.TRANSACTION, { withOpenForm: true });
+          uiStore.setCurrentScreen(ScreenNames.TRANSACTION, { withOpenForm: true });
         }}
         onViewClick={() => {
           flowStore.selectAccount(account.id);
-          uiStore.progressStore.setCurrentScreen(ScreenNames.TRANSACTION, { withOpenForm: false });
+          uiStore.setCurrentScreen(ScreenNames.TRANSACTION, { withOpenForm: false });
         }}
       />))
     }

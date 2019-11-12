@@ -32,7 +32,7 @@ const App = () => {
               <Divider marginBottom marginTop />
             </>
           }
-          <ProgressMap progressStore={uiStore.progressStore} />
+          <ProgressMap />
           <Divider marginBottom marginTop />
           <Screens />
         </div>
@@ -42,7 +42,7 @@ const App = () => {
 };
 
 const Screens = observer(() => {
-  switch (uiStore.progressStore.currentScreen) {
+  switch (uiStore.currentScreen) {
     case (ScreenNames.USER): return <UserScreen />;
     case (ScreenNames.PROFILE): return <ProfileScreen />;
     case (ScreenNames.CONNECTION): return <ConnectionScreen />;

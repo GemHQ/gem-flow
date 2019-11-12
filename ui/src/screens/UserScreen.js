@@ -24,11 +24,11 @@ const UserScreen = ({ flowStore, uiStore }) => (
         removeUser={() => flowStore.removeUser(user.id)}
         onButtonClick={() => {
           flowStore.selectUser(user.id);
-          uiStore.progressStore.setCurrentScreen(ScreenNames.PROFILE, { withOpenForm: true });
+          uiStore.setCurrentScreen(ScreenNames.PROFILE, { withOpenForm: true });
         }}
         onViewClick={() => {
           flowStore.selectUser(user.id);
-          uiStore.progressStore.setCurrentScreen(ScreenNames.PROFILE, { withOpenForm: false });
+          uiStore.setCurrentScreen(ScreenNames.PROFILE, { withOpenForm: false });
         }}
       />))
     }

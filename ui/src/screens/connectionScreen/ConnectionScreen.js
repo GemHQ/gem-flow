@@ -15,7 +15,7 @@ const ConnectionScreen = ({ flowStore, uiStore }) => (
       itemTitle="Connection"
       createItem={flowStore.createInstitutionUser}
       buttonDisabled={!flowStore.selectedProfile}
-      withOpenForm={uiStore.progressStore.withOpenForm}
+      withOpenForm={uiStore.withOpenForm}
     >
     {
       flowStore.connections.map(institutionUser => (
@@ -25,11 +25,11 @@ const ConnectionScreen = ({ flowStore, uiStore }) => (
         removeInstitutionUser={() => flowStore.removeInstitutionUser(institutionUser.id)}
         onButtonClick={() => {
           flowStore.selectInstitutionUser(institutionUser.id);
-          uiStore.progressStore.setCurrentScreen(ScreenNames.ACCOUNT, { withOpenForm: true });
+          uiStore.setCurrentScreen(ScreenNames.ACCOUNT, { withOpenForm: true });
         }}
         onViewClick={() => {
           flowStore.selectInstitutionUser(institutionUser.id);
-          uiStore.progressStore.setCurrentScreen(ScreenNames.ACCOUNT, { withOpenForm: false });
+          uiStore.setCurrentScreen(ScreenNames.ACCOUNT, { withOpenForm: false });
         }}
       />))
     }

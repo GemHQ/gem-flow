@@ -5,9 +5,9 @@ import FlowDots from './flowDots/FlowDots';
 import { withStores } from '../../../stores/StoresUtil';
 
 export const ProgressMap = ({ uiStore, flowStore }) => {
-  const { flow, progressStore, primaryColor } = uiStore;
+  const { flow, currentScreen, setCurrentScreen, primaryColor } = uiStore;
   const { dots, markerSubtitles } = flowStore;
-  const currentScreenIndex =  flow.screens.indexOf(progressStore.currentScreen);
+  const currentScreenIndex =  flow.screens.indexOf(currentScreen);
   return (
     <div className="ProgressContainer">
       <div className="RectangleTitlesContainer">
@@ -20,7 +20,7 @@ export const ProgressMap = ({ uiStore, flowStore }) => {
           color={primaryColor}
           onClick={() => {
             flowStore.clearItemsOnScreenChange(screen);
-            progressStore.setCurrentScreen(screen, { withOpenForm: false });
+            setCurrentScreen(screen, { withOpenForm: false });
           }}
         />)}
       </div>

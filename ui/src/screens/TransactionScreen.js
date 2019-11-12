@@ -7,7 +7,7 @@ import TransactionTable from '../components/composite/transactionTable/Transacti
 import ErrorMessage from '../components/basic/errorMessage/ErrorMessage';
 
 const TransactionScreen = ({ flowStore, uiStore }) => {
-  const initialScreenState = uiStore.progressStore.initialScreenStates.get(ScreenNames.TRANSACTION);
+  const initialScreenState = uiStore.initialScreenStates.get(ScreenNames.TRANSACTION);
   const initiallyOpenForm = initialScreenState && initialScreenState.withOpenForm;
   const [creatingItem, setCreatingItem] = useState(initiallyOpenForm);
   const startCreatingItem = () => setCreatingItem(true);
