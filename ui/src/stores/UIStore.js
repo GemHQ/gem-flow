@@ -1,13 +1,20 @@
 import { observable, action, computed, decorate } from 'mobx';
 import { Flows, ScreenNames } from './Constants';
+import { persistSelectedFlowId, getPersistedFlowId } from '../util/PersistUtil';
 
 class UIStore {
   flow = Flows.Onramp;
   currentScreen = ScreenNames.USER;
   initialScreenStates = new Map();
 
+  constructor() {
+    const persistedFlowId = getPersistedFlowId();
+    if (persistedFlowId) this.setFlow(persistedFlowId);
+  }
+
   setFlow = flowId => {
     this.flow = Flows[flowId];
+    persistSelectedFlowId(flowId);
   };
 
   setCurrentScreen = (screen, initialState) => {
