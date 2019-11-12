@@ -1,2 +1,2 @@
-docker-compose down
-docker-compose up
+docker-compose --log-level ERROR down
+docker-compose --log-level ERROR up -d --build --force-recreate
