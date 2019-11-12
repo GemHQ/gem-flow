@@ -1,4 +1,4 @@
-import { observable, action, computed, decorate } from "mobx";
+import { observable, action, computed, decorate } from 'mobx';
 import { Flows, ScreenNames } from './Constants';
 
 class UIStore {
@@ -20,7 +20,9 @@ class UIStore {
   }
 
   get dropdownOptions() {
-    return Object.values(Flows).map(flow => ({ value: flow.id, label: flow.dropdownTitle, className: flow.colorClassname }));
+    return Object.values(Flows)
+      .filter(flow => flow.id !== this.flow.id)
+      .map(flow => ({ value: flow.id, label: flow.dropdownTitle, className: flow.colorClassname }));
   }
 
   // get progressStore() {

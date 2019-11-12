@@ -24,17 +24,17 @@ export const Flows = {
       ScreenNames.TRANSACTION
     ]
   },
-  Connect: {
-    id: 'Connect',
-    dropdownTitle: 'Connect',
-    primaryColor: '#C0CA33',
-    colorClassname: 'ConnectColor',
-    screens: [
-      ScreenNames.USER, 
-      ScreenNames.CONNECTION,
-      ScreenNames.ACCOUNT,
-    ],
-  },
+  // Connect: {
+  //   id: 'Connect',
+  //   dropdownTitle: 'Connect',
+  //   primaryColor: '#C0CA33',
+  //   colorClassname: 'ConnectColor',
+  //   screens: [
+  //     ScreenNames.USER, 
+  //     ScreenNames.CONNECTION,
+  //     ScreenNames.ACCOUNT,
+  //   ],
+  // },
   Transfer: {
     id: 'Transfer',
     dropdownTitle: 'Transfer',
