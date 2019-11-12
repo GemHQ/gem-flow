@@ -10,8 +10,14 @@ export const ScreenNames = {
   TRANSACTION: 'Transaction'
 };
 
+export const FlowIds = {
+  ONRAMP: 'Onramp',
+  TRANSFER: 'Transfer',
+  CONNECT: 'Connect'
+}
+
 export const Flows = {
-  Onramp: {
+  [FlowIds.ONRAMP]: {
     id: 'Onramp',
     dropdownTitle: 'Onramp (Gem API)',
     primaryColor: '#9C27B0',
@@ -24,7 +30,7 @@ export const Flows = {
       ScreenNames.TRANSACTION
     ]
   },
-  // Connect: {
+  // [FlowIds.CONNECT]: {
   //   id: 'Connect',
   //   dropdownTitle: 'Connect',
   //   primaryColor: '#C0CA33',
@@ -35,7 +41,7 @@ export const Flows = {
   //     ScreenNames.ACCOUNT,
   //   ],
   // },
-  Transfer: {
+  [FlowIds.TRANSFER]: {
     id: 'Transfer',
     dropdownTitle: 'Transfer',
     primaryColor: '#478FCC',

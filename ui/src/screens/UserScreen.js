@@ -3,11 +3,11 @@ import UserForm from '../components/forms/UserForm';
 import UserCard from '../components/cards/UserCard';
 import GenericScreen from './GenericScreen';
 import { withStores } from '../stores/StoresUtil';
-import { ScreenNames } from '../stores/Constants';
+import { ScreenNames, FlowIds } from '../stores/Constants';
 import ErrorMessage from '../components/basic/errorMessage/ErrorMessage';
 
 const UserScreen = ({ flowStore, uiStore }) => {
-  const nextScreen = uiStore.flow.id === 'Onramp' ? ScreenNames.PROFILE : ScreenNames.CONNECTION;
+  const nextScreen = uiStore.flow.id === FlowIds.ONRAMP ? ScreenNames.PROFILE : ScreenNames.CONNECTION;
   return (
     <>
       <ErrorMessage />
