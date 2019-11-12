@@ -39,16 +39,16 @@ cd gem-flow
 
 ### 2. **Enter your creds**
 
-Create a `.env` file in the root directory with your **API keys** and **save** file.
+Create a `.env` file under `<root>/server` directory with your **API keys** and **save** file. A `.env.example` is attached for a full example.
 
 ```
 GEM_API_KEY=<your-api-key>
 GEM_API_SECRET=<your-api-secret>
 ```
 
-### 3. **Build your environment**
+### 3. **Start your environment**
 ```
-sh build.sh
+sh start.sh
 ```
 Then navigate to http://localhost:3000
 
