@@ -25,13 +25,7 @@ const App = () => {
         <div className="App">
           <Header flowName={uiStore.flow.id} />
           <Divider marginBottom />
-          {
-            uiStore.showInstructions &&
-            <>
-              <Instructions uiStore={uiStore} />
-              <Divider marginBottom marginTop />
-            </>
-          }
+          <SmartInstructions />
           <ProgressMap />
           <Divider marginBottom marginTop />
           <Screens />
@@ -50,6 +44,16 @@ const Screens = observer(() => {
     case (ScreenNames.TRANSACTION): return <TransactionScreen />;
     default: return <UserScreen />
   }
+});
+
+const SmartInstructions = observer(() => {
+  if (uiStore.showInstructions) return (
+    <>
+      <Instructions uiStore={uiStore} />
+      <Divider marginBottom marginTop />
+    </>
+  )
+  return null;
 });
 
 export default observer(App);
