@@ -1,5 +1,5 @@
 const dotenv = require('dotenv');
-dotenv.config({ path: '../.env' });
+dotenv.config();
 
 const environment = process.env.NODE_ENV || 'development',
   config = require('./knexfile.js')[environment],
