@@ -25,10 +25,6 @@ class UIStore {
       .map(flow => ({ value: flow.id, label: flow.dropdownTitle, className: flow.colorClassname }));
   }
 
-  // get progressStore() {
-  //   return this.progressMaps.get(this.flow.id);
-  // }
-
   get showInstructions() {
     return this.currentScreen === ScreenNames.USER;
   }
@@ -50,24 +46,3 @@ decorate(UIStore, {
 });
 
 export default UIStore;
-
-class ProgressStore {
-  currentScreen = ScreenNames.USER;
-  initialScreenStates = new Map();
-
-  setCurrentScreen = (screen, initialState) => {
-    this.currentScreen = screen;
-    initialState && this.initialScreenStates.set(screen, initialState);
-  }
-
-  get withOpenForm() {
-    const initialState = this.initialScreenStates.get(this.currentScreen);
-    return initialState && initialState.withOpenForm;
-  }
-}
-
-decorate(ProgressStore, {
-  currentScreen: observable,
-  setCurrentScreen: action,
-  withOpenForm: computed,
-});
