@@ -6,36 +6,39 @@ import { withStores } from '../stores/StoresUtil';
 import { ScreenNames } from '../stores/Constants';
 import ErrorMessage from '../components/basic/errorMessage/ErrorMessage';
 
-const UserScreen = ({ flowStore, uiStore }) => (
-  <>
-    <ErrorMessage />
-    <GenericScreen
-      ItemForm={UserForm}
-      numberOfItems={flowStore.users.length}
-      itemTitle="User"
-      createItem={flowStore.createUser}
-      withOpenForm={false}
-    >
-    {
-      flowStore.users.map(user => (
-      <UserCard
-        flowId={uiStore.flow.id}
-        user={user} 
-        key={user.id}
-        removeUser={() => flowStore.removeUser(user.id)}
-        onButtonClick={() => {
-          flowStore.selectUser(user.id);
-          uiStore.setCurrentScreen(ScreenNames.PROFILE, { withOpenForm: true });
-        }}
-        onViewClick={() => {
-          flowStore.selectUser(user.id);
-          uiStore.setCurrentScreen(ScreenNames.PROFILE, { withOpenForm: false });
-        }}
-        nextScreenName={uiStore.flow.id === 'Onramp' ? ScreenNames.PROFILE : ScreenNames.CONNECTION}
-      />))
-    }
-    </GenericScreen>
-  </>
-)
+const UserScreen = ({ flowStore, uiStore }) => {
+  const nextScreen = uiStore.flow.id === 'Onramp' ? ScreenNames.PROFILE : ScreenNames.CONNECTION;
+  return (
+    <>
+      <ErrorMessage />
+      <GenericScreen
+        ItemForm={UserForm}
+        numberOfItems={flowStore.users.length}
+        itemTitle="User"
+        createItem={flowStore.createUser}
+        withOpenForm={false}
+      >
+      {
+        flowStore.users.map(user => (
+        <UserCard
+          flowId={uiStore.flow.id}
+          user={user} 
+          key={user.id}
+          removeUser={() => flowStore.removeUser(user.id)}
+          onButtonClick={() => {
+            flowStore.selectUser(user.id);
+            uiStore.setCurrentScreen(nextScreen, { withOpenForm: true });
+          }}
+          onViewClick={() => {
+            flowStore.selectUser(user.id);
+            uiStore.setCurrentScreen(nextScreen, { withOpenForm: false });
+          }}
+          nextScreenName={nextScreen}
+        />))
+      }
+      </GenericScreen>
+    </>
+  )
 
+}
 export default withStores(UserScreen);

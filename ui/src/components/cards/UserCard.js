@@ -12,7 +12,7 @@ const UserCard = ({ user, onButtonClick, onViewClick, primaryColor, removeUser, 
     ]}
     buttonText={`Create ${nextScreenName}`}
     onButtonClick={onButtonClick}
-    viewText={`View ${nextScreenName}`}
+    viewText={`View ${nextScreenName}s`}
     onViewClick={onViewClick}
     primaryColor={primaryColor}
     dotsMenuOptions={[{ title: 'Remove user', onClick: removeUser }]}
