@@ -39,6 +39,6 @@ export const user  = () => <UserCard user={mockUser} createProfile={action('crea
 
 export const profile  = () => <ProfileCard profile={mockProfile} createInstitutionUser={action('create connection')} primaryColor={Flows.Onramp.primaryColor} />;
 
-export const connection  = () => <ConnectionCard connection={mockConnection} createAccount={action('create account')} primaryColor={Flows.Onramp.primaryColor} />;
+export const onrampConnection  = () => <ConnectionCard connection={mockConnection} createAccount={action('create account')} primaryColor={Flows.Onramp.primaryColor} />;
 
 export const account  = () => <AccountCard account={mockAccount} createTransaction={action('create transaction')} primaryColor={Flows.Onramp.primaryColor} />;

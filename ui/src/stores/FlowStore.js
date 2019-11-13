@@ -83,9 +83,9 @@ class FlowStore {
     this.profilesMap.set(data.id, data);
     await httpPost(Endpoints.PROFILE_DOCUMENT, { profileId: data.id, document: profileFormData.document });
   }
-  createInstitutionUser = async connectionFormData => {
-    const connection = formatConnectionRequestBody(this.selectedProfile.id, connectionFormData);
-    this.createItem(Endpoints.INSTITUTION_USER, connection, this.institutionUsersMap);
+  createInstitutionUser = async institutionUserFormData => {
+    const institutionUser = formatConnectionRequestBody(this.selectedProfile.id, institutionUserFormData);
+    this.createItem(Endpoints.INSTITUTION_USER, institutionUser, this.institutionUsersMap);
   }
   createConnection = async connection => {
     this.createItem(Endpoints.CONNECTIONS, connection, this.connectionsMap);

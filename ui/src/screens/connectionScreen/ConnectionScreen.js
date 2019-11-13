@@ -5,6 +5,7 @@ import GenericScreen from '../GenericScreen';
 import { withStores } from '../../stores/StoresUtil';
 import { ScreenNames, FlowIds } from '../../stores/Constants';
 import ErrorMessage from '../../components/basic/errorMessage/ErrorMessage';
+import { observer } from 'mobx-react';
 
 const ConnectionScreen = ({ flowStore, uiStore }) => (
   <>
@@ -17,7 +18,7 @@ const ConnectionScreen = ({ flowStore, uiStore }) => (
   </>
 )
 
-const OnrampConnectionScreen = ({ flowStore, uiStore }) => (
+const OnrampConnectionScreen = observer(({ flowStore, uiStore }) => (
   <GenericScreen
     ItemForm={InstitutionUserForm}
     numberOfItems={flowStore.institutionUsers.length}
@@ -26,6 +27,7 @@ const OnrampConnectionScreen = ({ flowStore, uiStore }) => (
     buttonDisabled={!flowStore.selectedUser}
     withOpenForm={uiStore.withOpenForm}
   >
+    {console.log(flowStore.institutionUsers)}
   {
     flowStore.institutionUsers.map(institutionUser => (
     <ConnectionCard
@@ -43,11 +45,11 @@ const OnrampConnectionScreen = ({ flowStore, uiStore }) => (
     />))
   }
   </GenericScreen>
-)
+))
 
 // TODO: fetch exchange connections, create exchange connection
 
-const TransferConnectionScreen = ({ flowStore, uiStore }) => (
+const TransferConnectionScreen = observer(({ flowStore, uiStore }) => (
   <GenericScreen
     ItemForm={InstitutionUserForm}
     numberOfItems={flowStore.connections.length}
@@ -73,6 +75,6 @@ const TransferConnectionScreen = ({ flowStore, uiStore }) => (
     />))
   }
   </GenericScreen>
-)
+))
 
 export default withStores(ConnectionScreen);

@@ -23,7 +23,7 @@ export const AccountForm = ({ onCancel, onSubmit, primaryColor }) => {
     }}>
       <TitleAndValue title="Account Type" value={description} />
       <DropdownSelector selectedOption={selectedOption} selectOption={selectOption} options={accountOptions} selectedClassName={disabled ? 'LightGreyText ThinText MediumTextSize' : 'OnrampColor'} />
-      <ButtonWithCancel onCancel={onCancel} onClick={() => onSubmit({ type: selectedOption, name: 'Bank of America'  })} disabled={disabled} primaryColor={primaryColor}>Add Account</ButtonWithCancel>
+      <ButtonWithCancel onCancel={onCancel} onClick={onSubmit} disabled={disabled} primaryColor={primaryColor}>Add Account</ButtonWithCancel>
     </form>
   )
 }
