@@ -118,6 +118,12 @@ class FlowStore {
     this.clearAccounts();
     this.getAccounts();
   }
+  selectConnection = id => {
+    if (this.selectedConnection && id === this.selectedConnection.id) return;
+    this.selectedConnection = this.connectionsMap.get(id);
+    this.clearAccounts();
+    this.getAccounts();
+  }
   selectAccount = id => {
     if (this.selectedAccount && id === this.selectedAccount.id) return;
     this.selectedAccount = this.accountsMap.get(id);
@@ -151,6 +157,7 @@ class FlowStore {
   clearAccounts = () => {
     this.selectedAccount = null;
     this.accountsMap.clear();
+    this.clearTransactions();
   }
   clearTransactions = () => {
     this.transactionsMap.clear();
