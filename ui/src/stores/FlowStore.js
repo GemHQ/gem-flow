@@ -7,6 +7,7 @@ class FlowStore {
   usersMap = new Map();
   profilesMap = new Map();
   institutionUsersMap = new Map();
+  connectionsMap = new Map();
   accountsMap = new Map();
   transactionsMap = new Map();
   institutionMap = new Map();
@@ -43,6 +44,9 @@ class FlowStore {
   }
   getInstitutionUsers = async () => {
     return this.getItems(`${Endpoints.INSTITUTION_USER}${Endpoints.PROFILE}/${this.selectedProfile.id}`, this.institutionUsersMap);
+  }
+  getConnections = async () => {
+    return this.getItems(`${Endpoints.CONNECTIONS}/${this.selectedUser.id}`, this.connectionsMap);
   }
   getAccounts = async () => {
     return await this.getItems(`${Endpoints.ACCOUNT}/list/${this.selectedInstitutionUser.connection_id}`, this.accountsMap);
@@ -82,6 +86,9 @@ class FlowStore {
   createInstitutionUser = async connectionFormData => {
     const connection = formatConnectionRequestBody(this.selectedProfile.id, connectionFormData);
     this.createItem(Endpoints.INSTITUTION_USER, connection, this.institutionUsersMap);
+  }
+  createConnection = async connection => {
+    this.createItem(Endpoints.CONNECTIONS, connection, this.connectionsMap);
   }
   createAccount = async account => {
     this.createItem(Endpoints.ACCOUNT, account, this.accountsMap);
@@ -190,8 +197,11 @@ class FlowStore {
   get profiles() {
     return [...this.profilesMap.values()].reverse();
   }
-  get connections() {
+  get institutionUsers() {
     return [...this.institutionUsersMap.values()].reverse();
+  }
+  get connections() {
+    return [...this.connectionsMap.values()].reverse();
   }
   get accounts() {
     return [...this.accountsMap.values()].reverse();
@@ -270,6 +280,7 @@ decorate(FlowStore, {
   setError: action,
   users: computed,
   profiles: computed,
+  institutionUsers: computed,
   connections: computed,
   accounts: computed,
   transactions: computed,
