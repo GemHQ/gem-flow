@@ -7,3 +7,4 @@ export const persistSelectedFlowId = (flowId) => {
 export const getPersistedFlowId = () => {
   return localStorage.getItem(FLOW_ID_STORAGE_KEY);
 }
+

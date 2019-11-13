@@ -2,40 +2,33 @@ import React from 'react';
 import './App.css';
 import './components/forms/forms.css';
 import ProgressMap from './components/composite/progressMap/ProgressMap';
-import UIStore from './stores/UIStore';
 import Instructions from './components/composite/instructions/Instructions';
 import Header from './components/header/Header';
 import Divider from './components/basic/divider/Divider';
-import { observer, Provider } from 'mobx-react';
 import { ScreenNames } from './stores/Constants';
-import FlowStore from './stores/FlowStore';
 import UserScreen from './screens/UserScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import ConnectionScreen from './screens/connectionScreen/ConnectionScreen';
 import AccountScreen from './screens/AccountScreen';
 import TransactionScreen from './screens/TransactionScreen';
+import { withUiStore } from './stores/StoresUtil';
 
-const uiStore = new UIStore();
-const flowStore = new FlowStore();
-
-const App = () => {
+const App = ({ uiStore }) => {
   return (
-    <Provider uiStore={uiStore} flowStore={flowStore}>
-      <div className="AppContainer">
-        <div className="App">
-          <Header flowName={uiStore.flow.id} />
-          <Divider marginBottom />
-          <SmartInstructions />
-          <ProgressMap />
-          <Divider marginBottom marginTop />
-          <Screens />
-        </div>
+    <div className="AppContainer">
+      <div className="App">
+        <Header flowName={uiStore.flow.id} />
+        <Divider marginBottom />
+        <SmartInstructions />
+        <ProgressMap />
+        <Divider marginBottom marginTop />
+        <Screens />
       </div>
-    </Provider>
+    </div>
   );
 };
 
-const Screens = observer(() => {
+const Screens = withUiStore(({ uiStore }) => {
   switch (uiStore.currentScreen) {
     case (ScreenNames.USER): return <UserScreen />;
     case (ScreenNames.PROFILE): return <ProfileScreen />;
@@ -46,7 +39,7 @@ const Screens = observer(() => {
   }
 });
 
-const SmartInstructions = observer(() => {
+const SmartInstructions = withUiStore(({ uiStore }) => {
   if (uiStore.showInstructions) return (
     <>
       <Instructions uiStore={uiStore} />
@@ -56,7 +49,7 @@ const SmartInstructions = observer(() => {
   return null;
 });
 
-export default observer(App);
+export default withUiStore(App);
 
 
 

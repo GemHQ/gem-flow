@@ -9,7 +9,7 @@ export const withPrimaryColor = (Cmp) => injector(({ uiStore }) => ({
 }))(Cmp);
 
 export const withFlowStore = (Cmp) => injector(({ flowStore }) => ({ flowStore }))(Cmp);
-
+export const withUiStore = (Cmp) => injector(({ uiStore }) => ({ uiStore }))(Cmp);
 export const withStores = (Cmp) => injector(stores => stores)(Cmp);
 
 export const formatProfileRequestBody = profile => ({
