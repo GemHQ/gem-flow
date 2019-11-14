@@ -7,14 +7,14 @@ import mockTransactions from '../components/composite/transactionTable/MockTrans
 import FlowStore from '../stores/FlowStore';
 
 const uiStore = new UIStore();
-const flowStore = new FlowStore();
+// const flowStore = new FlowStore();
 
 export default {
   title: 'Composite Components',
 };
 
-export const instructions = () => <Instructions uiStore={uiStore} />;
+// export const instructions = () => <Instructions uiStore={uiStore} />;
 
-export const progressMap = () => <ProgressMap uiStore={uiStore}  flowStore={flowStore} />
+// export const progressMap = () => <ProgressMap uiStore={uiStore}  flowStore={flowStore} />
 
 export const transactionTable = () => <TransactionTable transactions={mockTransactions} />

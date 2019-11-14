@@ -5,6 +5,7 @@ import { Flows } from '../stores/Constants';
 import ProfileCard from '../components/cards/ProfileCard';
 import InstitutionUserCard from '../components/cards/InstitutionUserCard';
 import AccountCard from '../components/cards/AccountCard';
+import ConnectionCard from '../components/cards/ConnectionCard';
 
 const mockUser = {
   id: '1',
@@ -35,10 +36,12 @@ export default {
   title: 'Cards',
 };
 
-export const user  = () => <UserCard user={mockUser} createProfile={action('create profile')} primaryColor={Flows.Onramp.primaryColor} />;
+export const user = () => <UserCard user={mockUser} createProfile={action('create profile')} primaryColor={Flows.Onramp.primaryColor} />;
 
-export const profile  = () => <ProfileCard profile={mockProfile} createInstitutionUser={action('create connection')} primaryColor={Flows.Onramp.primaryColor} />;
+export const profile = () => <ProfileCard profile={mockProfile} createInstitutionUser={action('create connection')} primaryColor={Flows.Onramp.primaryColor} />;
 
-export const institutionUser  = () => <InstitutionUserCard connection={mockConnection} createAccount={action('create account')} primaryColor={Flows.Onramp.primaryColor} />;
+export const institutionUser = () => <InstitutionUserCard connection={mockConnection} createAccount={action('create account')} primaryColor={Flows.Onramp.primaryColor} />;
 
-export const account  = () => <AccountCard account={mockAccount} createTransaction={action('create transaction')} primaryColor={Flows.Onramp.primaryColor} />;
+export const connection = () => <ConnectionCard connection={mockConnection} createAccount={action('create account')} primaryColor={Flows.Onramp.primaryColor} />
+
+export const account = () => <AccountCard account={mockAccount} createTransaction={action('create transaction')} primaryColor={Flows.Onramp.primaryColor} />;

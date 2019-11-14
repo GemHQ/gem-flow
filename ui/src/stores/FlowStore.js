@@ -25,7 +25,6 @@ class FlowStore {
 
   constructor() {
     this.getUsers();
-    this.getInstitutions();
   }
 
   @action getItems = async (path, itemMap) => {
