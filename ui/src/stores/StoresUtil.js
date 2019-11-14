@@ -31,7 +31,7 @@ export const formatProfileRequestBody = profile => ({
   "date_of_birth":  profile.dateOfBirth
 });
 
-export const formatConnectionRequestBody = (profileId, institutionUser) => ({
+export const formatInstitutionUserRequestBody = (profileId, institutionUser) => ({
   "profile_id": profileId,
   "institution_id": institutionUser.institution_id,
   "business_account_id": institutionUser.businessAccountId

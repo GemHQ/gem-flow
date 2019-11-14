@@ -1,8 +1,9 @@
 import { observable, action, decorate, computed } from "mobx";
 import { ScreenNames, Endpoints, InstitutionIcons } from "./Constants";
 import { httpGet, httpPost, httpDelete } from '../util/RequestUtil';
-import { formatProfileRequestBody, formatConnectionRequestBody } from "./StoresUtil";
+import { formatProfileRequestBody, formatInstitutionUserRequestBody } from "./StoresUtil";
 import { persist } from "mobx-persist";
+import { formatCoinbaseConnectionRequest } from "../util/PartnerUtil";
 
 class FlowStore {
   @persist('map') @observable usersMap = new Map();
@@ -85,11 +86,14 @@ class FlowStore {
     await httpPost(Endpoints.PROFILE_DOCUMENT, { profileId: data.id, document: profileFormData.document });
   }
   @action createInstitutionUser = async institutionUserFormData => {
-    const institutionUser = formatConnectionRequestBody(this.selectedProfile.id, institutionUserFormData);
+    const institutionUser = formatInstitutionUserRequestBody(this.selectedProfile.id, institutionUserFormData);
     this.createItem(Endpoints.INSTITUTION_USER, institutionUser, this.institutionUsersMap);
   }
-  @action createConnection = async connection => {
-    this.createItem(Endpoints.CONNECTIONS, connection, this.connectionsMap);
+  @action createConnection = async oauthCode => {
+    console.log('oauthCode', oauthCode)
+    if (!this.selectedUser) return;
+    console.log('oauthCode', formatCoinbaseConnectionRequest({ oauthCode, userId: this.selectedUser.id }));
+    // this.createItem(Endpoints.CONNECTIONS, oauthCode, this.connectionsMap);
   }
   @action createAccount = async account => {
     this.createItem(Endpoints.ACCOUNT, account, this.accountsMap);

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import InstitutionUserForm from '../../components/forms/InstitutionUserForm';
 import ConnectionCard from '../../components/cards/ConnectionCard';
 import GenericScreen from '../GenericScreen';
@@ -7,7 +7,7 @@ import { ScreenNames, FlowIds } from '../../stores/Constants';
 import ErrorMessage from '../../components/basic/errorMessage/ErrorMessage';
 import { observer } from 'mobx-react';
 import ConnectionForm from '../../components/forms/ConnectionForm';
-import { startCoinbaseOauthFlow } from '../../util/PartnerUtil';
+import { startCoinbaseOauthFlow, getOauthCode } from '../../util/PartnerUtil';
 
 const ConnectionScreen = ({ flowStore, uiStore }) => (
   <>
@@ -52,6 +52,10 @@ const OnrampConnectionScreen = observer(({ flowStore, uiStore }) => (
 // TODO: fetch exchange connections, create exchange connection
 
 const TransferConnectionScreen = observer(({ flowStore, uiStore }) => {
+  useEffect(() => {
+    const oauthCode = getOauthCode();
+    if (oauthCode) flowStore.createConnection(oauthCode);
+  }, []);
   const [isRedirecting, setIsRedirecting] = useState(false);
 
   return (
