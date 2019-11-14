@@ -3,7 +3,7 @@ import AccountForm from '../components/forms/AccountForm';
 import AccountCard from '../components/cards/AccountCard';
 import GenericScreen from './GenericScreen';
 import { withStores } from '../stores/StoresUtil';
-import { ScreenNames } from '../stores/Constants';
+import { ScreenNames, FlowIds } from '../stores/Constants';
 import { openPmWidget } from '../components/PmWidget';
 import ErrorMessage from '../components/basic/errorMessage/ErrorMessage';
 
@@ -24,6 +24,7 @@ const AccountScreen = ({ flowStore, uiStore }) => (
           await flowStore.createAccount(account);
         })
       }}
+      hideButton={true}
       buttonDisabled={!flowStore.selectedInstitutionUser}
       withOpenForm={uiStore.withOpenForm}
     >
