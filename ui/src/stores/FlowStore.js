@@ -100,13 +100,13 @@ class FlowStore {
     this.createItem(Endpoints.TRANSACTION, transaction, this.transactionsMap);
   }
 
-  @action selectUser = id => {
-    if (this.selectedUser && id === this.selectedUser.id) return;
+  @action selectUser = (id, nextScreen) => {
     this.selectedUser = this.usersMap.get(id);
     this.clearProfiles();
     this.clearInstitutionUsers();
     this.clearAccounts();
-    this.getProfiles();
+    if (nextScreen === ScreenNames.PROFILE) this.getProfiles();
+    if (nextScreen === ScreenNames.CONNECTION) this.getConnections();
   }
   @action selectProfile = id => {
     if (this.selectedProfile && id === this.selectedProfile.id) return;

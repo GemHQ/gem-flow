@@ -26,11 +26,11 @@ const UserScreen = ({ flowStore, uiStore }) => {
           key={user.id}
           removeUser={() => flowStore.removeUser(user.id)}
           onButtonClick={() => {
-            flowStore.selectUser(user.id);
+            flowStore.selectUser(user.id, nextScreen);
             uiStore.setCurrentScreen(nextScreen, { withOpenForm: true });
           }}
           onViewClick={() => {
-            flowStore.selectUser(user.id);
+            flowStore.selectUser(user.id, nextScreen);
             uiStore.setCurrentScreen(nextScreen, { withOpenForm: false });
           }}
           nextScreenName={nextScreen}
