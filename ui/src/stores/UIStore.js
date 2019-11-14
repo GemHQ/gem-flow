@@ -1,6 +1,11 @@
 import { observable, action, computed, decorate } from 'mobx';
 import { Flows, ScreenNames } from './Constants';
-import { persistSelectedFlowId, getPersistedFlowId } from '../util/PersistUtil';
+import { 
+  persistSelectedFlowId,
+  getPersistedFlowId,
+  getPersistedScreen,
+  persistCurrentScreen,
+} from '../util/PersistUtil';
 
 class UIStore {
   flow = Flows.Onramp;
@@ -9,7 +14,9 @@ class UIStore {
 
   constructor() {
     const persistedFlowId = getPersistedFlowId();
+    const persistedScreen = getPersistedScreen();
     if (persistedFlowId) this.setFlow(persistedFlowId);
+    if (persistedScreen) this.setCurrentScreen(persistedScreen);
   }
 
   setFlow = flowId => {
@@ -20,6 +27,7 @@ class UIStore {
   setCurrentScreen = (screen, initialState) => {
     this.currentScreen = screen;
     initialState && this.initialScreenStates.set(screen, initialState);
+    persistCurrentScreen(screen);
   }
 
   get primaryColor() {
