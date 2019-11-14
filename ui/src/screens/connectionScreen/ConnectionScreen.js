@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import InstitutionUserForm from '../../components/forms/InstitutionUserForm';
-import ConnectionCard from '../../components/cards/ConnectionCard';
+import InstitutionUserCard from '../../components/cards/InstitutionUserCard';
 import GenericScreen from '../GenericScreen';
 import { withStores } from '../../stores/StoresUtil';
 import { ScreenNames, FlowIds } from '../../stores/Constants';
@@ -32,7 +32,7 @@ const OnrampConnectionScreen = observer(({ flowStore, uiStore }) => (
   >
   {
     flowStore.institutionUsers.map(institutionUser => (
-    <ConnectionCard
+    <InstitutionUserCard
       institutionUser={institutionUser} 
       key={institutionUser.id} 
       removeInstitutionUser={() => flowStore.removeInstitutionUser(institutionUser.id)}
@@ -72,9 +72,9 @@ const TransferConnectionScreen = observer(({ flowStore, uiStore }) => {
         buttonDisabled={isRedirecting || !flowStore.selectedUser}
         withOpenForm={uiStore.withOpenForm}
       >
-      {
+      {/* {
         flowStore.connections.map(connection => (
-        <ConnectionCard
+        <InstitutionUserCard
           connection={connection} 
           key={connection.id} 
           removeConnection={() => flowStore.removeConnection(connection.id)}
@@ -87,7 +87,7 @@ const TransferConnectionScreen = observer(({ flowStore, uiStore }) => {
             uiStore.setCurrentScreen(ScreenNames.ACCOUNT, { withOpenForm: false });
           }}
         />))
-      }
+      } */}
       </GenericScreen>
     </>
   )

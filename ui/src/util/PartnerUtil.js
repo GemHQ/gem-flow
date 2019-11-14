@@ -8,14 +8,15 @@ export const startCoinbaseOauthFlow = () => window.location = COINBASE_OAUTH_RED
 export const getOauthCode = () => {
   const queryParams = new URLSearchParams(window.location.search);
   const code = queryParams.get('code');
+  if (code) window.history.replaceState(null, null, window.location.pathname);
   return code;
 }
 
 export const formatCoinbaseConnectionRequest = ({ oauthCode, userId }) => ({
-  user_id: userId,
-  credential_type: 'oauth2',
-  institution_id: 'coinbase',
-  credential: {
-    code: oauthCode
+  "user_id": userId,
+  "credential_type": 'oauth2',
+  "institution_id": 'coinbase',
+  "credential": {
+    "code": oauthCode
   }
 })

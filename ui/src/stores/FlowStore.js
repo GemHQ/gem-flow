@@ -1,4 +1,4 @@
-import { observable, action, decorate, computed } from "mobx";
+import { observable, action, computed } from "mobx";
 import { ScreenNames, Endpoints, InstitutionIcons } from "./Constants";
 import { httpGet, httpPost, httpDelete } from '../util/RequestUtil';
 import { formatProfileRequestBody, formatInstitutionUserRequestBody } from "./StoresUtil";
@@ -90,10 +90,9 @@ class FlowStore {
     this.createItem(Endpoints.INSTITUTION_USER, institutionUser, this.institutionUsersMap);
   }
   @action createConnection = async oauthCode => {
-    console.log('oauthCode', oauthCode)
     if (!this.selectedUser) return;
-    console.log('oauthCode', formatCoinbaseConnectionRequest({ oauthCode, userId: this.selectedUser.id }));
-    // this.createItem(Endpoints.CONNECTIONS, oauthCode, this.connectionsMap);
+    const connectionBody = formatCoinbaseConnectionRequest({ oauthCode, userId: this.selectedUser.id });
+    this.createItem(Endpoints.CONNECTIONS, connectionBody, this.connectionsMap);
   }
   @action createAccount = async account => {
     this.createItem(Endpoints.ACCOUNT, account, this.accountsMap);

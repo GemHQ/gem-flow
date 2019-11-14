@@ -4,7 +4,7 @@ import { withPrimaryColor } from '../../stores/StoresUtil';
 import { InstitutionIcons } from '../../stores/Constants';
 import { formatDate } from '../../util/TextUtil';
 
-const ConnectionCard = ({ institutionUser, onButtonClick, onViewClick, removeInstitutionUser, primaryColor }) => (
+const InstitutionUserCard = ({ institutionUser, onButtonClick, onViewClick, removeInstitutionUser, primaryColor }) => (
   <GenericCard
     titlesAndValues={[
       { title: 'CONNECTION_ID', value: institutionUser.connection_id },
@@ -23,4 +23,4 @@ const ConnectionCard = ({ institutionUser, onButtonClick, onViewClick, removeIns
   />
 );
 
-export default withPrimaryColor(ConnectionCard);
+export default withPrimaryColor(InstitutionUserCard);
