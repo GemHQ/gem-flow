@@ -34,7 +34,8 @@ class FlowStore {
     if (status >= 400) {
       return this.setError(data.description);
     }
-    console.log(path, data)
+    console.log(path, data);
+    itemMap.clear();
     data.forEach(item => itemMap.set(item.id, item));
   }
   @action getUsers = async () => {
@@ -49,8 +50,8 @@ class FlowStore {
   @action getConnections = async () => {
     return this.getItems(`${Endpoints.CONNECTIONS}/${this.selectedUser.id}`, this.connectionsMap);
   }
-  @action getAccounts = async () => {
-    return await this.getItems(`${Endpoints.ACCOUNT}/list/${this.selectedInstitutionUser.connection_id}`, this.accountsMap);
+  @action getAccounts = async connectionId => {
+    return await this.getItems(`${Endpoints.ACCOUNT}/list/${connectionId}`, this.accountsMap);
   }
   @action getTransactions = async () => {
     return await this.getItems(`${Endpoints.TRANSACTION}/list/${this.selectedAccount.id}`, this.transactionsMap);
@@ -119,13 +120,13 @@ class FlowStore {
     if (this.selectedInstitutionUser && id === this.selectedInstitutionUser.id) return;
     this.selectedInstitutionUser = this.institutionUsersMap.get(id);
     this.clearAccounts();
-    this.getAccounts();
+    this.getAccounts(this.selectedInstitutionUser.connection_id);
   }
   @action selectConnection = id => {
     if (this.selectedConnection && id === this.selectedConnection.id) return;
     this.selectedConnection = this.connectionsMap.get(id);
     this.clearAccounts();
-    this.getAccounts();
+    this.getAccounts(id);
   }
   @action selectAccount = id => {
     if (this.selectedAccount && id === this.selectedAccount.id) return;
