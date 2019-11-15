@@ -3,14 +3,14 @@ import TitleAndValue from '../basic/titleAndValue/TitleAndValue';
 import { ButtonWithCancel } from '../basic/button/Button';
 import Input from '../basic/input/Input';
 import { withPrimaryColor } from '../../stores/StoresUtil';
-import { validNumber } from '../../util/FormUtil';
+import { validNumber, onlyAlpha } from '../../util/FormUtil';
 import { capitalizeFirstLetter } from '../../util/TextUtil';
 
-export const TransferForm = ({ accountId, accountName, asset, maxAmount, onCancel, onSubmit, primaryColor }) => {
+export const TransferForm = ({ accountId, asset, maxAmount, onCancel, onSubmit, primaryColor }) => {
   const [amount, setAmount] = useState('');
   const [twoFA, setTwoFA] = useState('');
   const [destinationAddress, setDestinationAddress] = useState('');
-  const disabled = (!amount) || (!destinationAddress) || (amount > maxAmount);
+  const disabled = (!amount) || (!destinationAddress) || (!twoFA) || (amount > maxAmount);
   return (
     <form onSubmit={e => {
       e.preventDefault();
@@ -34,22 +34,16 @@ export const TransferForm = ({ accountId, accountName, asset, maxAmount, onCance
       />
       <div />
       <Input 
-        value={accountName} 
-        onChange={({ target }) => setAmount(target.value)} 
-        placeholder={`Source Account`}
-        readOnly
-      />
-      <Input 
         value={destinationAddress} 
         onChange={({ target }) => setDestinationAddress(target.value)} 
         placeholder="Destination Address" 
       />
-      <div/>
       <Input 
-        value={twoFA} 
+        value={onlyAlpha(twoFA)} 
         onChange={({ target }) => setTwoFA(target.value)} 
         placeholder="2FA Code" 
       />
+      <div/>
       <div/>
       <div />
       <div />

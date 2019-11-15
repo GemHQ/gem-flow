@@ -33,7 +33,6 @@ const TransactionScreen = ({ flowStore, uiStore }) => {
             stopCreatingItem();
           }}
           accountId={selectedAccount.id}
-          accountName={selectedAccount.name}
           maxAmount={flowStore.selectedAccount.available_amount}
           asset={selectedAccount.asset_id}
         />
