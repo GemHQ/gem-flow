@@ -63,7 +63,7 @@ const TransferConnectionScreen = observer(({ flowStore, uiStore }) => {
       <RedirectingLabel isRedirecting={isRedirecting} />
       <GenericScreen
         ItemForm={ConnectionForm}
-        numberOfItems={flowStore.connections.length}
+        numberOfItems={filterPaymentInstitutions(flowStore.connections).length}
         itemTitle="Connection"
         createItem={() => {
           setIsRedirecting(true);
