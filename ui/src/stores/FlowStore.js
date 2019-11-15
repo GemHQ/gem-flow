@@ -223,32 +223,6 @@ class FlowStore {
   @computed get transactions() {
     return [...this.transactionsMap.values()].reverse();
   }
-
-  // which dots are filled in the progress map
-  @computed get dots() {
-    return [
-      [ScreenNames.USER, Boolean(this.selectedUser)],
-      [ScreenNames.PROFILE, Boolean(this.selectedProfile)],
-      [ScreenNames.CONNECTION, Boolean(this.selectedInstitutionUser)],
-      [ScreenNames.ACCOUNT, Boolean(this.selectedAccount)],
-      [ScreenNames.TRANSACTION, Boolean(this.transactionsMap.size)],
-    ]
-  }
-
-  // subtitles for the markers on the progress map
-  @computed get markerSubtitles() {
-    return {
-      [ScreenNames.USER]: this.determineSubtitle('User', 'id', this.selectedUser, this.usersMap.size, 'Create a new user'),
-      [ScreenNames.PROFILE]: this.determineSubtitle('Profile', 'id', this.selectedProfile, this.profilesMap.size),
-      [ScreenNames.CONNECTION]: this.determineSubtitle('Connection', 'connection_id', this.selectedInstitutionUser, this.institutionUsersMap.size),
-      [ScreenNames.ACCOUNT]: this.determineSubtitle('Account', 'id', this.selectedAccount, this.accountsMap.size),
-      [ScreenNames.TRANSACTION]: this.determineSubtitle('Transaction', '', null, this.transactionsMap.size),
-    }
-  }
-
-  determineSubtitle(itemTitle, itemKey, selectedItem, numberOfItems, placeholder = '-') {
-    return selectedItem ? selectedItem[itemKey] : (numberOfItems ? `${numberOfItems} ${itemTitle}${numberOfItems > 1 ? 's' : ''}` : placeholder)
-  }
 }
 
 export default FlowStore;
