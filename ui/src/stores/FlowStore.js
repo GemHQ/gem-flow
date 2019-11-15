@@ -9,6 +9,7 @@ import {
 } from "../util/RequestFormatter";
 
 class FlowStore {
+  // store items from Gem API in maps with persistance 
   @persist('map') @observable usersMap = new Map();
   @persist('map') @observable profilesMap = new Map();
   @persist('map') @observable institutionUsersMap = new Map();
@@ -17,12 +18,14 @@ class FlowStore {
   @persist('map') @observable transactionsMap = new Map();
   @persist('map') @observable institutionMap = new Map();
 
+  // store items selected by user
   @persist('object') @observable selectedUser = null;
   @persist('object') @observable selectedProfile = null;
   @persist('object') @observable selectedInstitutionUser = null;
   @persist('object') @observable selectedConnection = null;
   @persist('object') @observable selectedAccount = null;
 
+  // variables for ui messaging
   @observable isFetching = false;
   @observable isPosting = false;
   @observable errorMessage = '';
@@ -31,6 +34,7 @@ class FlowStore {
     this.getUsers();
   }
 
+  // All GET requests to the local node server
   @action getItems = async (path, itemMap) => {
     this.isFetching = true;
     const { data, status } = await httpGet(path);
@@ -69,6 +73,7 @@ class FlowStore {
     }));
   }
 
+  // All POST requests to the local node server
   @action createItem = async (path, body, itemMap, defaultError) => {
     this.isPosting = true;
     const { data, status } = await httpPost(path, body);
@@ -105,6 +110,7 @@ class FlowStore {
     this.createItem(Endpoints.TRANSACTION, transaction, this.transactionsMap);
   }
 
+  // item selector methods with flow store cleanup management
   @action selectUser = (id, nextScreen) => {
     this.selectedUser = this.usersMap.get(id);
     this.clearProfiles();
@@ -141,6 +147,7 @@ class FlowStore {
     this.getTransactions();
   }
 
+  // All DELETE requests to the local node server, * not yet supported Gem API endpoints
   @action removeUser = id => {
     this.usersMap.delete(id);
     httpDelete(`${Endpoints.USER}/${id}`);
@@ -156,6 +163,7 @@ class FlowStore {
     this.accountsMap.delete(id);
   }
 
+  // flow store cleanup methods
   @action clearProfiles = () => {
     this.selectedProfile = null;
     this.profilesMap.clear();
@@ -206,6 +214,7 @@ class FlowStore {
     }
   }
 
+  // error messaging
   @action clearError = () => {
     this.errorMessage = '';
   }
@@ -214,6 +223,8 @@ class FlowStore {
     this.errorMessage = errorMessage || 'Unknown Error';
   }
 
+  // turn item maps into arrays for components to read
+  // only supply these arrays to components, not the maps
   @computed get users() {
     return [...this.usersMap.values()].reverse();
   }
