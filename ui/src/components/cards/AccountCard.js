@@ -23,7 +23,7 @@ const AccountCard = ({
       { title: 'ACCOUNT_ID', value: account.id },
       { title: 'ACCOUNT_NAME', value: account.name },
       { title: 'ASSET_NAME', value: capitalizeFirstLetter(account.asset_id) },
-      { title: 'AMOUNT', value: account.available_amount.toString() },
+      // { title: 'AMOUNT', value: account.available_amount.toString() },
     ]
   return (
     <GenericCard
