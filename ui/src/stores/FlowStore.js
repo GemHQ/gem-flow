@@ -9,6 +9,7 @@ import {
 } from "../util/RequestFormatter";
 
 class FlowStore {
+
   // store items from Gem API in maps with persistance 
   @persist('map') @observable usersMap = new Map();
   @persist('map') @observable profilesMap = new Map();
@@ -30,9 +31,11 @@ class FlowStore {
   @observable isPosting = false;
   @observable errorMessage = '';
 
+
   constructor() {
     this.getUsers();
   }
+
 
   // All GET requests to the local node server
   @action getItems = async (path, itemMap) => {
@@ -73,12 +76,14 @@ class FlowStore {
     }));
   }
 
+
   // All POST requests to the local node server
   @action createItem = async (path, body, itemMap, defaultError) => {
     this.isPosting = true;
     const { data, status } = await httpPost(path, body);
     this.isPosting = false;
     if (status >= 400) return this.setError(data.description || defaultError);
+    console.log(path, data);
     itemMap.set(data.id, data);
   }
   @action createUser = async user => {
@@ -109,6 +114,7 @@ class FlowStore {
   @action createTransaction = async transaction => {
     this.createItem(Endpoints.TRANSACTION, transaction, this.transactionsMap);
   }
+
 
   // item selector methods with flow store cleanup management
   @action selectUser = (id, nextScreen) => {
@@ -147,6 +153,7 @@ class FlowStore {
     this.getTransactions();
   }
 
+
   // All DELETE requests to the local node server, * not yet supported Gem API endpoints
   @action removeUser = id => {
     this.usersMap.delete(id);
@@ -162,6 +169,7 @@ class FlowStore {
   @action removeAccount = id => {
     this.accountsMap.delete(id);
   }
+
 
   // flow store cleanup methods
   @action clearProfiles = () => {
@@ -216,6 +224,7 @@ class FlowStore {
     }
   }
 
+
   // error messaging
   @action clearError = () => {
     this.errorMessage = '';
@@ -224,6 +233,7 @@ class FlowStore {
     // errorMessage may be null, hence default value in the params (message = 'Unknown Error') will not work
     this.errorMessage = errorMessage || 'Unknown Error';
   }
+
 
   // turn item maps into arrays for components to read
   // only supply these arrays to components, not the maps
