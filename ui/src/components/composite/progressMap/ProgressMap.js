@@ -9,7 +9,7 @@ import { filterPaymentInstitutions } from '../../../util/PartnerUtil';
 class ProgressMap extends Component {
   getDots = () => {
     const { flowStore, uiStore } = this.props;
-    return uiStore.flow.id === FlowIds.ONRAMP ? [
+    return uiStore.flowId === FlowIds.ONRAMP ? [
       [ScreenNames.USER, Boolean(flowStore.selectedUser)],
       [ScreenNames.PROFILE, Boolean(flowStore.selectedProfile)],
       [ScreenNames.CONNECTION, Boolean(flowStore.selectedInstitutionUser)],
@@ -25,7 +25,7 @@ class ProgressMap extends Component {
 
   getMarkerSubtitles = () => {
     const { uiStore, flowStore } = this.props;
-    const connectionSubtitle = uiStore.flow.id === FlowIds.ONRAMP
+    const connectionSubtitle = uiStore.flowId === FlowIds.ONRAMP
       ? this.determineSubtitle('Connection', 'connection_id', flowStore.selectedInstitutionUser, flowStore.institutionUsersMap.size)
       : this.determineSubtitle('Connection', 'id', flowStore.selectedConnection, filterPaymentInstitutions(flowStore.connections).length)
     return {

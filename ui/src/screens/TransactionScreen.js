@@ -16,7 +16,7 @@ const TransactionScreen = ({ flowStore, uiStore }) => {
   const { selectedAccount, transactions } = flowStore;
   const numberOfItems = transactions.length;
 
-  const FormToRender = uiStore.flow.id === FlowIds.ONRAMP ? TransactionForm : TransferForm;
+  const FormToRender = uiStore.flowId === FlowIds.ONRAMP ? TransactionForm : TransferForm;
 
   return (
     <>

@@ -14,7 +14,7 @@ const ConnectionScreen = ({ flowStore, uiStore }) => (
   <>
     <ErrorMessage errorMessage={flowStore.errorMessage} />
     {
-      uiStore.flow.id === FlowIds.ONRAMP 
+      uiStore.flowId === FlowIds.ONRAMP 
       ? <OnrampConnectionScreen flowStore={flowStore} uiStore={uiStore} /> 
       : <TransferConnectionScreen flowStore={flowStore} uiStore={uiStore} />
     }
