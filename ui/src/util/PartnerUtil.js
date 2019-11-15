@@ -11,12 +11,3 @@ export const getOauthCode = () => {
   if (code) window.history.replaceState(null, null, window.location.pathname);
   return code;
 }
-
-export const formatCoinbaseConnectionRequest = ({ oauthCode, userId }) => ({
-  "user_id": userId,
-  "credential_type": 'oauth2',
-  "institution_id": 'coinbase',
-  "credential": {
-    "code": oauthCode
-  }
-})

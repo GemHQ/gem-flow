@@ -1,9 +1,12 @@
 import { observable, action, computed } from "mobx";
+import { persist } from "mobx-persist";
 import { ScreenNames, Endpoints, InstitutionIcons } from "./Constants";
 import { httpGet, httpPost, httpDelete } from '../util/RequestUtil';
-import { formatProfileRequestBody, formatInstitutionUserRequestBody } from "./StoresUtil";
-import { persist } from "mobx-persist";
-import { formatCoinbaseConnectionRequest } from "../util/PartnerUtil";
+import { 
+  formatProfileRequestBody,
+  formatInstitutionUserRequestBody,
+  formatCoinbaseConnectionRequest,
+} from "../util/RequestFormatter";
 
 class FlowStore {
   @persist('map') @observable usersMap = new Map();
