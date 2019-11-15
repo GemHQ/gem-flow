@@ -7,7 +7,7 @@ import { ScreenNames, FlowIds } from '../../stores/Constants';
 import ErrorMessage from '../../components/basic/errorMessage/ErrorMessage';
 import { observer } from 'mobx-react';
 import ConnectionForm from '../../components/forms/ConnectionForm';
-import { startCoinbaseOauthFlow, getOauthCode } from '../../util/PartnerUtil';
+import { startCoinbaseOauthFlow, getOauthCode, filterPaymentInstitutions } from '../../util/PartnerUtil';
 import ConnectionCard from '../../components/cards/ConnectionCard';
 
 const ConnectionScreen = ({ flowStore, uiStore }) => (
@@ -74,7 +74,7 @@ const TransferConnectionScreen = observer(({ flowStore, uiStore }) => {
         withOpenForm={uiStore.withOpenForm}
       >
       {
-        flowStore.connections.filter(connection => connection.institution_id !== 'wyre').map(connection => (
+        filterPaymentInstitutions(flowStore.connections).map(connection => (
         <ConnectionCard
           connection={connection} 
           key={connection.id} 

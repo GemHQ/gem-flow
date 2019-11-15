@@ -3,7 +3,8 @@ import './progressMap.css';
 import RectangleTitle from './rectangleTitle/RectangleTitle';
 import FlowDots from './flowDots/FlowDots';
 import { withStores } from '../../../stores/StoresUtil';
-import { ScreenNames } from '../../../stores/Constants';
+import { ScreenNames, FlowIds } from '../../../stores/Constants';
+import { filterPaymentInstitutions } from '../../../util/PartnerUtil';
 
 class ProgressMap extends Component {
   getDots = () => {
@@ -18,11 +19,14 @@ class ProgressMap extends Component {
   }
 
   getMarkerSubtitles = () => {
-    const { flowStore } = this.props;
+    const { uiStore, flowStore } = this.props;
+    const connectionSubtitle = uiStore.flow.id === FlowIds.ONRAMP
+      ? this.determineSubtitle('Connection', 'connection_id', flowStore.selectedInstitutionUser, flowStore.institutionUsersMap.size)
+      : this.determineSubtitle('Connection', 'id', flowStore.selectedConnection, filterPaymentInstitutions(flowStore.connections).length)
     return {
       [ScreenNames.USER]: this.determineSubtitle('User', 'id', flowStore.selectedUser, flowStore.usersMap.size, 'Create a new user'),
       [ScreenNames.PROFILE]: this.determineSubtitle('Profile', 'id', flowStore.selectedProfile, flowStore.profilesMap.size),
-      [ScreenNames.CONNECTION]: this.determineSubtitle('Connection', 'connection_id', flowStore.selectedInstitutionUser, flowStore.institutionUsersMap.size),
+      [ScreenNames.CONNECTION]: connectionSubtitle,
       [ScreenNames.ACCOUNT]: this.determineSubtitle('Account', 'id', flowStore.selectedAccount, flowStore.accountsMap.size),
       [ScreenNames.TRANSACTION]: this.determineSubtitle('Transaction', '', null, flowStore.transactionsMap.size),
     }

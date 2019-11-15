@@ -11,3 +11,5 @@ export const getOauthCode = () => {
   if (code) window.history.replaceState(null, null, window.location.pathname);
   return code;
 }
+
+export const filterPaymentInstitutions = connections => connections.filter(connection => connection.institution_id !== 'wyre');

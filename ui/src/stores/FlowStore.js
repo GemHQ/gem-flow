@@ -20,6 +20,7 @@ class FlowStore {
   @persist('object') @observable selectedUser = null;
   @persist('object') @observable selectedProfile = null;
   @persist('object') @observable selectedInstitutionUser = null;
+  @persist('object') @observable selectedConnection = null;
   @persist('object') @observable selectedAccount = null;
 
   @observable isFetching = false;
@@ -108,6 +109,7 @@ class FlowStore {
     this.selectedUser = this.usersMap.get(id);
     this.clearProfiles();
     this.clearInstitutionUsers();
+    this.clearConnections();
     this.clearAccounts();
     if (nextScreen === ScreenNames.PROFILE) this.getProfiles();
     if (nextScreen === ScreenNames.CONNECTION) this.getConnections();
@@ -116,6 +118,7 @@ class FlowStore {
     if (this.selectedProfile && id === this.selectedProfile.id) return;
     this.selectedProfile = this.profilesMap.get(id);
     this.clearInstitutionUsers();
+    this.clearConnections();
     this.clearAccounts();
     this.getInstitutionUsers();
   }
@@ -161,6 +164,10 @@ class FlowStore {
     this.selectedInstitutionUser = null;
     this.institutionUsersMap.clear();
   }
+  @action clearConnections = () => {
+    this.selectedConnection = null;
+    this.connectionsMap.clear();
+  }
   @action clearAccounts = () => {
     this.selectedAccount = null;
     this.accountsMap.clear();
@@ -175,12 +182,14 @@ class FlowStore {
         this.selectedUser = null;
         this.clearProfiles();
         this.clearInstitutionUsers();
+        this.clearConnections();
         this.clearAccounts();
         this.clearTransactions();
         break;
       case ScreenNames.PROFILE:
         this.selectedProfile = null;
         this.clearInstitutionUsers();
+        this.clearConnections();
         this.clearAccounts();
         this.clearTransactions();
         break;
