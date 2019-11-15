@@ -3,7 +3,7 @@ import TitleAndValue from '../basic/titleAndValue/TitleAndValue';
 import { ButtonWithCancel } from '../basic/button/Button';
 import Input from '../basic/input/Input';
 import { withPrimaryColor } from '../../stores/StoresUtil';
-import { validNumber, onlyAlpha } from '../../util/FormUtil';
+import { validNumber, onlyNumbers } from '../../util/FormUtil';
 import { capitalizeFirstLetter } from '../../util/TextUtil';
 
 export const TransferForm = ({ accountId, asset, maxAmount, onCancel, onSubmit, primaryColor }) => {
@@ -22,8 +22,8 @@ export const TransferForm = ({ accountId, asset, maxAmount, onCancel, onSubmit, 
         maxHeight="60px"
       />
       <Input 
-        value={validNumber(amount)} 
-        onChange={({ target }) => setAmount(target.value)} 
+        value={amount} 
+        onChange={({ target }) => setAmount(validNumber(target.value))} 
         placeholder={`Amount (max ${maxAmount})`}
         autoFocus
       />
@@ -39,13 +39,11 @@ export const TransferForm = ({ accountId, asset, maxAmount, onCancel, onSubmit, 
         placeholder="Destination Address" 
       />
       <Input 
-        value={onlyAlpha(twoFA)} 
-        onChange={({ target }) => setTwoFA(target.value)} 
+        value={twoFA} 
+        onChange={({ target }) => setTwoFA(onlyNumbers(target.value))} 
         placeholder="2FA Code" 
       />
       <div/>
-      <div/>
-      <div />
       <div />
       <ButtonWithCancel
         onCancel={onCancel}
