@@ -8,11 +8,16 @@ import { filterPaymentInstitutions } from '../../../util/PartnerUtil';
 
 class ProgressMap extends Component {
   getDots = () => {
-    const { flowStore } = this.props;
-    return [
+    const { flowStore, uiStore } = this.props;
+    return uiStore.flow.id === FlowIds.ONRAMP ? [
       [ScreenNames.USER, Boolean(flowStore.selectedUser)],
       [ScreenNames.PROFILE, Boolean(flowStore.selectedProfile)],
       [ScreenNames.CONNECTION, Boolean(flowStore.selectedInstitutionUser)],
+      [ScreenNames.ACCOUNT, Boolean(flowStore.selectedAccount)],
+      [ScreenNames.TRANSACTION, Boolean(flowStore.transactionsMap.size)],
+    ] : [
+      [ScreenNames.USER, Boolean(flowStore.selectedUser)],
+      [ScreenNames.CONNECTION, Boolean(flowStore.selectedConnection)],
       [ScreenNames.ACCOUNT, Boolean(flowStore.selectedAccount)],
       [ScreenNames.TRANSACTION, Boolean(flowStore.transactionsMap.size)],
     ]
