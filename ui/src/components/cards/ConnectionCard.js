@@ -17,8 +17,7 @@ const ConnectionCard = ({ connection, onButtonClick, onViewClick, removeConnecti
     onViewClick={onViewClick}
     primaryColor={primaryColor}
     dotsMenuOptions={[{ title: 'Remove connection', onClick: removeConnection }]}
-    // iconUrl={connection.institution.icon}
-    iconUrl={InstitutionIcons.wyre}
+    iconUrl={InstitutionIcons.coinbase}
   />
 );
 

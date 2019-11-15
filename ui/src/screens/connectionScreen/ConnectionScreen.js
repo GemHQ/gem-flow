@@ -74,7 +74,7 @@ const TransferConnectionScreen = observer(({ flowStore, uiStore }) => {
         withOpenForm={uiStore.withOpenForm}
       >
       {
-        flowStore.connections.filter(connection => !connection.institution_user_id).map(connection => (
+        flowStore.connections.filter(connection => connection.institution_id !== 'wyre').map(connection => (
         <ConnectionCard
           connection={connection} 
           key={connection.id} 
