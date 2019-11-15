@@ -21,6 +21,7 @@ const TransactionScreen = ({ flowStore, uiStore }) => {
   return (
     <>
     <ErrorMessage />
+    <PostingLabel isPosting={flowStore.isPosting} />
     {
       creatingItem
       ?
@@ -40,7 +41,7 @@ const TransactionScreen = ({ flowStore, uiStore }) => {
       :
       (
         flowStore.isFetching
-        ? <p className="Loading">{`Loading Transactions...`}</p>
+        ? <LoadingLabel />
         :<div className="FlexAlignCenter SpaceBetween">
           <h2 className="ScreenHeading noPadding">{`${numberOfItems} Transaction${numberOfItems === 1 ? '' : 's'}`}</h2>
         </div>
@@ -66,6 +67,13 @@ const TransactionScreen = ({ flowStore, uiStore }) => {
     }
     </>
   )
+}
+
+const LoadingLabel = () => <p className="Loading">{`Loading Transactions...`}</p>;
+
+const PostingLabel = ({ isPosting }) => {
+  if (isPosting) return <p className="Creating">{`Creating Transaction...`}</p>
+  return null;
 }
 
 
