@@ -20,11 +20,11 @@ class ProgressMap extends Component {
   getMarkerSubtitles = () => {
     const { flowStore } = this.props;
     return {
-      [ScreenNames.USER]: flowStore.determineSubtitle('User', 'id', flowStore.selectedUser, flowStore.usersMap.size, 'Create a new user'),
-      [ScreenNames.PROFILE]: flowStore.determineSubtitle('Profile', 'id', flowStore.selectedProfile, flowStore.profilesMap.size),
-      [ScreenNames.CONNECTION]: flowStore.determineSubtitle('Connection', 'connection_id', flowStore.selectedInstitutionUser, flowStore.institutionUsersMap.size),
-      [ScreenNames.ACCOUNT]: flowStore.determineSubtitle('Account', 'id', flowStore.selectedAccount, flowStore.accountsMap.size),
-      [ScreenNames.TRANSACTION]: flowStore.determineSubtitle('Transaction', '', null, flowStore.transactionsMap.size),
+      [ScreenNames.USER]: this.determineSubtitle('User', 'id', flowStore.selectedUser, flowStore.usersMap.size, 'Create a new user'),
+      [ScreenNames.PROFILE]: this.determineSubtitle('Profile', 'id', flowStore.selectedProfile, flowStore.profilesMap.size),
+      [ScreenNames.CONNECTION]: this.determineSubtitle('Connection', 'connection_id', flowStore.selectedInstitutionUser, flowStore.institutionUsersMap.size),
+      [ScreenNames.ACCOUNT]: this.determineSubtitle('Account', 'id', flowStore.selectedAccount, flowStore.accountsMap.size),
+      [ScreenNames.TRANSACTION]: this.determineSubtitle('Transaction', '', null, flowStore.transactionsMap.size),
     }
   }
 
