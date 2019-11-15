@@ -196,6 +196,7 @@ class FlowStore {
         break;
       case ScreenNames.PROFILE:
         this.selectedProfile = null;
+        this.selectedConnection = null;
         this.clearInstitutionUsers();
         this.clearConnections();
         this.clearAccounts();
@@ -203,6 +204,7 @@ class FlowStore {
         break;
       case ScreenNames.CONNECTION: 
         this.selectedInstitutionUser = null;
+        this.selectedConnection = null;
         this.clearAccounts();
         this.clearTransactions();
         break;

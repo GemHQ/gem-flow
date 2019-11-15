@@ -13,7 +13,6 @@ import ConnectionCard from '../../components/cards/ConnectionCard';
 const ConnectionScreen = ({ flowStore, uiStore }) => (
   <>
     <ErrorMessage errorMessage={flowStore.errorMessage} />
-    {console.log(uiStore.flow.id)}
     {
       uiStore.flow.id === FlowIds.ONRAMP 
       ? <OnrampConnectionScreen flowStore={flowStore} uiStore={uiStore} /> 
@@ -81,7 +80,7 @@ const TransferConnectionScreen = observer(({ flowStore, uiStore }) => {
           removeConnection={() => flowStore.removeConnection(connection.id)}
           onButtonClick={() => {
             flowStore.selectConnection(connection.id);
-            uiStore.setCurrentScreen(ScreenNames.ACCOUNT, { withOpenForm: true });
+            uiStore.setCurrentScreen(ScreenNames.ACCOUNT, { withOpenForm: uiStore.flowId === FlowIds.ONRAMP });
           }}
           onViewClick={() => {
             flowStore.selectConnection(connection.id);

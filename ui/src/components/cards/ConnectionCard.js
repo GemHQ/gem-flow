@@ -12,9 +12,8 @@ const ConnectionCard = ({ connection, onButtonClick, onViewClick, removeConnecti
       { title: 'CREATED_AT', value: formatDate(connection.created_at) },
       { title: 'STATUS', value: capitalizeFirstLetter(connection.status) },
     ]}
-    buttonText="Add Account"
+    buttonText="View Accounts"
     onButtonClick={onButtonClick}
-    viewText="View Accounts"
     onViewClick={onViewClick}
     primaryColor={primaryColor}
     dotsMenuOptions={[{ title: 'Remove connection', onClick: removeConnection }]}

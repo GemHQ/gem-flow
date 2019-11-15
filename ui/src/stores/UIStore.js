@@ -52,6 +52,10 @@ class UIStore {
     const initialState = this.initialScreenStates.get(this.currentScreen);
     return initialState && initialState.withOpenForm;
   }
+
+  @computed get flowId() {
+    return this.flow.id;
+  }
 }
 
 export default UIStore;
