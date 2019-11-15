@@ -3,7 +3,6 @@ import GenericCard from './GenericCard';
 import { withPrimaryColor } from '../../stores/StoresUtil';
 import { formatDate, capitalizeFirstLetter } from '../../util/TextUtil';
 import { FlowIds } from '../../stores/Constants';
-import { toJS } from 'mobx';
 
 
 const AccountCard = ({ 

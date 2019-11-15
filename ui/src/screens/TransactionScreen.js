@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { withStores } from '../stores/StoresUtil';
 import AccountCard from '../components/cards/AccountCard';
 import TransactionForm from '../components/forms/TransactionForm';
-import { ScreenNames } from '../stores/Constants';
+import { ScreenNames, FlowIds } from '../stores/Constants';
 import TransactionTable from '../components/composite/transactionTable/TransactionTable';
 import ErrorMessage from '../components/basic/errorMessage/ErrorMessage';
+import TransferForm from '../components/forms/TransferForm';
 
 const TransactionScreen = ({ flowStore, uiStore }) => {
   const initialScreenState = uiStore.initialScreenStates.get(ScreenNames.TRANSACTION);
@@ -15,6 +16,8 @@ const TransactionScreen = ({ flowStore, uiStore }) => {
   const { selectedAccount, transactions } = flowStore;
   const numberOfItems = transactions.length;
 
+  const FormToRender = uiStore.flow.id === FlowIds.ONRAMP ? TransactionForm : TransferForm;
+
   return (
     <>
     <ErrorMessage />
@@ -23,13 +26,15 @@ const TransactionScreen = ({ flowStore, uiStore }) => {
       ?
       <>
         <h2 className="ScreenHeading">{`Creating Transaction`}</h2>
-        <TransactionForm
+        <FormToRender
           onCancel={stopCreatingItem}
           onSubmit={transaction => {
             flowStore.createTransaction(transaction);
             stopCreatingItem();
           }}
           accountId={selectedAccount.id}
+          accountName={selectedAccount.name}
+          maxAmount={flowStore.selectedAccount.available_amount}
           asset={selectedAccount.asset_id}
         />
       </>
