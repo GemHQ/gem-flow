@@ -39,6 +39,6 @@ const UserScreen = ({ flowStore, uiStore }) => {
       </GenericScreen>
     </>
   )
-
 }
+
 export default withStores(UserScreen);
