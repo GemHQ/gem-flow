@@ -14,6 +14,7 @@ const AccountCard = ({
   primaryColor,
   removeAccount,
   disabled,
+  dots
 }) => {
   const titlesAndValues = [
     { title: 'ACCOUNT_ID', value: account.id },
@@ -32,6 +33,7 @@ const AccountCard = ({
       primaryColor={primaryColor}
       dotsMenuOptions={[{ title: 'Remove account', onClick: removeAccount }]}
       disabled={disabled}
+      dots={dots}
     />
   )
 };
@@ -43,6 +45,7 @@ export const ExchangeAccountCard = withPrimaryColor(({
   primaryColor,
   removeAccount,
   disabled,
+  dots
 }) => {
   const titlesAndValues = [
     { title: 'ACCOUNT_ID', value: account.id },
@@ -62,6 +65,7 @@ export const ExchangeAccountCard = withPrimaryColor(({
       dotsMenuOptions={[{ title: 'Remove account', onClick: removeAccount }]}
       disabled={disabled}
       iconUrl={assetIconFromId(account.asset_id)}
+      dots={dots}
     />
   )
 });

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { withStores } from '../stores/StoresUtil';
-import AccountCard from '../components/cards/AccountCard';
+import AccountCard, { ExchangeAccountCard } from '../components/cards/AccountCard';
 import TransactionForm from '../components/forms/TransactionForm';
 import { ScreenNames, FlowIds } from '../stores/Constants';
 import TransactionTable from '../components/composite/transactionTable/TransactionTable';
@@ -16,6 +16,7 @@ const TransactionScreen = ({ flowStore, uiStore }) => {
   const { selectedAccount, transactions } = flowStore;
   const numberOfItems = transactions.length;
 
+  const CardToRender = uiStore.flowId === FlowIds.ONRAMP ? AccountCard : ExchangeAccountCard;
   const FormToRender = uiStore.flowId === FlowIds.ONRAMP ? TransactionForm : TransferForm;
 
   return (
@@ -52,7 +53,7 @@ const TransactionScreen = ({ flowStore, uiStore }) => {
       &&
       selectedAccount
       &&
-      <AccountCard
+      <CardToRender
         account={selectedAccount}
         onButtonClick={startCreatingItem}
         key={selectedAccount.id} 
