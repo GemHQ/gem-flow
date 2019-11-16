@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { withStores } from '../stores/StoresUtil';
-import AccountCard from '../components/cards/AccountCard';
+import AccountCard, { ExchangeAccountCard } from '../components/cards/AccountCard';
 import TransactionForm from '../components/forms/TransactionForm';
-import { ScreenNames } from '../stores/Constants';
+import { ScreenNames, FlowIds } from '../stores/Constants';
 import TransactionTable from '../components/composite/transactionTable/TransactionTable';
 import ErrorMessage from '../components/basic/errorMessage/ErrorMessage';
+import TransferForm from '../components/forms/TransferForm';
 
 const TransactionScreen = ({ flowStore, uiStore }) => {
-  const initialScreenState = uiStore.progressStore.initialScreenStates.get(ScreenNames.TRANSACTION);
+  const initialScreenState = uiStore.initialScreenStates.get(ScreenNames.TRANSACTION);
   const initiallyOpenForm = initialScreenState && initialScreenState.withOpenForm;
   const [creatingItem, setCreatingItem] = useState(initiallyOpenForm);
   const startCreatingItem = () => setCreatingItem(true);
@@ -15,28 +16,33 @@ const TransactionScreen = ({ flowStore, uiStore }) => {
   const { selectedAccount, transactions } = flowStore;
   const numberOfItems = transactions.length;
 
+  const CardToRender = uiStore.flowId === FlowIds.ONRAMP ? AccountCard : ExchangeAccountCard;
+  const FormToRender = uiStore.flowId === FlowIds.ONRAMP ? TransactionForm : TransferForm;
+
   return (
     <>
     <ErrorMessage />
+    <PostingLabel isPosting={flowStore.isPosting} />
     {
       creatingItem
       ?
       <>
         <h2 className="ScreenHeading">{`Creating Transaction`}</h2>
-        <TransactionForm
+        <FormToRender
           onCancel={stopCreatingItem}
           onSubmit={transaction => {
             flowStore.createTransaction(transaction);
             stopCreatingItem();
           }}
           accountId={selectedAccount.id}
+          maxAmount={flowStore.selectedAccount.available_amount}
           asset={selectedAccount.asset_id}
         />
       </>
       :
       (
         flowStore.isFetching
-        ? <p className="Loading">{`Loading Transactions...`}</p>
+        ? <LoadingLabel />
         :<div className="FlexAlignCenter SpaceBetween">
           <h2 className="ScreenHeading noPadding">{`${numberOfItems} Transaction${numberOfItems === 1 ? '' : 's'}`}</h2>
         </div>
@@ -47,7 +53,7 @@ const TransactionScreen = ({ flowStore, uiStore }) => {
       &&
       selectedAccount
       &&
-      <AccountCard
+      <CardToRender
         account={selectedAccount}
         onButtonClick={startCreatingItem}
         key={selectedAccount.id} 
@@ -62,6 +68,13 @@ const TransactionScreen = ({ flowStore, uiStore }) => {
     }
     </>
   )
+}
+
+const LoadingLabel = () => <p className="Loading">{`Loading Transactions...`}</p>;
+
+const PostingLabel = ({ isPosting }) => {
+  if (isPosting) return <p className="Creating">{`Creating Transaction...`}</p>
+  return null;
 }
 
 

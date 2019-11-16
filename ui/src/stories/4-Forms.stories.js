@@ -7,6 +7,7 @@ import { AccountForm } from '../components/forms/AccountForm';
 import { InstitutionUserForm } from '../components/forms/InstitutionUserForm';
 import { TransactionForm } from '../components/forms/TransactionForm';
 import { ProfileForm } from '../components/forms/profileForm/ProfileForm';
+import { ConnectionForm } from '../components/forms/ConnectionForm';
 
 const props = {
   onCancel: action('cancel'),
@@ -21,6 +22,8 @@ export default {
 export const user = () => <UserForm {...props} />;
 
 export const intitutionUser  = () => <InstitutionUserForm {...props} />;
+
+export const connection  = () => <ConnectionForm {...props} />;
 
 export const profile  = () => <ProfileForm {...props} />;
 

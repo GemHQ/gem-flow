@@ -1,40 +1,101 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import InstitutionUserForm from '../../components/forms/InstitutionUserForm';
-import ConnectionCard from '../../components/cards/ConnectionCard';
+import InstitutionUserCard from '../../components/cards/InstitutionUserCard';
 import GenericScreen from '../GenericScreen';
 import { withStores } from '../../stores/StoresUtil';
-import { ScreenNames } from '../../stores/Constants';
+import { ScreenNames, FlowIds } from '../../stores/Constants';
 import ErrorMessage from '../../components/basic/errorMessage/ErrorMessage';
+import { observer } from 'mobx-react';
+import ConnectionForm from '../../components/forms/ConnectionForm';
+import { startCoinbaseOauthFlow, getOauthCode, filterPaymentInstitutions } from '../../util/PartnerUtil';
+import ConnectionCard from '../../components/cards/ConnectionCard';
 
 const ConnectionScreen = ({ flowStore, uiStore }) => (
   <>
     <ErrorMessage errorMessage={flowStore.errorMessage} />
-    <GenericScreen
-      ItemForm={InstitutionUserForm}
-      numberOfItems={flowStore.connections.length}
-      itemTitle="Connection"
-      createItem={flowStore.createInstitutionUser}
-      buttonDisabled={!flowStore.selectedProfile}
-      withOpenForm={uiStore.progressStore.withOpenForm}
-    >
     {
-      flowStore.connections.map(institutionUser => (
-      <ConnectionCard
-        institutionUser={institutionUser} 
-        key={institutionUser.id} 
-        removeInstitutionUser={() => flowStore.removeInstitutionUser(institutionUser.id)}
-        onButtonClick={() => {
-          flowStore.selectInstitutionUser(institutionUser.id);
-          uiStore.progressStore.setCurrentScreen(ScreenNames.ACCOUNT, { withOpenForm: true });
-        }}
-        onViewClick={() => {
-          flowStore.selectInstitutionUser(institutionUser.id);
-          uiStore.progressStore.setCurrentScreen(ScreenNames.ACCOUNT, { withOpenForm: false });
-        }}
-      />))
+      uiStore.flowId === FlowIds.ONRAMP 
+      ? <OnrampConnectionScreen flowStore={flowStore} uiStore={uiStore} /> 
+      : <TransferConnectionScreen flowStore={flowStore} uiStore={uiStore} />
     }
-    </GenericScreen>
   </>
 )
+
+const OnrampConnectionScreen = observer(({ flowStore, uiStore }) => (
+  <GenericScreen
+    ItemForm={InstitutionUserForm}
+    numberOfItems={flowStore.institutionUsers.length}
+    itemTitle="Connection"
+    createItem={flowStore.createInstitutionUser}
+    buttonDisabled={!flowStore.selectedUser}
+    withOpenForm={uiStore.withOpenForm}
+  >
+  {
+    flowStore.institutionUsers.map(institutionUser => (
+    <InstitutionUserCard
+      institutionUser={institutionUser} 
+      key={institutionUser.id} 
+      removeInstitutionUser={() => flowStore.removeInstitutionUser(institutionUser.id)}
+      onButtonClick={() => {
+        flowStore.selectInstitutionUser(institutionUser.id);
+        uiStore.setCurrentScreen(ScreenNames.ACCOUNT, { withOpenForm: true });
+      }}
+      onViewClick={() => {
+        flowStore.selectInstitutionUser(institutionUser.id);
+        uiStore.setCurrentScreen(ScreenNames.ACCOUNT, { withOpenForm: false });
+      }}
+    />))
+  }
+  </GenericScreen>
+))
+
+// TODO: fetch exchange connections, create exchange connection
+
+const TransferConnectionScreen = observer(({ flowStore, uiStore }) => {
+  useEffect(() => {
+    const oauthCode = getOauthCode();
+    if (oauthCode) flowStore.createConnection(oauthCode);
+  }, []);
+  const [isRedirecting, setIsRedirecting] = useState(false);
+
+  return (
+    <>
+      <RedirectingLabel isRedirecting={isRedirecting} />
+      <GenericScreen
+        ItemForm={ConnectionForm}
+        numberOfItems={filterPaymentInstitutions(flowStore.connections).length}
+        itemTitle="Connection"
+        createItem={() => {
+          setIsRedirecting(true);
+          startCoinbaseOauthFlow();
+        }}
+        buttonDisabled={isRedirecting || !flowStore.selectedUser}
+        withOpenForm={uiStore.withOpenForm}
+      >
+      {
+        filterPaymentInstitutions(flowStore.connections).map(connection => (
+        <ConnectionCard
+          connection={connection} 
+          key={connection.id} 
+          removeConnection={() => flowStore.removeConnection(connection.id)}
+          onButtonClick={() => {
+            flowStore.selectConnection(connection.id);
+            uiStore.setCurrentScreen(ScreenNames.ACCOUNT, { withOpenForm: uiStore.flowId === FlowIds.ONRAMP });
+          }}
+          onViewClick={() => {
+            flowStore.selectConnection(connection.id);
+            uiStore.setCurrentScreen(ScreenNames.ACCOUNT, { withOpenForm: false });
+          }}
+        />))
+      }
+      </GenericScreen>
+    </>
+  )
+})
+
+const RedirectingLabel = ({ isRedirecting, exchangeName = 'Coinbase' }) => {
+  if (isRedirecting) return <p className="Creating">{`Redirecting to ${exchangeName}...`}</p>
+  return null;
+}
 
 export default withStores(ConnectionScreen);

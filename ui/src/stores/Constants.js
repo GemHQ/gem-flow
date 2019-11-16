@@ -1,5 +1,6 @@
 import wyreIcon from '../assets/wyre_icon.svg';
 import coinifyIcon from '../assets/coinify_icon.svg';
+import coinbaseIcon from '../assets/coinbase_icon.svg';
 
 
 export const ScreenNames = {
@@ -10,8 +11,14 @@ export const ScreenNames = {
   TRANSACTION: 'Transaction'
 };
 
+export const FlowIds = {
+  ONRAMP: 'Onramp',
+  TRANSFER: 'Transfer',
+  CONNECT: 'Connect'
+}
+
 export const Flows = {
-  Onramp: {
+  [FlowIds.ONRAMP]: {
     id: 'Onramp',
     dropdownTitle: 'Onramp (Gem API)',
     primaryColor: '#9C27B0',
@@ -24,18 +31,18 @@ export const Flows = {
       ScreenNames.TRANSACTION
     ]
   },
-  Connect: {
-    id: 'Connect',
-    dropdownTitle: 'Connect',
-    primaryColor: '#C0CA33',
-    colorClassname: 'ConnectColor',
-    screens: [
-      ScreenNames.USER, 
-      ScreenNames.CONNECTION,
-      ScreenNames.ACCOUNT,
-    ],
-  },
-  Transfer: {
+  // [FlowIds.CONNECT]: {
+  //   id: 'Connect',
+  //   dropdownTitle: 'Connect',
+  //   primaryColor: '#C0CA33',
+  //   colorClassname: 'ConnectColor',
+  //   screens: [
+  //     ScreenNames.USER, 
+  //     ScreenNames.CONNECTION,
+  //     ScreenNames.ACCOUNT,
+  //   ],
+  // },
+  [FlowIds.TRANSFER]: {
     id: 'Transfer',
     dropdownTitle: 'Transfer',
     primaryColor: '#478FCC',
@@ -63,4 +70,5 @@ export const Endpoints = {
 export const InstitutionIcons = {
   wyre: wyreIcon,
   coinify: coinifyIcon,
+  coinbase: coinbaseIcon
 }

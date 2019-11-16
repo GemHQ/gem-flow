@@ -2,24 +2,22 @@ import React from 'react';
 import GenericCard from './GenericCard';
 import { withPrimaryColor } from '../../stores/StoresUtil';
 import { InstitutionIcons } from '../../stores/Constants';
-import { formatDate } from '../../util/TextUtil';
+import { formatDate, capitalizeFirstLetter } from '../../util/TextUtil';
 
-const ConnectionCard = ({ institutionUser, onButtonClick, onViewClick, removeInstitutionUser, primaryColor }) => (
+const ConnectionCard = ({ connection, onButtonClick, onViewClick, removeConnection, primaryColor }) => (
   <GenericCard
     titlesAndValues={[
-      { title: 'CONNECTION_ID', value: institutionUser.connection_id },
-      { title: 'INSTITUTION', value: 'Wyre' },
-      { title: 'EXTERNAL_ID', value: institutionUser.external_id },
-      { title: 'CREATED_AT', value: formatDate(institutionUser.created_at) },
+      { title: 'CONNECTION_ID', value: connection.id },
+      { title: 'INSTITUTION_NAME', value: 'Coinbase' },
+      { title: 'CREATED_AT', value: formatDate(connection.created_at) },
+      { title: 'STATUS', value: capitalizeFirstLetter(connection.status) },
     ]}
-    buttonText="Add Account"
+    buttonText="View Accounts"
     onButtonClick={onButtonClick}
-    viewText="View Accounts"
     onViewClick={onViewClick}
     primaryColor={primaryColor}
-    dotsMenuOptions={[{ title: 'Remove connection', onClick: removeInstitutionUser }]}
-    // iconUrl={connection.institution.icon}
-    iconUrl={InstitutionIcons.wyre}
+    dotsMenuOptions={[{ title: 'Remove connection', onClick: removeConnection }]}
+    iconUrl={InstitutionIcons.coinbase}
   />
 );
 

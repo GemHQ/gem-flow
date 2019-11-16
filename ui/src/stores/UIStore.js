@@ -1,66 +1,61 @@
-import { observable, action, computed, decorate } from "mobx";
+import { observable, action, computed } from 'mobx';
 import { Flows, ScreenNames } from './Constants';
+import { 
+  persistSelectedFlowId,
+  getPersistedFlowId,
+  getPersistedScreen,
+  persistCurrentScreen,
+} from '../util/PersistUtil';
 
 class UIStore {
-  flow = Flows.Onramp;
-  progressMaps = new Map();
+  @observable flow = Flows.Onramp;
+  @observable currentScreen = ScreenNames.USER;
+  @observable initialScreenStates = new Map();
 
   constructor() {
-    Object.values(Flows).forEach(flow => {
-      this.progressMaps.set(flow.id, new ProgressStore(flow.screens));
-    });
+    const persistedFlowId = getPersistedFlowId();
+    const persistedScreen = getPersistedScreen();
+    if (persistedFlowId) this.setFlow(persistedFlowId);
+    if (persistedScreen) this.setCurrentScreen(persistedScreen);
   }
 
-  setFlow = flowId => {
+  @action setFlow = flowId => {
     this.flow = Flows[flowId];
+    persistSelectedFlowId(flowId);
   };
 
-  get primaryColor() {
+  @action setCurrentScreen = (screen, initialState) => {
+    this.currentScreen = screen;
+    initialState && this.initialScreenStates.set(screen, initialState);
+    persistCurrentScreen(screen);
+  }
+
+  // each flow has it's own color
+  @computed get primaryColor() {
     return this.flow.primaryColor;
   }
 
-  get dropdownOptions() {
-    return Object.values(Flows).map(flow => ({ value: flow.id, label: flow.dropdownTitle, className: flow.colorClassname }));
+  // for the flow dropdown selector on first screen
+  @computed get dropdownOptions() {
+    return Object.values(Flows)
+      .filter(flow => flow.id !== this.flow.id)
+      .map(flow => ({ value: flow.id, label: flow.dropdownTitle, className: flow.colorClassname }));
   }
 
-  get progressStore() {
-    return this.progressMaps.get(this.flow.id);
+  // do the dropdown selector and instruction show
+  @computed get showInstructions() {
+    return this.currentScreen === ScreenNames.USER;
   }
 
-  get showInstructions() {
-    return this.progressStore.currentScreen === ScreenNames.USER;
-  }
-}
-
-decorate(UIStore, {
-  flow: observable,
-  progressMaps: observable,
-  setFlowName: action,
-  primaryColor: computed,
-  dropdownOptions: computed,
-  progressStore: computed,
-});
-
-export default UIStore;
-
-class ProgressStore {
-  currentScreen = ScreenNames.USER;
-  initialScreenStates = new Map();
-
-  setCurrentScreen = (screen, initialState) => {
-    this.currentScreen = screen;
-    initialState && this.initialScreenStates.set(screen, initialState);
-  }
-
-  get withOpenForm() {
+  // if a screen should render with an open form
+  @computed get withOpenForm() {
     const initialState = this.initialScreenStates.get(this.currentScreen);
     return initialState && initialState.withOpenForm;
   }
+
+  @computed get flowId() {
+    return this.flow.id;
+  }
 }
 
-decorate(ProgressStore, {
-  markerSubtitles: observable,
-  currentScreen: observable,
-  setCurrentScreen: action,
-  withOpenForm: computed,
-});
+export default UIStore;

@@ -1,56 +1,73 @@
-import { observable, action, decorate, computed } from "mobx";
+import { observable, action, computed } from "mobx";
+import { persist } from "mobx-persist";
 import { ScreenNames, Endpoints, InstitutionIcons } from "./Constants";
 import { httpGet, httpPost, httpDelete } from '../util/RequestUtil';
-import { formatProfileRequestBody, formatConnectionRequestBody } from "./StoresUtil";
+import { 
+  formatProfileRequestBody,
+  formatInstitutionUserRequestBody,
+  formatCoinbaseConnectionRequest,
+} from "../util/RequestFormatter";
 
 class FlowStore {
-  usersMap = new Map();
-  profilesMap = new Map();
-  institutionUsersMap = new Map();
-  accountsMap = new Map();
-  transactionsMap = new Map();
-  institutionMap = new Map();
 
-  selectedUser = null;
-  selectedProfile = null;
-  selectedInstitutionUser = null;
-  selectedAccount = null;
+  // store items from Gem API in maps with persistance 
+  @persist('map') @observable usersMap = new Map();
+  @persist('map') @observable profilesMap = new Map();
+  @persist('map') @observable institutionUsersMap = new Map();
+  @persist('map') @observable connectionsMap = new Map();
+  @persist('map') @observable accountsMap = new Map();
+  @persist('map') @observable transactionsMap = new Map();
+  @persist('map') @observable institutionMap = new Map();
 
-  isFetching = false;
-  isPosting = false;
-  errorMessage = '';
+  // store items selected by user
+  @persist('object') @observable selectedUser = null;
+  @persist('object') @observable selectedProfile = null;
+  @persist('object') @observable selectedInstitutionUser = null;
+  @persist('object') @observable selectedConnection = null;
+  @persist('object') @observable selectedAccount = null;
+
+  // variables for ui messaging
+  @observable isFetching = false;
+  @observable isPosting = false;
+  @observable errorMessage = '';
+
 
   constructor() {
     this.getUsers();
-    this.getInstitutions();
   }
 
-  getItems = async (path, itemMap) => {
+
+  // All GET requests to the local node server
+  @action getItems = async (path, itemMap) => {
     this.isFetching = true;
     const { data, status } = await httpGet(path);
     this.isFetching = false;
     if (status >= 400) {
       return this.setError(data.description);
     }
-    console.log(path, data)
+    console.log(path, data);
+    itemMap.clear();
     data.forEach(item => itemMap.set(item.id, item));
   }
-  getUsers = async () => {
+  @action getUsers = async () => {
     return await this.getItems(Endpoints.USER, this.usersMap);
   }
-  getProfiles = async () => {
+  @action getProfiles = async () => {
     return await this.getItems(`${Endpoints.PROFILE}/${this.selectedUser.id}`, this.profilesMap);
   }
-  getInstitutionUsers = async () => {
+  @action getInstitutionUsers = async () => {
     return this.getItems(`${Endpoints.INSTITUTION_USER}${Endpoints.PROFILE}/${this.selectedProfile.id}`, this.institutionUsersMap);
   }
-  getAccounts = async () => {
-    return await this.getItems(`${Endpoints.ACCOUNT}/list/${this.selectedInstitutionUser.connection_id}`, this.accountsMap);
+  @action getConnections = async () => {
+    return this.getItems(`${Endpoints.CONNECTIONS}/${this.selectedUser.id}`, this.connectionsMap);
   }
-  getTransactions = async () => {
+  @action getAccounts = async connectionId => {
+    return await this.getItems(`${Endpoints.ACCOUNT}/list/${connectionId}`, this.accountsMap);
+  }
+  @action getTransactions = async () => {
     return await this.getItems(`${Endpoints.TRANSACTION}/list/${this.selectedAccount.id}`, this.transactionsMap);
   }
-  getInstitutions = async () => {
+  @action getInstitutions = async () => {
     const { data, status } = await httpGet(Endpoints.INSTITUTION);
     if (status >= 400) return;
     data.forEach(institution => this.institutionMap.set(institution.id, {
@@ -59,17 +76,20 @@ class FlowStore {
     }));
   }
 
-  createItem = async (path, body, itemMap, defaultError) => {
+
+  // All POST requests to the local node server
+  @action createItem = async (path, body, itemMap, defaultError) => {
     this.isPosting = true;
     const { data, status } = await httpPost(path, body);
     this.isPosting = false;
     if (status >= 400) return this.setError(data.description || defaultError);
+    console.log(path, data);
     itemMap.set(data.id, data);
   }
-  createUser = async user => {
+  @action createUser = async user => {
     this.createItem(Endpoints.USER, { user }, this.usersMap);
   }
-  createProfile = async profileFormData => {
+  @action createProfile = async profileFormData => {
     this.isPosting = true;
     const profile = formatProfileRequestBody(profileFormData);
     const userId = this.selectedUser.id;
@@ -79,92 +99,120 @@ class FlowStore {
     this.profilesMap.set(data.id, data);
     await httpPost(Endpoints.PROFILE_DOCUMENT, { profileId: data.id, document: profileFormData.document });
   }
-  createInstitutionUser = async connectionFormData => {
-    const connection = formatConnectionRequestBody(this.selectedProfile.id, connectionFormData);
-    this.createItem(Endpoints.INSTITUTION_USER, connection, this.institutionUsersMap);
+  @action createInstitutionUser = async institutionUserFormData => {
+    const institutionUser = formatInstitutionUserRequestBody(this.selectedProfile.id, institutionUserFormData);
+    this.createItem(Endpoints.INSTITUTION_USER, institutionUser, this.institutionUsersMap);
   }
-  createAccount = async account => {
+  @action createConnection = async oauthCode => {
+    if (!this.selectedUser) return;
+    const connectionBody = formatCoinbaseConnectionRequest({ oauthCode, userId: this.selectedUser.id });
+    this.createItem(Endpoints.CONNECTIONS, connectionBody, this.connectionsMap);
+  }
+  @action createAccount = async account => {
     this.createItem(Endpoints.ACCOUNT, account, this.accountsMap);
   }
-  createTransaction = async transaction => {
+  @action createTransaction = async transaction => {
     this.createItem(Endpoints.TRANSACTION, transaction, this.transactionsMap);
   }
 
-  selectUser = id => {
-    if (this.selectedUser && id === this.selectedUser.id) return;
+
+  // item selector methods with flow store cleanup management
+  @action selectUser = (id, nextScreen) => {
     this.selectedUser = this.usersMap.get(id);
     this.clearProfiles();
     this.clearInstitutionUsers();
+    this.clearConnections();
     this.clearAccounts();
-    this.getProfiles();
+    if (nextScreen === ScreenNames.PROFILE) this.getProfiles();
+    if (nextScreen === ScreenNames.CONNECTION) this.getConnections();
   }
-  selectProfile = id => {
+  @action selectProfile = id => {
     if (this.selectedProfile && id === this.selectedProfile.id) return;
     this.selectedProfile = this.profilesMap.get(id);
     this.clearInstitutionUsers();
+    this.clearConnections();
     this.clearAccounts();
     this.getInstitutionUsers();
   }
-  selectInstitutionUser = id => {
+  @action selectInstitutionUser = id => {
     if (this.selectedInstitutionUser && id === this.selectedInstitutionUser.id) return;
     this.selectedInstitutionUser = this.institutionUsersMap.get(id);
     this.clearAccounts();
-    this.getAccounts();
+    this.getAccounts(this.selectedInstitutionUser.connection_id);
   }
-  selectAccount = id => {
+  @action selectConnection = id => {
+    if (this.selectedConnection && id === this.selectedConnection.id) return;
+    this.selectedConnection = this.connectionsMap.get(id);
+    this.clearAccounts();
+    this.getAccounts(id);
+  }
+  @action selectAccount = id => {
     if (this.selectedAccount && id === this.selectedAccount.id) return;
     this.selectedAccount = this.accountsMap.get(id);
     this.clearTransactions();
     this.getTransactions();
   }
 
-  removeUser = id => {
+
+  // All DELETE requests to the local node server, * not yet supported Gem API endpoints
+  @action removeUser = id => {
     this.usersMap.delete(id);
     httpDelete(`${Endpoints.USER}/${id}`);
   }
-  removeProfile = id => {
+  @action removeProfile = id => {
     this.profilesMap.delete(id);
     httpDelete(`${Endpoints.PROFILE}/${id}`);
   }
-  removeInstitutionUser = id => {
+  @action removeInstitutionUser = id => {
     this.institutionUsersMap.delete(id);
   }
-  removeAccount = id => {
+  @action removeAccount = id => {
     this.accountsMap.delete(id);
   }
 
-  clearProfiles = () => {
+
+  // flow store cleanup methods
+  @action clearProfiles = () => {
     this.selectedProfile = null;
     this.profilesMap.clear();
   }
-  clearInstitutionUsers = () => {
+  @action clearInstitutionUsers = () => {
     this.selectedInstitutionUser = null;
     this.institutionUsersMap.clear();
   }
-  clearAccounts = () => {
+  @action clearConnections = () => {
+    this.selectedConnection = null;
+    this.connectionsMap.clear();
+  }
+  @action clearAccounts = () => {
     this.selectedAccount = null;
     this.accountsMap.clear();
+    this.clearTransactions();
   }
-  clearTransactions = () => {
+  @action clearTransactions = () => {
     this.transactionsMap.clear();
   }
-  clearItemsOnScreenChange = screenName => {
+  @action clearItemsOnScreenChange = screenName => {
     switch (screenName) {
       case ScreenNames.USER:
         this.selectedUser = null;
         this.clearProfiles();
         this.clearInstitutionUsers();
+        this.clearConnections();
         this.clearAccounts();
         this.clearTransactions();
         break;
       case ScreenNames.PROFILE:
         this.selectedProfile = null;
+        this.selectedConnection = null;
         this.clearInstitutionUsers();
+        this.clearConnections();
         this.clearAccounts();
         this.clearTransactions();
         break;
       case ScreenNames.CONNECTION: 
         this.selectedInstitutionUser = null;
+        this.selectedConnection = null;
         this.clearAccounts();
         this.clearTransactions();
         break;
@@ -176,105 +224,37 @@ class FlowStore {
     }
   }
 
-  clearError = () => {
+
+  // error messaging
+  @action clearError = () => {
     this.errorMessage = '';
   }
-  setError = errorMessage => {
+  @action setError = errorMessage => {
     // errorMessage may be null, hence default value in the params (message = 'Unknown Error') will not work
     this.errorMessage = errorMessage || 'Unknown Error';
   }
 
-  get users() {
+
+  // turn item maps into arrays for components to read
+  // only supply these arrays to components, not the maps
+  @computed get users() {
     return [...this.usersMap.values()].reverse();
   }
-  get profiles() {
+  @computed get profiles() {
     return [...this.profilesMap.values()].reverse();
   }
-  get connections() {
+  @computed get institutionUsers() {
     return [...this.institutionUsersMap.values()].reverse();
   }
-  get accounts() {
+  @computed get connections() {
+    return [...this.connectionsMap.values()].reverse();
+  }
+  @computed get accounts() {
     return [...this.accountsMap.values()].reverse();
   }
-  get transactions() {
+  @computed get transactions() {
     return [...this.transactionsMap.values()].reverse();
   }
-
-  // which dots are filled in the progress map
-  get dots() {
-    return [
-      [ScreenNames.USER, Boolean(this.selectedUser)],
-      [ScreenNames.PROFILE, Boolean(this.selectedProfile)],
-      [ScreenNames.CONNECTION, Boolean(this.selectedInstitutionUser)],
-      [ScreenNames.ACCOUNT, Boolean(this.selectedAccount)],
-      [ScreenNames.TRANSACTION, Boolean(this.transactionsMap.size)],
-    ]
-  }
-
-  // subtitles for the markers on the progress map
-  get markerSubtitles() {
-    return {
-      [ScreenNames.USER]: this.determineSubtitle('User', 'id', this.selectedUser, this.usersMap.size, 'Create a new user'),
-      [ScreenNames.PROFILE]: this.determineSubtitle('Profile', 'id', this.selectedProfile, this.profilesMap.size),
-      [ScreenNames.CONNECTION]: this.determineSubtitle('Connection', 'connection_id', this.selectedInstitutionUser, this.institutionUsersMap.size),
-      [ScreenNames.ACCOUNT]: this.determineSubtitle('Account', 'id', this.selectedAccount, this.accountsMap.size),
-      [ScreenNames.TRANSACTION]: this.determineSubtitle('Transaction', '', null, this.transactionsMap.size),
-    }
-  }
-
-  determineSubtitle(itemTitle, itemKey, selectedItem, numberOfItems, placeholder = '-') {
-    return selectedItem ? selectedItem[itemKey] : (numberOfItems ? `${numberOfItems} ${itemTitle}${numberOfItems > 1 ? 's' : ''}` : placeholder)
-  }
 }
-
-decorate(FlowStore, {
-  usersMap: observable,
-  profilesMap: observable,
-  institutionUsersMap: observable,
-  accountsMap: observable,
-  transactionsMap: observable,
-  institutionMap: observable,
-  selectedUser: observable,
-  selectedProfile: observable,
-  selectedInstitutionUser: observable,
-  selectedAccount: observable,
-  isFetching: observable,
-  isPosting: observable,
-  errorMessage: observable,
-  getItems: action,
-  getUsers: action,
-  getProfiles: action,
-  getInstitutionUsers: action,
-  getAccounts: action,
-  getTransactions: action,
-  getInstitutions: action,
-  createUser: action,
-  createProfile: action,
-  createInstitutionUser: action,
-  createAccount: action,
-  createTransaction: action,
-  clearItemsOnScreenChange: action,
-  selectUser: action,
-  selectProfile: action,
-  selectInstitutionUser: action,
-  selectAccount: action,
-  removeUser: action,
-  removeProfile: action,
-  removeInstitutionUser: action,
-  removeAccount: action,
-  clearProfiles: action,
-  clearInstitutionUsers: action,
-  clearTransactions: action,
-  clearProfiles: action,
-  clearError: action,
-  setError: action,
-  users: computed,
-  profiles: computed,
-  connections: computed,
-  accounts: computed,
-  transactions: computed,
-  dots: computed,
-  markerSubtitles: computed,
-});
 
 export default FlowStore;

@@ -9,6 +9,7 @@ const GenericScreen = ({
   createItem,
   primaryColor,
   children,
+  hideButton,
   buttonDisabled,
   withOpenForm,
   isFetching,
@@ -22,7 +23,7 @@ const GenericScreen = ({
     return isFetching
     ? <LoadingLabel itemTitle={itemTitle} />
     : <>
-        <Button onClick={startCreatingItem} disabled={buttonDisabled}>{`Create New ${itemTitle}`}</Button>
+        { !hideButton && <Button onClick={startCreatingItem} disabled={buttonDisabled}>{`Create New ${itemTitle}`}</Button> }
         <PostingLabel isPosting={isPosting} itemTitle={itemTitle} />
       </>
   }
@@ -38,6 +39,7 @@ const GenericScreen = ({
         stopCreatingItem={stopCreatingItem}
         numberOfItems={numberOfItems}
         primaryColor={primaryColor}
+        hideButton={hideButton}
       />
       <PostingLabel isPosting={isPosting} itemTitle={itemTitle} />
       {children}
@@ -53,7 +55,8 @@ const ItemFormControl = ({
   startCreatingItem,
   stopCreatingItem,
   numberOfItems,
-  primaryColor
+  primaryColor,
+  hideButton
 }) => {
   if (creatingItem) return (
     <>
@@ -71,7 +74,7 @@ const ItemFormControl = ({
   return (
     <div className="FlexAlignCenter SpaceBetween">
       <h2 className="ScreenHeading noPadding">{`${numberOfItems} ${itemTitle}${numberOfItems > 1 ? 's' : ''}`}</h2>
-      <BorderedButton color={primaryColor} onClick={startCreatingItem}>{`+ Add new ${itemTitle.toLowerCase()}`}</BorderedButton>
+      { hideButton ? <div /> : <BorderedButton color={primaryColor} onClick={startCreatingItem}>{`+ Add new ${itemTitle.toLowerCase()}`}</BorderedButton> }
     </div>
   )
 }

@@ -15,7 +15,7 @@ const ProfileScreen = ({ flowStore, uiStore }) => (
       itemTitle="Profile"
       createItem={flowStore.createProfile}
       buttonDisabled={!flowStore.selectedUser}
-      withOpenForm={uiStore.progressStore.withOpenForm}
+      withOpenForm={uiStore.withOpenForm}
     >
     {
       flowStore.profiles.map(profile => (
@@ -25,11 +25,11 @@ const ProfileScreen = ({ flowStore, uiStore }) => (
         removeProfile={() => flowStore.removeProfile(profile.id)}
         onButtonClick={() => {
           flowStore.selectProfile(profile.id);
-          uiStore.progressStore.setCurrentScreen(ScreenNames.CONNECTION, { withOpenForm: true });
+          uiStore.setCurrentScreen(ScreenNames.CONNECTION, { withOpenForm: true });
         }}
         onViewClick={() => {
           flowStore.selectProfile(profile.id);
-          uiStore.progressStore.setCurrentScreen(ScreenNames.CONNECTION, { withOpenForm: false });
+          uiStore.setCurrentScreen(ScreenNames.CONNECTION, { withOpenForm: false });
         }}
       />))
     }
