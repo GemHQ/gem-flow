@@ -10,7 +10,6 @@ const gem = new Gem({
   options: {
     timeout: 60000,
   },
-  baseUrl: 'https://vgs-dev.gem.farm'
 });
 
 module.exports = gem;
