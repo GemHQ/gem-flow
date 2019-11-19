@@ -46,6 +46,12 @@ GEM_API_KEY=<your-api-key>
 GEM_API_SECRET=<your-api-secret>
 ```
 
+Create a `.env` file under `<root>/client` directory with your **Coinbase Client ID** and **save** file. If you do not have a Coinbase Client ID then contact us to supply one.
+
+```
+REACT_APP_COINBASE_CLIENT_ID=<your-coinbase-client-id>
+```
+
 ### 3. **Start your environment**
 ```
 sh start.sh
