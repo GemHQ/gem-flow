@@ -4,10 +4,10 @@ import Instructions from '../components/composite/instructions/Instructions';
 import { ProgressMap } from '../components/composite/progressMap/ProgressMap';
 import TransactionTable from '../components/composite/transactionTable/TransactionTable';
 import mockTransactions from '../components/composite/transactionTable/MockTransactions';
-import FlowStore from '../stores/FlowStore';
+import DataStore from '../stores/DataStore';
 
 const uiStore = new UIStore();
-// const flowStore = new FlowStore();
+// const dataStore = new DataStore();
 
 export default {
   title: 'Composite Components',
@@ -15,6 +15,6 @@ export default {
 
 // export const instructions = () => <Instructions uiStore={uiStore} />;
 
-// export const progressMap = () => <ProgressMap uiStore={uiStore}  flowStore={flowStore} />
+// export const progressMap = () => <ProgressMap uiStore={uiStore}  dataStore={dataStore} />
 
 export const transactionTable = () => <TransactionTable transactions={mockTransactions} />

@@ -8,7 +8,7 @@ import {
   formatCoinbaseConnectionRequest,
 } from "../util/RequestFormatter";
 
-class FlowStore {
+class DataStore {
 
   // store items from Gem API in maps with persistance 
   @persist('map') @observable usersMap = new Map();
@@ -257,4 +257,4 @@ class FlowStore {
   }
 }
 
-export default FlowStore;
+export default DataStore;

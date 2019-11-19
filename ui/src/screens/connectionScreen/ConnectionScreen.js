@@ -10,38 +10,38 @@ import ConnectionForm from '../../components/forms/ConnectionForm';
 import { startCoinbaseOauthFlow, getOauthCode, filterPaymentInstitutions } from '../../util/PartnerUtil';
 import ConnectionCard from '../../components/cards/ConnectionCard';
 
-const ConnectionScreen = ({ flowStore, uiStore }) => (
+const ConnectionScreen = ({ dataStore, uiStore }) => (
   <>
-    <ErrorMessage errorMessage={flowStore.errorMessage} />
+    <ErrorMessage errorMessage={dataStore.errorMessage} />
     {
       uiStore.flowId === FlowIds.ONRAMP 
-      ? <OnrampConnectionScreen flowStore={flowStore} uiStore={uiStore} /> 
-      : <TransferConnectionScreen flowStore={flowStore} uiStore={uiStore} />
+      ? <OnrampConnectionScreen dataStore={dataStore} uiStore={uiStore} /> 
+      : <TransferConnectionScreen dataStore={dataStore} uiStore={uiStore} />
     }
   </>
 )
 
-const OnrampConnectionScreen = observer(({ flowStore, uiStore }) => (
+const OnrampConnectionScreen = observer(({ dataStore, uiStore }) => (
   <GenericScreen
     ItemForm={InstitutionUserForm}
-    numberOfItems={flowStore.institutionUsers.length}
+    numberOfItems={dataStore.institutionUsers.length}
     itemTitle="Connection"
-    createItem={flowStore.createInstitutionUser}
-    buttonDisabled={!flowStore.selectedUser}
+    createItem={dataStore.createInstitutionUser}
+    buttonDisabled={!dataStore.selectedUser}
     withOpenForm={uiStore.withOpenForm}
   >
   {
-    flowStore.institutionUsers.map(institutionUser => (
+    dataStore.institutionUsers.map(institutionUser => (
     <InstitutionUserCard
       institutionUser={institutionUser} 
       key={institutionUser.id} 
-      removeInstitutionUser={() => flowStore.removeInstitutionUser(institutionUser.id)}
+      removeInstitutionUser={() => dataStore.removeInstitutionUser(institutionUser.id)}
       onButtonClick={() => {
-        flowStore.selectInstitutionUser(institutionUser.id);
+        dataStore.selectInstitutionUser(institutionUser.id);
         uiStore.setCurrentScreen(ScreenNames.ACCOUNT, { withOpenForm: true });
       }}
       onViewClick={() => {
-        flowStore.selectInstitutionUser(institutionUser.id);
+        dataStore.selectInstitutionUser(institutionUser.id);
         uiStore.setCurrentScreen(ScreenNames.ACCOUNT, { withOpenForm: false });
       }}
     />))
@@ -51,10 +51,10 @@ const OnrampConnectionScreen = observer(({ flowStore, uiStore }) => (
 
 // TODO: fetch exchange connections, create exchange connection
 
-const TransferConnectionScreen = observer(({ flowStore, uiStore }) => {
+const TransferConnectionScreen = observer(({ dataStore, uiStore }) => {
   useEffect(() => {
     const oauthCode = getOauthCode();
-    if (oauthCode) flowStore.createConnection(oauthCode);
+    if (oauthCode) dataStore.createConnection(oauthCode);
   }, []);
   const [isRedirecting, setIsRedirecting] = useState(false);
 
@@ -63,27 +63,27 @@ const TransferConnectionScreen = observer(({ flowStore, uiStore }) => {
       <RedirectingLabel isRedirecting={isRedirecting} />
       <GenericScreen
         ItemForm={ConnectionForm}
-        numberOfItems={filterPaymentInstitutions(flowStore.connections).length}
+        numberOfItems={filterPaymentInstitutions(dataStore.connections).length}
         itemTitle="Connection"
         createItem={() => {
           setIsRedirecting(true);
           startCoinbaseOauthFlow();
         }}
-        buttonDisabled={isRedirecting || !flowStore.selectedUser}
+        buttonDisabled={isRedirecting || !dataStore.selectedUser}
         withOpenForm={uiStore.withOpenForm}
       >
       {
-        filterPaymentInstitutions(flowStore.connections).map(connection => (
+        filterPaymentInstitutions(dataStore.connections).map(connection => (
         <ConnectionCard
           connection={connection} 
           key={connection.id} 
-          removeConnection={() => flowStore.removeConnection(connection.id)}
+          removeConnection={() => dataStore.removeConnection(connection.id)}
           onButtonClick={() => {
-            flowStore.selectConnection(connection.id);
+            dataStore.selectConnection(connection.id);
             uiStore.setCurrentScreen(ScreenNames.ACCOUNT, { withOpenForm: uiStore.flowId === FlowIds.ONRAMP });
           }}
           onViewClick={() => {
-            flowStore.selectConnection(connection.id);
+            dataStore.selectConnection(connection.id);
             uiStore.setCurrentScreen(ScreenNames.ACCOUNT, { withOpenForm: false });
           }}
         />))
