@@ -6,8 +6,13 @@ import { withStores } from '../stores/StoresUtil';
 import { ScreenNames, FlowIds } from '../stores/Constants';
 import ErrorMessage from '../components/basic/errorMessage/ErrorMessage';
 
+const NextScreenNamesByFlowId = {
+  [FlowIds.ONRAMP]: ScreenNames.PROFILE,
+  [FlowIds.TRANSFER]: ScreenNames.CONNECTION,
+}
+
 const UserScreen = ({ dataStore, uiStore }) => {
-  const nextScreen = uiStore.flowId === FlowIds.ONRAMP ? ScreenNames.PROFILE : ScreenNames.CONNECTION;
+  const nextScreen = NextScreenNamesByFlowId[uiStore.flowId];
   return (
     <>
       <ErrorMessage />
