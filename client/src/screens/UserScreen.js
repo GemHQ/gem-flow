@@ -6,13 +6,14 @@ import { withStores } from '../stores/StoresUtil';
 import { ScreenNames, FlowIds } from '../stores/Constants';
 import ErrorMessage from '../components/basic/errorMessage/ErrorMessage';
 
-const NextScreenNamesByFlowId = {
+// as a function to avoid runtime initialization error
+const NextScreenNamesByFlowId = () => ({
   [FlowIds.ONRAMP]: ScreenNames.PROFILE,
   [FlowIds.TRANSFER]: ScreenNames.CONNECTION,
-}
+});
 
 const UserScreen = ({ dataStore, uiStore }) => {
-  const nextScreen = NextScreenNamesByFlowId[uiStore.flowId];
+  const nextScreen = NextScreenNamesByFlowId()[uiStore.flowId];
   return (
     <>
       <ErrorMessage />

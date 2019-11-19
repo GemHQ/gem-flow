@@ -9,6 +9,7 @@ import {
 
 class UIStore {
   @observable flow = Flows.Onramp;
+  @observable flowId = Flows.Onramp.id;
   @observable currentScreen = ScreenNames.USER;
   @observable initialScreenStates = new Map();
 
@@ -21,6 +22,7 @@ class UIStore {
 
   @action setFlow = flowId => {
     this.flow = Flows[flowId];
+    this.flowId = flowId;
     persistSelectedFlowId(flowId);
   };
 
@@ -51,10 +53,6 @@ class UIStore {
   @computed get withOpenForm() {
     const initialState = this.initialScreenStates.get(this.currentScreen);
     return initialState && initialState.withOpenForm;
-  }
-
-  @computed get flowId() {
-    return this.flow.id;
   }
 }
 

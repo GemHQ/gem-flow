@@ -7,15 +7,16 @@ import TransactionTable from '../components/composite/transactionTable/Transacti
 import ErrorMessage from '../components/basic/errorMessage/ErrorMessage';
 import TransferForm from '../components/forms/TransferForm';
 
-const CardsByFlowId = {
+// as a function to avoid runtime initialization error
+const CardsByFlowId = () => ({
   [FlowIds.ONRAMP]: AccountCard,
   [FlowIds.TRANSFER]: ExchangeAccountCard,
-}
+});
 
-const FormsByFlowId = {
+const FormsByFlowId = () => ({
   [FlowIds.ONRAMP]: TransactionForm,
   [FlowIds.TRANSFER]: TransferForm,
-}
+});
 
 const TransactionScreen = ({ dataStore, uiStore }) => {
   const initialScreenState = uiStore.initialScreenStates.get(ScreenNames.TRANSACTION);
@@ -26,8 +27,8 @@ const TransactionScreen = ({ dataStore, uiStore }) => {
   const { selectedAccount, transactions } = dataStore;
   const numberOfItems = transactions.length;
 
-  const CardToRender = CardsByFlowId[uiStore.flowId];
-  const FormToRender = FormsByFlowId[uiStore.flowId];
+  const CardToRender = CardsByFlowId()[uiStore.flowId];
+  const FormToRender = FormsByFlowId()[uiStore.flowId];
 
   return (
     <>

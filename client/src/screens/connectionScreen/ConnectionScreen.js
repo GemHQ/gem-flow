@@ -10,13 +10,14 @@ import ConnectionForm from '../../components/forms/ConnectionForm';
 import { startCoinbaseOauthFlow, getOauthCode, filterPaymentInstitutions } from '../../util/PartnerUtil';
 import ConnectionCard from '../../components/cards/ConnectionCard';
 
-const ScreensByFlowId = {
+// as a function to avoid runtime initialization error
+const ScreensByFlowId = () => ({
   [FlowIds.ONRAMP]: OnrampConnectionScreen,
   [FlowIds.TRANSFER]: TransferConnectionScreen,
-}
+});
 
 const ConnectionScreen = ({ dataStore, uiStore }) => {
-  const ScreenToRender = ScreensByFlowId[uiStore.flowId];
+  const ScreenToRender = ScreensByFlowId()[uiStore.flowId];
   return (
     <>
       <ErrorMessage errorMessage={dataStore.errorMessage} />

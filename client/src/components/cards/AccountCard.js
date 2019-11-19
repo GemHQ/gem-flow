@@ -51,7 +51,7 @@ export const ExchangeAccountCard = withPrimaryColor(({
     { title: 'ACCOUNT_ID', value: account.id },
     { title: 'ACCOUNT_NAME', value: account.name },
     { title: 'ASSET_NAME', value: capitalizeFirstLetter(account.asset_id) },
-    { title: 'AMOUNT', value: account.available_amount.toString() },
+    { title: 'AMOUNT', value: String(account.available_amount) || '-' },
   ];
 
   return (
