@@ -22,5 +22,5 @@ export const getPersistedScreen = () => {
 }
 
 
-export const hydrateFlowStore = flowStore => create({ storage: localStorage })(FLOW_STORE_KEY, flowStore);
+export const hydrateFlowStore = dataStore => create({ storage: localStorage })(FLOW_STORE_KEY, dataStore);
 

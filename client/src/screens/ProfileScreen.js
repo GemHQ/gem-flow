@@ -6,29 +6,29 @@ import { withStores } from '../stores/StoresUtil';
 import { ScreenNames } from '../stores/Constants';
 import ErrorMessage from '../components/basic/errorMessage/ErrorMessage';
 
-const ProfileScreen = ({ flowStore, uiStore }) => (
+const ProfileScreen = ({ dataStore, uiStore }) => (
   <>
     <ErrorMessage />
     <GenericScreen
       ItemForm={ProfileForm}
-      numberOfItems={flowStore.profiles.length}
+      numberOfItems={dataStore.profiles.length}
       itemTitle="Profile"
-      createItem={flowStore.createProfile}
-      buttonDisabled={!flowStore.selectedUser}
+      createItem={dataStore.createProfile}
+      buttonDisabled={!dataStore.selectedUser}
       withOpenForm={uiStore.withOpenForm}
     >
     {
-      flowStore.profiles.map(profile => (
+      dataStore.profiles.map(profile => (
       <ProfileCard
         profile={profile} 
         key={profile.id} 
-        removeProfile={() => flowStore.removeProfile(profile.id)}
+        removeProfile={() => dataStore.removeProfile(profile.id)}
         onButtonClick={() => {
-          flowStore.selectProfile(profile.id);
+          dataStore.selectProfile(profile.id);
           uiStore.setCurrentScreen(ScreenNames.CONNECTION, { withOpenForm: true });
         }}
         onViewClick={() => {
-          flowStore.selectProfile(profile.id);
+          dataStore.selectProfile(profile.id);
           uiStore.setCurrentScreen(ScreenNames.CONNECTION, { withOpenForm: false });
         }}
       />))

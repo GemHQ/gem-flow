@@ -8,32 +8,32 @@ import { filterPaymentInstitutions } from '../../../util/PartnerUtil';
 
 class ProgressMap extends Component {
   getDots = () => {
-    const { flowStore, uiStore } = this.props;
+    const { dataStore, uiStore } = this.props;
     return uiStore.flowId === FlowIds.ONRAMP ? [
-      [ScreenNames.USER, Boolean(flowStore.selectedUser)],
-      [ScreenNames.PROFILE, Boolean(flowStore.selectedProfile)],
-      [ScreenNames.CONNECTION, Boolean(flowStore.selectedInstitutionUser)],
-      [ScreenNames.ACCOUNT, Boolean(flowStore.selectedAccount)],
-      [ScreenNames.TRANSACTION, Boolean(flowStore.transactionsMap.size)],
+      [ScreenNames.USER, Boolean(dataStore.selectedUser)],
+      [ScreenNames.PROFILE, Boolean(dataStore.selectedProfile)],
+      [ScreenNames.CONNECTION, Boolean(dataStore.selectedInstitutionUser)],
+      [ScreenNames.ACCOUNT, Boolean(dataStore.selectedAccount)],
+      [ScreenNames.TRANSACTION, Boolean(dataStore.transactionsMap.size)],
     ] : [
-      [ScreenNames.USER, Boolean(flowStore.selectedUser)],
-      [ScreenNames.CONNECTION, Boolean(flowStore.selectedConnection)],
-      [ScreenNames.ACCOUNT, Boolean(flowStore.selectedAccount)],
-      [ScreenNames.TRANSACTION, Boolean(flowStore.transactionsMap.size)],
+      [ScreenNames.USER, Boolean(dataStore.selectedUser)],
+      [ScreenNames.CONNECTION, Boolean(dataStore.selectedConnection)],
+      [ScreenNames.ACCOUNT, Boolean(dataStore.selectedAccount)],
+      [ScreenNames.TRANSACTION, Boolean(dataStore.transactionsMap.size)],
     ]
   }
 
   getMarkerSubtitles = () => {
-    const { uiStore, flowStore } = this.props;
+    const { uiStore, dataStore } = this.props;
     const connectionSubtitle = uiStore.flowId === FlowIds.ONRAMP
-      ? this.determineSubtitle('Connection', 'connection_id', flowStore.selectedInstitutionUser, flowStore.institutionUsersMap.size)
-      : this.determineSubtitle('Connection', 'id', flowStore.selectedConnection, filterPaymentInstitutions(flowStore.connections).length)
+      ? this.determineSubtitle('Connection', 'connection_id', dataStore.selectedInstitutionUser, dataStore.institutionUsersMap.size)
+      : this.determineSubtitle('Connection', 'id', dataStore.selectedConnection, filterPaymentInstitutions(dataStore.connections).length)
     return {
-      [ScreenNames.USER]: this.determineSubtitle('User', 'id', flowStore.selectedUser, flowStore.usersMap.size, 'Create a new user'),
-      [ScreenNames.PROFILE]: this.determineSubtitle('Profile', 'id', flowStore.selectedProfile, flowStore.profilesMap.size),
+      [ScreenNames.USER]: this.determineSubtitle('User', 'id', dataStore.selectedUser, dataStore.usersMap.size, 'Create a new user'),
+      [ScreenNames.PROFILE]: this.determineSubtitle('Profile', 'id', dataStore.selectedProfile, dataStore.profilesMap.size),
       [ScreenNames.CONNECTION]: connectionSubtitle,
-      [ScreenNames.ACCOUNT]: this.determineSubtitle('Account', 'id', flowStore.selectedAccount, flowStore.accountsMap.size),
-      [ScreenNames.TRANSACTION]: this.determineSubtitle('Transaction', '', null, flowStore.transactionsMap.size),
+      [ScreenNames.ACCOUNT]: this.determineSubtitle('Account', 'id', dataStore.selectedAccount, dataStore.accountsMap.size),
+      [ScreenNames.TRANSACTION]: this.determineSubtitle('Transaction', '', null, dataStore.transactionsMap.size),
     }
   }
 
@@ -42,7 +42,7 @@ class ProgressMap extends Component {
   }
 
   render() {
-    const { uiStore, flowStore } = this.props;
+    const { uiStore, dataStore } = this.props;
     const { flow, currentScreen, setCurrentScreen, primaryColor } = uiStore;
     const dots = this.getDots();
     const markerSubtitles = this.getMarkerSubtitles();
@@ -58,7 +58,7 @@ class ProgressMap extends Component {
             isCompleted={currentScreenIndex > i}
             color={primaryColor}
             onClick={() => {
-              flowStore.clearItemsOnScreenChange(screen);
+              dataStore.clearItemsOnScreenChange(screen);
               setCurrentScreen(screen, { withOpenForm: false });
             }}
           />)}

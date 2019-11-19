@@ -86,9 +86,9 @@ const PostingLabel = ({ isPosting, itemTitle }) => {
   return null;
 }
 
-const mapStateToProps = ({ flowStore, uiStore }) => ({ 
-  isFetching: flowStore.isFetching,
-  isPosting: flowStore.isPosting,
+const mapStateToProps = ({ dataStore, uiStore }) => ({ 
+  isFetching: dataStore.isFetching,
+  isPosting: dataStore.isPosting,
   primaryColor: uiStore.primaryColor
 });
 

@@ -28,8 +28,8 @@ export const UserForm = ({ onCancel, onSubmit, primaryColor, setError }) => {
   )
 }
 
-const mapStoresToProps = ({ flowStore, uiStore }) => ({
-  setError: flowStore.setError,
+const mapStoresToProps = ({ dataStore, uiStore }) => ({
+  setError: dataStore.setError,
   primaryColor: uiStore.primaryColor
 })
 

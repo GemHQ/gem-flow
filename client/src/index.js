@@ -4,16 +4,16 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import UIStore from './stores/UIStore';
-import FlowStore from './stores/FlowStore';
+import DataStore from './stores/DataStore';
 import { Provider } from 'mobx-react';
 import { hydrateFlowStore } from './util/PersistUtil';
 
 const uiStore = new UIStore();
-const flowStore = new FlowStore();
+const dataStore = new DataStore();
 
-hydrateFlowStore(flowStore).then(() => {
+hydrateFlowStore(dataStore).then(() => {
   ReactDOM.render(
-    <Provider uiStore={uiStore} flowStore={flowStore}>
+    <Provider uiStore={uiStore} dataStore={dataStore}>
       <App />
     </Provider>, 
     document.getElementById('root')

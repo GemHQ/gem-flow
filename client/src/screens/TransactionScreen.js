@@ -7,13 +7,13 @@ import TransactionTable from '../components/composite/transactionTable/Transacti
 import ErrorMessage from '../components/basic/errorMessage/ErrorMessage';
 import TransferForm from '../components/forms/TransferForm';
 
-const TransactionScreen = ({ flowStore, uiStore }) => {
+const TransactionScreen = ({ dataStore, uiStore }) => {
   const initialScreenState = uiStore.initialScreenStates.get(ScreenNames.TRANSACTION);
   const initiallyOpenForm = initialScreenState && initialScreenState.withOpenForm;
   const [creatingItem, setCreatingItem] = useState(initiallyOpenForm);
   const startCreatingItem = () => setCreatingItem(true);
   const stopCreatingItem = () => setCreatingItem(false);
-  const { selectedAccount, transactions } = flowStore;
+  const { selectedAccount, transactions } = dataStore;
   const numberOfItems = transactions.length;
 
   const CardToRender = uiStore.flowId === FlowIds.ONRAMP ? AccountCard : ExchangeAccountCard;
@@ -22,7 +22,7 @@ const TransactionScreen = ({ flowStore, uiStore }) => {
   return (
     <>
     <ErrorMessage />
-    <PostingLabel isPosting={flowStore.isPosting} />
+    <PostingLabel isPosting={dataStore.isPosting} />
     {
       creatingItem
       ?
@@ -31,17 +31,17 @@ const TransactionScreen = ({ flowStore, uiStore }) => {
         <FormToRender
           onCancel={stopCreatingItem}
           onSubmit={transaction => {
-            flowStore.createTransaction(transaction);
+            dataStore.createTransaction(transaction);
             stopCreatingItem();
           }}
           accountId={selectedAccount.id}
-          maxAmount={flowStore.selectedAccount.available_amount}
+          maxAmount={dataStore.selectedAccount.available_amount}
           asset={selectedAccount.asset_id}
         />
       </>
       :
       (
-        flowStore.isFetching
+        dataStore.isFetching
         ? <LoadingLabel />
         :<div className="FlexAlignCenter SpaceBetween">
           <h2 className="ScreenHeading noPadding">{`${numberOfItems} Transaction${numberOfItems === 1 ? '' : 's'}`}</h2>

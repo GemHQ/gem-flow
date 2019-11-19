@@ -12,8 +12,8 @@ const ErrorMessage = ({ errorMessage, dismissError }) => {
   );
 }
 
-// fallback flowStore object for storybook
+// fallback dataStore object for storybook
 const storybookFlowStore = { errorMessage: 'This is an error' };
-const mapStoresToProps = ({ flowStore = storybookFlowStore }) => ({ errorMessage: flowStore.errorMessage, dismissError: flowStore.clearError });
+const mapStoresToProps = ({ dataStore = storybookFlowStore }) => ({ errorMessage: dataStore.errorMessage, dismissError: dataStore.clearError });
 
 export default injector(mapStoresToProps)(ErrorMessage);

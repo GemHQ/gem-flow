@@ -10,7 +10,6 @@ const gemClient = new GemClient({
   options: {
     timeout: 60000,
   },
-  baseUrl: 'https://vgs-dev.gem.farm'
 });
 
 module.exports = gemClient;

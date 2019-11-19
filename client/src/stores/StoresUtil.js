@@ -8,6 +8,6 @@ export const withPrimaryColor = (Cmp) => injector(({ uiStore }) => ({
   primaryColor: uiStore ? uiStore.primaryColor : Flows.Onramp.primaryColor
 }))(Cmp);
 
-export const withFlowStore = (Cmp) => injector(({ flowStore }) => ({ flowStore }))(Cmp);
+export const withFlowStore = (Cmp) => injector(({ dataStore }) => ({ dataStore }))(Cmp);
 export const withUiStore = (Cmp) => injector(({ uiStore }) => ({ uiStore }))(Cmp);
 export const withStores = (Cmp) => injector(stores => stores)(Cmp);
