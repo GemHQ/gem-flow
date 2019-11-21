@@ -7,8 +7,14 @@ import { ScreenNames, FlowIds } from '../stores/Constants';
 import { openPmWidget } from '../components/PmWidget';
 import ErrorMessage from '../components/basic/errorMessage/ErrorMessage';
 
-  const AccountScreen = ({ dataStore, uiStore }) => {
-  const CardToRender = uiStore.flowId === FlowIds.ONRAMP ? AccountCard : ExchangeAccountCard;
+// as a function to avoid runtime initialization error
+const CardsByFlowId = () => ({
+  [FlowIds.ONRAMP]: AccountCard,
+  [FlowIds.TRANSFER]: ExchangeAccountCard,
+})
+
+const AccountScreen = ({ dataStore, uiStore }) => {
+  const CardToRender = CardsByFlowId()[uiStore.flowId];
   return (
     <>
       <ErrorMessage />
