@@ -26,4 +26,6 @@ router.post('/', async (req, res, next) => {
   }
 });
 
+// TODO: credential link route
+
 module.exports = router;
