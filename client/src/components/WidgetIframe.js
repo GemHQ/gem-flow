@@ -27,7 +27,7 @@ export default props => {
     return () => {
       window.removeEventListener('message');
     };
-  }, [window, receiveMessage]);
+  }, [window, receiveChildMessage]);
 
   return (
     <iframe
