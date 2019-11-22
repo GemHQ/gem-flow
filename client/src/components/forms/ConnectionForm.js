@@ -8,23 +8,40 @@ const description = `Choose the exchange that your user will authenticate with.`
 
 const placeholderOption = 'Choose an Exchange';
 
-const accountOptions = [
-  { value: 'coinbase', label: 'Coinbase', className: 'TransferColor' },
-];
-
-export const ConnectionForm = ({ onCancel, onSubmit, primaryColor }) => {
+export const ConnectionForm = ({
+  onCancel,
+  onSubmit,
+  primaryColor,
+  accountOptions,
+}) => {
   const [selectedOption, selectOption] = useState(placeholderOption);
   const disabled = selectedOption === placeholderOption;
   return (
-    <form onSubmit={e => {
-      e.preventDefault();
-      onSubmit();
-    }}>
+    <form
+      onSubmit={e => {
+        e.preventDefault();
+        onSubmit(selectedOption);
+      }}
+    >
       <TitleAndValue title="Exchange" value={description} />
-      <DropdownSelector selectedOption={selectedOption} selectOption={selectOption} options={accountOptions} selectedClassName={disabled ? 'LightGreyText ThinText MediumTextSize' : 'TransferColor'} />
-      <ButtonWithCancel onCancel={onCancel} onClick={onSubmit} disabled={disabled} primaryColor={primaryColor}>Create Connection</ButtonWithCancel>
+      <DropdownSelector
+        selectedOption={selectedOption}
+        selectOption={selectOption}
+        options={accountOptions}
+        selectedClassName={
+          disabled ? 'LightGreyText ThinText MediumTextSize' : 'TransferColor'
+        }
+      />
+      <ButtonWithCancel
+        onCancel={onCancel}
+        onClick={onSubmit}
+        disabled={disabled}
+        primaryColor={primaryColor}
+      >
+        Create Connection
+      </ButtonWithCancel>
     </form>
-  )
-}
+  );
+};
 
 export default withPrimaryColor(ConnectionForm);
