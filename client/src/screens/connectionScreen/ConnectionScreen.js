@@ -81,7 +81,13 @@ const TransferConnectionScreen = observer(({ dataStore, uiStore }) => {
 
   return (
     <>
-      {iframeState.show && <WidgetIframe institutionId={iframeState.institutionId} />}
+      {iframeState.show && <WidgetIframe institutionId={iframeState.institutionId} 
+        // receiveCredentials={creds => {
+        //   dataStore.receiveCredentials(creds);
+        //   setIframeState({ show: false, institutionId: null })
+        // }} 
+        receiveCredentials={dataStore.receiveCredentials}
+      />}
       <RedirectingLabel isRedirecting={isRedirecting} />
       <GenericScreen
         ItemForm={props => (

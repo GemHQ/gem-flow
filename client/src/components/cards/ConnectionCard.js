@@ -8,7 +8,7 @@ const ConnectionCard = ({ connection, onButtonClick, onViewClick, removeConnecti
   <GenericCard
     titlesAndValues={[
       { title: 'CONNECTION_ID', value: connection.id },
-      { title: 'INSTITUTION_NAME', value: 'Coinbase' },
+      { title: 'INSTITUTION_NAME', value: capitalizeFirstLetter(connection.institution_id) },
       { title: 'CREATED_AT', value: formatDate(connection.created_at) },
       { title: 'STATUS', value: capitalizeFirstLetter(connection.status) },
     ]}
@@ -17,7 +17,7 @@ const ConnectionCard = ({ connection, onButtonClick, onViewClick, removeConnecti
     onViewClick={onViewClick}
     primaryColor={primaryColor}
     dotsMenuOptions={[{ title: 'Remove connection', onClick: removeConnection }]}
-    iconUrl={InstitutionIcons.coinbase}
+    iconUrl={connection.institution_id === 'coinbase' ? InstitutionIcons.coinbase : null}
   />
 );
 

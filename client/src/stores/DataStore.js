@@ -262,6 +262,35 @@ class DataStore {
     this.errorMessage = errorMessage || 'Unknown Error';
   };
 
+  @action receiveCredentials = async event => {
+    if (!event) return;
+    try {
+      const [msg, resourceId] = event.data.split(':');
+      console.log(event.data)
+  
+      switch (msg) {
+        case 'LINK_CREDENTIAL_ID':
+          // TODO: link creds
+          console.log('Link Credentials', resourceId);
+          const { data, status } = await httpPost(Endpoints.CONNECTIONS, {
+            user_id: this.selectedUser.id,
+            credential_id: resourceId
+          });
+          console.log(data);
+          if (status >= 400) {
+            return this.errorMessage = data.description;
+          }
+          this.connectionsMap.set(data.id, data);
+          break;
+        default:
+          console.warn('Unknown child message received:', msg);
+          return;
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   // turn item maps into arrays for components to read
   // only supply these arrays to components, not the maps
   @computed get users() {
