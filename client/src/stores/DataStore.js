@@ -34,6 +34,7 @@ class DataStore {
 
   constructor() {
     this.getUsers();
+    this.getInstitutions();
   }
 
 
@@ -255,6 +256,7 @@ class DataStore {
   @computed get transactions() {
     return [...this.transactionsMap.values()].reverse();
   }
+  // TODO: compute institutions array
 }
 
 export default DataStore;

@@ -71,6 +71,7 @@ const TransferConnectionScreen = observer(({ dataStore, uiStore }) => {
         numberOfItems={filterPaymentInstitutions(dataStore.connections).length}
         itemTitle="Connection"
         createItem={() => {
+          // TODO: check for credential type and launch correct widget / flow
           setIsRedirecting(true);
           startCoinbaseOauthFlow();
         }}
