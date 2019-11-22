@@ -71,7 +71,7 @@ const TransferConnectionScreen = observer(({ dataStore, uiStore }) => {
   }, []);
 
   const [isRedirecting, setIsRedirecting] = useState(false);
-  const [shouldShowIframe, setShowIframe] = useState(false);
+  const [iframeState, setIframeState] = useState({ show: false, institutionId: null });
 
   const institutionOptions = dataStore.exchangeInstitutions.map(i => ({
     value: i.id,
@@ -81,7 +81,7 @@ const TransferConnectionScreen = observer(({ dataStore, uiStore }) => {
 
   return (
     <>
-      {shouldShowIframe && <WidgetIframe />}
+      {iframeState.show && <WidgetIframe institutionId={iframeState.institutionId} />}
       <RedirectingLabel isRedirecting={isRedirecting} />
       <GenericScreen
         ItemForm={props => (
@@ -90,12 +90,13 @@ const TransferConnectionScreen = observer(({ dataStore, uiStore }) => {
         numberOfItems={filterPaymentInstitutions(dataStore.connections).length}
         itemTitle="Connection"
         createItem={selectedOption => {
+          console.log(selectedOption)
           // TODO: handle OAuth flow not just for Coinbase.
-          if (selectedOption.id === 'coinbase') {
+          if (selectedOption === 'coinbase') {
             setIsRedirecting(true);
             startCoinbaseOauthFlow();
           } else {
-            setShowIframe(true);
+            setIframeState({ show: true, institutionId: selectedOption });
           }
         }}
         buttonDisabled={isRedirecting || !dataStore.selectedUser}

@@ -34,7 +34,10 @@ export const ConnectionForm = ({
       />
       <ButtonWithCancel
         onCancel={onCancel}
-        onClick={onSubmit}
+        onClick={e => {
+          e.preventDefault();
+          onSubmit(selectedOption);
+        }}
         disabled={disabled}
         primaryColor={primaryColor}
       >

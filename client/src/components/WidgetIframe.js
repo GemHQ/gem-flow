@@ -21,6 +21,7 @@ const receiveChildMessage = event => {
 };
 
 export default props => {
+  console.log(props)
   useEffect(() => {
     window.addEventListener('message', receiveChildMessage, false);
 
@@ -31,7 +32,7 @@ export default props => {
 
   return (
     <iframe
-      src="http://localhost:3000/connect"
+      src={`http://localhost:3300?institution=${props.institutionId}`}
       allowfullscreen="true"
       allowtransparency="true"
       frameBorder="0"
