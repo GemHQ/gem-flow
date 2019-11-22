@@ -32,7 +32,7 @@ const AccountScreen = ({ dataStore, uiStore }) => {
             await dataStore.createAccount(account);
           })
         }}
-        hideButton={true}
+        hideButton={uiStore.flowId !== FlowIds.ONRAMP}
         buttonDisabled={!dataStore.selectedInstitutionUser}
         withOpenForm={uiStore.withOpenForm}
       >
