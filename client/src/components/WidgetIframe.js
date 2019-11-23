@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 
 export default props => {
-  console.log(props);
   useEffect(() => {
     window.addEventListener('message', props.receiveCredentials, false);
 
