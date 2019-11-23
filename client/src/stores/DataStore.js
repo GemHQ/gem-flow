@@ -266,20 +266,20 @@ class DataStore {
     if (!event) return;
     try {
       const [msg, resourceId] = event.data.split(':');
-      console.log(event.data)
-  
+      console.log(event.data);
+
       switch (msg) {
         case 'LINK_CREDENTIAL_ID':
-          // TODO: link creds
-          console.log('Link Credentials', resourceId);
           const { data, status } = await httpPost(Endpoints.CONNECTIONS, {
             user_id: this.selectedUser.id,
-            credential_id: resourceId
+            credential_id: resourceId,
           });
-          console.log(data);
+
           if (status >= 400) {
-            return this.errorMessage = data.description;
+            this.errorMessage = data.description;
+            return;
           }
+
           this.connectionsMap.set(data.id, data);
           break;
         default:
