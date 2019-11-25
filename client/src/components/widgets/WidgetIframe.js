@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import './widgets.css';
 
 const WidgetIframe = ({ receiveCredentials, institutionId }) => {
   useEffect(() => {
@@ -7,21 +8,13 @@ const WidgetIframe = ({ receiveCredentials, institutionId }) => {
     return () => {
       window.removeEventListener('message');
     };
-  }, [window, props.receiveCredentials]);
+  }, [window, receiveCredentials]);
 
   return (
     <iframe
       src={`http://localhost:3300?institution=${institutionId}&apiKey=${process.env.REACT_APP_GEM_API_KEY}`}
       frameBorder="0"
-      style={{
-        backgroundColor: 'transparent',
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        height: '100vh',
-        width: '100%',
-        zIndex: 1,
-      }}
+      className="WidgetIframe"
     />
   );
 }
