@@ -1,36 +1,8 @@
 import React, { useEffect } from 'react';
-import { httpPost } from '../util/RequestUtil';
-import { Endpoints } from '../stores/Constants';
 
-/**
- * Receive an event/message from the child iframe.
- */
-const receiveChildMessage = event => {
-  try {
-    const [msg, data] = event.data.split(':');
-    console.log(event.data)
-
-    switch (msg) {
-      case 'LINK_CREDENTIAL_ID':
-        // TODO: link creds
-        console.log('Link Credentials', data);
-        httpPost(Endpoints.CONNECTIONS, {
-
-        });
-        break;
-      default:
-        console.warn('Unknown child message received:', msg);
-        return;
-    }
-  } catch (e) {
-    console.error(e);
-  }
-};
-
-export default props => {
-  console.log(props)
+const WidgetIframe = ({ receiveCredentials, institutionId }) => {
   useEffect(() => {
-    window.addEventListener('message', props.receiveCredentials, false);
+    window.addEventListener('message', receiveCredentials, false);
 
     return () => {
       window.removeEventListener('message');
@@ -39,7 +11,7 @@ export default props => {
 
   return (
     <iframe
-      src={`http://localhost:3300?institution=${props.institutionId}`}
+      src={`http://localhost:3300?institution=${institutionId}&apiKey=${process.env.REACT_APP_GEM_API_KEY}`}
       frameBorder="0"
       style={{
         backgroundColor: 'transparent',
@@ -52,4 +24,6 @@ export default props => {
       }}
     />
   );
-};
+}
+
+export default WidgetIframe;
