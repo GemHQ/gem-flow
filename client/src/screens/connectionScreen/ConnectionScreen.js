@@ -13,7 +13,7 @@ import {
   filterPaymentInstitutions,
 } from '../../util/PartnerUtil';
 import ConnectionCard from '../../components/cards/ConnectionCard';
-import WidgetIframe from '../../components/WidgetIframe';
+import WidgetIframe from '../../components/widgets/WidgetIframe';
 
 // as a function to avoid runtime initialization error
 const ScreensByFlowId = () => ({

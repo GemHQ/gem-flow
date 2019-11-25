@@ -4,7 +4,7 @@ import AccountCard, { ExchangeAccountCard } from '../components/cards/AccountCar
 import GenericScreen from './GenericScreen';
 import { withStores } from '../stores/StoresUtil';
 import { ScreenNames, FlowIds } from '../stores/Constants';
-import { openPmWidget } from '../components/PmWidget';
+import { openPmWidget } from '../components/widgets/PmWidget';
 import ErrorMessage from '../components/basic/errorMessage/ErrorMessage';
 
 // as a function to avoid runtime initialization error
