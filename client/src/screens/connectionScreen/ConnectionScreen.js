@@ -73,9 +73,9 @@ const TransferConnectionScreen = observer(({ dataStore, uiStore }) => {
   const [isRedirecting, setIsRedirecting] = useState(false);
   const [iframeState, setIframeState] = useState({ show: false, institutionId: null });
 
-  const institutionOptions = dataStore.exchangeInstitutions.map(i => ({
-    value: i.id,
-    label: i.name,
+  const institutionOptions = dataStore.exchangeInstitutions.map(institution => ({
+    value: institution.id,
+    label: institution.name,
     className: 'TransferColor',
   }));
 
