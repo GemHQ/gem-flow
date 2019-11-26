@@ -280,8 +280,10 @@ class DataStore {
         case 'LINK_CREDENTIAL_ID':
           const { data, status } = await this.createConnection(credentialId);
           if (status >= 400) {
-            return this.errorMessage = data.description;
+            this.errorMessage = data.description;
+            return;
           }
+
           this.connectionsMap.set(data.id, data);
           break;
         default:
