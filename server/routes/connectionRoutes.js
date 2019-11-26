@@ -26,18 +26,4 @@ router.post('/', async (req, res, next) => {
   }
 });
 
-/**
- * Create a credential
- */
-router.post('/credentials', async (req, res, next) => {
-  try {
-    // TODO: do not use gem client, just send unsigned request with gem api key in header
-    // either here or in frontend 
-    const result = await gemClient.post(`/credentials`, req.body);
-    return res.json(result);
-  } catch (e) {
-    next(e);
-  }
-});
-
 module.exports = router;

@@ -67,6 +67,7 @@ const OnrampConnectionScreen = observer(({ dataStore, uiStore }) => (
 const TransferConnectionScreen = observer(({ dataStore, uiStore }) => {
   useEffect(() => {
     const oauthCode = getOauthCode();
+    console.log(oauthCode);
     if (oauthCode) dataStore.createCredentials(oauthCode);
   }, []);
 

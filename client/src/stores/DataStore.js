@@ -1,12 +1,12 @@
 import { observable, action, computed } from 'mobx';
 import { persist } from 'mobx-persist';
 import { ScreenNames, Endpoints, InstitutionIcons } from './Constants';
-import { httpGet, httpPost, httpDelete } from '../util/RequestUtil';
+import { httpGet, httpPost, httpDelete, postCredentials } from '../util/RequestUtil';
 import {
   formatProfileRequestBody,
   formatInstitutionUserRequestBody,
   formatConnectionRequest,
-  formatCoinbaseCredentialRequest,
+  formatCoinbaseCredentialsRequest,
 } from '../util/RequestFormatter';
 
 class DataStore {
@@ -133,10 +133,11 @@ class DataStore {
     );
   };
   @action createCredentials = async oauthCode => {
-    const credentialBody = formatCoinbaseCredentialRequest(oauthCode);
-    const { credential_id } = this.createItem(`${Endpoints.CONNECTIONS}${Endpoints.CREDENTIALS}`, credentialBody);
-    console.log(credential_id);
-    this.createConnection(credential_id);
+    const credentialsBody = formatCoinbaseCredentialsRequest(oauthCode);
+    const { data, status } = await postCredentials(credentialsBody);
+    if (status >= 400) return this.setError(data.description);
+    console.log('credential id', data.credential_id);
+    this.createConnection(data.credential_id);
   }
   @action createConnection = async credentialId => {
     if (!this.selectedUser) return;
