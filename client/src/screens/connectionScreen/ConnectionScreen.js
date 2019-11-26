@@ -67,7 +67,7 @@ const OnrampConnectionScreen = observer(({ dataStore, uiStore }) => (
 const TransferConnectionScreen = observer(({ dataStore, uiStore }) => {
   useEffect(() => {
     const oauthCode = getOauthCode();
-    if (oauthCode) dataStore.createConnection(oauthCode);
+    if (oauthCode) dataStore.createCredentials(oauthCode);
   }, []);
 
   const [isRedirecting, setIsRedirecting] = useState(false);
@@ -96,8 +96,6 @@ const TransferConnectionScreen = observer(({ dataStore, uiStore }) => {
         numberOfItems={filterPaymentInstitutions(dataStore.connections).length}
         itemTitle="Connection"
         createItem={selectedOption => {
-          console.log(selectedOption)
-          // TODO: handle OAuth flow not just for Coinbase.
           if (selectedOption === 'coinbase') {
             setIsRedirecting(true);
             startCoinbaseOauthFlow();

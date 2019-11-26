@@ -23,11 +23,15 @@ export const formatInstitutionUserRequestBody = (profileId, institutionUser) => 
   "business_account_id": institutionUser.businessAccountId
 });
 
-export const formatCoinbaseConnectionRequest = ({ oauthCode, userId }) => ({
-  "user_id": userId,
+export const formatCoinbaseCredentialRequest = oauthCode => ({
   "credential_type": 'oauth2',
   "institution_id": 'coinbase',
   "credential": {
     "code": oauthCode
   }
+})
+
+export const formatConnectionRequest = ({ credentialId, userId }) => ({
+  "user_id": userId,
+  "credential_id": credentialId
 })

@@ -1,11 +1,12 @@
-import { observable, action, computed, toJS } from 'mobx';
+import { observable, action, computed } from 'mobx';
 import { persist } from 'mobx-persist';
 import { ScreenNames, Endpoints, InstitutionIcons } from './Constants';
 import { httpGet, httpPost, httpDelete } from '../util/RequestUtil';
 import {
   formatProfileRequestBody,
   formatInstitutionUserRequestBody,
-  formatCoinbaseConnectionRequest,
+  formatConnectionRequest,
+  formatCoinbaseCredentialRequest,
 } from '../util/RequestFormatter';
 
 class DataStore {
@@ -98,7 +99,8 @@ class DataStore {
     this.isPosting = false;
     if (status >= 400) return this.setError(data.description || defaultError);
     console.log(path, data);
-    itemMap.set(data.id, data);
+    itemMap && itemMap.set(data.id, data);
+    return data;
   };
   @action createUser = async user => {
     this.createItem(Endpoints.USER, { user }, this.usersMap);
@@ -130,10 +132,16 @@ class DataStore {
       this.institutionUsersMap
     );
   };
-  @action createConnection = async oauthCode => {
+  @action createCredentials = async oauthCode => {
+    const credentialBody = formatCoinbaseCredentialRequest(oauthCode);
+    const { credential_id } = this.createItem(`${Endpoints.CONNECTIONS}${Endpoints.CREDENTIALS}`, credentialBody);
+    console.log(credential_id);
+    this.createConnection(credential_id);
+  }
+  @action createConnection = async credentialId => {
     if (!this.selectedUser) return;
-    const connectionBody = formatCoinbaseConnectionRequest({
-      oauthCode,
+    const connectionBody = formatConnectionRequest({
+      credentialId,
       userId: this.selectedUser.id,
     });
     this.createItem(Endpoints.CONNECTIONS, connectionBody, this.connectionsMap);
@@ -265,18 +273,12 @@ class DataStore {
   @action receiveCredentials = async event => {
     if (!event) return;
     try {
-      const [msg, resourceId] = event.data.split(':');
+      const [msg, credentialId] = event.data.split(':');
       console.log(event.data)
   
       switch (msg) {
         case 'LINK_CREDENTIAL_ID':
-          // TODO: link creds
-          console.log('Link Credentials', resourceId);
-          const { data, status } = await httpPost(Endpoints.CONNECTIONS, {
-            user_id: this.selectedUser.id,
-            credential_id: resourceId
-          });
-          console.log(data);
+          const { data, status } = await this.createConnection(credentialId);
           if (status >= 400) {
             return this.errorMessage = data.description;
           }

@@ -13,6 +13,7 @@ export const getOauthCode = () => {
   const queryParams = new URLSearchParams(window.location.search);
   const code = queryParams.get('code');
   if (code) window.history.replaceState(null, null, window.location.pathname);
+  console.log('coinbase code', code);
   return code;
 };
 

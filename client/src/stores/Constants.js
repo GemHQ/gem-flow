@@ -63,6 +63,7 @@ export const Endpoints = {
   INSTITUTION: '/institution',
   INSTITUTION_USER: '/institution/user',
   CONNECTIONS: '/connections',
+  CREDENTIALS: '/credentials',
   ACCOUNT: '/account',
   TRANSACTION: '/transaction'
 }
