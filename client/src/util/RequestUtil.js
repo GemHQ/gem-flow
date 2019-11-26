@@ -42,6 +42,7 @@ export const postCredentials = async credentials => {
     method: 'POST',
     body: JSON.stringify(credentials),
     headers: {
+      ...sharedRequestOptions.headers,
       'X-Gem-Api-Key': process.env.REACT_APP_GEM_API_KEY
     }
   });
