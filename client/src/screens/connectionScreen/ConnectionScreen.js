@@ -13,7 +13,7 @@ import {
   filterPaymentInstitutions,
 } from '../../util/PartnerUtil';
 import ConnectionCard from '../../components/cards/ConnectionCard';
-import WidgetIframe from '../../components/widgets/WidgetIframe';
+import WidgetIframe, { openGemConnect } from '../../components/widgets/WidgetIframe';
 
 // as a function to avoid runtime initialization error
 const ScreensByFlowId = () => ({
@@ -82,13 +82,13 @@ const TransferConnectionScreen = observer(({ dataStore, uiStore }) => {
 
   return (
     <>
-      {iframeState.show && <WidgetIframe institutionId={iframeState.institutionId} 
+      {/* {iframeState.show && <WidgetIframe institutionId={iframeState.institutionId} 
         // receiveCredentials={creds => {
         //   dataStore.receiveCredentials(creds);
         //   setIframeState({ show: false, institutionId: null })
         // }} 
         receiveCredentials={dataStore.receiveCredentials}
-      />}
+      />} */}
       <RedirectingLabel isRedirecting={isRedirecting} />
       <GenericScreen
         ItemForm={props => (
@@ -101,7 +101,11 @@ const TransferConnectionScreen = observer(({ dataStore, uiStore }) => {
             setIsRedirecting(true);
             startCoinbaseOauthFlow();
           } else {
-            setIframeState({ show: true, institutionId: selectedOption });
+            // setIframeState({ show: true, institutionId: selectedOption });
+            openGemConnect({ 
+              onSuccess: dataStore.receiveCredentials,
+              institutionId: selectedOption
+            });
           }
         }}
         buttonDisabled={isRedirecting || !dataStore.selectedUser}
