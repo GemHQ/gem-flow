@@ -94,7 +94,7 @@ const TransferConnectionScreen = observer(({ dataStore, uiStore }) => {
           } else {
             openGemConnect({ 
               onSuccess: dataStore.createConnection,
-              institutionId: selectedOption
+              institution: selectedOption
             });
           }
         }}
