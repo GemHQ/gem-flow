@@ -42,13 +42,14 @@ export const TransferForm = ({ accountId, institutionId, asset, maxAmount, onCan
       <Input 
         value={destinationAddress} 
         onChange={({ target }) => setDestinationAddress(target.value)} 
-        placeholder="Destination Address" 
+        placeholder="Destination Address"
+        containerClassName={isCoinbase ? '' : 'DoubleColumnGridItem ResetInputContainerWidths'}
       />
-      <Input 
+      {isCoinbase && <Input 
         value={twoFA} 
         onChange={({ target }) => setTwoFA(onlyNumbers(target.value))} 
         placeholder="2FA Code" 
-      />
+      />}
       <div/>
       <div />
       <ButtonWithCancel

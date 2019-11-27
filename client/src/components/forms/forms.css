@@ -27,3 +27,8 @@ form {
   grid-template-columns: 1fr 1fr;
   gap: 10px 10px;
 }
+
+.DoubleColumnGridItem {
+  grid-column-start: 2;
+  grid-column-end: 4;
+}

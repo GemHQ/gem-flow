@@ -7,13 +7,14 @@ const Input = ({
   value,
   onChange,
   className,
+  containerClassName = '',
   autoFocus,
   readOnly,
   children,
 }) => {
 
   return (
-    <div className="InputContainer">
+    <div className={`InputContainer ${containerClassName}`}>
       {value.length > 0 && <p className="floatingLabel">{placeholder}</p>}
       <input className={className} type="text" value={value} placeholder={placeholder} onChange={onChange} autoFocus={autoFocus} readOnly={readOnly} />
       {children}
