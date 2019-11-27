@@ -136,7 +136,7 @@ class DataStore {
     const credentialsBody = formatCoinbaseCredentialsRequest(oauthCode);
     const { data, status } = await postCredentials(credentialsBody);
     if (status >= 400) return this.setError(data.description);
-    console.log('credential id', data.credential_id);
+    console.log('credential id:', data.credential_id);
     this.createConnection(data.credential_id);
   }
   @action createConnection = async credentialId => {
@@ -269,31 +269,6 @@ class DataStore {
   @action setError = errorMessage => {
     // errorMessage may be null, hence default value in the params (message = 'Unknown Error') will not work
     this.errorMessage = errorMessage || 'Unknown Error';
-  };
-
-  @action receiveCredentials = async event => {
-    if (!event) return;
-    try {
-      const [msg, credentialId] = event.data.split(':');
-      console.log(event.data)
-  
-      switch (msg) {
-        case 'LINK_CREDENTIAL_ID':
-          const { data, status } = await this.createConnection(credentialId);
-          if (status >= 400) {
-            this.errorMessage = data.description;
-            return;
-          }
-
-          this.connectionsMap.set(data.id, data);
-          break;
-        default:
-          console.warn('Unknown child message received:', msg);
-          return;
-      }
-    } catch (e) {
-      console.error(e);
-    }
   };
 
   // turn item maps into arrays for components to read

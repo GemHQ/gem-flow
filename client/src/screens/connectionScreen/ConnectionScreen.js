@@ -31,6 +31,7 @@ const ConnectionScreen = ({ dataStore, uiStore }) => {
   );
 };
 
+
 const OnrampConnectionScreen = observer(({ dataStore, uiStore }) => (
   <GenericScreen
     ItemForm={InstitutionUserForm}
@@ -62,7 +63,6 @@ const OnrampConnectionScreen = observer(({ dataStore, uiStore }) => (
   </GenericScreen>
 ));
 
-// TODO: fetch exchange connections, create exchange connection
 
 const TransferConnectionScreen = observer(({ dataStore, uiStore }) => {
   useEffect(() => {
@@ -71,7 +71,6 @@ const TransferConnectionScreen = observer(({ dataStore, uiStore }) => {
   }, []);
 
   const [isRedirecting, setIsRedirecting] = useState(false);
-  const [iframeState, setIframeState] = useState({ show: false, institutionId: null });
 
   const institutionOptions = dataStore.exchangeInstitutions.map(institution => ({
     value: institution.id,
@@ -81,13 +80,6 @@ const TransferConnectionScreen = observer(({ dataStore, uiStore }) => {
 
   return (
     <>
-      {/* {iframeState.show && <WidgetIframe institutionId={iframeState.institutionId} 
-        // receiveCredentials={creds => {
-        //   dataStore.receiveCredentials(creds);
-        //   setIframeState({ show: false, institutionId: null })
-        // }} 
-        receiveCredentials={dataStore.receiveCredentials}
-      />} */}
       <RedirectingLabel isRedirecting={isRedirecting} />
       <GenericScreen
         ItemForm={props => (
@@ -100,9 +92,8 @@ const TransferConnectionScreen = observer(({ dataStore, uiStore }) => {
             setIsRedirecting(true);
             startCoinbaseOauthFlow();
           } else {
-            // setIframeState({ show: true, institutionId: selectedOption });
             openGemConnect({ 
-              onSuccess: dataStore.receiveCredentials,
+              onSuccess: dataStore.createConnection,
               institutionId: selectedOption
             });
           }
