@@ -12,8 +12,10 @@ export const startCoinbaseOauthFlow = () => {
 export const getOauthCode = () => {
   const queryParams = new URLSearchParams(window.location.search);
   const code = queryParams.get('code');
-  if (code) window.history.replaceState(null, null, window.location.pathname);
-  console.log('coinbase code', code);
+  if (code) {
+    window.history.replaceState(null, null, window.location.pathname);
+    console.log('Coinbase code:', code);
+  }
   return code;
 };
 
