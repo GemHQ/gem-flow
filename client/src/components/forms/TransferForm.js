@@ -11,8 +11,8 @@ export const TransferForm = ({ accountId, institutionId, asset, maxAmount, onCan
   const [amount, setAmount] = useState('');
   const [twoFA, setTwoFA] = useState('');
   const [destinationAddress, setDestinationAddress] = useState('');
-  const disabled = (!amount) || (!destinationAddress) || (!twoFA) || (amount > maxAmount);
   const isCoinbase = institutionId === InstitutionIds.COINBASE;
+  const disabled = (!amount) || (!destinationAddress) || (isCoinbase && !twoFA) || (amount > maxAmount);
   const description = isCoinbase ? 
   `Enter the amount, destination address and Coinbase Two Factor Authentication code.`
   : `Enter the amount and destination address.`
