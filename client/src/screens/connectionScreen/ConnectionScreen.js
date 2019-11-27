@@ -3,7 +3,7 @@ import InstitutionUserForm from '../../components/forms/InstitutionUserForm';
 import InstitutionUserCard from '../../components/cards/InstitutionUserCard';
 import GenericScreen from '../GenericScreen';
 import { withStores } from '../../stores/StoresUtil';
-import { ScreenNames, FlowIds } from '../../stores/Constants';
+import { ScreenNames, FlowIds, InstitutionIds } from '../../stores/Constants';
 import ErrorMessage from '../../components/basic/errorMessage/ErrorMessage';
 import { observer } from 'mobx-react';
 import ConnectionForm from '../../components/forms/ConnectionForm';
@@ -97,7 +97,7 @@ const TransferConnectionScreen = observer(({ dataStore, uiStore }) => {
         numberOfItems={filterPaymentInstitutions(dataStore.connections).length}
         itemTitle="Connection"
         createItem={selectedOption => {
-          if (selectedOption === 'coinbase') {
+          if (selectedOption === InstitutionIds.COINBASE) {
             setIsRedirecting(true);
             startCoinbaseOauthFlow();
           } else {

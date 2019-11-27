@@ -73,3 +73,7 @@ export const InstitutionIcons = {
   coinify: coinifyIcon,
   coinbase: coinbaseIcon
 }
+
+export const InstitutionIds = {
+  COINBASE: 'coinbase'
+}
