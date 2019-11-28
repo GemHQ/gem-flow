@@ -24,11 +24,9 @@
   color: #C0C0C0;
 }
 
-.Dropdown-arrow {
-  top: calc(50% - 2px);
+.Dropdown-arrow-wrapper {
   right: 20px;
-  color: #C0C0C0;
-  /* display: none; */
+  position: absolute;
 }
 
 .Dropdown-menu {

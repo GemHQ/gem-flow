@@ -94,6 +94,11 @@ h2, h2, h3 {
   display: flex;
   align-items: center;
 }
+.FlexCenter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .SpaceBetween {
   justify-content: space-between;
 }
