@@ -289,10 +289,10 @@ class DataStore {
   @computed get exchangeInstitutions() {
     // TODO: uncomment after gem connect is hosted
     // NOTE: Institutions are pre-sorted by API rank.
-    return [...this.institutionMap.values()].filter(
-      i => i.institution_type === 'Exchange'
-    );
-    // return [this.institutionMap.get(InstitutionIds.COINBASE)];
+    // return [...this.institutionMap.values()].filter(
+    //   i => i.institution_type === 'Exchange'
+    // );
+    return [this.institutionMap.get(InstitutionIds.COINBASE)];
   }
   @computed get fiatInstitutions() {
     // NOTE: Institutions are pre-sorted by API rank.
