@@ -1,6 +1,6 @@
 import { observable, action, computed } from 'mobx';
 import { persist } from 'mobx-persist';
-import { ScreenNames, Endpoints, InstitutionIcons } from './Constants';
+import { ScreenNames, Endpoints, InstitutionIcons, InstitutionIds } from './Constants';
 import { httpGet, httpPost, httpDelete, postCredentials } from '../util/RequestUtil';
 import {
   formatProfileRequestBody,
@@ -287,10 +287,12 @@ class DataStore {
     return [...this.institutionMap.values()];
   }
   @computed get exchangeInstitutions() {
+    // TODO: uncomment after gem connect is hosted
     // NOTE: Institutions are pre-sorted by API rank.
-    return [...this.institutionMap.values()].filter(
-      i => i.institution_type === 'Exchange'
-    );
+    // return [...this.institutionMap.values()].filter(
+    //   i => i.institution_type === 'Exchange'
+    // );
+    return [this.institutionMap.get(InstitutionIds.COINBASE)];
   }
   @computed get fiatInstitutions() {
     // NOTE: Institutions are pre-sorted by API rank.
