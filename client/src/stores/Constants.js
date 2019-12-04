@@ -63,6 +63,7 @@ export const Endpoints = {
   INSTITUTION: '/institution',
   INSTITUTION_USER: '/institution/user',
   CONNECTIONS: '/connections',
+  CREDENTIALS: '/credentials',
   ACCOUNT: '/account',
   TRANSACTION: '/transaction'
 }
@@ -71,4 +72,8 @@ export const InstitutionIcons = {
   wyre: wyreIcon,
   coinify: coinifyIcon,
   coinbase: coinbaseIcon
+}
+
+export const InstitutionIds = {
+  COINBASE: 'coinbase'
 }

@@ -39,16 +39,17 @@ cd gem-flow
 
 ### 2. **Enter your creds**
 
-Create a `.env` file under `<root>/server` directory with your **API keys** and **save** file. A `.env.example` is attached for a full example.
+Create a `.env` file under `<root>/server` directory with your **Gem API key & secret** and **save** file. A `.env.example` is attached for a full example.
 
 ```
 GEM_API_KEY=<your-api-key>
 GEM_API_SECRET=<your-api-secret>
 ```
 
-Create a `.env` file under `<root>/client` directory with your **Coinbase Client ID** and **save** file. If you do not have a Coinbase Client ID then contact us to supply one.
+Create a `.env` file under `<root>/client` directory with your **Gem API key** and **Coinbase Client ID** and **save** file. If you do not have a Coinbase Client ID then contact us to supply one.
 
 ```
+REACT_APP_GEM_API_KEY=<your-api-key>
 REACT_APP_COINBASE_CLIENT_ID=<your-coinbase-client-id>
 ```
 

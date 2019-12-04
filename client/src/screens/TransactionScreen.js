@@ -48,6 +48,7 @@ const TransactionScreen = ({ dataStore, uiStore }) => {
           accountId={selectedAccount.id}
           maxAmount={dataStore.selectedAccount.available_amount}
           asset={selectedAccount.asset_id}
+          institutionId={selectedAccount.institution_id}
         />
       </>
       :

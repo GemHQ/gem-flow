@@ -5,12 +5,18 @@ import Input from '../basic/input/Input';
 import { withPrimaryColor } from '../../stores/StoresUtil';
 import { validNumber, onlyNumbers } from '../../util/FormUtil';
 import { capitalizeFirstLetter } from '../../util/TextUtil';
+import { InstitutionIds } from '../../stores/Constants';
 
-export const TransferForm = ({ accountId, asset, maxAmount, onCancel, onSubmit, primaryColor }) => {
+export const TransferForm = ({ accountId, institutionId, asset, maxAmount, onCancel, onSubmit, primaryColor }) => {
   const [amount, setAmount] = useState('');
   const [twoFA, setTwoFA] = useState('');
   const [destinationAddress, setDestinationAddress] = useState('');
-  const disabled = (!amount) || (!destinationAddress) || (!twoFA) || (amount > maxAmount);
+  const isCoinbase = institutionId === InstitutionIds.COINBASE;
+  const disabled = (!amount) || (!destinationAddress) || (isCoinbase && !twoFA) || (amount > maxAmount);
+  const description = isCoinbase ? 
+  `Enter the amount, destination address and Coinbase Two Factor Authentication code.`
+  : `Enter the amount and destination address.`
+
   return (
     <form onSubmit={e => {
       e.preventDefault();
@@ -18,7 +24,7 @@ export const TransferForm = ({ accountId, asset, maxAmount, onCancel, onSubmit, 
     }}>
       <TitleAndValue 
         title="Enter information"
-        value={`Enter the amount, destination address and Coinbase Two Factor Authentication code.`}
+        value={description}
         maxHeight="60px"
       />
       <Input 
@@ -36,13 +42,14 @@ export const TransferForm = ({ accountId, asset, maxAmount, onCancel, onSubmit, 
       <Input 
         value={destinationAddress} 
         onChange={({ target }) => setDestinationAddress(target.value)} 
-        placeholder="Destination Address" 
+        placeholder="Destination Address"
+        containerClassName={isCoinbase ? '' : 'DoubleColumnGridItem ResetInputContainerWidths'}
       />
-      <Input 
+      {isCoinbase && <Input 
         value={twoFA} 
         onChange={({ target }) => setTwoFA(onlyNumbers(target.value))} 
         placeholder="2FA Code" 
-      />
+      />}
       <div/>
       <div />
       <ButtonWithCancel

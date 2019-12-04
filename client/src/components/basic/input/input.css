@@ -46,3 +46,8 @@ input:focus, input:active {
   top: 0;
   right: 0;
 }
+
+.ResetInputContainerWidths {
+  width: auto;
+  max-width: none;
+}
