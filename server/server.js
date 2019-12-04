@@ -1,9 +1,7 @@
-const dotenv = require('dotenv');
-dotenv.config();
-
 const express = require('express'),
   bodyParser = require('body-parser'),
   cors = require('cors'),
+  morgan = require('morgan'),
   userRoutes = require('./routes/userRoutes'),
   profileRoutes = require('./routes/profileRoutes'),
   intitutionRoutes = require('./routes/institutionRoutes'),
@@ -11,9 +9,9 @@ const express = require('express'),
   accountRoutes = require('./routes/accountRoutes'),
   transactionRoutes = require('./routes/transactionRoutes'),
   { GemAPIError } = require('@gem.co/api'),
-  morgan = require('morgan'),
-  app = express();
+  { PORT } = require('./constants/Env')
 
+app = express();
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ limit: '25mb', extended: false }));
 app.use(bodyParser.json({ limit: '25mb' }));
@@ -40,6 +38,6 @@ app.use((err, _req, res, _next) => {
   });
 });
 
-app.listen(process.env.PORT || 3001, () =>
-  console.log(`Express server is running on ${process.env.PORT || 3001}`)
+app.listen(PORT, () =>
+  console.log(`Express server is running on ${PORT}`)
 );
