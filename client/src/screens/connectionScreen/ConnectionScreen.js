@@ -88,15 +88,10 @@ const TransferConnectionScreen = observer(({ dataStore, uiStore }) => {
         numberOfItems={filterPaymentInstitutions(dataStore.connections).length}
         itemTitle="Connection"
         createItem={selectedOption => {
-          if (selectedOption === InstitutionIds.COINBASE) {
-            setIsRedirecting(true);
-            startCoinbaseOauthFlow();
-          } else {
-            openGemConnect({ 
-              onSuccess: dataStore.createConnection,
-              institution: selectedOption
-            });
-          }
+          openGemConnect({ 
+            onSuccess: dataStore.createConnection,
+            institution: selectedOption
+          });
         }}
         buttonDisabled={isRedirecting || !dataStore.selectedUser}
         withOpenForm={uiStore.withOpenForm}
