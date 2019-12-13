@@ -55,7 +55,7 @@ REACT_APP_COINBASE_CLIENT_ID=<your-coinbase-client-id>
 
 ### 3. **Start your environment**
 ```
-sh start.sh
+sh scripts/start.sh
 ```
 Then navigate to http://localhost:3000
 
