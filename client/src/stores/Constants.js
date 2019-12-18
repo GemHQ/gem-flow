@@ -1,7 +1,5 @@
 import wyreIcon from '../assets/wyre_icon.svg';
 import coinifyIcon from '../assets/coinify_icon.svg';
-import coinbaseIcon from '../assets/coinbase_icon.svg';
-
 
 export const ScreenNames = {
   USER: 'User',
@@ -71,9 +69,9 @@ export const Endpoints = {
 export const InstitutionIcons = {
   wyre: wyreIcon,
   coinify: coinifyIcon,
-  coinbase: coinbaseIcon
 }
 
 export const InstitutionIds = {
-  COINBASE: 'coinbase'
+  COINBASE: 'coinbase',
+  WYRE: 'wyre'
 }

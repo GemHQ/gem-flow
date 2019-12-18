@@ -65,12 +65,8 @@ const OnrampConnectionScreen = observer(({ dataStore, uiStore }) => (
 
 
 const TransferConnectionScreen = observer(({ dataStore, uiStore }) => {
-  useEffect(() => {
-    const oauthCode = getOauthCode();
-    if (oauthCode) dataStore.createCredentials(oauthCode);
-  }, []);
 
-  const [isRedirecting, setIsRedirecting] = useState(false);
+  // const [isRedirecting, setIsRedirecting] = useState(false);
 
   const institutionOptions = dataStore.exchangeInstitutions.map(institution => ({
     value: institution.id,
@@ -80,7 +76,7 @@ const TransferConnectionScreen = observer(({ dataStore, uiStore }) => {
 
   return (
     <>
-      <RedirectingLabel isRedirecting={isRedirecting} />
+      {/* <RedirectingLabel isRedirecting={isRedirecting} /> */}
       <GenericScreen
         ItemForm={props => (
           <ConnectionForm {...props} accountOptions={institutionOptions} />
@@ -93,7 +89,7 @@ const TransferConnectionScreen = observer(({ dataStore, uiStore }) => {
             institution: selectedOption
           });
         }}
-        buttonDisabled={isRedirecting || !dataStore.selectedUser}
+        buttonDisabled={!dataStore.selectedUser}
         withOpenForm={uiStore.withOpenForm}
       >
         {filterPaymentInstitutions(dataStore.connections).map(connection => (
@@ -120,10 +116,10 @@ const TransferConnectionScreen = observer(({ dataStore, uiStore }) => {
   );
 });
 
-const RedirectingLabel = ({ isRedirecting, exchangeName = 'Coinbase' }) => {
-  if (isRedirecting)
-    return <p className="Creating">{`Redirecting to ${exchangeName}...`}</p>;
-  return null;
-};
+// const RedirectingLabel = ({ isRedirecting, exchangeName = 'Coinbase' }) => {
+//   if (isRedirecting)
+//     return <p className="Creating">{`Redirecting to ${exchangeName}...`}</p>;
+//   return null;
+// };
 
 export default withStores(ConnectionScreen);
