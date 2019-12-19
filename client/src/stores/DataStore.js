@@ -132,11 +132,13 @@ class DataStore {
     );
   };
   @action createConnection = async credentialId => {
+    console.log('createConnection', credentialId);
     if (!this.selectedUser) return;
     const connectionBody = formatConnectionRequest({
       credentialId,
       userId: this.selectedUser.id,
     });
+    console.log('createConnection', 'credentialId', credentialId)
     this.createItem(Endpoints.CONNECTIONS, connectionBody, this.connectionsMap);
   };
   @action createAccount = async account => {

@@ -2,6 +2,8 @@ import { REACT_APP_GEM_API_KEY } from "../../constants/Env";
 
 let GC;
 
+
+// TODO: onSuccess needed here
 window.onGemReady = () => {
   GC = new window.Gem.Connect({
     apiKey: REACT_APP_GEM_API_KEY,
