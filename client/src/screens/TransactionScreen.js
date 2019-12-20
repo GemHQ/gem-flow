@@ -11,11 +11,13 @@ import TransferForm from '../components/forms/TransferForm';
 const CardsByFlowId = () => ({
   [FlowIds.ONRAMP]: AccountCard,
   [FlowIds.TRANSFER]: ExchangeAccountCard,
+  [FlowIds.CONNECT]: ExchangeAccountCard,
 });
 
 const FormsByFlowId = () => ({
   [FlowIds.ONRAMP]: TransactionForm,
   [FlowIds.TRANSFER]: TransferForm,
+  [FlowIds.CONNECT]: () => null,
 });
 
 const TransactionScreen = ({ dataStore, uiStore }) => {
@@ -29,6 +31,31 @@ const TransactionScreen = ({ dataStore, uiStore }) => {
 
   const CardToRender = CardsByFlowId()[uiStore.flowId];
   const FormToRender = FormsByFlowId()[uiStore.flowId];
+
+  if (!selectedAccount) return null;
+
+  if (uiStore.flowId === FlowIds.CONNECT) {
+    return (
+      <>
+        <ErrorMessage />
+        <div className="FlexAlignCenter SpaceBetween">
+          <h2 className="ScreenHeading noPadding">{`${numberOfItems} Transaction${numberOfItems === 1 ? '' : 's'}`}</h2>
+        </div>
+        <CardToRender 
+          account={selectedAccount}
+          onButtonClick={startCreatingItem}
+          key={selectedAccount.id} 
+          dots={false}
+          hideButton={true}
+        />
+        {
+          (numberOfItems > 0)
+          &&
+          <TransactionTable transactions={transactions} />
+        }
+      </>
+    )
+  }
 
   return (
     <>
@@ -74,7 +101,7 @@ const TransactionScreen = ({ dataStore, uiStore }) => {
       />
     }
     {
-      (selectedAccount && numberOfItems > 0)
+      (numberOfItems > 0)
       &&
       <TransactionTable transactions={transactions} />
     }
