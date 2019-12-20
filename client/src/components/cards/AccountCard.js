@@ -47,7 +47,8 @@ export const ExchangeAccountCard = withPrimaryColor(({
   primaryColor,
   removeAccount,
   disabled,
-  dots
+  dots,
+  hideButton
 }) => {
   const isTransferFlow = flowId === FlowIds.TRANSFER;
 
@@ -70,6 +71,7 @@ export const ExchangeAccountCard = withPrimaryColor(({
       disabled={disabled}
       iconUrl={assetIconFromId(account.asset_id)}
       dots={dots}
+      hideButton={hideButton}
     />
   )
 });
