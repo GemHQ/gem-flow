@@ -18,7 +18,7 @@ export const FlowIds = {
 export const Flows = {
   [FlowIds.ONRAMP]: {
     id: 'Onramp',
-    dropdownTitle: 'Onramp (Gem API)',
+    dropdownTitle: 'Onramp',
     primaryColor: '#9C27B0',
     colorClassname: 'OnrampColor',
     screens: [
@@ -29,17 +29,6 @@ export const Flows = {
       ScreenNames.TRANSACTION
     ]
   },
-  // [FlowIds.CONNECT]: {
-  //   id: 'Connect',
-  //   dropdownTitle: 'Connect',
-  //   primaryColor: '#C0CA33',
-  //   colorClassname: 'ConnectColor',
-  //   screens: [
-  //     ScreenNames.USER, 
-  //     ScreenNames.CONNECTION,
-  //     ScreenNames.ACCOUNT,
-  //   ],
-  // },
   [FlowIds.TRANSFER]: {
     id: 'Transfer',
     dropdownTitle: 'Transfer',
@@ -51,7 +40,18 @@ export const Flows = {
       ScreenNames.ACCOUNT,
       ScreenNames.TRANSACTION
     ]
-  }
+  },
+  [FlowIds.CONNECT]: {
+    id: 'Connect',
+    dropdownTitle: 'Connect',
+    primaryColor: '#C0CA33',
+    colorClassname: 'ConnectColor',
+    screens: [
+      ScreenNames.USER, 
+      ScreenNames.CONNECTION,
+      ScreenNames.ACCOUNT,
+    ],
+  },
 };
 
 export const Endpoints = {
