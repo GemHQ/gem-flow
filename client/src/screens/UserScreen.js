@@ -10,6 +10,7 @@ import ErrorMessage from '../components/basic/errorMessage/ErrorMessage';
 const NextScreenNamesByFlowId = () => ({
   [FlowIds.ONRAMP]: ScreenNames.PROFILE,
   [FlowIds.TRANSFER]: ScreenNames.CONNECTION,
+  [FlowIds.CONNECT]: ScreenNames.CONNECTION,
 });
 
 const UserScreen = ({ dataStore, uiStore }) => {
@@ -27,7 +28,6 @@ const UserScreen = ({ dataStore, uiStore }) => {
       {
         dataStore.users.map(user => (
         <UserCard
-          flowId={uiStore.flow.id}
           user={user} 
           key={user.id}
           removeUser={() => dataStore.removeUser(user.id)}

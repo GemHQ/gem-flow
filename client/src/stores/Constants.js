@@ -50,6 +50,7 @@ export const Flows = {
       ScreenNames.USER, 
       ScreenNames.CONNECTION,
       ScreenNames.ACCOUNT,
+      ScreenNames.TRANSACTION
     ],
   },
 };

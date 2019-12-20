@@ -15,6 +15,7 @@ import { REACT_APP_GEM_API_KEY } from '../../constants/Env';
 const ScreensByFlowId = () => ({
   [FlowIds.ONRAMP]: OnrampConnectionScreen,
   [FlowIds.TRANSFER]: TransferConnectionScreen,
+  [FlowIds.CONNECT]: TransferConnectionScreen,
 });
 
 const ConnectionScreen = ({ dataStore, uiStore }) => {

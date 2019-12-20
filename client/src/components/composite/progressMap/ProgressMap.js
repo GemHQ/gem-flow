@@ -19,17 +19,12 @@ class ProgressMap extends Component {
           [ScreenNames.TRANSACTION, Boolean(dataStore.transactionsMap.size)],
         ];
       case FlowIds.TRANSFER:
-        return [
-          [ScreenNames.USER, Boolean(dataStore.selectedUser)],
-          [ScreenNames.CONNECTION, Boolean(dataStore.selectedConnection)],
-          [ScreenNames.ACCOUNT, Boolean(dataStore.selectedAccount)],
-          [ScreenNames.TRANSACTION, Boolean(dataStore.transactionsMap.size)],
-        ];
       case FlowIds.CONNECT:
         return [
           [ScreenNames.USER, Boolean(dataStore.selectedUser)],
           [ScreenNames.CONNECTION, Boolean(dataStore.selectedConnection)],
           [ScreenNames.ACCOUNT, Boolean(dataStore.selectedAccount)],
+          [ScreenNames.TRANSACTION, Boolean(dataStore.transactionsMap.size)],
         ];
     }
   }

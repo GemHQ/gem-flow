@@ -5,6 +5,7 @@ import { formatDate, capitalizeFirstLetter } from '../../util/TextUtil';
 import bitcoinIcon from '../../assets/bitcoin.svg';
 import ethereumIcon from '../../assets/ethereum.svg';
 import litecoinIcon from '../../assets/litecoin.svg';
+import { FlowIds } from '../../stores/Constants';
 
 
 const AccountCard = ({ 
@@ -38,7 +39,8 @@ const AccountCard = ({
   )
 };
 
-export const ExchangeAccountCard = withPrimaryColor(({ 
+export const ExchangeAccountCard = withPrimaryColor(({
+  flowId,
   account,
   onButtonClick,
   onViewClick,
@@ -47,6 +49,8 @@ export const ExchangeAccountCard = withPrimaryColor(({
   disabled,
   dots
 }) => {
+  const isTransferFlow = flowId === FlowIds.TRANSFER;
+
   const titlesAndValues = [
     { title: 'ACCOUNT_ID', value: account.id },
     { title: 'ACCOUNT_NAME', value: account.name },
@@ -57,9 +61,9 @@ export const ExchangeAccountCard = withPrimaryColor(({
   return (
     <GenericCard
       titlesAndValues={titlesAndValues}
-      buttonText="Create Transaction"
+      buttonText={isTransferFlow ? "Create Transaction" : "View Transactions"}
       onButtonClick={onButtonClick}
-      viewText="View Transactions"
+      viewText={isTransferFlow && 'View Transactions'}
       onViewClick={onViewClick}
       primaryColor={primaryColor}
       dotsMenuOptions={[{ title: 'Remove account', onClick: removeAccount }]}
