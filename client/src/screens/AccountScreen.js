@@ -11,6 +11,7 @@ import ErrorMessage from '../components/basic/errorMessage/ErrorMessage';
 const CardsByFlowId = () => ({
   [FlowIds.ONRAMP]: AccountCard,
   [FlowIds.TRANSFER]: ExchangeAccountCard,
+  [FlowIds.CONNECT]: ExchangeAccountCard,
 })
 
 const AccountScreen = ({ dataStore, uiStore }) => {
@@ -39,6 +40,7 @@ const AccountScreen = ({ dataStore, uiStore }) => {
       {
         dataStore.accounts.map(account => (
         <CardToRender
+          flowId={uiStore.flowId}
           account={account} 
           key={account.id} 
           removeAccount={() => dataStore.removeAccount(account.id)}

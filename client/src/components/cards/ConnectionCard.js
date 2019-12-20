@@ -1,7 +1,6 @@
 import React from 'react';
 import GenericCard from './GenericCard';
 import { withPrimaryColor } from '../../stores/StoresUtil';
-import { InstitutionIcons } from '../../stores/Constants';
 import { formatDate, capitalizeFirstLetter } from '../../util/TextUtil';
 
 const ConnectionCard = ({ connection, onButtonClick, onViewClick, removeConnection, primaryColor }) => (
@@ -17,8 +16,10 @@ const ConnectionCard = ({ connection, onButtonClick, onViewClick, removeConnecti
     onViewClick={onViewClick}
     primaryColor={primaryColor}
     dotsMenuOptions={[{ title: 'Remove connection', onClick: removeConnection }]}
-    iconUrl={connection.institution_id === 'coinbase' ? InstitutionIcons.coinbase : null}
+    iconUrl={buildExchangeIconEndpoint(connection.institution_id)}
   />
 );
+
+const buildExchangeIconEndpoint = institutionId => `https://gem-widgets-assets.s3-us-west-2.amazonaws.com/gem-widgets-resources/institutions/icons/square/${institutionId}_square.svg`;
 
 export default withPrimaryColor(ConnectionCard);

@@ -20,7 +20,8 @@
 }
 
 .ModalBox {
-  width: 700;
+  width: 700px;
+  min-width: 700px;
   padding: 32px 40px 40px 40px;
   background-color: white;
   border-radius: 4px;
@@ -68,7 +69,7 @@
 
 .DropzoneGrid {
   display: grid;
-  grid-template-columns: 250px 250px;
+  grid-template-columns: 1fr 1fr;
   gap: 20px;
 }
 

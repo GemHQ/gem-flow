@@ -1,12 +1,11 @@
 import { observable, action, computed } from 'mobx';
 import { persist } from 'mobx-persist';
 import { ScreenNames, Endpoints, InstitutionIcons, InstitutionIds } from './Constants';
-import { httpGet, httpPost, httpDelete, postCredentials } from '../util/RequestUtil';
+import { httpGet, httpPost, httpDelete } from '../util/RequestUtil';
 import {
   formatProfileRequestBody,
   formatInstitutionUserRequestBody,
   formatConnectionRequest,
-  formatCoinbaseCredentialsRequest,
 } from '../util/RequestFormatter';
 
 class DataStore {
@@ -132,13 +131,6 @@ class DataStore {
       this.institutionUsersMap
     );
   };
-  @action createCredentials = async oauthCode => {
-    const credentialsBody = formatCoinbaseCredentialsRequest(oauthCode);
-    const { data, status } = await postCredentials(credentialsBody);
-    if (status >= 400) return this.setError(data.description);
-    console.log('credential id:', data.credential_id);
-    this.createConnection(data.credential_id);
-  }
   @action createConnection = async credentialId => {
     if (!this.selectedUser) return;
     const connectionBody = formatConnectionRequest({
@@ -287,12 +279,9 @@ class DataStore {
     return [...this.institutionMap.values()];
   }
   @computed get exchangeInstitutions() {
-    // TODO: uncomment after gem connect is hosted
-    // NOTE: Institutions are pre-sorted by API rank.
-    // return [...this.institutionMap.values()].filter(
-    //   i => i.institution_type === 'Exchange'
-    // );
-    return [this.institutionMap.get(InstitutionIds.COINBASE)];
+    return [...this.institutionMap.values()].filter(
+      i => i.institution_type === 'Exchange'
+    );
   }
   @computed get fiatInstitutions() {
     // NOTE: Institutions are pre-sorted by API rank.

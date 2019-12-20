@@ -37,17 +37,3 @@ export const httpDelete = async (path) => {
   const data = await response.json();
   return { data, status: response.status };
 }
-
-export const postCredentials = async credentials => {
-  const response = await fetch(`${REACT_APP_GEM_CLIENT_BASE_URL}${Endpoints.CREDENTIALS}`, {
-    ...sharedRequestOptions,
-    method: 'POST',
-    body: JSON.stringify(credentials),
-    headers: {
-      ...sharedRequestOptions.headers,
-      'X-Gem-Api-Key': REACT_APP_GEM_API_KEY
-    }
-  });
-  const data = await response.json();
-  return { data, status: response.status };
-}

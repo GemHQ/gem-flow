@@ -31,7 +31,7 @@ const Step = ({ Description, index }) => (
   </div>
 );
 
-// const connectColor = Flows.Connect.primaryColor;
+const connectColor = Flows.Connect.primaryColor;
 const onrampColor = Flows.Onramp.primaryColor;
 const transferColor = Flows.Transfer.primaryColor;
 
@@ -43,11 +43,11 @@ const descriptions = {
     <p>Link an <Highlighted color={onrampColor}>account</Highlighted> to the connection.</p>,
     <p>Excecute a <Highlighted color={onrampColor}>transaction</Highlighted> using the account.</p>,  
   ],
-  // [FlowIds.CONNECT]: [
-  //   <p>Add a <Highlighted color={connectColor}>new user</Highlighted></p>,
-  //   <p>Create a <Highlighted color={connectColor}>connection</Highlighted> using the <Highlighted color={connectColor}>test credentials</Highlighted> provided in the sandbox mode</p>,
-  //   <p>Exchange the returned <Highlighted color={connectColor}>public_token</Highlighted> for an <Highlighted color={connectColor}>access_token</Highlighted> that securely represents and authorizes later access to a connection</p>
-  // ],
+  [FlowIds.CONNECT]: [
+    <p>Add a <Highlighted color={connectColor}>new user</Highlighted></p>,
+    <p>Create a <Highlighted color={connectColor}>connection</Highlighted> using <Highlighted color={connectColor}>exchange credentials</Highlighted></p>,
+    <p>View the <Highlighted color={connectColor}>accounts</Highlighted> available in the <Highlighted color={connectColor}>connection</Highlighted></p>,
+  ],
   [FlowIds.TRANSFER]: [
     <p>Add a <Highlighted color={transferColor}>new user</Highlighted></p>,
     <p>Create a <Highlighted color={transferColor}>connection</Highlighted> using <Highlighted color={transferColor}>exchange credentials</Highlighted></p>,

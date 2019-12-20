@@ -1,24 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import InstitutionUserForm from '../../components/forms/InstitutionUserForm';
 import InstitutionUserCard from '../../components/cards/InstitutionUserCard';
 import GenericScreen from '../GenericScreen';
 import { withStores } from '../../stores/StoresUtil';
-import { ScreenNames, FlowIds, InstitutionIds } from '../../stores/Constants';
+import { ScreenNames, FlowIds } from '../../stores/Constants';
 import ErrorMessage from '../../components/basic/errorMessage/ErrorMessage';
 import { observer } from 'mobx-react';
 import ConnectionForm from '../../components/forms/ConnectionForm';
-import {
-  startCoinbaseOauthFlow,
-  getOauthCode,
-  filterPaymentInstitutions,
-} from '../../util/PartnerUtil';
+import { filterPaymentInstitutions } from '../../util/PartnerUtil';
 import ConnectionCard from '../../components/cards/ConnectionCard';
-import WidgetIframe, { openGemConnect } from '../../components/widgets/WidgetIframe';
+import { REACT_APP_GEM_API_KEY } from '../../constants/Env';
 
 // as a function to avoid runtime initialization error
 const ScreensByFlowId = () => ({
   [FlowIds.ONRAMP]: OnrampConnectionScreen,
   [FlowIds.TRANSFER]: TransferConnectionScreen,
+  [FlowIds.CONNECT]: TransferConnectionScreen,
 });
 
 const ConnectionScreen = ({ dataStore, uiStore }) => {
@@ -63,14 +60,23 @@ const OnrampConnectionScreen = observer(({ dataStore, uiStore }) => (
   </GenericScreen>
 ));
 
+// reference for the instance of Gem Connect
+let GC;
 
 const TransferConnectionScreen = observer(({ dataStore, uiStore }) => {
-  useEffect(() => {
-    const oauthCode = getOauthCode();
-    if (oauthCode) dataStore.createCredentials(oauthCode);
-  }, []);
+  const createGC = () => {
+    GC = new window.Gem.Connect({
+      apiKey: REACT_APP_GEM_API_KEY,
+      partnerName: 'Flow',
+      partnerIconUrl: 'https://app-stage.gem.co/images/wallet/icon_demo_wallet@2x.png',
+      onSuccess: dataStore.createConnection
+    });
+  }
 
-  const [isRedirecting, setIsRedirecting] = useState(false);
+  useEffect(() => {
+    if (window.Gem) createGC();
+    else window.onGemReady = createGC
+  }, []);
 
   const institutionOptions = dataStore.exchangeInstitutions.map(institution => ({
     value: institution.id,
@@ -80,7 +86,6 @@ const TransferConnectionScreen = observer(({ dataStore, uiStore }) => {
 
   return (
     <>
-      <RedirectingLabel isRedirecting={isRedirecting} />
       <GenericScreen
         ItemForm={props => (
           <ConnectionForm {...props} accountOptions={institutionOptions} />
@@ -88,17 +93,10 @@ const TransferConnectionScreen = observer(({ dataStore, uiStore }) => {
         numberOfItems={filterPaymentInstitutions(dataStore.connections).length}
         itemTitle="Connection"
         createItem={selectedOption => {
-          if (selectedOption === InstitutionIds.COINBASE) {
-            setIsRedirecting(true);
-            startCoinbaseOauthFlow();
-          } else {
-            openGemConnect({ 
-              onSuccess: dataStore.createConnection,
-              institution: selectedOption
-            });
-          }
+          console.log('opening', GC)
+          GC.open({ institution: selectedOption })
         }}
-        buttonDisabled={isRedirecting || !dataStore.selectedUser}
+        buttonDisabled={!dataStore.selectedUser}
         withOpenForm={uiStore.withOpenForm}
       >
         {filterPaymentInstitutions(dataStore.connections).map(connection => (
@@ -124,11 +122,5 @@ const TransferConnectionScreen = observer(({ dataStore, uiStore }) => {
     </>
   );
 });
-
-const RedirectingLabel = ({ isRedirecting, exchangeName = 'Coinbase' }) => {
-  if (isRedirecting)
-    return <p className="Creating">{`Redirecting to ${exchangeName}...`}</p>;
-  return null;
-};
 
 export default withStores(ConnectionScreen);

@@ -15,19 +15,23 @@ const GenericCard = ({
   disabled, 
   dots = true,
   iconUrl,
+  hideButton
 }) => (
   <div className="Card">
     <div className="FlexAlignCenter">
       {iconUrl && <img src={iconUrl} className="AccountIcon" />}
       {titlesAndValues.map(({ title, value }) => <TitleAndValue key={title} title={title} value={value || '-'} greyTitle smallTitle boldValue rightPadding/>)}
     </div>
-    <div className="FlexAlignCenter">
-      <div className="ColumnCenter">
-        <Button onClick={onButtonClick} primaryColor={primaryColor} disabled={disabled} marginRight>{buttonText}</Button> 
-        {viewText && onViewClick && <UnderButton onClick={onViewClick} primaryColor={primaryColor}>{viewText}</UnderButton>}
+    {
+      !hideButton &&
+      <div className="FlexAlignCenter">
+        <div className="ColumnCenter">
+          <Button onClick={onButtonClick} primaryColor={primaryColor} disabled={disabled} marginRight>{buttonText}</Button> 
+          {viewText && onViewClick && <UnderButton onClick={onViewClick} primaryColor={primaryColor}>{viewText}</UnderButton>}
+        </div>
+        {dots && <ThreeDots menuOptions={dotsMenuOptions} />}
       </div>
-      {dots && <ThreeDots menuOptions={dotsMenuOptions} />}
-    </div>
+    }
   </div>
 );
 
