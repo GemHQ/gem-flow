@@ -9,18 +9,29 @@ import { filterPaymentInstitutions } from '../../../util/PartnerUtil';
 class ProgressMap extends Component {
   getDots = () => {
     const { dataStore, uiStore } = this.props;
-    return uiStore.flowId === FlowIds.ONRAMP ? [
-      [ScreenNames.USER, Boolean(dataStore.selectedUser)],
-      [ScreenNames.PROFILE, Boolean(dataStore.selectedProfile)],
-      [ScreenNames.CONNECTION, Boolean(dataStore.selectedInstitutionUser)],
-      [ScreenNames.ACCOUNT, Boolean(dataStore.selectedAccount)],
-      [ScreenNames.TRANSACTION, Boolean(dataStore.transactionsMap.size)],
-    ] : [
-      [ScreenNames.USER, Boolean(dataStore.selectedUser)],
-      [ScreenNames.CONNECTION, Boolean(dataStore.selectedConnection)],
-      [ScreenNames.ACCOUNT, Boolean(dataStore.selectedAccount)],
-      [ScreenNames.TRANSACTION, Boolean(dataStore.transactionsMap.size)],
-    ]
+    switch (uiStore.flowId) {
+      case FlowIds.ONRAMP:
+        return [
+          [ScreenNames.USER, Boolean(dataStore.selectedUser)],
+          [ScreenNames.PROFILE, Boolean(dataStore.selectedProfile)],
+          [ScreenNames.CONNECTION, Boolean(dataStore.selectedInstitutionUser)],
+          [ScreenNames.ACCOUNT, Boolean(dataStore.selectedAccount)],
+          [ScreenNames.TRANSACTION, Boolean(dataStore.transactionsMap.size)],
+        ];
+      case FlowIds.TRANSFER:
+        return [
+          [ScreenNames.USER, Boolean(dataStore.selectedUser)],
+          [ScreenNames.CONNECTION, Boolean(dataStore.selectedConnection)],
+          [ScreenNames.ACCOUNT, Boolean(dataStore.selectedAccount)],
+          [ScreenNames.TRANSACTION, Boolean(dataStore.transactionsMap.size)],
+        ];
+      case FlowIds.CONNECT:
+        return [
+          [ScreenNames.USER, Boolean(dataStore.selectedUser)],
+          [ScreenNames.CONNECTION, Boolean(dataStore.selectedConnection)],
+          [ScreenNames.ACCOUNT, Boolean(dataStore.selectedAccount)],
+        ];
+    }
   }
 
   getMarkerSubtitles = () => {
