@@ -75,7 +75,7 @@ const TransferConnectionScreen = observer(({ dataStore, uiStore }) => {
 
   useEffect(() => {
     if (window.Gem) createGC();
-    else window.onGemReady = createGC
+    else window.onGemReady = createGC;
   }, []);
 
   const institutionOptions = dataStore.exchangeInstitutions.map(institution => ({
@@ -93,7 +93,6 @@ const TransferConnectionScreen = observer(({ dataStore, uiStore }) => {
         numberOfItems={filterPaymentInstitutions(dataStore.connections).length}
         itemTitle="Connection"
         createItem={selectedOption => {
-          console.log('opening', GC)
           GC.open({ institution: selectedOption })
         }}
         buttonDisabled={!dataStore.selectedUser}
