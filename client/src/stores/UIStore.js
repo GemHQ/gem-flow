@@ -1,5 +1,5 @@
 import { observable, action, computed } from 'mobx';
-import { Flows, ScreenNames } from './Constants';
+import { FlowIds, Flows, ScreenNames } from './Constants';
 import { 
   persistSelectedFlowId,
   getPersistedFlowId,
@@ -8,8 +8,8 @@ import {
 } from '../util/PersistUtil';
 
 class UIStore {
-  @observable flow = Flows.Onramp;
-  @observable flowId = Flows.Onramp.id;
+  @observable flow = Flows[FlowIds.CONNECT];
+  @observable flowId = FlowIds.CONNECT;
   @observable currentScreen = ScreenNames.USER;
   @observable initialScreenStates = new Map();
 
