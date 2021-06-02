@@ -6,7 +6,8 @@ export const ScreenNames = {
   PROFILE: 'Profile',
   CONNECTION: 'Connection',
   ACCOUNT: 'Account',
-  TRANSACTION: 'Transaction'
+  TRANSACTION: 'Transaction',
+  HISTORY: 'History'
 };
 
 export const FlowIds = {
@@ -44,13 +45,13 @@ export const Flows = {
   [FlowIds.CONNECT]: {
     id: 'Connect',
     dropdownTitle: 'Connect',
-    primaryColor: '#C0CA33',
+    // primaryColor: '#C0CA33',
+    primaryColor: '#478FCC',
     colorClassname: 'ConnectColor',
     screens: [
       ScreenNames.USER, 
       ScreenNames.CONNECTION,
-      ScreenNames.ACCOUNT,
-      ScreenNames.TRANSACTION
+      ScreenNames.HISTORY,
     ],
   },
 };
