@@ -12,6 +12,7 @@ import ConnectionScreen from './screens/connectionScreen/ConnectionScreen';
 import AccountScreen from './screens/AccountScreen';
 import TransactionScreen from './screens/TransactionScreen';
 import { withUiStore } from './stores/StoresUtil';
+import HistoryScreen from './screens/HistoryScreen';
 
 const App = ({ uiStore }) => {
   return (
@@ -35,6 +36,7 @@ const Screens = withUiStore(({ uiStore }) => {
     case (ScreenNames.CONNECTION): return <ConnectionScreen />;
     case (ScreenNames.ACCOUNT): return <AccountScreen />;
     case (ScreenNames.TRANSACTION): return <TransactionScreen />;
+    case (ScreenNames.HISTORY): return <HistoryScreen />;
     default: return <UserScreen />
   }
 });
