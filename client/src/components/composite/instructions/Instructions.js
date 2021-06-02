@@ -4,16 +4,17 @@ import './instructions.css';
 import DropdownSelector from '../../basic/dropdownSelector/DropdownSelector';
 import { Flows, FlowIds } from '../../../stores/Constants';
 
+// NOTE: the dropdown selector can be implemented when more than one flow is supported
 const InstructionsCmp = ({ uiStore }) => (
   <div className="InstructionsContainer">
-    <div className="DropdownContainer">
+    {/* <div className="DropdownContainer">
       <DropdownSelector
         options={uiStore.dropdownOptions}
         selectedOption={uiStore.flow.dropdownTitle}
         selectOption={uiStore.setFlow}
         selectedClassName={uiStore.flow.colorClassname}
       />
-    </div>
+    </div> */}
     <div className="Steps">
       {descriptions[uiStore.flow.id].map((Description, i) => <Step Description={Description} index={i} key={`${uiStore.flow.id}-${i}`} />)}
     </div>
@@ -46,7 +47,7 @@ const descriptions = {
   [FlowIds.CONNECT]: [
     <p>Add a <Highlighted color={connectColor}>new user</Highlighted></p>,
     <p>Create a <Highlighted color={connectColor}>connection</Highlighted> using <Highlighted color={connectColor}>exchange credentials</Highlighted></p>,
-    <p>View the <Highlighted color={connectColor}>accounts</Highlighted> available in the <Highlighted color={connectColor}>connection</Highlighted></p>,
+    <p>View the <Highlighted color={connectColor}>transaction history</Highlighted> available to the <Highlighted color={connectColor}>connection</Highlighted></p>,
   ],
   [FlowIds.TRANSFER]: [
     <p>Add a <Highlighted color={transferColor}>new user</Highlighted></p>,
