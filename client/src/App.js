@@ -13,6 +13,7 @@ import AccountScreen from './screens/AccountScreen';
 import TransactionScreen from './screens/TransactionScreen';
 import { withUiStore } from './stores/StoresUtil';
 import HistoryScreen from './screens/HistoryScreen';
+import CredentialsScreen from './screens/credentials/CredentialsScreen';
 
 const App = ({ uiStore }) => {
   return (
@@ -31,27 +32,34 @@ const App = ({ uiStore }) => {
 
 const Screens = withUiStore(({ uiStore }) => {
   switch (uiStore.currentScreen) {
-    case (ScreenNames.USER): return <UserScreen />;
-    case (ScreenNames.PROFILE): return <ProfileScreen />;
-    case (ScreenNames.CONNECTION): return <ConnectionScreen />;
-    case (ScreenNames.ACCOUNT): return <AccountScreen />;
-    case (ScreenNames.TRANSACTION): return <TransactionScreen />;
-    case (ScreenNames.HISTORY): return <HistoryScreen />;
-    default: return <UserScreen />
+    case ScreenNames.USER:
+      return <UserScreen />;
+    case ScreenNames.PROFILE:
+      return <ProfileScreen />;
+    case ScreenNames.CONNECTION:
+      return <ConnectionScreen />;
+    case ScreenNames.ACCOUNT:
+      return <AccountScreen />;
+    case ScreenNames.TRANSACTION:
+      return <TransactionScreen />;
+    case ScreenNames.HISTORY:
+      return <HistoryScreen />;
+    case ScreenNames.CREDENTIALS:
+      return <CredentialsScreen />;
+    default:
+      return <UserScreen />;
   }
 });
 
 const SmartInstructions = withUiStore(({ uiStore }) => {
-  if (uiStore.showInstructions) return (
-    <>
-      <Instructions uiStore={uiStore} />
-      <Divider marginBottom marginTop />
-    </>
-  )
+  if (uiStore.showInstructions)
+    return (
+      <>
+        <Instructions uiStore={uiStore} />
+        <Divider marginBottom marginTop />
+      </>
+    );
   return null;
 });
 
 export default withUiStore(App);
-
-
-

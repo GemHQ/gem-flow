@@ -5,16 +5,17 @@ export const ScreenNames = {
   USER: 'User',
   PROFILE: 'Profile',
   CONNECTION: 'Connection',
+  CREDENTIALS: 'Credentials',
   ACCOUNT: 'Account',
   TRANSACTION: 'Transaction',
-  HISTORY: 'History'
+  HISTORY: 'History',
 };
 
 export const FlowIds = {
   ONRAMP: 'Onramp',
   TRANSFER: 'Transfer',
-  CONNECT: 'Connect'
-}
+  CONNECT: 'Connect',
+};
 
 export const Flows = {
   [FlowIds.ONRAMP]: {
@@ -23,12 +24,12 @@ export const Flows = {
     primaryColor: '#9C27B0',
     colorClassname: 'OnrampColor',
     screens: [
-      ScreenNames.USER, 
+      ScreenNames.USER,
       ScreenNames.PROFILE,
       ScreenNames.CONNECTION,
       ScreenNames.ACCOUNT,
-      ScreenNames.TRANSACTION
-    ]
+      ScreenNames.TRANSACTION,
+    ],
   },
   [FlowIds.TRANSFER]: {
     id: 'Transfer',
@@ -36,11 +37,11 @@ export const Flows = {
     primaryColor: '#478FCC',
     colorClassname: 'TransferColor',
     screens: [
-      ScreenNames.USER, 
+      ScreenNames.USER,
       ScreenNames.CONNECTION,
       ScreenNames.ACCOUNT,
-      ScreenNames.TRANSACTION
-    ]
+      ScreenNames.TRANSACTION,
+    ],
   },
   [FlowIds.CONNECT]: {
     id: 'Connect',
@@ -48,11 +49,7 @@ export const Flows = {
     // primaryColor: '#C0CA33',
     primaryColor: '#478FCC',
     colorClassname: 'ConnectColor',
-    screens: [
-      ScreenNames.USER, 
-      ScreenNames.CONNECTION,
-      ScreenNames.HISTORY,
-    ],
+    screens: [ScreenNames.USER, ScreenNames.CREDENTIALS, ScreenNames.HISTORY],
   },
 };
 
@@ -65,15 +62,15 @@ export const Endpoints = {
   CONNECTIONS: '/connections',
   CREDENTIALS: '/credentials',
   ACCOUNT: '/account',
-  TRANSACTION: '/transaction'
-}
+  TRANSACTION: '/transaction',
+};
 
 export const InstitutionIcons = {
   wyre: wyreIcon,
   coinify: coinifyIcon,
-}
+};
 
 export const InstitutionIds = {
   COINBASE: 'coinbase',
-  WYRE: 'wyre'
-}
+  WYRE: 'wyre',
+};
