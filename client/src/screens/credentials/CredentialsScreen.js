@@ -48,10 +48,13 @@ const CredentialsScreen = () => {
       {currentScreenState === ScreenStates.ENTER_CREDENTIALS && (
         <>
           <ExchangeHeader exchange={selectedExchange} />
-          <div className="iframe-container" />
+          <div className="iframe-container">
+            <iframe src="http://localhost:8080" />
+          </div>
           <div className="divider" />
           <div className="buttons-container">
             <Button
+              className="bordered"
               onClick={() => {
                 setCurrentScreenState(ScreenStates.DEFAULT);
                 setSelectedExchange(null);
