@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ClearableInput } from '../../components/basic/input/Input';
 import ExchangeList from './ExchangeList';
 import './credentials.scss';
 import Button from '../../components/basic/button/Button';
+import { sendContinueMessage, sendCloseMessage } from '../../util/MessageUtil';
 
 const ScreenStates = {
   DEFAULT: 'default',
@@ -22,11 +23,27 @@ const CredentialsScreen = () => {
     ScreenStates.DEFAULT
   );
   const [exchangeSearchValue, setExchangeSearchValue] = useState('');
+
+  useEffect(() => {
+    window.addEventListener('message', (event) => {
+      if (event.origin !== 'http://localhost:8080') return;
+      console.log(event.origin);
+      const data = JSON.parse(event.data);
+      if (data.eventType === 'form-ready') {
+        console.log('Form Ready!');
+      }
+      if (data.eventType === 'connection-error') {
+        console.log('Connection Error!');
+        setCurrentScreenState(ScreenStates.ERROR);
+      }
+    });
+  }, []);
+
   return (
     <div className="screen-container">
       <h1>{Titles[currentScreenState]}</h1>
 
-      {currentScreenState === ScreenStates.DEFAULT && (
+      {currentScreenState === ScreenStates.DEFAULT ? (
         <>
           <h4>Connect your exchange account to bring in your transactions.</h4>
           <ClearableInput
@@ -43,26 +60,25 @@ const CredentialsScreen = () => {
             }}
           />
         </>
-      )}
-
-      {currentScreenState === ScreenStates.ENTER_CREDENTIALS && (
+      ) : (
         <>
           <ExchangeHeader exchange={selectedExchange} />
           <div className="iframe-container">
-            <iframe src="http://localhost:8080" />
+            <iframe src="http://localhost:8080" id="inuit-connect" />
           </div>
           <div className="divider" />
           <div className="buttons-container">
             <Button
               className="bordered"
               onClick={() => {
+                sendCloseMessage();
                 setCurrentScreenState(ScreenStates.DEFAULT);
                 setSelectedExchange(null);
               }}
             >
               Back
             </Button>
-            <Button>Continue</Button>
+            <Button onClick={sendContinueMessage}>Continue</Button>
           </div>
         </>
       )}
