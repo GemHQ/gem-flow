@@ -1,6 +1,7 @@
 import React from 'react';
 import './input.css';
 import HelpTip from '../helpTip/HelpTip';
+import CancelSVG from '../../../assets/cancel.svg';
 
 const Input = ({
   placeholder,
@@ -46,7 +47,9 @@ export const ClearableInput = ({ onClear, ...props }) => {
     <Input className="ClearableInput" {...props}>
       {Boolean(props.value) && (
         <div className="InputRightSubcontainer">
-          <div onClick={onClear}>X</div>
+          <div style={{ height: 18, marginRight: 5 }} onClick={onClear}>
+            <img height="18" src={CancelSVG} alt="cancel" />
+          </div>
         </div>
       )}
     </Input>
