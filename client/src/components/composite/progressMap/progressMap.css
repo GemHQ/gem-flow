@@ -5,5 +5,11 @@
 .RectangleTitlesContainer {
   display: flex;
   justify-content: space-between;
-  min-width: 900px;
+  min-width: 640px;
+}
+
+@media (max-width: 749px) {
+  .ProgressContainer {
+    display: none;
+  }
 }

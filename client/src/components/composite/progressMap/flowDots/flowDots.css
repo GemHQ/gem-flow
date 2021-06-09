@@ -5,7 +5,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  min-width: 900px;
+  min-width: 640px;
 }
 
 .FlowDot {
@@ -19,3 +19,8 @@
   flex-grow: 1;
 }
 
+@media (max-width: 749px) {
+  .DotsContainer {
+    display: none;
+  }
+}
