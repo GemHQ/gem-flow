@@ -87,7 +87,6 @@ const CredentialsScreen = () => {
 };
 
 const ExchangeHeader = ({ exchange }) => {
-  console.log('exchange', exchange);
   return (
     <div className="exchange-header">
       <div className="exchange-icon-container">
