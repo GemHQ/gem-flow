@@ -17,6 +17,11 @@ const Titles = {
   [ScreenStates.ERROR]: `Let's try again`,
 };
 
+const setIframeHeight = (height) => {
+  const container = document.getElementById('iframe-container');
+  container.style.height = height;
+};
+
 const CredentialsScreen = () => {
   const [selectedExchange, setSelectedExchange] = useState(null);
   const [currentScreenState, setCurrentScreenState] = useState(
@@ -27,8 +32,8 @@ const CredentialsScreen = () => {
   useEffect(() => {
     window.addEventListener('message', (event) => {
       if (event.origin !== 'http://localhost:8080') return;
-      console.log(event.origin);
       const data = JSON.parse(event.data);
+      setIframeHeight(data.height);
       if (data.eventType === 'form-ready') {
         console.log('Form Ready!');
       }
@@ -63,7 +68,7 @@ const CredentialsScreen = () => {
       ) : (
         <>
           <ExchangeHeader exchange={selectedExchange} />
-          <div className="iframe-container">
+          <div id="iframe-container">
             <iframe src="http://localhost:8080" id="inuit-connect" />
           </div>
           <div className="divider" />
