@@ -1,6 +1,11 @@
 import { observable, action, computed } from 'mobx';
 import { persist } from 'mobx-persist';
-import { ScreenNames, Endpoints, InstitutionIcons, InstitutionIds } from './Constants';
+import {
+  ScreenNames,
+  Endpoints,
+  InstitutionIcons,
+  InstitutionIds,
+} from './Constants';
 import { httpGet, httpPost, httpDelete } from '../util/RequestUtil';
 import {
   formatProfileRequestBody,
@@ -43,9 +48,8 @@ class DataStore {
     if (status >= 400) {
       return this.setError(data.description);
     }
-    console.log(path, data);
     itemMap.clear();
-    data.forEach(item => itemMap.set(item.id, item));
+    data.forEach((item) => itemMap.set(item.id, item));
   };
   @action getUsers = async () => {
     return await this.getItems(Endpoints.USER, this.usersMap);
@@ -68,7 +72,7 @@ class DataStore {
       this.connectionsMap
     );
   };
-  @action getAccounts = async connectionId => {
+  @action getAccounts = async (connectionId) => {
     return await this.getItems(
       `${Endpoints.ACCOUNT}/list/${connectionId}`,
       this.accountsMap
@@ -83,7 +87,7 @@ class DataStore {
   @action getInstitutions = async () => {
     const { data, status } = await httpGet(Endpoints.INSTITUTION);
     if (status >= 400) return;
-    data.forEach(institution =>
+    data.forEach((institution) =>
       this.institutionMap.set(institution.id, {
         ...institution,
         icon: InstitutionIcons[institution.id],
@@ -101,10 +105,10 @@ class DataStore {
     itemMap && itemMap.set(data.id, data);
     return data;
   };
-  @action createUser = async user => {
+  @action createUser = async (user) => {
     this.createItem(Endpoints.USER, { user }, this.usersMap);
   };
-  @action createProfile = async profileFormData => {
+  @action createProfile = async (profileFormData) => {
     this.isPosting = true;
     const profile = formatProfileRequestBody(profileFormData);
     const userId = this.selectedUser.id;
@@ -120,7 +124,7 @@ class DataStore {
       document: profileFormData.document,
     });
   };
-  @action createInstitutionUser = async institutionUserFormData => {
+  @action createInstitutionUser = async (institutionUserFormData) => {
     const institutionUser = formatInstitutionUserRequestBody(
       this.selectedProfile.id,
       institutionUserFormData
@@ -131,7 +135,7 @@ class DataStore {
       this.institutionUsersMap
     );
   };
-  @action createConnection = async credentialId => {
+  @action createConnection = async (credentialId) => {
     if (!this.selectedUser) return;
     const connectionBody = formatConnectionRequest({
       credentialId,
@@ -139,10 +143,10 @@ class DataStore {
     });
     this.createItem(Endpoints.CONNECTIONS, connectionBody, this.connectionsMap);
   };
-  @action createAccount = async account => {
+  @action createAccount = async (account) => {
     this.createItem(Endpoints.ACCOUNT, account, this.accountsMap);
   };
-  @action createTransaction = async transaction => {
+  @action createTransaction = async (transaction) => {
     this.createItem(Endpoints.TRANSACTION, transaction, this.transactionsMap);
   };
 
@@ -156,7 +160,7 @@ class DataStore {
     if (nextScreen === ScreenNames.PROFILE) this.getProfiles();
     if (nextScreen === ScreenNames.CONNECTION) this.getConnections();
   };
-  @action selectProfile = id => {
+  @action selectProfile = (id) => {
     if (this.selectedProfile && id === this.selectedProfile.id) return;
     this.selectedProfile = this.profilesMap.get(id);
     this.clearInstitutionUsers();
@@ -164,20 +168,20 @@ class DataStore {
     this.clearAccounts();
     this.getInstitutionUsers();
   };
-  @action selectInstitutionUser = id => {
+  @action selectInstitutionUser = (id) => {
     if (this.selectedInstitutionUser && id === this.selectedInstitutionUser.id)
       return;
     this.selectedInstitutionUser = this.institutionUsersMap.get(id);
     this.clearAccounts();
     this.getAccounts(this.selectedInstitutionUser.connection_id);
   };
-  @action selectConnection = id => {
+  @action selectConnection = (id) => {
     if (this.selectedConnection && id === this.selectedConnection.id) return;
     this.selectedConnection = this.connectionsMap.get(id);
     this.clearAccounts();
     this.getAccounts(id);
   };
-  @action selectAccount = id => {
+  @action selectAccount = (id) => {
     if (this.selectedAccount && id === this.selectedAccount.id) return;
     this.selectedAccount = this.accountsMap.get(id);
     this.clearTransactions();
@@ -185,18 +189,18 @@ class DataStore {
   };
 
   // All DELETE requests to the local node server, * not yet supported Gem API endpoints
-  @action removeUser = id => {
+  @action removeUser = (id) => {
     this.usersMap.delete(id);
     httpDelete(`${Endpoints.USER}/${id}`);
   };
-  @action removeProfile = id => {
+  @action removeProfile = (id) => {
     this.profilesMap.delete(id);
     httpDelete(`${Endpoints.PROFILE}/${id}`);
   };
-  @action removeInstitutionUser = id => {
+  @action removeInstitutionUser = (id) => {
     this.institutionUsersMap.delete(id);
   };
-  @action removeAccount = id => {
+  @action removeAccount = (id) => {
     this.accountsMap.delete(id);
   };
 
@@ -221,7 +225,7 @@ class DataStore {
   @action clearTransactions = () => {
     this.transactionsMap.clear();
   };
-  @action clearItemsOnScreenChange = screenName => {
+  @action clearItemsOnScreenChange = (screenName) => {
     switch (screenName) {
       case ScreenNames.USER:
         this.selectedUser = null;
@@ -258,7 +262,7 @@ class DataStore {
   @action clearError = () => {
     this.errorMessage = '';
   };
-  @action setError = errorMessage => {
+  @action setError = (errorMessage) => {
     // errorMessage may be null, hence default value in the params (message = 'Unknown Error') will not work
     this.errorMessage = errorMessage || 'Unknown Error';
   };
@@ -280,13 +284,13 @@ class DataStore {
   }
   @computed get exchangeInstitutions() {
     return [...this.institutionMap.values()].filter(
-      i => i.institution_type === 'Exchange'
+      (i) => i.institution_type === 'Exchange'
     );
   }
   @computed get fiatInstitutions() {
     // NOTE: Institutions are pre-sorted by API rank.
     return [...this.institutionMap.values()].filter(
-      i => i.institution_type === 'FiatOnRamp'
+      (i) => i.institution_type === 'FiatOnRamp'
     );
   }
   @computed get connections() {
