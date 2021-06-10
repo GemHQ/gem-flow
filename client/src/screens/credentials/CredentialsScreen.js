@@ -9,12 +9,14 @@ const ScreenStates = {
   DEFAULT: 'default',
   ENTER_CREDENTIALS: 'enter-credentials',
   ERROR: 'error',
+  TRANSFERRING: 'transferring',
 };
 
 const Titles = {
   [ScreenStates.DEFAULT]: `Let's Get a picture of your profits`,
   [ScreenStates.ENTER_CREDENTIALS]: `Enter credentials`,
   [ScreenStates.ERROR]: `Let's try again`,
+  [ScreenStates.TRANSFERRING]: `Transferring you to Coinbase`,
 };
 
 const setIframeHeight = (height) => {
@@ -44,6 +46,24 @@ const CredentialsScreen = () => {
     });
   }, []);
 
+  if (currentScreenState === ScreenStates.TRANSFERRING) {
+    return (
+      <div className="screen-container no-border">
+        <div className="center">
+          <h1>{Titles[currentScreenState]}</h1>
+          <div className="loading-container">
+            <div className="lds-dual-ring" />
+            <img
+              className="coinbase-loading"
+              alt="Coinbase"
+              src="https://gem-widgets-assets.s3.us-west-2.amazonaws.com/institutions/icons/square/coinbase_square.svg"
+            />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="screen-container">
       <h1>{Titles[currentScreenState]}</h1>
@@ -60,6 +80,13 @@ const CredentialsScreen = () => {
           <ExchangeList
             query={exchangeSearchValue}
             onSelect={(exchange) => {
+              if (exchange.id === 'coinbase') {
+                return setCurrentScreenState(ScreenStates.TRANSFERRING);
+                // setTimeout(
+                //   () => (window.location = `https://coinbase.com`),
+                //   1500
+                // );
+              }
               setSelectedExchange(exchange);
               setCurrentScreenState(ScreenStates.ENTER_CREDENTIALS);
             }}
