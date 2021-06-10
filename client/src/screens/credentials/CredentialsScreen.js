@@ -37,10 +37,10 @@ const CredentialsScreen = () => {
       const data = JSON.parse(event.data);
       setIframeHeight(data.height);
       if (data.eventType === 'form-ready') {
-        console.log('Form Ready!');
+        console.log('[Gem Flow] form-ready received', data);
       }
       if (data.eventType === 'connection-error') {
-        console.log('Connection Error!');
+        console.log('[Gem Flow] connection-error received', data);
         setCurrentScreenState(ScreenStates.ERROR);
       }
     });
@@ -81,11 +81,11 @@ const CredentialsScreen = () => {
             query={exchangeSearchValue}
             onSelect={(exchange) => {
               if (exchange.id === 'coinbase') {
+                setTimeout(
+                  () => (window.location = `https://coinbase.com`),
+                  1500
+                );
                 return setCurrentScreenState(ScreenStates.TRANSFERRING);
-                // setTimeout(
-                //   () => (window.location = `https://coinbase.com`),
-                //   1500
-                // );
               }
               setSelectedExchange(exchange);
               setCurrentScreenState(ScreenStates.ENTER_CREDENTIALS);

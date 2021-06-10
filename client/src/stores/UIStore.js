@@ -1,6 +1,6 @@
 import { observable, action, computed } from 'mobx';
 import { FlowIds, Flows, ScreenNames } from './Constants';
-import { 
+import {
   persistSelectedFlowId,
   getPersistedFlowId,
   getPersistedScreen,
@@ -15,12 +15,24 @@ class UIStore {
 
   constructor() {
     const persistedFlowId = getPersistedFlowId();
-    const persistedScreen = getPersistedScreen();
     if (persistedFlowId) this.setFlow(persistedFlowId);
-    if (persistedScreen) this.setCurrentScreen(persistedScreen);
+    this.determineScreen();
   }
 
-  @action setFlow = flowId => {
+  @action determineScreen = () => {
+    if (window.location.search.includes('coinbase-code')) {
+      let params = new URL(document.location).searchParams;
+      let coinbaseCode = params.get('coinbase-code');
+      console.log('coinbase-code:', coinbaseCode);
+      this.currentScreen = ScreenNames.CONNECTION_COMPLETE;
+    } else {
+      const persistedScreen = getPersistedScreen();
+      // if (persistedScreen) this.setCurrentScreen(persistedScreen);
+      this.setCurrentScreen(ScreenNames.CREDENTIALS);
+    }
+  };
+
+  @action setFlow = (flowId) => {
     this.flow = Flows[flowId];
     this.flowId = flowId;
     persistSelectedFlowId(flowId);
@@ -30,7 +42,7 @@ class UIStore {
     this.currentScreen = screen;
     initialState && this.initialScreenStates.set(screen, initialState);
     persistCurrentScreen(screen);
-  }
+  };
 
   // each flow has it's own color
   @computed get primaryColor() {
@@ -40,8 +52,12 @@ class UIStore {
   // for the flow dropdown selector on first screen
   @computed get dropdownOptions() {
     return Object.values(Flows)
-      .filter(flow => flow.id !== this.flow.id)
-      .map(flow => ({ value: flow.id, label: flow.dropdownTitle, className: flow.colorClassname }));
+      .filter((flow) => flow.id !== this.flow.id)
+      .map((flow) => ({
+        value: flow.id,
+        label: flow.dropdownTitle,
+        className: flow.colorClassname,
+      }));
   }
 
   // do the dropdown selector and instruction show

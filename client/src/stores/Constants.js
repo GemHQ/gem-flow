@@ -5,6 +5,7 @@ export const ScreenNames = {
   USER: 'User',
   PROFILE: 'Profile',
   CONNECTION: 'Connection',
+  CONNECTION_COMPLETE: 'Connection Complete',
   CREDENTIALS: 'Credentials',
   ACCOUNT: 'Account',
   TRANSACTION: 'Transaction',

@@ -14,6 +14,7 @@ import TransactionScreen from './screens/TransactionScreen';
 import { withUiStore } from './stores/StoresUtil';
 import HistoryScreen from './screens/HistoryScreen';
 import CredentialsScreen from './screens/credentials/CredentialsScreen';
+import ConnectionCompleteScreen from './screens/connectionScreen/ConnectionCompleteScreen';
 
 const App = ({ uiStore }) => {
   return (
@@ -46,6 +47,8 @@ const Screens = withUiStore(({ uiStore }) => {
       return <HistoryScreen />;
     case ScreenNames.CREDENTIALS:
       return <CredentialsScreen />;
+    case ScreenNames.CONNECTION_COMPLETE:
+      return <ConnectionCompleteScreen />;
     default:
       return <UserScreen />;
   }
