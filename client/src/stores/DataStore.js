@@ -1,5 +1,6 @@
 import { observable, action, computed } from 'mobx';
 import { persist } from 'mobx-persist';
+import uuid from 'uuid';
 import {
   ScreenNames,
   Endpoints,
@@ -12,6 +13,13 @@ import {
   formatInstitutionUserRequestBody,
   formatConnectionRequest,
 } from '../util/RequestFormatter';
+import {
+  deletePersistedUser,
+  getPersistedConnectionsForUser,
+  getPersistedUsers,
+  persistConnection,
+  persistNewUser,
+} from '../util/PersistUtil';
 
 class DataStore {
   // store items from Gem API in maps with persistance
@@ -37,7 +45,7 @@ class DataStore {
 
   constructor() {
     this.getUsers();
-    this.getInstitutions();
+    // this.getInstitutions();
   }
 
   // All GET requests to the local node server
@@ -52,7 +60,9 @@ class DataStore {
     data.forEach((item) => itemMap.set(item.id, item));
   };
   @action getUsers = async () => {
-    return await this.getItems(Endpoints.USER, this.usersMap);
+    const users = getPersistedUsers();
+    users.forEach((user) => this.usersMap.set(user.id, user));
+    // return await this.getItems(Endpoints.USER, this.usersMap);
   };
   @action getProfiles = async () => {
     return await this.getItems(
@@ -67,10 +77,15 @@ class DataStore {
     );
   };
   @action getConnections = async () => {
-    return this.getItems(
-      `${Endpoints.CONNECTIONS}/${this.selectedUser.id}`,
-      this.connectionsMap
+    if (!this.selectedUser) return;
+    const connections = getPersistedConnectionsForUser(this.selectedUser.id);
+    connections.forEach((connection) =>
+      this.connectionsMap.set(connection.id, connection)
     );
+    // return this.getItems(
+    //   `${Endpoints.CONNECTIONS}/${this.selectedUser.id}`,
+    //   this.connectionsMap
+    // );
   };
   @action getAccounts = async (connectionId) => {
     return await this.getItems(
@@ -106,7 +121,10 @@ class DataStore {
     return data;
   };
   @action createUser = async (user) => {
-    this.createItem(Endpoints.USER, { user }, this.usersMap);
+    const mockUser = { ...user, id: `user_${Math.random()}` };
+    this.usersMap.set(mockUser.id, mockUser);
+    persistNewUser(mockUser);
+    // this.createItem(Endpoints.USER, { user }, this.usersMap);
   };
   @action createProfile = async (profileFormData) => {
     this.isPosting = true;
@@ -135,13 +153,15 @@ class DataStore {
       this.institutionUsersMap
     );
   };
-  @action createConnection = async (credentialId) => {
+  @action createConnection = async (connection) => {
     if (!this.selectedUser) return;
-    const connectionBody = formatConnectionRequest({
-      credentialId,
-      userId: this.selectedUser.id,
-    });
-    this.createItem(Endpoints.CONNECTIONS, connectionBody, this.connectionsMap);
+    this.connectionsMap.set(connection.id, connection);
+    persistConnection(this.selectedUser.id, connection);
+    // const connectionBody = formatConnectionRequest({
+    //   credentialId,
+    //   userId: this.selectedUser.id,
+    // });
+    // this.createItem(Endpoints.CONNECTIONS, connectionBody, this.connectionsMap);
   };
   @action createAccount = async (account) => {
     this.createItem(Endpoints.ACCOUNT, account, this.accountsMap);
@@ -191,7 +211,8 @@ class DataStore {
   // All DELETE requests to the local node server, * not yet supported Gem API endpoints
   @action removeUser = (id) => {
     this.usersMap.delete(id);
-    httpDelete(`${Endpoints.USER}/${id}`);
+    deletePersistedUser(id);
+    // httpDelete(`${Endpoints.USER}/${id}`);
   };
   @action removeProfile = (id) => {
     this.profilesMap.delete(id);
