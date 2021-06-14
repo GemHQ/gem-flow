@@ -26,9 +26,8 @@ class UIStore {
       console.log('coinbase-code:', coinbaseCode);
       this.currentScreen = ScreenNames.CONNECTION_COMPLETE;
     } else {
-      const persistedScreen = getPersistedScreen();
-      // if (persistedScreen) this.setCurrentScreen(persistedScreen);
-      this.setCurrentScreen(ScreenNames.CREDENTIALS);
+      const persistedScreen = getPersistedScreen() || ScreenNames.USER;
+      if (persistedScreen) this.setCurrentScreen(persistedScreen);
     }
   };
 
