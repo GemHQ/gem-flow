@@ -14,7 +14,7 @@ const NextScreenNamesByFlowId = () => ({
 });
 
 const UserScreen = ({ dataStore, uiStore }) => {
-  const nextScreen = NextScreenNamesByFlowId()[uiStore.flowId];
+  const nextScreen = ScreenNames.CREDENTIALS;
   return (
     <>
       <ErrorMessage />
@@ -25,26 +25,25 @@ const UserScreen = ({ dataStore, uiStore }) => {
         createItem={dataStore.createUser}
         withOpenForm={false}
       >
-      {
-        dataStore.users.map(user => (
-        <UserCard
-          user={user} 
-          key={user.id}
-          removeUser={() => dataStore.removeUser(user.id)}
-          onButtonClick={() => {
-            dataStore.selectUser(user.id, nextScreen);
-            uiStore.setCurrentScreen(nextScreen, { withOpenForm: true });
-          }}
-          onViewClick={() => {
-            dataStore.selectUser(user.id, nextScreen);
-            uiStore.setCurrentScreen(nextScreen, { withOpenForm: false });
-          }}
-          nextScreenName={nextScreen}
-        />))
-      }
+        {dataStore.users.map((user) => (
+          <UserCard
+            user={user}
+            key={user.id}
+            removeUser={() => dataStore.removeUser(user.id)}
+            onButtonClick={() => {
+              dataStore.selectUser(user.id, nextScreen);
+              uiStore.setCurrentScreen(nextScreen, { withOpenForm: true });
+            }}
+            onViewClick={() => {
+              dataStore.selectUser(user.id, nextScreen);
+              uiStore.setCurrentScreen(nextScreen, { withOpenForm: false });
+            }}
+            nextScreenName={nextScreen}
+          />
+        ))}
       </GenericScreen>
     </>
-  )
-}
+  );
+};
 
 export default withStores(UserScreen);

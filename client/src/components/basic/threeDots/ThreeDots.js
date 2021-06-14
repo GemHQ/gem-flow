@@ -5,24 +5,29 @@ const ThreeDots = ({ menuOptions }) => {
   const [showMenu, setShowMenu] = useState(false);
 
   return (
-    <div className="ThreeDotsContainer" onClick={() => {
-      // TODO: implement dots once delete endpoints are working
-      return;
-      setShowMenu(!showMenu)
-    }}>
+    <div
+      className="ThreeDotsContainer"
+      onClick={() => {
+        // TODO: implement dots once delete endpoints are working
+        // return;
+        setShowMenu(!showMenu);
+      }}
+    >
       <div className="OneDot" />
       <div className="OneDot" />
       <div className="OneDot" />
-      { showMenu && <ThreeDotsMenu options={menuOptions} /> }
+      {showMenu && <ThreeDotsMenu options={menuOptions} />}
     </div>
-  )
+  );
 };
 
 const ThreeDotsMenu = ({ options }) => (
   <div className="ThreeDotsMenu">
-    {
-      options.map(({ title, onClick }) => <p className="ThreeDotsOption" onClick={onClick} key={title}>{title}</p>)
-    }
+    {options.map(({ title, onClick }) => (
+      <p className="ThreeDotsOption" onClick={onClick} key={title}>
+        {title}
+      </p>
+    ))}
   </div>
 );
 
