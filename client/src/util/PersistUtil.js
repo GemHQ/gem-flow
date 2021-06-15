@@ -92,17 +92,17 @@ export const getPersistedConnectionsForUser = (userId) => {
   }
 };
 
-export const deletePersistedUser = (userId) => {
+export const deletePersistedUser = (userName) => {
   try {
-    console.log('deleting user', userId);
+    console.log('deleting user', userName);
     const usersJson = localStorage.getItem(USERS_STORAGE_KEY);
     console.log('usersJson', usersJson);
-    if (!usersJson) throw new Error(`No user of ID ${userId}`);
+    if (!usersJson) throw new Error(`No user of with username ${userName}`);
     let users = JSON.parse(usersJson);
     console.log('users', users);
     users = users.filter((userJson) => {
       const user = JSON.parse(userJson);
-      return user.id !== userId;
+      return user.id !== userName;
     });
     console.log('users', users);
     localStorage.setItem(USERS_STORAGE_KEY, users);
