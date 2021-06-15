@@ -13,8 +13,8 @@ const UserCard = ({
 }) => (
   <GenericCard
     titlesAndValues={[
-      { title: 'USER_ID', value: user.id },
-      { title: 'USER_EMAIL', value: user.email },
+      { title: 'USERNAME', value: user.userName },
+      // { title: 'USER_EMAIL', value: user.email },
       // { title: 'CREATED_AT', value: formatDate(user.created_at) },
     ]}
     buttonText={`Create ${nextScreenName}`}
