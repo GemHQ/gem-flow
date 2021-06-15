@@ -1,6 +1,5 @@
 import { observable, action, computed } from 'mobx';
 import { persist } from 'mobx-persist';
-import uuid from 'uuid';
 import {
   ScreenNames,
   Endpoints,
@@ -20,6 +19,7 @@ import {
   persistConnection,
   persistNewUser,
 } from '../util/PersistUtil';
+import { SERVER_URL, setupClient } from '../util/ClientUtil';
 
 class DataStore {
   // store items from Gem API in maps with persistance
@@ -43,10 +43,17 @@ class DataStore {
   @observable isPosting = false;
   @observable errorMessage = '';
 
+  client;
+
   constructor() {
     this.getUsers();
     // this.getInstitutions();
+    this.initClient();
   }
+
+  @action initClient = async () => {
+    this.client = await setupClient();
+  };
 
   // All GET requests to the local node server
   @action getItems = async (path, itemMap) => {
@@ -66,7 +73,7 @@ class DataStore {
   };
   @action getProfiles = async () => {
     return await this.getItems(
-      `${Endpoints.PROFILE}/${this.selectedUser.id}`,
+      `${Endpoints.PROFILE}/${this.selectedUser.userName}`,
       this.profilesMap
     );
   };
@@ -78,12 +85,14 @@ class DataStore {
   };
   @action getConnections = async () => {
     if (!this.selectedUser) return;
-    const connections = getPersistedConnectionsForUser(this.selectedUser.id);
+    const connections = getPersistedConnectionsForUser(
+      this.selectedUser.userName
+    );
     connections.forEach((connection) =>
       this.connectionsMap.set(connection.id, connection)
     );
     // return this.getItems(
-    //   `${Endpoints.CONNECTIONS}/${this.selectedUser.id}`,
+    //   `${Endpoints.CONNECTIONS}/${this.selectedUser.userName}`,
     //   this.connectionsMap
     // );
   };
@@ -120,16 +129,20 @@ class DataStore {
     itemMap && itemMap.set(data.id, data);
     return data;
   };
-  @action createUser = async (user) => {
-    const mockUser = { ...user, id: `user_${Math.random()}` };
-    this.usersMap.set(mockUser.id, mockUser);
-    persistNewUser(mockUser);
-    // this.createItem(Endpoints.USER, { user }, this.usersMap);
+  @action createUser = async ({ password }) => {
+    const { body } = await this.client.apis.Users.post_users(null, {
+      requestBody: { password },
+      server: SERVER_URL,
+    });
+    const user = { ...body.data, password };
+    console.log(user);
+    this.usersMap.set(user.userName, user);
+    persistNewUser(user);
   };
   @action createProfile = async (profileFormData) => {
     this.isPosting = true;
     const profile = formatProfileRequestBody(profileFormData);
-    const userId = this.selectedUser.id;
+    const userId = this.selectedUser.userName;
     const { data, status } = await httpPost(Endpoints.PROFILE, {
       userId,
       profile,
@@ -156,10 +169,10 @@ class DataStore {
   @action createConnection = async (connection) => {
     if (!this.selectedUser) return;
     this.connectionsMap.set(connection.id, connection);
-    persistConnection(this.selectedUser.id, connection);
+    persistConnection(this.selectedUser.userName, connection);
     // const connectionBody = formatConnectionRequest({
     //   credentialId,
-    //   userId: this.selectedUser.id,
+    //   userId: this.selectedUser.userName,
     // });
     // this.createItem(Endpoints.CONNECTIONS, connectionBody, this.connectionsMap);
   };
