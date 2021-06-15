@@ -14,7 +14,7 @@ const Button = ({
 }) => (
   <button
     className={`${className} ${marginRight ? 'ButtonRightMargin' : ''}`}
-    type={type || 'submit'}
+    type={type || 'button'}
     disabled={disabled}
     onClick={onClick}
     style={bkgColorWithShadow(primaryColor)}
