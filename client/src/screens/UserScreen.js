@@ -29,13 +29,13 @@ const UserScreen = ({ dataStore, uiStore }) => {
           <UserCard
             user={user}
             key={user.id}
-            removeUser={() => dataStore.removeUser(user.id)}
+            removeUser={() => dataStore.removeUser(user.userName)}
             onButtonClick={() => {
-              dataStore.selectUser(user.id, nextScreen);
+              dataStore.selectUser(user.userName, nextScreen);
               uiStore.setCurrentScreen(nextScreen, { withOpenForm: true });
             }}
             onViewClick={() => {
-              dataStore.selectUser(user.id, nextScreen);
+              dataStore.selectUser(user.userName, nextScreen);
               uiStore.setCurrentScreen(nextScreen, { withOpenForm: false });
             }}
             nextScreenName={nextScreen}

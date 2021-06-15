@@ -6,6 +6,7 @@
     "concurrently": "^4.1.2",
     "dateformat": "^3.0.3",
     "dotenv": "^8.2.0",
+    "generate-password": "^1.6.0",
     "hex-to-rgba": "^2.0.1",
     "isemail": "^3.2.0",
     "mobx": "^5.13.1",
@@ -19,7 +20,8 @@
     "react-scripts": "3.2.0",
     "react-tooltip": "^3.11.1",
     "semantic-ui-css": "^2.4.1",
-    "semantic-ui-react": "^0.88.1"
+    "semantic-ui-react": "^0.88.1",
+    "swagger-client": "^3.13.5"
   },
   "scripts": {
     "start": "react-app-rewired start",

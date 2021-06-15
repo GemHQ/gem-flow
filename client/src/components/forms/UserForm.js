@@ -1,36 +1,48 @@
 import React, { useState } from 'react';
+import generatePassword from 'generate-password';
 import TitleAndValue from '../basic/titleAndValue/TitleAndValue';
-import Input from '../basic/input/Input';
+import { PasswordInput } from '../basic/input/Input';
 import { ButtonWithCancel } from '../basic/button/Button';
 import { injector } from '../../stores/StoresUtil';
-import { validateEmail } from '../../util/FormUtil';
-const description = `Enter an email address for your new user (optional)`;
+const description = `Create a password for your new user`;
 
 export const UserForm = ({ onCancel, onSubmit, primaryColor, setError }) => {
-  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState(
+    generatePassword.generate({ length: 16 })
+  );
 
   return (
-    <form onSubmit={e => e.preventDefault()}>
-      <TitleAndValue title="Enter User's Email" value={description} />
-      <Input placeholder="User Email (Optional)" value={email} onChange={({ target }) => setEmail(target.value)} autoFocus />
+    <form onSubmit={(e) => e.preventDefault()}>
+      <TitleAndValue title="Enter Password" value={description} />
+      <PasswordInput
+        placeholder="Password"
+        value={password}
+        onChange={({ target }) => setPassword(target.value)}
+        onRegenerate={() =>
+          setPassword(generatePassword.generate({ length: 16 }))
+        }
+        autoFocus
+      />
       <ButtonWithCancel
         primaryColor={primaryColor}
-        onCancel={onCancel} 
+        onCancel={onCancel}
         onClick={() => {
-          if (!email || validateEmail(email)) {
-            onSubmit({ email });
+          if (password.length > 12) {
+            onSubmit({ password });
           } else {
-            setError('Not a valid email')
+            setError('Password must be more than 12 characters long.');
           }
         }}
-      >Save User</ButtonWithCancel>
+      >
+        Save User
+      </ButtonWithCancel>
     </form>
-  )
-}
+  );
+};
 
 const mapStoresToProps = ({ dataStore, uiStore }) => ({
   setError: dataStore.setError,
-  primaryColor: uiStore.primaryColor
-})
+  primaryColor: uiStore.primaryColor,
+});
 
 export default injector(mapStoresToProps)(UserForm);

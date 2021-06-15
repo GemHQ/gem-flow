@@ -17,9 +17,10 @@ input {
   border: none;
 }
 input::placeholder {
-  color: #C0C0C0;
+  color: #c0c0c0;
 }
-input:focus, input:active {
+input:focus,
+input:active {
   outline: 0;
   border: none;
 }
@@ -29,7 +30,7 @@ input:focus, input:active {
   top: 8px;
   left: 12px;
   font-size: 10px;
-  color: #C0C0C0;
+  color: #c0c0c0;
 }
 
 .TipInput {
@@ -41,7 +42,7 @@ input:focus, input:active {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 36px;
+  /* width: 36px; */
   height: 100%;
   top: 0;
   right: 0;
