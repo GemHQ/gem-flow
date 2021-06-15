@@ -53,7 +53,7 @@ class ProgressMap extends Component {
     return {
       [ScreenNames.USER]: this.determineSubtitle(
         'User',
-        'id',
+        'userName',
         dataStore.selectedUser,
         dataStore.usersMap.size,
         'Create a new user'
