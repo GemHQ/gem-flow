@@ -157,16 +157,13 @@ class DataStore {
       throw e;
     }
   };
-  getSdkUri = async () => {
+  getSdkUri = async ({ exchangeId }) => {
     try {
-      const response = await this.client.apis.Exchanges.get_authorization_uri(
-        null,
-        {
-          parameters: CoinbaseOAuthParams,
-          server: SERVER_URL,
-        }
-      );
-      console.log('coinbase auth uri', response);
+      const response = await this.client.apis.Users.get_users_sdk_uri(null, {
+        parameters: { exchangeId },
+        server: SERVER_URL,
+      });
+      console.log('sdk uri', response);
       return response;
     } catch (e) {
       console.error(e);

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import queryString from 'query-string';
 import { ClearableInput } from '../../components/basic/input/Input';
 import ExchangeList from './ExchangeList';
 import './credentials.scss';
@@ -34,6 +35,7 @@ const CredentialsScreen = ({ dataStore }) => {
   );
   const [exchangeSearchValue, setExchangeSearchValue] = useState('');
   const [exchanges, setExchanges] = useState([]);
+  const [sdkUri, setSdkUri] = useState();
 
   const loadExchanges = async () => {
     let isLoading = false;
@@ -124,9 +126,18 @@ const CredentialsScreen = ({ dataStore }) => {
                   );
                 } catch (e) {}
               } else {
-                setSelectedExchange(exchange);
-
-                setCurrentScreenState(ScreenStates.ENTER_CREDENTIALS);
+                try {
+                  const { body } = await dataStore.getSdkUri({
+                    exchangeId: exchange.id,
+                  });
+                  const sdkUri = queryString.extract(body.data.sdkUri);
+                  setSdkUri(sdkUri);
+                  console.log('sdy uri', sdkUri);
+                  setSelectedExchange(exchange);
+                  setCurrentScreenState(ScreenStates.ENTER_CREDENTIALS);
+                } catch (e) {
+                  console.error(e);
+                }
               }
             }}
           />
