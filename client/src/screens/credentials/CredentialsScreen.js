@@ -4,7 +4,11 @@ import { ClearableInput } from '../../components/basic/input/Input';
 import ExchangeList from './ExchangeList';
 import './credentials.scss';
 import Button from '../../components/basic/button/Button';
-import { sendContinueMessage, sendCloseMessage } from '../../util/MessageUtil';
+import {
+  sendContinueMessage,
+  sendCloseMessage,
+  setMessageSharedData,
+} from '../../util/MessageUtil';
 import { withFlowStore } from '../../stores/StoresUtil';
 
 const ScreenStates = {
@@ -61,6 +65,7 @@ const CredentialsScreen = ({ dataStore }) => {
       setIframeHeight(data.height);
       if (data.eventType === 'form-ready') {
         console.log('[Gem Flow] form-ready received', data);
+        setMessageSharedData(data);
       }
       if (data.eventType === 'connection-error') {
         console.log('[Gem Flow] connection-error received', data);
@@ -122,7 +127,7 @@ const CredentialsScreen = ({ dataStore }) => {
                   console.log('authorizationUri', body.authorizationUri);
                   setTimeout(
                     () => (window.location = body.authorizationUri),
-                    1500
+                    1000
                   );
                 } catch (e) {}
               } else {
@@ -146,7 +151,10 @@ const CredentialsScreen = ({ dataStore }) => {
         <>
           <ExchangeHeader exchange={selectedExchange} />
           <div id="iframe-container">
-            <iframe src="http://localhost:8080" id="inuit-connect" />
+            <iframe
+              src={`http://localhost:8080?${sdkUri}`}
+              id="inuit-connect"
+            />
           </div>
           <div className="divider" />
           <div className="buttons-container">
