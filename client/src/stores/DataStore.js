@@ -54,9 +54,8 @@ class DataStore {
   }
 
   @action init = async () => {
-    this.getUsers();
     this.client = await setupClient();
-    this.getInstitutions();
+    this.getUsers();
   };
 
   // All GET requests to the local node server
@@ -73,6 +72,18 @@ class DataStore {
   @action getUsers = async () => {
     const users = getPersistedUsers();
     users.forEach((user) => this.usersMap.set(user.id, user));
+    console.log('this.selectedUser', this.selectedUser);
+    setTimeout(() => {
+      console.log('this.selectedUser', this.selectedUser);
+      if (this.selectedUser) {
+        this.client.authorizations.BasicAuth = {
+          username: this.selectedUser.userName,
+          password: this.selectedUser.password,
+        };
+      }
+      console.log(this.client);
+    }, 100);
+
     // return await this.getItems(Endpoints.USER, this.usersMap);
   };
   @action getProfiles = async () => {
@@ -113,10 +124,16 @@ class DataStore {
     );
   };
   @action getInstitutions = async () => {
-    const response = await this.client.apis.Exchanges.get_exchanges(null, {
-      server: SERVER_URL,
-    });
-    console.log('exchanges', response);
+    try {
+      const response = await this.client.apis.Exchanges.get_exchanges(null, {
+        server: SERVER_URL,
+      });
+      console.log('exchanges', response);
+      return response;
+    } catch (e) {
+      console.error(e);
+      throw e;
+    }
     // if (status >= 400) return;
     // data.forEach((institution) =>
     //   this.institutionMap.set(institution.id, {
@@ -208,14 +225,14 @@ class DataStore {
 
   // item selector methods with flow store cleanup management
   @action selectUser = (userName, nextScreen) => {
-    this.selectedUser = this.usersMap.get(userName);
+    const user = this.usersMap.get(userName);
+    this.selectedUser = user;
     // this.clearProfiles();
     // this.clearInstitutionUsers();
     this.clearConnections();
     this.clearAccounts();
     // if (nextScreen === ScreenNames.PROFILE) this.getProfiles();
     // if (nextScreen === ScreenNames.CONNECTION) this.getConnections();
-    const user = this.usersMap.get(userName);
     this.client.authorizations.BasicAuth = {
       username: userName,
       password: user.password,

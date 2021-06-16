@@ -11,6 +11,7 @@ const ScreenStates = {
   ENTER_CREDENTIALS: 'enter-credentials',
   ERROR: 'error',
   TRANSFERRING: 'transferring',
+  LOADING_EXCHANGES: 'loading-exchanges',
 };
 
 const Titles = {
@@ -18,6 +19,7 @@ const Titles = {
   [ScreenStates.ENTER_CREDENTIALS]: `Enter credentials`,
   [ScreenStates.ERROR]: `Let's try again`,
   [ScreenStates.TRANSFERRING]: `Transferring you to Coinbase`,
+  [ScreenStates.LOADING_EXCHANGES]: `Loading Exchanges...`,
 };
 
 const setIframeHeight = (height) => {
@@ -28,11 +30,27 @@ const setIframeHeight = (height) => {
 const CredentialsScreen = ({ dataStore }) => {
   const [selectedExchange, setSelectedExchange] = useState(null);
   const [currentScreenState, setCurrentScreenState] = useState(
-    ScreenStates.DEFAULT
+    ScreenStates.LOADING_EXCHANGES
   );
   const [exchangeSearchValue, setExchangeSearchValue] = useState('');
+  const [exchanges, setExchanges] = useState([]);
+
+  const loadExchanges = async () => {
+    try {
+      const interval = setInterval(async () => {
+        if (dataStore.client) {
+          const { body } = await dataStore.getInstitutions();
+          console.log('exchanges', body);
+          setExchanges(body.data);
+          setTimeout(() => setCurrentScreenState(ScreenStates.DEFAULT), 0);
+          clearInterval(interval);
+        }
+      }, 100);
+    } catch (e) {}
+  };
 
   useEffect(() => {
+    loadExchanges();
     window.addEventListener('message', (event) => {
       if (event.origin !== 'http://localhost:8080') return;
       const data = JSON.parse(event.data);
@@ -46,6 +64,16 @@ const CredentialsScreen = ({ dataStore }) => {
       }
     });
   }, []);
+
+  if (currentScreenState === ScreenStates.LOADING_EXCHANGES) {
+    return (
+      <div className="screen-container no-border">
+        <div className="center">
+          <h1>{Titles[currentScreenState]}</h1>
+        </div>
+      </div>
+    );
+  }
 
   if (currentScreenState === ScreenStates.TRANSFERRING) {
     return (
@@ -79,6 +107,7 @@ const CredentialsScreen = ({ dataStore }) => {
             onClear={() => setExchangeSearchValue('')}
           />
           <ExchangeList
+            exchanges={exchanges}
             query={exchangeSearchValue}
             onSelect={async (exchange) => {
               if (exchange.id === 'coinbase') {

@@ -1,37 +1,37 @@
 import React from 'react';
 
-const exchanges = [
-  {
-    id: 'bittrex',
-    name: 'Bittrex',
-    website: 'bittrex.com',
-    phone: '(333) 333-3333',
-    logo: `https://gem-widgets-assets.s3-us-west-2.amazonaws.com/institutions/icons/color/bittrex_color_logo%402x.png`,
-  },
-  {
-    id: 'coinbase',
-    name: 'Coinbase',
-    website: 'coinbase.com',
-    phone: '(333) 333-3333',
-    logo: `https://gem-widgets-assets.s3-us-west-2.amazonaws.com/institutions/icons/color/coinbase_color_logo%402x.png`,
-  },
-  {
-    id: 'gate-io',
-    name: 'Gate.io',
-    website: 'gate.io',
-    phone: '(333) 333-3333',
-    logo: `https://gem-widgets-assets.s3-us-west-2.amazonaws.com/institutions/icons/color/gate-io_color_logo%402x.png`,
-  },
-  {
-    id: 'kraken',
-    name: 'Kraken',
-    website: 'kraken.com',
-    phone: '(333) 333-3333',
-    logo: `https://gem-widgets-assets.s3-us-west-2.amazonaws.com/institutions/icons/color/kraken_color_logo%402x.png`,
-  },
-];
+// const exchanges = [
+//   {
+//     id: 'bittrex',
+//     name: 'Bittrex',
+//     website: 'bittrex.com',
+//     phone: '(333) 333-3333',
+//     logo: `https://gem-widgets-assets.s3-us-west-2.amazonaws.com/institutions/icons/color/bittrex_color_logo%402x.png`,
+//   },
+//   {
+//     id: 'coinbase',
+//     name: 'Coinbase',
+//     website: 'coinbase.com',
+//     phone: '(333) 333-3333',
+//     logo: `https://gem-widgets-assets.s3-us-west-2.amazonaws.com/institutions/icons/color/coinbase_color_logo%402x.png`,
+//   },
+//   {
+//     id: 'gate-io',
+//     name: 'Gate.io',
+//     website: 'gate.io',
+//     phone: '(333) 333-3333',
+//     logo: `https://gem-widgets-assets.s3-us-west-2.amazonaws.com/institutions/icons/color/gate-io_color_logo%402x.png`,
+//   },
+//   {
+//     id: 'kraken',
+//     name: 'Kraken',
+//     website: 'kraken.com',
+//     phone: '(333) 333-3333',
+//     logo: `https://gem-widgets-assets.s3-us-west-2.amazonaws.com/institutions/icons/color/kraken_color_logo%402x.png`,
+//   },
+// ];
 
-const ExchangeList = ({ query, onSelect }) => {
+const ExchangeList = ({ query, onSelect, exchanges }) => {
   const filteredExchanges = exchanges.filter((exchange) =>
     exchange.name.toLowerCase().includes(query)
   );
