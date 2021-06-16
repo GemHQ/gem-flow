@@ -11,7 +11,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  cursor: pointer;
 }
 
 .TitleBox p {
@@ -19,7 +18,7 @@
 }
 
 .RectangleSubtitle {
-  color: #8E8E8E;
+  color: #8e8e8e;
   padding-top: 8px;
   font-size: 12px;
 }
