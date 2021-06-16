@@ -36,17 +36,19 @@ const CredentialsScreen = ({ dataStore }) => {
   const [exchanges, setExchanges] = useState([]);
 
   const loadExchanges = async () => {
-    try {
-      const interval = setInterval(async () => {
-        if (dataStore.client) {
+    let isLoading = false;
+    const interval = setInterval(async () => {
+      try {
+        if (dataStore.client && !isLoading) {
+          isLoading = true;
           const { body } = await dataStore.getInstitutions();
           console.log('exchanges', body);
           setExchanges(body.data);
           setTimeout(() => setCurrentScreenState(ScreenStates.DEFAULT), 0);
           clearInterval(interval);
         }
-      }, 100);
-    } catch (e) {}
+      } catch (e) {}
+    }, 1000);
   };
 
   useEffect(() => {
@@ -121,10 +123,11 @@ const CredentialsScreen = ({ dataStore }) => {
                     1500
                   );
                 } catch (e) {}
-                return;
+              } else {
+                setSelectedExchange(exchange);
+
+                setCurrentScreenState(ScreenStates.ENTER_CREDENTIALS);
               }
-              setSelectedExchange(exchange);
-              setCurrentScreenState(ScreenStates.ENTER_CREDENTIALS);
             }}
           />
         </>

@@ -128,7 +128,6 @@ class DataStore {
       const response = await this.client.apis.Exchanges.get_exchanges(null, {
         server: SERVER_URL,
       });
-      console.log('exchanges', response);
       return response;
     } catch (e) {
       console.error(e);
@@ -143,6 +142,22 @@ class DataStore {
     // );
   };
   getCoinbaseAuthorizationURI = async () => {
+    try {
+      const response = await this.client.apis.Exchanges.get_authorization_uri(
+        null,
+        {
+          parameters: CoinbaseOAuthParams,
+          server: SERVER_URL,
+        }
+      );
+      console.log('coinbase auth uri', response);
+      return response;
+    } catch (e) {
+      console.error(e);
+      throw e;
+    }
+  };
+  getSdkUri = async () => {
     try {
       const response = await this.client.apis.Exchanges.get_authorization_uri(
         null,
