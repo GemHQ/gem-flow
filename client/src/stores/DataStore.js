@@ -19,7 +19,11 @@ import {
   persistConnection,
   persistNewUser,
 } from '../util/PersistUtil';
-import { SERVER_URL, setupClient } from '../util/ClientUtil';
+import {
+  CoinbaseOAuthParams,
+  SERVER_URL,
+  setupClient,
+} from '../util/ClientUtil';
 
 class DataStore {
   // store items from Gem API in maps with persistance
@@ -46,13 +50,13 @@ class DataStore {
   client;
 
   constructor() {
-    this.getUsers();
-    // this.getInstitutions();
-    this.initClient();
+    this.init();
   }
 
-  @action initClient = async () => {
+  @action init = async () => {
+    this.getUsers();
     this.client = await setupClient();
+    this.getInstitutions();
   };
 
   // All GET requests to the local node server
@@ -109,14 +113,33 @@ class DataStore {
     );
   };
   @action getInstitutions = async () => {
-    const { data, status } = await httpGet(Endpoints.INSTITUTION);
-    if (status >= 400) return;
-    data.forEach((institution) =>
-      this.institutionMap.set(institution.id, {
-        ...institution,
-        icon: InstitutionIcons[institution.id],
-      })
-    );
+    const response = await this.client.apis.Exchanges.get_exchanges(null, {
+      server: SERVER_URL,
+    });
+    console.log('exchanges', response);
+    // if (status >= 400) return;
+    // data.forEach((institution) =>
+    //   this.institutionMap.set(institution.id, {
+    //     ...institution,
+    //     icon: InstitutionIcons[institution.id],
+    //   })
+    // );
+  };
+  getCoinbaseAuthorizationURI = async () => {
+    try {
+      const response = await this.client.apis.Exchanges.get_authorization_uri(
+        null,
+        {
+          parameters: CoinbaseOAuthParams,
+          server: SERVER_URL,
+        }
+      );
+      console.log('coinbase auth uri', response);
+      return response;
+    } catch (e) {
+      console.error(e);
+      throw e;
+    }
   };
 
   // All POST requests to the local node server
@@ -184,14 +207,19 @@ class DataStore {
   };
 
   // item selector methods with flow store cleanup management
-  @action selectUser = (id, nextScreen) => {
-    this.selectedUser = this.usersMap.get(id);
-    this.clearProfiles();
-    this.clearInstitutionUsers();
+  @action selectUser = (userName, nextScreen) => {
+    this.selectedUser = this.usersMap.get(userName);
+    // this.clearProfiles();
+    // this.clearInstitutionUsers();
     this.clearConnections();
     this.clearAccounts();
-    if (nextScreen === ScreenNames.PROFILE) this.getProfiles();
-    if (nextScreen === ScreenNames.CONNECTION) this.getConnections();
+    // if (nextScreen === ScreenNames.PROFILE) this.getProfiles();
+    // if (nextScreen === ScreenNames.CONNECTION) this.getConnections();
+    const user = this.usersMap.get(userName);
+    this.client.authorizations.BasicAuth = {
+      username: userName,
+      password: user.password,
+    };
   };
   @action selectProfile = (id) => {
     if (this.selectedProfile && id === this.selectedProfile.id) return;

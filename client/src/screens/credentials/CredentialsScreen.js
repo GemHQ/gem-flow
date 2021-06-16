@@ -4,6 +4,7 @@ import ExchangeList from './ExchangeList';
 import './credentials.scss';
 import Button from '../../components/basic/button/Button';
 import { sendContinueMessage, sendCloseMessage } from '../../util/MessageUtil';
+import { withFlowStore } from '../../stores/StoresUtil';
 
 const ScreenStates = {
   DEFAULT: 'default',
@@ -24,7 +25,7 @@ const setIframeHeight = (height) => {
   container.style.height = height;
 };
 
-const CredentialsScreen = () => {
+const CredentialsScreen = ({ dataStore }) => {
   const [selectedExchange, setSelectedExchange] = useState(null);
   const [currentScreenState, setCurrentScreenState] = useState(
     ScreenStates.DEFAULT
@@ -79,13 +80,19 @@ const CredentialsScreen = () => {
           />
           <ExchangeList
             query={exchangeSearchValue}
-            onSelect={(exchange) => {
+            onSelect={async (exchange) => {
               if (exchange.id === 'coinbase') {
-                setTimeout(
-                  () => (window.location = `https://coinbase.com`),
-                  1500
-                );
-                return setCurrentScreenState(ScreenStates.TRANSFERRING);
+                try {
+                  setCurrentScreenState(ScreenStates.TRANSFERRING);
+                  const { body } =
+                    await dataStore.getCoinbaseAuthorizationURI();
+                  console.log('authorizationUri', body.authorizationUri);
+                  setTimeout(
+                    () => (window.location = body.authorizationUri),
+                    1500
+                  );
+                } catch (e) {}
+                return;
               }
               setSelectedExchange(exchange);
               setCurrentScreenState(ScreenStates.ENTER_CREDENTIALS);
@@ -132,4 +139,4 @@ const ExchangeHeader = ({ exchange }) => {
   );
 };
 
-export default CredentialsScreen;
+export default withFlowStore(CredentialsScreen);
