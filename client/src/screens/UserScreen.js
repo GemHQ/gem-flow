@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import UserForm from '../components/forms/UserForm';
 import UserCard from '../components/cards/UserCard';
 import GenericScreen from './GenericScreen';
@@ -14,15 +14,21 @@ const NextScreenNamesByFlowId = () => ({
 });
 
 const UserScreen = ({ dataStore, uiStore }) => {
+  const [creatingUser, setCreatingUser] = useState(false);
   const nextScreen = ScreenNames.CREDENTIALS;
   return (
     <>
       <ErrorMessage />
+      {creatingUser && <p>Creating user...</p>}
       <GenericScreen
         ItemForm={UserForm}
         numberOfItems={dataStore.users.length}
         itemTitle="User"
-        createItem={dataStore.createUser}
+        createItem={async (user) => {
+          setCreatingUser(true);
+          await dataStore.createUser(user);
+          setCreatingUser(false);
+        }}
         withOpenForm={false}
       >
         {dataStore.users.map((user) => (
