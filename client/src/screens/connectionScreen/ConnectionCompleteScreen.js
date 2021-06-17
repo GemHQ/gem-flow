@@ -1,11 +1,34 @@
 import React, { useEffect } from 'react';
 import CheckCircle from '../../assets/check_circle.svg';
 import { ScreenNames } from '../../stores/Constants';
-import { withUiStore } from '../../stores/StoresUtil';
+import { withStores, withUiStore } from '../../stores/StoresUtil';
 
-const ConnectionCompleteScreen = ({ uiStore }) => {
+const ConnectionCompleteScreen = ({ uiStore, dataStore }) => {
+  // const [isPosting, setIsPosting] = useState(false);
+  const createCredentialWithCode = async () => {
+    const interval = setInterval(async () => {
+      try {
+        if (dataStore.client) {
+          let params = new URL(document.location).searchParams;
+          let coinbaseCode = params.get('code');
+          console.log('coinbase code:', coinbaseCode);
+          await dataStore.createCredentialWithOAuthCode(coinbaseCode);
+          setTimeout(() => uiStore.setCurrentScreen(ScreenNames.ACCOUNT), 0);
+          clearInterval(interval);
+        }
+      } catch (e) {}
+    }, 1000);
+
+    // try {
+    //   let params = new URL(document.location).searchParams;
+    //   let coinbaseCode = params.get('code');
+    //   console.log('coinbase code:', coinbaseCode);
+    //   await dataStore.createCredentialWithOAuthCode(coinbaseCode);
+    //   setTimeout(() => uiStore.setCurrentScreen(ScreenNames.ACCOUNT), 0);
+    // } catch (e) {}
+  };
   useEffect(() => {
-    setTimeout(() => uiStore.setCurrentScreen(ScreenNames.HISTORY), 2000);
+    createCredentialWithCode();
   }, []);
   return (
     <div className="screen-container no-border">
@@ -17,4 +40,4 @@ const ConnectionCompleteScreen = ({ uiStore }) => {
   );
 };
 
-export default withUiStore(ConnectionCompleteScreen);
+export default withStores(ConnectionCompleteScreen);
