@@ -9,7 +9,11 @@ import {
   sendCloseMessage,
   setMessageSharedData,
 } from '../../util/MessageUtil';
-import { withFlowStore } from '../../stores/StoresUtil';
+import { withFlowStore, withStores } from '../../stores/StoresUtil';
+import { ScreenNames } from '../../stores/Constants';
+import { toJS } from 'mobx';
+import ConnectionCard from '../../components/cards/ConnectionCard';
+import { connection } from '../../stories/3-Cards.stories';
 
 const ScreenStates = {
   DEFAULT: 'default',
@@ -20,7 +24,7 @@ const ScreenStates = {
 };
 
 const Titles = {
-  [ScreenStates.DEFAULT]: `Let's Get a picture of your profits`,
+  [ScreenStates.DEFAULT]: `Let's get a picture of your profits`,
   [ScreenStates.ENTER_CREDENTIALS]: `Enter credentials`,
   [ScreenStates.ERROR]: `Let's try again`,
   [ScreenStates.TRANSFERRING]: `Transferring you to Coinbase`,
@@ -29,10 +33,10 @@ const Titles = {
 
 const setIframeHeight = (height) => {
   const container = document.getElementById('iframe-container');
-  container.style.height = height;
+  if (container) container.style.height = height;
 };
 
-const CredentialsScreen = ({ dataStore }) => {
+const CredentialsScreen = ({ dataStore, uiStore }) => {
   const [selectedExchange, setSelectedExchange] = useState(null);
   const [currentScreenState, setCurrentScreenState] = useState(
     ScreenStates.LOADING_EXCHANGES
@@ -47,6 +51,7 @@ const CredentialsScreen = ({ dataStore }) => {
       try {
         if (dataStore.client && !isLoading) {
           isLoading = true;
+          dataStore.getCredentials();
           const { body } = await dataStore.getInstitutions();
           console.log('exchanges', body);
           setExchanges(body.data);
@@ -59,6 +64,7 @@ const CredentialsScreen = ({ dataStore }) => {
 
   useEffect(() => {
     loadExchanges();
+
     window.addEventListener('message', (event) => {
       if (event.origin !== 'http://localhost:8080') return;
       const data = JSON.parse(event.data);
@@ -71,6 +77,17 @@ const CredentialsScreen = ({ dataStore }) => {
         console.log('[Gem Flow] connection-error received', data);
         setCurrentScreenState(ScreenStates.ERROR);
       }
+      if (data.eventType === 'connection-success') {
+        console.log('[Gem Flow] connection-success received', data);
+        dataStore.selectCredential({
+          exchangeId: data.exchangeId,
+          proxyToken: data.code,
+        });
+        console.log('[GemFlow] credential', toJS(dataStore.selectedCredential));
+        dataStore.getAccounts();
+        uiStore.setCurrentScreen(ScreenNames.ACCOUNT);
+      }
+      // return window.removeEventListener('message');
     });
   }, []);
 
@@ -103,76 +120,94 @@ const CredentialsScreen = ({ dataStore }) => {
   }
 
   return (
-    <div className="screen-container">
-      <h1>{Titles[currentScreenState]}</h1>
+    <>
+      <div className="screen-container">
+        <h1>{Titles[currentScreenState]}</h1>
 
-      {currentScreenState === ScreenStates.DEFAULT ? (
-        <>
-          <h4>Connect your exchange account to bring in your transactions.</h4>
-          <ClearableInput
-            placeholder="Search Exchanges"
-            value={exchangeSearchValue}
-            onChange={(e) => setExchangeSearchValue(e.target.value)}
-            onClear={() => setExchangeSearchValue('')}
-          />
-          <ExchangeList
-            exchanges={exchanges}
-            query={exchangeSearchValue}
-            onSelect={async (exchange) => {
-              if (exchange.id === 'coinbase') {
-                try {
-                  setCurrentScreenState(ScreenStates.TRANSFERRING);
-                  const { body } =
-                    await dataStore.getCoinbaseAuthorizationURI();
-                  console.log('authorizationUri', body.authorizationUri);
-                  setTimeout(
-                    () => (window.location = body.authorizationUri),
-                    1000
-                  );
-                } catch (e) {}
-              } else {
-                try {
-                  const { body } = await dataStore.getSdkUri({
-                    exchangeId: exchange.id,
-                  });
-                  const sdkUri = queryString.extract(body.data.sdkUri);
-                  setSdkUri(sdkUri);
-                  console.log('sdy uri', sdkUri);
-                  setSelectedExchange(exchange);
-                  setCurrentScreenState(ScreenStates.ENTER_CREDENTIALS);
-                } catch (e) {
-                  console.error(e);
-                }
-              }
-            }}
-          />
-        </>
-      ) : (
-        <>
-          <ExchangeHeader exchange={selectedExchange} />
-          <div id="iframe-container">
-            <iframe
-              src={`http://localhost:8080?${sdkUri}`}
-              id="inuit-connect"
+        {currentScreenState === ScreenStates.DEFAULT ? (
+          <>
+            <h4>
+              Connect your exchange account to bring in your transactions.
+            </h4>
+            <ClearableInput
+              placeholder="Search Exchanges"
+              value={exchangeSearchValue}
+              onChange={(e) => setExchangeSearchValue(e.target.value)}
+              onClear={() => setExchangeSearchValue('')}
             />
-          </div>
-          <div className="divider" />
-          <div className="buttons-container">
-            <Button
-              className="bordered"
-              onClick={() => {
-                sendCloseMessage();
-                setCurrentScreenState(ScreenStates.DEFAULT);
-                setSelectedExchange(null);
+            <ExchangeList
+              exchanges={exchanges}
+              query={exchangeSearchValue}
+              onSelect={async (exchange) => {
+                if (exchange.id === 'coinbase') {
+                  try {
+                    setCurrentScreenState(ScreenStates.TRANSFERRING);
+                    const { body } =
+                      await dataStore.getCoinbaseAuthorizationURI();
+                    console.log('authorizationUri', body.authorizationUri);
+                    setTimeout(
+                      () => (window.location = body.authorizationUri),
+                      1000
+                    );
+                  } catch (e) {}
+                } else {
+                  try {
+                    const { body } = await dataStore.getSdkUri({
+                      exchangeId: exchange.id,
+                    });
+                    const sdkUri = queryString.extract(body.data.sdkUri);
+                    setSdkUri(sdkUri);
+                    console.log('sdy uri', sdkUri);
+                    setSelectedExchange(exchange);
+                    setCurrentScreenState(ScreenStates.ENTER_CREDENTIALS);
+                  } catch (e) {
+                    console.error(e);
+                  }
+                }
               }}
-            >
-              Back
-            </Button>
-            <Button onClick={sendContinueMessage}>Continue</Button>
-          </div>
-        </>
-      )}
-    </div>
+            />
+          </>
+        ) : (
+          <>
+            <ExchangeHeader exchange={selectedExchange} />
+            <div id="iframe-container">
+              <iframe
+                src={`http://localhost:8080?${sdkUri}`}
+                id="inuit-connect"
+              />
+            </div>
+            <div className="divider" />
+            <div className="buttons-container">
+              <Button
+                className="bordered"
+                onClick={() => {
+                  sendCloseMessage();
+                  setCurrentScreenState(ScreenStates.DEFAULT);
+                  setSelectedExchange(null);
+                }}
+              >
+                Back
+              </Button>
+              <Button onClick={sendContinueMessage}>Continue</Button>
+            </div>
+          </>
+        )}
+      </div>
+      {dataStore.credentials.map((credential) => (
+        <ConnectionCard
+          key={credential.proxyToken}
+          connection={credential}
+          onButtonClick={() => {
+            dataStore.selectCredential({
+              exchangeId: connection.exchangeId,
+              proxyToken: connection.proxyToken,
+            });
+            dataStore.getAccounts();
+            uiStore.setCurrentScreen(ScreenNames.ACCOUNT);
+          }}
+        />
+      ))}
+    </>
   );
 };
 
@@ -190,4 +225,4 @@ const ExchangeHeader = ({ exchange }) => {
   );
 };
 
-export default withFlowStore(CredentialsScreen);
+export default withStores(CredentialsScreen);
