@@ -29,6 +29,7 @@ class ProgressMap extends Component {
         return [
           [ScreenNames.USER, Boolean(dataStore.selectedUser)],
           [ScreenNames.CONNECTION, Boolean(dataStore.selectedConnection)],
+          [ScreenNames.ACCOUNT, Boolean(dataStore.selectedAccount)],
           [ScreenNames.HISTORY, Boolean(0)],
         ];
     }
