@@ -34,6 +34,7 @@ class DataStore {
   @persist('map') @observable accountsMap = new Map();
   @persist('map') @observable transactionsMap = new Map();
   @persist('map') @observable institutionMap = new Map();
+  @persist('map') @observable credentialMap = new Map();
 
   // store items selected by user
   @persist('object') @observable selectedUser = null;
@@ -41,12 +42,12 @@ class DataStore {
   @persist('object') @observable selectedInstitutionUser = null;
   @persist('object') @observable selectedConnection = null;
   @persist('object') @observable selectedAccount = null;
+  @persist('object') @observable selectedCredential = null;
 
   // variables for ui messaging
   @observable isFetching = false;
   @observable isPosting = false;
   @observable errorMessage = '';
-
   client;
 
   constructor() {
@@ -71,7 +72,8 @@ class DataStore {
   };
   @action getUsers = async () => {
     const users = getPersistedUsers();
-    users.forEach((user) => this.usersMap.set(user.id, user));
+    this.usersMap = new Map();
+    users.forEach((user) => this.usersMap.set(user.userName, user));
     console.log('this.selectedUser', this.selectedUser);
     setTimeout(() => {
       console.log('this.selectedUser', this.selectedUser);
@@ -112,10 +114,21 @@ class DataStore {
     // );
   };
   @action getAccounts = async (connectionId) => {
-    return await this.getItems(
-      `${Endpoints.ACCOUNT}/list/${connectionId}`,
-      this.accountsMap
-    );
+    // return await this.getItems(
+    //   `${Endpoints.ACCOUNT}/list/${connectionId}`,
+    //   this.accountsMap
+    // );
+    try {
+      const response = await this.client.apis.Accounts.get_accounts(null, {
+        server: SERVER_URL,
+        parameters: { proxyToken: this.selectedCredential.proxyToken },
+      });
+      console.log('accounts', response.data);
+      return response;
+    } catch (e) {
+      console.error(e);
+      throw e;
+    }
   };
   @action getTransactions = async () => {
     return await this.getItems(
@@ -124,6 +137,40 @@ class DataStore {
     );
   };
   @action getInstitutions = async () => {
+    // return {
+    //   body: {
+    //     data: [
+    //       {
+    //         id: 'bittrex',
+    //         name: 'Bittrex',
+    //         website: 'bittrex.com',
+    //         phone: '(333) 333-3333',
+    //         logo: `https://gem-widgets-assets.s3-us-west-2.amazonaws.com/institutions/icons/color/bittrex_color_logo%402x.png`,
+    //       },
+    //       {
+    //         id: 'coinbase',
+    //         name: 'Coinbase',
+    //         website: 'coinbase.com',
+    //         phone: '(333) 333-3333',
+    //         logo: `https://gem-widgets-assets.s3-us-west-2.amazonaws.com/institutions/icons/color/coinbase_color_logo%402x.png`,
+    //       },
+    //       {
+    //         id: 'gate-io',
+    //         name: 'Gate.io',
+    //         website: 'gate.io',
+    //         phone: '(333) 333-3333',
+    //         logo: `https://gem-widgets-assets.s3-us-west-2.amazonaws.com/institutions/icons/color/gate-io_color_logo%402x.png`,
+    //       },
+    //       {
+    //         id: 'kraken',
+    //         name: 'Kraken',
+    //         website: 'kraken.com',
+    //         phone: '(333) 333-3333',
+    //         logo: `https://gem-widgets-assets.s3-us-west-2.amazonaws.com/institutions/icons/color/kraken_color_logo%402x.png`,
+    //       },
+    //     ],
+    //   },
+    // };
     try {
       const response = await this.client.apis.Exchanges.get_exchanges(null, {
         server: SERVER_URL,
@@ -165,6 +212,23 @@ class DataStore {
       });
       console.log('sdk uri', response);
       return response;
+    } catch (e) {
+      console.error(e);
+      throw e;
+    }
+  };
+  @action getCredentials = async () => {
+    try {
+      const response = await this.client.apis.Credentials.get_credentials(
+        null,
+        {
+          server: SERVER_URL,
+        }
+      );
+      console.log('credentials', response);
+      response.body.data.forEach((credential) =>
+        this.credentialMap.set(credential.proxyToken, credential)
+      );
     } catch (e) {
       console.error(e);
       throw e;
@@ -234,6 +298,24 @@ class DataStore {
   @action createTransaction = async (transaction) => {
     this.createItem(Endpoints.TRANSACTION, transaction, this.transactionsMap);
   };
+  @action createCredentialWithOAuthCode = async (code) => {
+    try {
+      const { body } = await this.client.apis['OAuth Proxy'].get_pa_tokens(
+        null,
+        {
+          parameters: {
+            response_token: code,
+            provider_id: 'coinbase',
+            intuit_property: 'turbotax',
+          },
+          server: SERVER_URL,
+        }
+      );
+      console.log('coinbase credential', body.data);
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   // item selector methods with flow store cleanup management
   @action selectUser = (userName, nextScreen) => {
@@ -276,6 +358,9 @@ class DataStore {
     this.selectedAccount = this.accountsMap.get(id);
     this.clearTransactions();
     this.getTransactions();
+  };
+  @action selectCredential = (credential) => {
+    this.selectedCredential = credential;
   };
 
   // All DELETE requests to the local node server, * not yet supported Gem API endpoints
@@ -392,6 +477,9 @@ class DataStore {
   }
   @computed get transactions() {
     return [...this.transactionsMap.values()].reverse();
+  }
+  @computed get credentials() {
+    return [...this.credentialMap.values()].reverse();
   }
   // TODO: compute institutions array
 }
