@@ -20,10 +20,10 @@ class UIStore {
   }
 
   @action determineScreen = () => {
-    if (window.location.search.includes('coinbase-code')) {
-      let params = new URL(document.location).searchParams;
-      let coinbaseCode = params.get('coinbase-code');
-      console.log('coinbase-code:', coinbaseCode);
+    if (window.location.pathname.includes('oauth/coinbase/callback')) {
+      // let params = new URL(document.location).searchParams;
+      // let coinbaseCode = params.get('code');
+      // console.log('coinbase code:', coinbaseCode);
       this.currentScreen = ScreenNames.CONNECTION_COMPLETE;
     } else {
       const persistedScreen = getPersistedScreen() || ScreenNames.USER;
