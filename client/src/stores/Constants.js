@@ -50,7 +50,12 @@ export const Flows = {
     // primaryColor: '#C0CA33',
     primaryColor: '#478FCC',
     colorClassname: 'ConnectColor',
-    screens: [ScreenNames.USER, ScreenNames.CREDENTIALS, ScreenNames.HISTORY],
+    screens: [
+      ScreenNames.USER,
+      ScreenNames.CREDENTIALS,
+      ScreenNames.ACCOUNT,
+      ScreenNames.HISTORY,
+    ],
   },
 };
 
