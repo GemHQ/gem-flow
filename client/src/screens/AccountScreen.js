@@ -1,52 +1,52 @@
-import React from 'react';
-import AccountForm from '../components/forms/AccountForm';
+import React, { useEffect, useState } from 'react';
 import AccountCard, {
   ExchangeAccountCard,
 } from '../components/cards/AccountCard';
-import GenericScreen from './GenericScreen';
 import { withStores } from '../stores/StoresUtil';
-import { ScreenNames, FlowIds } from '../stores/Constants';
-import { openPmWidget } from '../components/widgets/PmWidget';
+import { ScreenNames } from '../stores/Constants';
 import ErrorMessage from '../components/basic/errorMessage/ErrorMessage';
 
 // as a function to avoid runtime initialization error
-const CardsByFlowId = () => ({
-  [FlowIds.ONRAMP]: AccountCard,
-  [FlowIds.TRANSFER]: ExchangeAccountCard,
-  [FlowIds.CONNECT]: ExchangeAccountCard,
-});
+// const CardsByFlowId = () => ({
+//   [FlowIds.ONRAMP]: AccountCard,
+//   [FlowIds.TRANSFER]: ExchangeAccountCard,
+//   [FlowIds.CONNECT]: ExchangeAccountCard,
+// });
 
 const AccountScreen = ({ dataStore, uiStore }) => {
-  const CardToRender = CardsByFlowId()[uiStore.flowId];
+  const [loading, setLoading] = useState(false);
+  const loadAccounts = async () => {
+    try {
+      setLoading(true);
+      await dataStore.getAccounts();
+      setLoading(false);
+    } catch (e) {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    loadAccounts();
+  }, []);
+
+  const numberOfItems = dataStore.accounts.length;
   return (
     <>
       <ErrorMessage />
-      <GenericScreen
-        ItemForm={AccountForm}
-        numberOfItems={dataStore.accounts.length}
-        itemTitle="Account"
-        createItem={() => {}}
-        hideButton={uiStore.flowId !== FlowIds.ONRAMP}
-        buttonDisabled={false}
-        withOpenForm={uiStore.withOpenForm}
-      >
-        {dataStore.accounts.map((account) => (
-          <CardToRender
-            flowId={uiStore.flowId}
-            account={account}
-            key={account.id}
-            removeAccount={() => dataStore.removeAccount(account.id)}
-            onButtonClick={() => {
-              dataStore.selectAccount(account.id);
-              uiStore.setCurrentScreen(ScreenNames.HISTORY);
-            }}
-            onViewClick={() => {
-              dataStore.selectAccount(account.id);
-              uiStore.setCurrentScreen(ScreenNames.HISTORY);
-            }}
-          />
-        ))}
-      </GenericScreen>
+      <h2 className="ScreenHeading noPadding">
+        {loading
+          ? `Loading Accounts...`
+          : `${numberOfItems} Account${numberOfItems > 1 ? 's' : ''}`}
+      </h2>
+      {dataStore.accounts.map((account) => (
+        <ExchangeAccountCard
+          account={account}
+          key={account.accountId}
+          onButtonClick={() => {
+            dataStore.selectAccount(account.accountId);
+            uiStore.setCurrentScreen(ScreenNames.HISTORY);
+          }}
+        />
+      ))}
     </>
   );
 };
