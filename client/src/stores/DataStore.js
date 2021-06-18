@@ -102,39 +102,99 @@ class DataStore {
   };
   @action getConnections = async () => {
     if (!this.selectedUser) return;
-    const connections = getPersistedConnectionsForUser(
-      this.selectedUser.userName
-    );
+    // const connections = getPersistedConnectionsForUser(
+    //   this.selectedUser.userName
+    // );
     connections.forEach((connection) =>
       this.connectionsMap.set(connection.id, connection)
     );
+
     // return this.getItems(
     //   `${Endpoints.CONNECTIONS}/${this.selectedUser.userName}`,
     //   this.connectionsMap
     // );
   };
   @action getAccounts = async (connectionId) => {
-    // return await this.getItems(
-    //   `${Endpoints.ACCOUNT}/list/${connectionId}`,
-    //   this.accountsMap
-    // );
     try {
+      console.log(
+        'this.selectedCredential.proxyToken',
+        this.selectedCredential.proxyToken
+      );
       const response = await this.client.apis.Accounts.get_accounts(null, {
         server: SERVER_URL,
         parameters: { proxyToken: this.selectedCredential.proxyToken },
       });
-      console.log('accounts', response.data);
+      const accounts = response.body.data;
+      console.log('accounts', accounts);
+      accounts.forEach((account) =>
+        this.accountsMap.set(account.accountId, account)
+      );
       return response;
     } catch (e) {
       console.error(e);
+      const accounts = [
+        {
+          accountId: 'BTC',
+          accountType: 'DEPOSIT',
+          availableBalance: 2.5,
+          balanceAsOf: '2021-06-18T18:01:29.201Z',
+          balanceType: 'ASSET',
+          currentBalance: 2.5,
+          description: 'An account description',
+          status: 'OPEN',
+          exchangeId: 'coinbase',
+          currency: {
+            currencyCode: 'BTC',
+            originalCurrencyCode: 'BTC',
+          },
+          transferIn: false,
+          transferOut: false,
+        },
+      ];
+      accounts.forEach((account) =>
+        this.accountsMap.set(account.accountId, account)
+      );
+      return accounts;
       throw e;
     }
   };
   @action getTransactions = async () => {
-    return await this.getItems(
-      `${Endpoints.TRANSACTION}/list/${this.selectedAccount.id}`,
-      this.transactionsMap
-    );
+    console.log('getting transactions');
+    try {
+      const response = await this.client.apis.Transactions.get_transactions(
+        null,
+        {
+          server: SERVER_URL,
+          parameters: {
+            proxyToken: this.selectedCredential.proxyToken,
+            accountId: this.selectedAccount.accountId,
+          },
+        }
+      );
+      response.body.data.forEach((trx) =>
+        this.transactionsMap.set(trx.transactionId, trx)
+      );
+    } catch (e) {
+      console.error(e);
+      const transactions = [
+        {
+          exchangeId: 'coinbase',
+          accountId: '56ff2fr39-64c1-5316-ae32-5a5394bccac3',
+          transactionId: '71f7f46a-f5d9-5faf-b72d-5d673fcbd680',
+          transactionType: 'TRANSFER',
+          debitCreditMemo: 'DEBIT',
+          amount: 0.00012109,
+          amountCurrency: 'BTC',
+          foreignAmount: 0.91,
+          foreignAmountCurrency: 'USD',
+          description: 'Sent 0.00012109 BTC ($0.91)',
+          status: 'POSTED',
+        },
+      ];
+      transactions.forEach((trx) =>
+        this.transactionsMap.set(trx.transactionId, trx)
+      );
+    }
   };
   @action getInstitutions = async () => {
     // return {
@@ -180,13 +240,6 @@ class DataStore {
       console.error(e);
       throw e;
     }
-    // if (status >= 400) return;
-    // data.forEach((institution) =>
-    //   this.institutionMap.set(institution.id, {
-    //     ...institution,
-    //     icon: InstitutionIcons[institution.id],
-    //   })
-    // );
   };
   getCoinbaseAuthorizationURI = async () => {
     try {
@@ -229,6 +282,7 @@ class DataStore {
       response.body.data.forEach((credential) =>
         this.credentialMap.set(credential.proxyToken, credential)
       );
+      console.log('credentials', this.credentials);
     } catch (e) {
       console.error(e);
       throw e;
@@ -307,6 +361,7 @@ class DataStore {
             response_token: code,
             provider_id: 'coinbase',
             intuit_property: 'turbotax',
+            initial_redirect_uri: CoinbaseOAuthParams.offering_redirect_uri,
           },
           server: SERVER_URL,
         }
@@ -354,10 +409,11 @@ class DataStore {
     this.getAccounts(id);
   };
   @action selectAccount = (id) => {
+    if (!id) this.selectedAccount = null;
     if (this.selectedAccount && id === this.selectedAccount.id) return;
     this.selectedAccount = this.accountsMap.get(id);
     this.clearTransactions();
-    this.getTransactions();
+    // this.getTransactions();
   };
   @action selectCredential = (credential) => {
     this.selectedCredential = credential;
@@ -393,6 +449,10 @@ class DataStore {
     this.selectedConnection = null;
     this.connectionsMap.clear();
   };
+  @action clearCredentials = () => {
+    this.selectedCredential = null;
+    this.credentialMap.clear();
+  };
   @action clearAccounts = () => {
     this.selectedAccount = null;
     this.accountsMap.clear();
@@ -407,15 +467,19 @@ class DataStore {
         this.selectedUser = null;
         this.clearProfiles();
         this.clearInstitutionUsers();
-        this.clearConnections();
+        this.clearCredentials();
         this.clearAccounts();
         this.clearTransactions();
+        this.client.authorizations.BasicAuth = {
+          username: process.env.REACT_APP_DEMO_APP_USERNAME,
+          password: process.env.REACT_APP_DEMO_APP_PASSWORD,
+        };
         break;
       case ScreenNames.PROFILE:
         this.selectedProfile = null;
         this.selectedConnection = null;
         this.clearInstitutionUsers();
-        this.clearConnections();
+        this.clearCredentials();
         this.clearAccounts();
         this.clearTransactions();
         break;
