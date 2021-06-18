@@ -199,8 +199,8 @@ const CredentialsScreen = ({ dataStore, uiStore }) => {
           connection={credential}
           onButtonClick={() => {
             dataStore.selectCredential({
-              exchangeId: connection.exchangeId,
-              proxyToken: connection.proxyToken,
+              exchangeId: credential.exchangeId,
+              proxyToken: credential.proxyToken,
             });
             dataStore.getAccounts();
             uiStore.setCurrentScreen(ScreenNames.ACCOUNT);
