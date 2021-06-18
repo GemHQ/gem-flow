@@ -5,34 +5,17 @@ import FlowDots from './flowDots/FlowDots';
 import { withStores } from '../../../stores/StoresUtil';
 import { ScreenNames, FlowIds } from '../../../stores/Constants';
 import { filterPaymentInstitutions } from '../../../util/PartnerUtil';
+import { capitalizeFirstLetter } from '../../../util/TextUtil';
 
 class ProgressMap extends Component {
   getDots = () => {
     const { dataStore, uiStore } = this.props;
-    switch (uiStore.flowId) {
-      case FlowIds.ONRAMP:
-        return [
-          [ScreenNames.USER, Boolean(dataStore.selectedUser)],
-          [ScreenNames.PROFILE, Boolean(dataStore.selectedProfile)],
-          [ScreenNames.CONNECTION, Boolean(dataStore.selectedInstitutionUser)],
-          [ScreenNames.ACCOUNT, Boolean(dataStore.selectedAccount)],
-          [ScreenNames.TRANSACTION, Boolean(dataStore.transactionsMap.size)],
-        ];
-      case FlowIds.TRANSFER:
-        return [
-          [ScreenNames.USER, Boolean(dataStore.selectedUser)],
-          [ScreenNames.CONNECTION, Boolean(dataStore.selectedConnection)],
-          [ScreenNames.ACCOUNT, Boolean(dataStore.selectedAccount)],
-          [ScreenNames.TRANSACTION, Boolean(dataStore.transactionsMap.size)],
-        ];
-      case FlowIds.CONNECT:
-        return [
-          [ScreenNames.USER, Boolean(dataStore.selectedUser)],
-          [ScreenNames.CONNECTION, Boolean(dataStore.selectedConnection)],
-          [ScreenNames.ACCOUNT, Boolean(dataStore.selectedAccount)],
-          [ScreenNames.HISTORY, Boolean(0)],
-        ];
-    }
+    return [
+      [ScreenNames.USER, Boolean(dataStore.selectedUser)],
+      [ScreenNames.CREDENTIALS, Boolean(dataStore.selectedCredential)],
+      [ScreenNames.ACCOUNT, Boolean(dataStore.selectedAccount)],
+      [ScreenNames.HISTORY, uiStore.currentScreen === ScreenNames.HISTORY],
+    ];
   };
 
   getMarkerSubtitles = () => {
@@ -52,32 +35,16 @@ class ProgressMap extends Component {
             filterPaymentInstitutions(dataStore.connections).length
           );
     return {
-      [ScreenNames.USER]: this.determineSubtitle(
-        'User',
-        'userName',
-        dataStore.selectedUser,
-        dataStore.usersMap.size,
-        'Create a new user'
-      ),
-      [ScreenNames.PROFILE]: this.determineSubtitle(
-        'Profile',
-        'id',
-        dataStore.selectedProfile,
-        dataStore.profilesMap.size
-      ),
-      [ScreenNames.CONNECTION]: connectionSubtitle,
-      [ScreenNames.ACCOUNT]: this.determineSubtitle(
-        'Account',
-        'id',
-        dataStore.selectedAccount,
-        dataStore.accountsMap.size
-      ),
-      [ScreenNames.TRANSACTION]: this.determineSubtitle(
-        'Transaction',
-        '',
-        null,
-        dataStore.transactionsMap.size
-      ),
+      [ScreenNames.USER]: dataStore.selectedUser
+        ? `${dataStore.selectedUser.userName.substr(0, 27)}...`
+        : '-',
+      [ScreenNames.CREDENTIALS]: dataStore.selectedCredential
+        ? capitalizeFirstLetter(dataStore.selectedCredential.exchangeId)
+        : '-',
+      [ScreenNames.ACCOUNT]: dataStore.selectedAccount
+        ? dataStore.selectedAccount.accountId
+        : '-',
+      [ScreenNames.HISTORY]: '-',
     };
   };
 
