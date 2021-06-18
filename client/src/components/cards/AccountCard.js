@@ -7,22 +7,21 @@ import ethereumIcon from '../../assets/ethereum.svg';
 import litecoinIcon from '../../assets/litecoin.svg';
 import { FlowIds } from '../../stores/Constants';
 
-
-const AccountCard = ({ 
+const AccountCard = ({
   account,
   onButtonClick,
   onViewClick,
   primaryColor,
   removeAccount,
   disabled,
-  dots
+  dots,
 }) => {
   const titlesAndValues = [
     { title: 'ACCOUNT_ID', value: account.id },
     { title: 'EXTERNAL_ID', value: account.external_id },
     { title: 'LAST_UPDATED_AT', value: formatDate(account.updated_at) },
     { title: 'STATUS', value: capitalizeFirstLetter(account.status) },
-  ]
+  ];
 
   return (
     <GenericCard
@@ -36,53 +35,28 @@ const AccountCard = ({
       disabled={disabled}
       dots={dots}
     />
-  )
+  );
 };
 
-export const ExchangeAccountCard = withPrimaryColor(({
-  flowId,
-  account,
-  onButtonClick,
-  onViewClick,
-  primaryColor,
-  removeAccount,
-  disabled,
-  dots,
-  hideButton
-}) => {
-  const isTransferFlow = flowId === FlowIds.TRANSFER;
+export const ExchangeAccountCard = withPrimaryColor(
+  ({ account, onButtonClick, primaryColor, hideButton, buttonText }) => {
+    const titlesAndValues = [
+      { title: 'ACCOUNT_ID', value: account.accountId },
+      { title: 'BALANCE', value: account.currentBalance },
+    ];
 
-  const titlesAndValues = [
-    { title: 'ACCOUNT_ID', value: account.id },
-    { title: 'ACCOUNT_NAME', value: account.name },
-    { title: 'ASSET_NAME', value: capitalizeFirstLetter(account.asset_id) },
-    { title: 'AMOUNT', value: String(account.available_amount) || '-' },
-  ];
-
-  return (
-    <GenericCard
-      titlesAndValues={titlesAndValues}
-      buttonText={isTransferFlow ? "Create Transaction" : "View Transactions"}
-      onButtonClick={onButtonClick}
-      viewText={isTransferFlow && 'View Transactions'}
-      onViewClick={onViewClick}
-      primaryColor={primaryColor}
-      dotsMenuOptions={[{ title: 'Remove account', onClick: removeAccount }]}
-      disabled={disabled}
-      iconUrl={assetIconFromId(account.asset_id)}
-      dots={dots}
-      hideButton={hideButton}
-    />
-  )
-});
-
-const assetIconFromId = assetId => {
-  switch(assetId) {
-    case 'bitcoin': return bitcoinIcon;
-    case 'ethereum': return ethereumIcon;
-    case 'litecoin': return litecoinIcon;
-    default: return null;
+    return (
+      <GenericCard
+        titlesAndValues={titlesAndValues}
+        buttonText={buttonText || 'View Transactions'}
+        onButtonClick={onButtonClick}
+        primaryColor={primaryColor}
+        iconUrl={`https://gem-widgets-assets.s3-us-west-2.amazonaws.com/currencies/crypto/${account.accountId.toLowerCase()}.svg`}
+        dots={false}
+        hideButton={hideButton}
+      />
+    );
   }
-}
+);
 
 export default withPrimaryColor(AccountCard);
