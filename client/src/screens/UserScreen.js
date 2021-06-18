@@ -19,7 +19,6 @@ const UserScreen = ({ dataStore, uiStore }) => {
   return (
     <>
       <ErrorMessage />
-      {creatingUser && <p>Creating user...</p>}
       <GenericScreen
         ItemForm={UserForm}
         numberOfItems={dataStore.users.length}
