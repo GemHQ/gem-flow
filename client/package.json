@@ -19,6 +19,8 @@
     "react-dropdown": "^1.6.4",
     "react-dropzone": "^10.1.10",
     "react-native": "^0.64.2",
+    "react-router": "^5.2.0",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "3.2.0",
     "react-tooltip": "^3.11.1",
     "semantic-ui-css": "^2.4.1",

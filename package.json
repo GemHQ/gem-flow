@@ -6,9 +6,7 @@
     "server": "cd server && yarn start",
     "watch-server": "cd server && yarn watch"
   },
-  "dependencies": {
-    "react-dropzone": "^10.1.10"
-  },
+  "dependencies": {},
   "devDependencies": {
     "concurrently": "^5.0.0"
   }
