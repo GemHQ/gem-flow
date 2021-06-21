@@ -2,13 +2,18 @@
   display: grid;
   grid-template-columns: auto auto auto auto auto auto;
   margin-top: 50px;
-  row-gap: 25px;
   .header-title-text {
     color: #8e8e8e;
     font-size: 12px;
-    text-transform: capitalize;
+    text-transform: uppercase;
+    padding: 0;
+    padding-bottom: 13px;
+    font-weight: 400;
   }
   p {
+    padding: 25px 0;
     font-size: 12px;
+    border-bottom: 1px solid #d9d9d9;
+    font-weight: 400;
   }
 }
