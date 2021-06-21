@@ -2,6 +2,7 @@ import React from 'react';
 import GenericCard from './GenericCard';
 import { withPrimaryColor } from '../../stores/StoresUtil';
 import { formatDate } from '../../util/TextUtil';
+import { ScreenTitles } from '../../stores/Constants';
 
 const UserCard = ({
   user,
@@ -17,9 +18,9 @@ const UserCard = ({
       // { title: 'USER_EMAIL', value: user.email },
       // { title: 'CREATED_AT', value: formatDate(user.created_at) },
     ]}
-    buttonText={`Create ${nextScreenName}`}
+    buttonText={`Create ${ScreenTitles[nextScreenName]}`}
     onButtonClick={onButtonClick}
-    viewText={`View ${nextScreenName}s`}
+    viewText={`View ${ScreenTitles[nextScreenName]}s`}
     onViewClick={onViewClick}
     primaryColor={primaryColor}
     dotsMenuOptions={[{ title: 'Remove user', onClick: removeUser }]}

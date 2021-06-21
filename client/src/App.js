@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { BrowserRouter, Switch, Route, useHistory } from 'react-router-dom';
 import './App.css';
 import './components/forms/forms.css';
 import ProgressMap from './components/composite/progressMap/ProgressMap';
@@ -11,7 +12,7 @@ import ProfileScreen from './screens/ProfileScreen';
 import ConnectionScreen from './screens/connectionScreen/ConnectionScreen';
 import AccountScreen from './screens/AccountScreen';
 import TransactionScreen from './screens/TransactionScreen';
-import { withUiStore } from './stores/StoresUtil';
+import { withStores, withUiStore } from './stores/StoresUtil';
 import HistoryScreen from './screens/HistoryScreen';
 import CredentialsScreen from './screens/credentials/CredentialsScreen';
 import ConnectionCompleteScreen from './screens/connectionScreen/ConnectionCompleteScreen';
@@ -25,37 +26,37 @@ const App = ({ uiStore }) => {
         <SmartInstructions />
         <ProgressMap />
         <Divider marginBottom marginTop />
-        <Screens />
+        <BrowserRouter>
+          <Screens />
+        </BrowserRouter>
       </div>
     </div>
   );
 };
 
 const Screens = withUiStore(({ uiStore }) => {
-  switch (uiStore.currentScreen) {
-    case ScreenNames.USER:
-      return <UserScreen />;
-    case ScreenNames.PROFILE:
-      return <ProfileScreen />;
-    case ScreenNames.CONNECTION:
-      return <ConnectionScreen />;
-    case ScreenNames.ACCOUNT:
-      return <AccountScreen />;
-    case ScreenNames.TRANSACTION:
-      return <TransactionScreen />;
-    case ScreenNames.HISTORY:
-      return <HistoryScreen />;
-    case ScreenNames.CREDENTIALS:
-      return <CredentialsScreen />;
-    case ScreenNames.CONNECTION_COMPLETE:
-      return <ConnectionCompleteScreen />;
-    default:
-      return <UserScreen />;
-  }
+  let history = useHistory();
+  useEffect(() => {
+    console.log('history', history);
+    uiStore.setHistory(history);
+  }, []);
+  return (
+    <Switch>
+      <Route path={ScreenNames.USER} component={UserScreen} />
+      <Route path={ScreenNames.CREDENTIALS} component={CredentialsScreen} />
+      <Route
+        path={ScreenNames.CONNECTION_COMPLETE}
+        component={ConnectionCompleteScreen}
+      />
+      <Route path={ScreenNames.ACCOUNT} component={AccountScreen} />
+      <Route path={ScreenNames.HISTORY} component={HistoryScreen} />
+      <Route path="/" component={UserScreen} />
+    </Switch>
+  );
 });
 
-const SmartInstructions = withUiStore(({ uiStore }) => {
-  if (uiStore.showInstructions)
+const SmartInstructions = withStores(({ dataStore, uiStore }) => {
+  if (dataStore.selectedUser)
     return (
       <>
         <Instructions uiStore={uiStore} />

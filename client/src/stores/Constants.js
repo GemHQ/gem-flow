@@ -2,14 +2,21 @@ import wyreIcon from '../assets/wyre_icon.svg';
 import coinifyIcon from '../assets/coinify_icon.svg';
 
 export const ScreenNames = {
-  USER: 'User',
-  PROFILE: 'Profile',
-  CONNECTION: 'Connection',
-  CONNECTION_COMPLETE: 'Connection Complete',
-  CREDENTIALS: 'Credentials',
-  ACCOUNT: 'Account',
-  TRANSACTION: 'Transaction',
-  HISTORY: 'History',
+  USER: '/user',
+  PROFILE: '/profile',
+  CONNECTION: '/connection',
+  CONNECTION_COMPLETE: '/oauth/coinbase/callback',
+  CREDENTIALS: '/credentials',
+  ACCOUNT: '/account',
+  TRANSACTION: '/transaction',
+  HISTORY: '/history',
+};
+
+export const ScreenTitles = {
+  [ScreenNames.USER]: 'User',
+  [ScreenNames.CREDENTIALS]: 'Credential',
+  [ScreenNames.ACCOUNT]: 'Account',
+  [ScreenNames.HISTORY]: 'History',
 };
 
 export const FlowIds = {

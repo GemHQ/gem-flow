@@ -3,8 +3,8 @@ import { FlowIds, Flows, ScreenNames } from './Constants';
 import {
   persistSelectedFlowId,
   getPersistedFlowId,
-  getPersistedScreen,
-  persistCurrentScreen,
+  // getPersistedScreen,
+  // persistCurrentScreen,
 } from '../util/PersistUtil';
 
 class UIStore {
@@ -12,24 +12,19 @@ class UIStore {
   @observable flowId = FlowIds.CONNECT;
   @observable currentScreen = ScreenNames.USER;
   @observable initialScreenStates = new Map();
+  history;
 
   constructor() {
     const persistedFlowId = getPersistedFlowId();
     if (persistedFlowId) this.setFlow(persistedFlowId);
-    this.determineScreen();
+    // this.determineScreen();
+    this.currentScreen = window.location.pathname;
   }
 
-  @action determineScreen = () => {
-    if (window.location.pathname.includes('oauth/coinbase/callback')) {
-      // let params = new URL(document.location).searchParams;
-      // let coinbaseCode = params.get('code');
-      // console.log('coinbase code:', coinbaseCode);
-      this.currentScreen = ScreenNames.CONNECTION_COMPLETE;
-    } else {
-      const persistedScreen = getPersistedScreen() || ScreenNames.USER;
-      if (persistedScreen) this.setCurrentScreen(persistedScreen);
-    }
-  };
+  setHistory(history) {
+    console.log('setting history', history);
+    this.history = history;
+  }
 
   @action setFlow = (flowId) => {
     this.flow = Flows[flowId];
@@ -38,9 +33,11 @@ class UIStore {
   };
 
   @action setCurrentScreen = (screen, initialState) => {
+    console.log(screen, this.history);
+    this.history.push(screen);
     this.currentScreen = screen;
     initialState && this.initialScreenStates.set(screen, initialState);
-    persistCurrentScreen(screen);
+    // persistCurrentScreen(screen);
   };
 
   // each flow has it's own color
@@ -57,11 +54,6 @@ class UIStore {
         label: flow.dropdownTitle,
         className: flow.colorClassname,
       }));
-  }
-
-  // do the dropdown selector and instruction show
-  @computed get showInstructions() {
-    return this.currentScreen === ScreenNames.USER;
   }
 
   // if a screen should render with an open form

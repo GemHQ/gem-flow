@@ -1,7 +1,6 @@
 import { create } from 'mobx-persist';
 
 const FLOW_ID_STORAGE_KEY = 'selected_flow_id';
-const CURRENT_SCREEN_KEY = 'current_screen';
 const FLOW_STORE_KEY = 'flow_store';
 const USERS_STORAGE_KEY = 'users';
 const CONNECTIONS_STORAGE_KEY = 'connections';
@@ -13,13 +12,7 @@ export const persistSelectedFlowId = (flowId) => {
     console.error(e);
   }
 };
-export const persistCurrentScreen = (currentScreen) => {
-  try {
-    localStorage.setItem(CURRENT_SCREEN_KEY, currentScreen);
-  } catch (e) {
-    console.error(e);
-  }
-};
+
 export const persistNewUser = (user) => {
   try {
     console.log('persiting new user', user);
@@ -58,13 +51,7 @@ export const getPersistedFlowId = () => {
     console.error(e);
   }
 };
-export const getPersistedScreen = () => {
-  try {
-    return localStorage.getItem(CURRENT_SCREEN_KEY);
-  } catch (e) {
-    console.error(e);
-  }
-};
+
 export const getPersistedUsers = () => {
   try {
     console.log('getting users');

@@ -3,7 +3,7 @@ import './progressMap.css';
 import RectangleTitle from './rectangleTitle/RectangleTitle';
 import FlowDots from './flowDots/FlowDots';
 import { withStores } from '../../../stores/StoresUtil';
-import { ScreenNames, FlowIds } from '../../../stores/Constants';
+import { ScreenNames, FlowIds, ScreenTitles } from '../../../stores/Constants';
 import { filterPaymentInstitutions } from '../../../util/PartnerUtil';
 import { capitalizeFirstLetter } from '../../../util/TextUtil';
 
@@ -74,7 +74,7 @@ class ProgressMap extends Component {
           {flow.screens.map((screen, i) => (
             <RectangleTitle
               key={screen}
-              title={screen}
+              title={ScreenTitles[screen]}
               subtitle={markerSubtitles[screen]}
               isCurrentScreen={currentScreenIndex === i}
               isCompleted={currentScreenIndex > i}
