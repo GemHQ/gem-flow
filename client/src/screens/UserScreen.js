@@ -29,6 +29,7 @@ const UserScreen = ({ dataStore, uiStore }) => {
           setCreatingUser(false);
         }}
         withOpenForm={false}
+        buttonDisabled={creatingUser}
       >
         {dataStore.users.map((user) => (
           <UserCard

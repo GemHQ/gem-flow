@@ -6,7 +6,13 @@ import { ButtonWithCancel } from '../basic/button/Button';
 import { injector } from '../../stores/StoresUtil';
 const description = `Create a password for your new user`;
 
-export const UserForm = ({ onCancel, onSubmit, primaryColor, setError }) => {
+export const UserForm = ({
+  onCancel,
+  onSubmit,
+  primaryColor,
+  setError,
+  buttonDisabled,
+}) => {
   const [password, setPassword] = useState(
     generatePassword.generate({ length: 16 })
   );
@@ -24,6 +30,7 @@ export const UserForm = ({ onCancel, onSubmit, primaryColor, setError }) => {
         autoFocus
       />
       <ButtonWithCancel
+        disabled={buttonDisabled}
         primaryColor={primaryColor}
         onCancel={onCancel}
         onClick={() => {

@@ -56,7 +56,7 @@ const Screens = withUiStore(({ uiStore }) => {
 });
 
 const SmartInstructions = withStores(({ dataStore, uiStore }) => {
-  if (dataStore.selectedUser)
+  if (!dataStore.selectedUser)
     return (
       <>
         <Instructions uiStore={uiStore} />

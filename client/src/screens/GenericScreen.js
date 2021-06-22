@@ -20,17 +20,24 @@ const GenericScreen = ({
   const stopCreatingItem = () => setCreatingItem(false);
 
   if (!numberOfItems && !creatingItem) {
-    return isFetching
-    ? <LoadingLabel itemTitle={itemTitle} />
-    : <>
-        { !hideButton && <Button onClick={startCreatingItem} disabled={buttonDisabled}>{`Create New ${itemTitle}`}</Button> }
+    return isFetching ? (
+      <LoadingLabel itemTitle={itemTitle} />
+    ) : (
+      <>
+        {!hideButton && (
+          <Button
+            onClick={startCreatingItem}
+            disabled={buttonDisabled}
+          >{`Create New ${itemTitle}`}</Button>
+        )}
         <PostingLabel isPosting={isPosting} itemTitle={itemTitle} />
       </>
+    );
   }
 
   return (
     <>
-      <ItemFormControl 
+      <ItemFormControl
         ItemForm={ItemForm}
         itemTitle={itemTitle}
         creatingItem={creatingItem}
@@ -40,12 +47,13 @@ const GenericScreen = ({
         numberOfItems={numberOfItems}
         primaryColor={primaryColor}
         hideButton={hideButton}
+        buttonDisabled={buttonDisabled}
       />
       <PostingLabel isPosting={isPosting} itemTitle={itemTitle} />
       {children}
     </>
-  )
-}
+  );
+};
 
 const ItemFormControl = ({
   ItemForm,
@@ -56,40 +64,61 @@ const ItemFormControl = ({
   stopCreatingItem,
   numberOfItems,
   primaryColor,
-  hideButton
+  hideButton,
+  buttonDisabled,
 }) => {
-  if (creatingItem) return (
-    <>
-      <h2 className="ScreenHeading">{`Creating ${itemTitle}`}</h2>
-      <ItemForm
-        onCancel={stopCreatingItem}
-        onSubmit={item => {
-          createItem(item);
-          stopCreatingItem();
-        }}
-      />
-    </>
-  )
+  if (creatingItem)
+    return (
+      <>
+        <h2 className="ScreenHeading">
+          {buttonDisabled ? `Creating ${itemTitle}...` : `Create ${itemTitle}`}
+        </h2>
+        <ItemForm
+          buttonDisabled={buttonDisabled}
+          onCancel={stopCreatingItem}
+          onSubmit={async (item) => {
+            await createItem(item);
+            stopCreatingItem();
+          }}
+        />
+      </>
+    );
 
   return (
     <div className="FlexAlignCenter SpaceBetween">
-      <h2 className="ScreenHeading noPadding">{`${numberOfItems} ${itemTitle}${numberOfItems > 1 ? 's' : ''}`}</h2>
-      { hideButton ? <div /> : <BorderedButton color={primaryColor} onClick={startCreatingItem}>{`+ Add new ${itemTitle.toLowerCase()}`}</BorderedButton> }
+      {creatingItem ? (
+        <h2 className="ScreenHeading noPadding">Creating User...</h2>
+      ) : (
+        <h2 className="ScreenHeading noPadding">{`${numberOfItems} ${itemTitle}${
+          numberOfItems > 1 ? 's' : ''
+        }`}</h2>
+      )}
+      {hideButton && !creatingItem ? (
+        <div />
+      ) : (
+        <BorderedButton
+          color={primaryColor}
+          onClick={startCreatingItem}
+        >{`+ Add new ${itemTitle.toLowerCase()}`}</BorderedButton>
+      )}
     </div>
-  )
-}
+  );
+};
 
-const LoadingLabel = ({ itemTitle }) => <p className="Loading">{`Loading ${itemTitle}s...`}</p>;
+const LoadingLabel = ({ itemTitle }) => (
+  <p className="Loading">{`Loading ${itemTitle}s...`}</p>
+);
 
 const PostingLabel = ({ isPosting, itemTitle }) => {
-  if (isPosting) return <p className="Creating">{`Creating ${itemTitle}...`}</p>
+  if (isPosting)
+    return <p className="Creating">{`Creating ${itemTitle}...`}</p>;
   return null;
-}
+};
 
-const mapStateToProps = ({ dataStore, uiStore }) => ({ 
+const mapStateToProps = ({ dataStore, uiStore }) => ({
   isFetching: dataStore.isFetching,
   isPosting: dataStore.isPosting,
-  primaryColor: uiStore.primaryColor
+  primaryColor: uiStore.primaryColor,
 });
 
 export default injector(mapStateToProps)(GenericScreen);
