@@ -55,7 +55,7 @@ const GenericScreen = ({
   );
 };
 
-const ItemFormControl = ({
+export const ItemFormControl = ({
   ItemForm,
   itemTitle,
   creatingItem,

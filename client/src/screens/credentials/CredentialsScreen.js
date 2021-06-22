@@ -3,7 +3,7 @@ import queryString from 'query-string';
 import { ClearableInput } from '../../components/basic/input/Input';
 import ExchangeList from './ExchangeList';
 import './credentials.scss';
-import Button from '../../components/basic/button/Button';
+import Button, { BorderedButton } from '../../components/basic/button/Button';
 import {
   sendContinueMessage,
   sendCloseMessage,
@@ -17,18 +17,15 @@ import { connection } from '../../stories/3-Cards.stories';
 
 const ScreenStates = {
   DEFAULT: 'default',
-  ENTER_CREDENTIALS: 'enter-credentials',
-  ERROR: 'error',
-  TRANSFERRING: 'transferring',
-  LOADING_EXCHANGES: 'loading-exchanges',
+  LOADING: 'loading',
+  CREATING: 'creating',
 };
 
-const Titles = {
-  [ScreenStates.DEFAULT]: `Let's get a picture of your profits`,
-  [ScreenStates.ENTER_CREDENTIALS]: `Enter credentials`,
-  [ScreenStates.ERROR]: `Let's try again`,
-  [ScreenStates.TRANSFERRING]: `Transferring you to Coinbase`,
-  [ScreenStates.LOADING_EXCHANGES]: `Loading Exchanges...`,
+const ScreenTitles = {
+  [ScreenStates.LOADING]: `Loading Credentials...`,
+  [ScreenStates.LOADING_EXCHANGES]: `Loading Credentials...`,
+  [ScreenStates.CREATING]: `Create Credentials`,
+  [ScreenStates.DEFAULT]: 'Credentials',
 };
 
 const setIframeHeight = (height) => {
@@ -37,13 +34,26 @@ const setIframeHeight = (height) => {
 };
 
 const CredentialsScreen = ({ dataStore, uiStore }) => {
-  const [selectedExchange, setSelectedExchange] = useState(null);
-  const [currentScreenState, setCurrentScreenState] = useState(
-    ScreenStates.LOADING_EXCHANGES
+  console.log('withFormOpen', uiStore.withOpenForm);
+  const [connectingExchangeFormOpen, setConnectingExchangeFormOpen] = useState(
+    uiStore.withOpenForm
   );
-  const [exchangeSearchValue, setExchangeSearchValue] = useState('');
   const [exchanges, setExchanges] = useState([]);
-  const [sdkUri, setSdkUri] = useState();
+  const [currentScreenState, setCurrentScreenState] = useState(
+    uiStore.withOpenForm ? ScreenStates.LOADING_EXCHANGES : ScreenStates.LOADING
+  );
+
+  const getScreenTitle = (screenState) => {
+    if (connectingExchangeFormOpen) return ScreenTitles[ScreenStates.CREATING];
+    switch (screenState) {
+      case ScreenStates.DEFAULT:
+        return `${dataStore.credentials.length} Credential${
+          dataStore.credentials.length === 1 ? '' : 's'
+        }`;
+      default:
+        return ScreenTitles[screenState];
+    }
+  };
 
   const loadExchanges = async () => {
     let isLoading = false;
@@ -64,8 +74,76 @@ const CredentialsScreen = ({ dataStore, uiStore }) => {
 
   useEffect(() => {
     loadExchanges();
+  }, []);
+  return (
+    <>
+      <div className="FlexAlignCenter SpaceBetween">
+        <h2 className="ScreenHeading">{getScreenTitle(currentScreenState)}</h2>
+        {currentScreenState === ScreenStates.LOADING ? (
+          <div />
+        ) : connectingExchangeFormOpen ? (
+          <p
+            className="Cancel"
+            onClick={() => setConnectingExchangeFormOpen(false)}
+          >
+            Cancel
+          </p>
+        ) : (
+          <BorderedButton
+            color={uiStore.primaryColor}
+            onClick={() => setConnectingExchangeFormOpen(true)}
+          >{`+ Add new credentials`}</BorderedButton>
+        )}
+      </div>
 
-    window.addEventListener('message', (event) => {
+      {connectingExchangeFormOpen &&
+        currentScreenState !== ScreenStates.LOADING && (
+          <ExchangeForm
+            exchanges={exchanges}
+            setCurrentScreenState={setCurrentScreenState}
+            currentScreenState={currentScreenState}
+          />
+        )}
+      {dataStore.credentials.map((credential) => (
+        <ConnectionCard
+          key={credential.proxyToken}
+          connection={credential}
+          onButtonClick={() => {
+            dataStore.selectCredential({
+              exchangeId: credential.exchangeId,
+              proxyToken: credential.proxyToken,
+            });
+            dataStore.getAccounts();
+            uiStore.setCurrentScreen(ScreenNames.ACCOUNT);
+          }}
+        />
+      ))}
+    </>
+  );
+};
+
+const FormStates = {
+  DEFAULT: 'default',
+  ENTER_CREDENTIALS: 'enter-credentials',
+  ERROR: 'error',
+  TRANSFERRING: 'transferring',
+};
+
+const ExchangeForm = ({ exchanges }) => {
+  const [selectedExchange, setSelectedExchange] = useState(null);
+  const [exchangeSearchValue, setExchangeSearchValue] = useState('');
+  const [sdkUri, setSdkUri] = useState();
+  const [currentFormState, setCurrentFormState] = useState(FormStates.DEFAULT);
+
+  const Titles = {
+    [FormStates.DEFAULT]: `Let's get a picture of your profits`,
+    [FormStates.ENTER_CREDENTIALS]: `Enter credentials`,
+    [FormStates.ERROR]: `Let's try again`,
+    [FormStates.TRANSFERRING]: `Transferring you to Coinbase`,
+  };
+
+  useEffect(() => {
+    const messageEventListener = (event) => {
       if (event.origin !== 'http://localhost:8080') return;
       const data = JSON.parse(event.data);
       setIframeHeight(data.height);
@@ -75,7 +153,7 @@ const CredentialsScreen = ({ dataStore, uiStore }) => {
       }
       if (data.eventType === 'connection-error') {
         console.log('[Gem Flow] connection-error received', data);
-        setCurrentScreenState(ScreenStates.ERROR);
+        setCurrentFormState(FormStates.ERROR);
       }
       if (data.eventType === 'connection-success') {
         console.log('[Gem Flow] connection-success received', data);
@@ -87,25 +165,27 @@ const CredentialsScreen = ({ dataStore, uiStore }) => {
         dataStore.getAccounts();
         uiStore.setCurrentScreen(ScreenNames.ACCOUNT);
       }
-      // return window.removeEventListener('message');
-    });
+    };
+
+    window.addEventListener('message', messageEventListener);
+    return window.removeEventListener('message', messageEventListener);
   }, []);
 
-  if (currentScreenState === ScreenStates.LOADING_EXCHANGES) {
+  if (currentFormState === FormStates.LOADING_EXCHANGES) {
     return (
       <div className="screen-container no-border">
         <div className="center">
-          <h1>{Titles[currentScreenState]}</h1>
+          <h1>{Titles[currentFormState]}</h1>
         </div>
       </div>
     );
   }
 
-  if (currentScreenState === ScreenStates.TRANSFERRING) {
+  if (currentFormState === FormStates.TRANSFERRING) {
     return (
       <div className="screen-container no-border">
         <div className="center">
-          <h1>{Titles[currentScreenState]}</h1>
+          <h1>{Titles[currentFormState]}</h1>
           <div className="loading-container">
             <div className="lds-dual-ring" />
             <img
@@ -122,9 +202,9 @@ const CredentialsScreen = ({ dataStore, uiStore }) => {
   return (
     <>
       <div className="screen-container">
-        <h1>{Titles[currentScreenState]}</h1>
+        <h1>{Titles[currentFormState]}</h1>
 
-        {currentScreenState === ScreenStates.DEFAULT ? (
+        {currentFormState === FormStates.DEFAULT ? (
           <>
             <h4>
               Connect your exchange account to bring in your transactions.
@@ -141,7 +221,7 @@ const CredentialsScreen = ({ dataStore, uiStore }) => {
               onSelect={async (exchange) => {
                 if (exchange.id === 'coinbase') {
                   try {
-                    setCurrentScreenState(ScreenStates.TRANSFERRING);
+                    setCurrentFormState(FormStates.TRANSFERRING);
                     const { body } =
                       await dataStore.getCoinbaseAuthorizationURI();
                     console.log('authorizationUri', body.authorizationUri);
@@ -159,7 +239,7 @@ const CredentialsScreen = ({ dataStore, uiStore }) => {
                     setSdkUri(sdkUri);
                     console.log('sdy uri', sdkUri);
                     setSelectedExchange(exchange);
-                    setCurrentScreenState(ScreenStates.ENTER_CREDENTIALS);
+                    setCurrentFormState(FormStates.ENTER_CREDENTIALS);
                   } catch (e) {
                     console.error(e);
                   }
@@ -182,7 +262,7 @@ const CredentialsScreen = ({ dataStore, uiStore }) => {
                 className="bordered"
                 onClick={() => {
                   sendCloseMessage();
-                  setCurrentScreenState(ScreenStates.DEFAULT);
+                  setCurrentFormState(FormStates.DEFAULT);
                   setSelectedExchange(null);
                 }}
               >
@@ -193,20 +273,6 @@ const CredentialsScreen = ({ dataStore, uiStore }) => {
           </>
         )}
       </div>
-      {dataStore.credentials.map((credential) => (
-        <ConnectionCard
-          key={credential.proxyToken}
-          connection={credential}
-          onButtonClick={() => {
-            dataStore.selectCredential({
-              exchangeId: credential.exchangeId,
-              proxyToken: credential.proxyToken,
-            });
-            dataStore.getAccounts();
-            uiStore.setCurrentScreen(ScreenNames.ACCOUNT);
-          }}
-        />
-      ))}
     </>
   );
 };
