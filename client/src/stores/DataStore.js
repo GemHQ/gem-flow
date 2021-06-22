@@ -116,10 +116,7 @@ class DataStore {
   };
   @action getAccounts = async (connectionId) => {
     try {
-      console.log(
-        'this.selectedCredential.proxyToken',
-        this.selectedCredential.proxyToken
-      );
+      this.accountsMap.clear();
       const response = await this.client.apis.Accounts.get_accounts(null, {
         server: SERVER_URL,
         parameters: { proxyToken: this.selectedCredential.proxyToken },
@@ -161,6 +158,7 @@ class DataStore {
   @action getTransactions = async () => {
     console.log('getting transactions');
     try {
+      this.transactionsMap.clear();
       const response = await this.client.apis.Transactions.get_transactions(
         null,
         {
@@ -272,6 +270,7 @@ class DataStore {
   };
   @action getCredentials = async () => {
     try {
+      this.credentialMap.clear();
       const response = await this.client.apis.Credentials.get_credentials(
         null,
         {
