@@ -25,6 +25,7 @@ const AccountScreen = ({ dataStore, uiStore }) => {
     }
   };
   useEffect(() => {
+    dataStore.clearAccounts();
     loadAccounts();
   }, []);
 
@@ -39,7 +40,13 @@ const AccountScreen = ({ dataStore, uiStore }) => {
       </h2>
       {dataStore.accounts.map((account) => (
         <ExchangeAccountCard
-          account={account}
+          account={{
+            ...account,
+            accountId:
+              account.exchangeId === 'kraken'
+                ? account.accountId.substr(1)
+                : account.accountId,
+          }}
           key={account.accountId}
           onButtonClick={() => {
             dataStore.selectAccount(account.accountId);

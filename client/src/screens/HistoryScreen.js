@@ -27,6 +27,7 @@ const HistoryScreen = ({ dataStore, uiStore }) => {
   };
 
   useEffect(() => {
+    dataStore.clearTransactions();
     loadTransactions();
   }, []);
 
