@@ -15,6 +15,7 @@ const GenericCard = ({
   disabled,
   dots = true,
   iconUrl,
+  fallbackIconUrl,
   hideButton,
   borderedButton,
 }) => {
@@ -26,11 +27,11 @@ const GenericCard = ({
           <img
             src={iconSrc}
             className="AccountIcon"
-            onError={() =>
-              setIconSrc(
-                `https://gem-widgets-assets.s3-us-west-2.amazonaws.com/currencies/crypto/btc.svg`
-              )
-            }
+            onError={() => {
+              if (fallbackIconUrl) {
+                setIconSrc(fallbackIconUrl);
+              }
+            }}
           />
         )}
         {titlesAndValues.map(({ title, value }) => (
