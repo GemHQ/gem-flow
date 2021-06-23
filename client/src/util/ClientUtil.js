@@ -1,6 +1,6 @@
 import SwaggerClient from 'swagger-client';
 
-export const SERVER_URL = 'https://gem-api.dev.us-west-2.gem.co/flux/v1';
+export const SERVER_URL = 'https://api.dev.us-west-2.gem.co/flux/v1';
 
 // Intuit should generate username and password for each user (basic auth)
 
