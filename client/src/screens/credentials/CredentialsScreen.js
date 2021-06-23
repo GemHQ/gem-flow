@@ -23,7 +23,7 @@ const ScreenStates = {
 
 const ScreenTitles = {
   [ScreenStates.LOADING]: `Loading Credentials...`,
-  [ScreenStates.LOADING_EXCHANGES]: `Loading Credentials...`,
+  [ScreenStates.LOADING_EXCHANGES]: `Loading Exchanges...`,
   [ScreenStates.CREATING]: `Create Credentials`,
   [ScreenStates.DEFAULT]: 'Credentials',
 };
@@ -34,7 +34,6 @@ const setIframeHeight = (height) => {
 };
 
 const CredentialsScreen = ({ dataStore, uiStore }) => {
-  console.log('withFormOpen', uiStore.withOpenForm);
   const [connectingExchangeFormOpen, setConnectingExchangeFormOpen] = useState(
     uiStore.withOpenForm
   );
@@ -44,7 +43,12 @@ const CredentialsScreen = ({ dataStore, uiStore }) => {
   );
 
   const getScreenTitle = (screenState) => {
-    if (connectingExchangeFormOpen) return ScreenTitles[ScreenStates.CREATING];
+    if (
+      connectingExchangeFormOpen &&
+      screenState !== ScreenStates.LOADING &&
+      screenState !== ScreenStates.LOADING_EXCHANGES
+    )
+      return ScreenTitles[ScreenStates.CREATING];
     switch (screenState) {
       case ScreenStates.DEFAULT:
         return `${dataStore.credentials.length} Credential${
@@ -61,11 +65,18 @@ const CredentialsScreen = ({ dataStore, uiStore }) => {
       try {
         if (dataStore.client && !isLoading) {
           isLoading = true;
-          dataStore.getCredentials();
-          const { body } = await dataStore.getInstitutions();
-          console.log('exchanges', body);
-          setExchanges(body.data);
-          setTimeout(() => setCurrentScreenState(ScreenStates.DEFAULT), 0);
+          if (uiStore.withOpenForm) {
+            const { body } = await dataStore.getInstitutions();
+            setExchanges(body.data);
+          }
+          await dataStore.getCredentials();
+          if (!connectingExchangeFormOpen)
+            setCurrentScreenState(ScreenStates.DEFAULT);
+          if (!uiStore.withOpenForm) {
+            const { body } = await dataStore.getInstitutions();
+            setExchanges(body.data);
+          }
+          setCurrentScreenState(ScreenStates.DEFAULT);
           clearInterval(interval);
         }
       } catch (e) {}
@@ -73,13 +84,15 @@ const CredentialsScreen = ({ dataStore, uiStore }) => {
   };
 
   useEffect(() => {
+    dataStore.clearCredentials();
     loadExchanges();
   }, []);
   return (
     <>
       <div className="FlexAlignCenter SpaceBetween">
         <h2 className="ScreenHeading">{getScreenTitle(currentScreenState)}</h2>
-        {currentScreenState === ScreenStates.LOADING ? (
+        {currentScreenState === ScreenStates.LOADING ||
+        currentScreenState === ScreenStates.LOADING_EXCHANGES ? (
           <div />
         ) : connectingExchangeFormOpen ? (
           <p
@@ -97,27 +110,28 @@ const CredentialsScreen = ({ dataStore, uiStore }) => {
       </div>
 
       {connectingExchangeFormOpen &&
-        currentScreenState !== ScreenStates.LOADING && (
+        currentScreenState !== ScreenStates.LOADING &&
+        currentScreenState !== ScreenStates.LOADING_EXCHANGES && (
           <ExchangeForm
             exchanges={exchanges}
             setCurrentScreenState={setCurrentScreenState}
             currentScreenState={currentScreenState}
           />
         )}
-      {dataStore.credentials.map((credential) => (
-        <ConnectionCard
-          key={credential.proxyToken}
-          connection={credential}
-          onButtonClick={() => {
-            dataStore.selectCredential({
-              exchangeId: credential.exchangeId,
-              proxyToken: credential.proxyToken,
-            });
-            dataStore.getAccounts();
-            uiStore.setCurrentScreen(ScreenNames.ACCOUNT);
-          }}
-        />
-      ))}
+      {currentScreenState !== ScreenStates.LOADING &&
+        dataStore.credentials.map((credential) => (
+          <ConnectionCard
+            key={credential.proxyToken}
+            connection={credential}
+            onButtonClick={() => {
+              dataStore.selectCredential({
+                exchangeId: credential.exchangeId,
+                proxyToken: credential.proxyToken,
+              });
+              uiStore.setCurrentScreen(ScreenNames.ACCOUNT);
+            }}
+          />
+        ))}
     </>
   );
 };
