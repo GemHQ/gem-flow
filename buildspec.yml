@@ -1,0 +1,16 @@
+version: 0.1
+phases:
+  install:
+    runtime-versions:
+      nodejs: 14
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo running yarn
+      - yarn
+      - yarn build:client
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing package to S3
+      - aws s3 cp client/build/* s3://$CONTENT_BUCKET --recursive

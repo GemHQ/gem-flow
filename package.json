@@ -4,7 +4,8 @@
     "dev": "concurrently \"yarn watch-server\" \"yarn client\"",
     "client": "cd client && yarn start",
     "server": "cd server && yarn start",
-    "watch-server": "cd server && yarn watch"
+    "watch-server": "cd server && yarn watch",
+    "build:client": "cd client && yarn build"
   },
   "dependencies": {},
   "devDependencies": {
