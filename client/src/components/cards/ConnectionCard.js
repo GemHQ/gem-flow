@@ -31,6 +31,6 @@ const ConnectionCard = ({
 );
 
 const buildExchangeIconEndpoint = (institutionId) =>
-  `https://gem-widgets-assets.s3-us-west-2.amazonaws.com/gem-widgets-resources/institutions/icons/square/${institutionId}_square.svg`;
+  `https://gem-widgets-assets.s3.us-west-2.amazonaws.com/institutions/icons/square/${institutionId}_square.svg`;
 
 export default withPrimaryColor(ConnectionCard);
