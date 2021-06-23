@@ -2,10 +2,6 @@ import React from 'react';
 import GenericCard from './GenericCard';
 import { withPrimaryColor } from '../../stores/StoresUtil';
 import { formatDate, capitalizeFirstLetter } from '../../util/TextUtil';
-import bitcoinIcon from '../../assets/bitcoin.svg';
-import ethereumIcon from '../../assets/ethereum.svg';
-import litecoinIcon from '../../assets/litecoin.svg';
-import { FlowIds } from '../../stores/Constants';
 
 const AccountCard = ({
   account,
@@ -52,6 +48,7 @@ export const ExchangeAccountCard = withPrimaryColor(
         onButtonClick={onButtonClick}
         primaryColor={primaryColor}
         iconUrl={`https://gem-widgets-assets.s3-us-west-2.amazonaws.com/currencies/crypto/${account.accountId.toLowerCase()}.svg`}
+        fallbackIconUrl="https://gem-widgets-assets.s3-us-west-2.amazonaws.com/currencies/crypto/placeholder.svg"
         dots={false}
         hideButton={hideButton}
       />
