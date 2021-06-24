@@ -112,11 +112,7 @@ const CredentialsScreen = ({ dataStore, uiStore }) => {
       {connectingExchangeFormOpen &&
         currentScreenState !== ScreenStates.LOADING &&
         currentScreenState !== ScreenStates.LOADING_EXCHANGES && (
-          <ExchangeForm
-            exchanges={exchanges}
-            setCurrentScreenState={setCurrentScreenState}
-            currentScreenState={currentScreenState}
-          />
+          <ExchangeForm exchanges={exchanges} dataStore={dataStore} />
         )}
       {currentScreenState !== ScreenStates.LOADING &&
         dataStore.credentials.map((credential) => (
@@ -143,7 +139,7 @@ const FormStates = {
   TRANSFERRING: 'transferring',
 };
 
-const ExchangeForm = ({ exchanges }) => {
+const ExchangeForm = ({ exchanges, dataStore }) => {
   const [selectedExchange, setSelectedExchange] = useState(null);
   const [exchangeSearchValue, setExchangeSearchValue] = useState('');
   const [sdkUri, setSdkUri] = useState();
@@ -165,6 +161,10 @@ const ExchangeForm = ({ exchanges }) => {
         console.log('[Gem Flow] form-ready received', data);
         setMessageSharedData(data);
       }
+      if (data.eventType === 'form-not-ready') {
+        console.log('[Gem Flow] form-not-ready received', data);
+        setMessageSharedData(data);
+      }
       if (data.eventType === 'connection-error') {
         console.log('[Gem Flow] connection-error received', data);
         setCurrentFormState(FormStates.ERROR);
@@ -182,7 +182,7 @@ const ExchangeForm = ({ exchanges }) => {
     };
 
     window.addEventListener('message', messageEventListener);
-    return window.removeEventListener('message', messageEventListener);
+    // return window.removeEventListener('message', messageEventListener);
   }, []);
 
   if (currentFormState === FormStates.LOADING_EXCHANGES) {
