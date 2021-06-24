@@ -7,8 +7,9 @@ phases:
     commands:
       - echo Build started on `date`
       - echo running yarn
+      - cd client
       - yarn
-      - yarn build:client
+      - yarn build
   post_build:
     commands:
       - echo Build completed on `date`
