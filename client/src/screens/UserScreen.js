@@ -24,9 +24,13 @@ const UserScreen = ({ dataStore, uiStore }) => {
         numberOfItems={dataStore.users.length}
         itemTitle="User"
         createItem={async (user) => {
-          setCreatingUser(true);
-          await dataStore.createUser(user);
-          setCreatingUser(false);
+          try {
+            setCreatingUser(true);
+            await dataStore.createUser(user);
+            setCreatingUser(false);
+          } catch (e) {
+            setCreatingUser(false);
+          }
         }}
         withOpenForm={false}
         buttonDisabled={creatingUser}

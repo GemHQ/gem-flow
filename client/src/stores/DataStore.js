@@ -299,14 +299,19 @@ class DataStore {
     return data;
   };
   @action createUser = async ({ password }) => {
-    const { body } = await this.client.apis.Users.post_users(null, {
-      requestBody: { password },
-      server: SERVER_URL,
-    });
-    const user = { ...body.data, password };
-    console.log(user);
-    this.usersMap.set(user.userName, user);
-    persistNewUser(user);
+    try {
+      const { body } = await this.client.apis.Users.post_users(null, {
+        requestBody: { password },
+        server: SERVER_URL,
+      });
+      const user = { ...body.data, password };
+      console.log(user);
+      this.usersMap.set(user.userName, user);
+      persistNewUser(user);
+    } catch (e) {
+      this.setError(error.message);
+      throw e;
+    }
   };
   @action createProfile = async (profileFormData) => {
     this.isPosting = true;
