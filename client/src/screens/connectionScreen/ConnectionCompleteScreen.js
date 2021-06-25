@@ -6,9 +6,11 @@ import { withStores, withUiStore } from '../../stores/StoresUtil';
 const ConnectionCompleteScreen = ({ uiStore, dataStore }) => {
   // const [isPosting, setIsPosting] = useState(false);
   const createCredentialWithCode = async () => {
+    let isLoading = false;
     const interval = setInterval(async () => {
       try {
-        if (dataStore.client) {
+        if (dataStore.client && !isLoading) {
+          isLoading = true;
           let params = new URL(document.location).searchParams;
           let coinbaseCode = params.get('code');
           console.log('coinbase code:', coinbaseCode);
