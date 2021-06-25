@@ -42,7 +42,7 @@ class ProgressMap extends Component {
         ? capitalizeFirstLetter(dataStore.selectedCredential.exchangeId)
         : '-',
       [ScreenNames.ACCOUNT]: dataStore.selectedAccount
-        ? dataStore.selectedAccount.accountId
+        ? dataStore.selectedAccount.currency.currencyCode
         : '-',
       [ScreenNames.HISTORY]: '-',
     };
