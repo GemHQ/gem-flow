@@ -129,30 +129,6 @@ class DataStore {
       return response;
     } catch (e) {
       console.error(e);
-      const accounts = [
-        {
-          accountId: 'BTC',
-          accountType: 'DEPOSIT',
-          availableBalance: 2.5,
-          balanceAsOf: '2021-06-18T18:01:29.201Z',
-          balanceType: 'ASSET',
-          currentBalance: 2.5,
-          description: 'An account description',
-          status: 'OPEN',
-          exchangeId: 'coinbase',
-          currency: {
-            currencyCode: 'BTC',
-            originalCurrencyCode: 'BTC',
-          },
-          transferIn: false,
-          transferOut: false,
-        },
-      ];
-      accounts.forEach((account) =>
-        this.accountsMap.set(account.accountId, account)
-      );
-      return accounts;
-      throw e;
     }
   };
   @action getTransactions = async () => {
