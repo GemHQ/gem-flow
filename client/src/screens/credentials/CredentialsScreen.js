@@ -9,11 +9,11 @@ import {
   sendCloseMessage,
   setMessageSharedData,
 } from '../../util/MessageUtil';
-import { withFlowStore, withStores } from '../../stores/StoresUtil';
+import { withStores } from '../../stores/StoresUtil';
 import { ScreenNames } from '../../stores/Constants';
 import { toJS } from 'mobx';
 import ConnectionCard from '../../components/cards/ConnectionCard';
-import { connection } from '../../stories/3-Cards.stories';
+import { IntuiConnectURL } from '../../constants/Env';
 
 const ScreenStates = {
   DEFAULT: 'default',
@@ -154,7 +154,7 @@ const ExchangeForm = ({ exchanges, dataStore }) => {
 
   useEffect(() => {
     const messageEventListener = (event) => {
-      if (event.origin !== 'http://localhost:8080') return;
+      if (event.origin !== IntuiConnectURL) return;
       const data = JSON.parse(event.data);
       setIframeHeight(data.height);
       if (data.eventType === 'form-ready') {
@@ -265,10 +265,7 @@ const ExchangeForm = ({ exchanges, dataStore }) => {
           <>
             <ExchangeHeader exchange={selectedExchange} />
             <div id="iframe-container">
-              <iframe
-                src={`http://localhost:8080?${sdkUri}`}
-                id="inuit-connect"
-              />
+              <iframe src={`${IntuiConnectURL}?${sdkUri}`} id="inuit-connect" />
             </div>
             <div className="divider" />
             <div className="buttons-container">
