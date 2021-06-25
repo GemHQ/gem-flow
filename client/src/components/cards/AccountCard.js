@@ -37,7 +37,7 @@ const AccountCard = ({
 export const ExchangeAccountCard = withPrimaryColor(
   ({ account, onButtonClick, primaryColor, hideButton, buttonText }) => {
     const titlesAndValues = [
-      { title: 'ACCOUNT_ID', value: account.accountId },
+      { title: 'ACCOUNT_ID', value: account.currency.currencyCode },
       { title: 'BALANCE', value: account.currentBalance },
     ];
 
@@ -47,7 +47,7 @@ export const ExchangeAccountCard = withPrimaryColor(
         buttonText={buttonText || 'View Transactions'}
         onButtonClick={onButtonClick}
         primaryColor={primaryColor}
-        iconUrl={`https://gem-widgets-assets.s3-us-west-2.amazonaws.com/currencies/crypto/${account.accountId.toLowerCase()}.svg`}
+        iconUrl={`https://gem-widgets-assets.s3-us-west-2.amazonaws.com/currencies/crypto/${account.currency.currencyCode.toLowerCase()}.svg`}
         fallbackIconUrl="https://gem-widgets-assets.s3-us-west-2.amazonaws.com/currencies/crypto/placeholder.svg"
         dots={false}
         hideButton={hideButton}

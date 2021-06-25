@@ -40,13 +40,7 @@ const AccountScreen = ({ dataStore, uiStore }) => {
       </h2>
       {dataStore.accounts.map((account) => (
         <ExchangeAccountCard
-          account={{
-            ...account,
-            accountId:
-              account.exchangeId === 'kraken'
-                ? account.accountId.substr(1)
-                : account.accountId,
-          }}
+          account={account}
           key={account.accountId}
           onButtonClick={() => {
             dataStore.selectAccount(account.accountId);
