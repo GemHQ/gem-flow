@@ -80,8 +80,10 @@ const CredentialsScreen = ({ dataStore, uiStore }) => {
           setCurrentScreenState(ScreenStates.DEFAULT);
           clearInterval(interval);
         }
-      } catch (e) {}
-    }, 1000);
+      } catch (e) {
+        setCurrentScreenState(ScreenStates.DEFAULT);
+      }
+    }, 200);
   };
 
   useEffect(() => {
