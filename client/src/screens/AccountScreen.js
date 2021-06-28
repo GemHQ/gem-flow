@@ -1,17 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import AccountCard, {
-  ExchangeAccountCard,
-} from '../components/cards/AccountCard';
+import { ExchangeAccountCard } from '../components/cards/AccountCard';
 import { withStores } from '../stores/StoresUtil';
 import { ScreenNames } from '../stores/Constants';
 import ErrorMessage from '../components/basic/errorMessage/ErrorMessage';
-
-// as a function to avoid runtime initialization error
-// const CardsByFlowId = () => ({
-//   [FlowIds.ONRAMP]: AccountCard,
-//   [FlowIds.TRANSFER]: ExchangeAccountCard,
-//   [FlowIds.CONNECT]: ExchangeAccountCard,
-// });
 
 const AccountScreen = ({ dataStore, uiStore }) => {
   const [loading, setLoading] = useState(false);
