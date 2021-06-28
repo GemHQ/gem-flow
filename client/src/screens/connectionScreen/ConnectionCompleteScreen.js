@@ -1,10 +1,19 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import CheckCircle from '../../assets/check_circle.svg';
+import ErrorMessage from '../../components/basic/errorMessage/ErrorMessage';
 import { ScreenNames } from '../../stores/Constants';
-import { withStores, withUiStore } from '../../stores/StoresUtil';
+import { withStores } from '../../stores/StoresUtil';
+
+const ScreenStates = {
+  DEFAULT: 'default',
+  SUCCESS: 'success',
+  ERROR: 'error',
+};
 
 const ConnectionCompleteScreen = ({ uiStore, dataStore }) => {
-  // const [isPosting, setIsPosting] = useState(false);
+  const [currentScreenState, setCurrentScreenState] = useState(
+    ScreenStates.DEFAULT
+  );
   const createCredentialWithCode = async () => {
     let isLoading = false;
     const interval = setInterval(async () => {
@@ -15,31 +24,51 @@ const ConnectionCompleteScreen = ({ uiStore, dataStore }) => {
           let coinbaseCode = params.get('code');
           console.log('coinbase code:', coinbaseCode);
           await dataStore.createCredentialWithOAuthCode(coinbaseCode);
-          setTimeout(() => uiStore.setCurrentScreen(ScreenNames.ACCOUNT), 0);
+          setCurrentScreenState(ScreenStates.SUCCESS);
+          setTimeout(() => uiStore.setCurrentScreen(ScreenNames.ACCOUNT), 1000);
           clearInterval(interval);
         }
-      } catch (e) {}
-    }, 1000);
-
-    // try {
-    //   let params = new URL(document.location).searchParams;
-    //   let coinbaseCode = params.get('code');
-    //   console.log('coinbase code:', coinbaseCode);
-    //   await dataStore.createCredentialWithOAuthCode(coinbaseCode);
-    //   setTimeout(() => uiStore.setCurrentScreen(ScreenNames.ACCOUNT), 0);
-    // } catch (e) {}
+      } catch (e) {
+        setCurrentScreenState(ScreenStates.ERROR);
+      }
+    }, 200);
   };
   useEffect(() => {
     createCredentialWithCode();
   }, []);
-  return (
-    <div className="screen-container no-border">
-      <div className="center">
-        <img className="connection-success" alt="Success" src={CheckCircle} />
-        <h2>Connection Complete!</h2>
+
+  if (currentScreenState === ScreenStates.SUCCESS) {
+    return (
+      <div className="screen-container no-border">
+        <div className="center">
+          <img className="connection-success" alt="Success" src={CheckCircle} />
+          <h2>Connection Complete!</h2>
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
+
+  if (currentScreenState === ScreenStates.ERROR) {
+    return (
+      <>
+        <ErrorMessage />
+        <div className="screen-container no-border">
+          <div className="center">
+            <h2
+              className="Underline Pointer"
+              onClick={() => {
+                uiStore.setCurrentScreen(ScreenNames.CREDENTIALS);
+              }}
+            >
+              Try again
+            </h2>
+          </div>
+        </div>
+      </>
+    );
+  }
+
+  return <h1>Loading...</h1>;
 };
 
 export default withStores(ConnectionCompleteScreen);
