@@ -42,6 +42,7 @@ const CredentialsScreen = ({ dataStore, uiStore }) => {
   const [currentScreenState, setCurrentScreenState] = useState(
     uiStore.withOpenForm ? ScreenStates.LOADING_EXCHANGES : ScreenStates.LOADING
   );
+  const [isTransferring, setIsTransferring] = useState(false);
 
   const getScreenTitle = (screenState) => {
     if (
@@ -93,30 +94,39 @@ const CredentialsScreen = ({ dataStore, uiStore }) => {
   return (
     <>
       <ErrorMessage />
-      <div className="FlexAlignCenter SpaceBetween">
-        <h2 className="ScreenHeading">{getScreenTitle(currentScreenState)}</h2>
-        {currentScreenState === ScreenStates.LOADING ||
-        currentScreenState === ScreenStates.LOADING_EXCHANGES ? (
-          <div />
-        ) : connectingExchangeFormOpen ? (
-          <p
-            className="Cancel"
-            onClick={() => setConnectingExchangeFormOpen(false)}
-          >
-            Cancel
-          </p>
-        ) : (
-          <BorderedButton
-            color={uiStore.primaryColor}
-            onClick={() => setConnectingExchangeFormOpen(true)}
-          >{`+ Add new credentials`}</BorderedButton>
-        )}
-      </div>
+      {!isTransferring && (
+        <div className="FlexAlignCenter SpaceBetween">
+          <h2 className="ScreenHeading">
+            {getScreenTitle(currentScreenState)}
+          </h2>
+          {currentScreenState === ScreenStates.LOADING ||
+          currentScreenState === ScreenStates.LOADING_EXCHANGES ? (
+            <div />
+          ) : connectingExchangeFormOpen ? (
+            <p
+              className="Cancel"
+              onClick={() => setConnectingExchangeFormOpen(false)}
+            >
+              Cancel
+            </p>
+          ) : (
+            <BorderedButton
+              color={uiStore.primaryColor}
+              onClick={() => setConnectingExchangeFormOpen(true)}
+            >{`+ Add new credentials`}</BorderedButton>
+          )}
+        </div>
+      )}
 
       {connectingExchangeFormOpen &&
         currentScreenState !== ScreenStates.LOADING &&
         currentScreenState !== ScreenStates.LOADING_EXCHANGES && (
-          <ExchangeForm exchanges={exchanges} dataStore={dataStore} />
+          <ExchangeForm
+            exchanges={exchanges}
+            dataStore={dataStore}
+            uiStore={uiStore}
+            setIsTransferring={() => setIsTransferring(true)}
+          />
         )}
       {currentScreenState !== ScreenStates.LOADING &&
         dataStore.credentials.map((credential) => (
@@ -143,7 +153,7 @@ const FormStates = {
   TRANSFERRING: 'transferring',
 };
 
-const ExchangeForm = ({ exchanges, dataStore }) => {
+const ExchangeForm = ({ exchanges, dataStore, uiStore, setIsTransferring }) => {
   const [selectedExchange, setSelectedExchange] = useState(null);
   const [exchangeSearchValue, setExchangeSearchValue] = useState('');
   const [sdkUri, setSdkUri] = useState();
@@ -239,6 +249,7 @@ const ExchangeForm = ({ exchanges, dataStore }) => {
               onSelect={async (exchange) => {
                 if (exchange.id === 'coinbase') {
                   try {
+                    setIsTransferring();
                     setCurrentFormState(FormStates.TRANSFERRING);
                     const { body } =
                       await dataStore.getCoinbaseAuthorizationURI();

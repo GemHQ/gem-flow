@@ -185,6 +185,7 @@ class DataStore {
   };
   @action getCredentials = async () => {
     try {
+      if (!this.client) return;
       this.credentialMap.clear();
       const response = await this.client.apis.Credentials.get_credentials(
         null,
@@ -280,7 +281,9 @@ class DataStore {
       );
       console.log('coinbase credential', body.data);
     } catch (e) {
+      this.setError('There was a problem connecting your Coinbase account.');
       console.error(e);
+      throw e;
     }
   };
 
