@@ -8,20 +8,17 @@ import Header from './components/header/Header';
 import Divider from './components/basic/divider/Divider';
 import { ScreenNames } from './stores/Constants';
 import UserScreen from './screens/UserScreen';
-import ProfileScreen from './screens/ProfileScreen';
-import ConnectionScreen from './screens/connectionScreen/ConnectionScreen';
 import AccountScreen from './screens/AccountScreen';
-import TransactionScreen from './screens/TransactionScreen';
-import { withStores, withUiStore } from './stores/StoresUtil';
+import { withStores } from './stores/StoresUtil';
 import HistoryScreen from './screens/HistoryScreen';
 import CredentialsScreen from './screens/credentials/CredentialsScreen';
 import ConnectionCompleteScreen from './screens/connectionScreen/ConnectionCompleteScreen';
 
-const App = ({ uiStore }) => {
+const App = () => {
   return (
     <div className="AppContainer">
       <div className="App">
-        <Header flowName={uiStore.flow.id} />
+        <Header />
         <Divider marginBottom />
         <SmartInstructions />
         <ProgressMap />
@@ -34,11 +31,13 @@ const App = ({ uiStore }) => {
   );
 };
 
-const Screens = withUiStore(({ uiStore }) => {
+const Screens = withStores(({ uiStore, dataStore }) => {
   let history = useHistory();
   useEffect(() => {
-    console.log('history', history);
     uiStore.setHistory(history);
+    history.listen(() => {
+      dataStore.setError('');
+    });
   }, []);
   return (
     <Switch>
@@ -66,4 +65,4 @@ const SmartInstructions = withStores(({ dataStore, uiStore }) => {
   return null;
 });
 
-export default withUiStore(App);
+export default App;
