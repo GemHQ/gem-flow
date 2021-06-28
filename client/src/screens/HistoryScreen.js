@@ -1,15 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import './transactionHistory.scss';
 import { withStores } from '../stores/StoresUtil';
-import { ScreenNames, FlowIds } from '../stores/Constants';
+import { ScreenNames } from '../stores/Constants';
 import { ExchangeAccountCard } from '../components/cards/AccountCard';
-
-// as a function to avoid runtime initialization error
-const CardsByFlowId = () => ({
-  [FlowIds.ONRAMP]: ExchangeAccountCard,
-  [FlowIds.TRANSFER]: ExchangeAccountCard,
-  [FlowIds.CONNECT]: ExchangeAccountCard,
-});
+import ErrorMessage from '../components/basic/errorMessage/ErrorMessage';
 
 const HistoryScreen = ({ dataStore, uiStore }) => {
   const account = dataStore.selectedAccount;
@@ -33,6 +27,7 @@ const HistoryScreen = ({ dataStore, uiStore }) => {
 
   return (
     <>
+      <ErrorMessage />
       <h2 className="ScreenHeading noPadding">
         {loading ? 'Loading Transaction History...' : 'Transaction History'}
       </h2>

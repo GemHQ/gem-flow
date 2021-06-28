@@ -14,6 +14,7 @@ import { ScreenNames } from '../../stores/Constants';
 import { toJS } from 'mobx';
 import ConnectionCard from '../../components/cards/ConnectionCard';
 import { IntuiConnectURL } from '../../constants/Env';
+import ErrorMessage from '../../components/basic/errorMessage/ErrorMessage';
 
 const ScreenStates = {
   DEFAULT: 'default',
@@ -89,6 +90,7 @@ const CredentialsScreen = ({ dataStore, uiStore }) => {
   }, []);
   return (
     <>
+      <ErrorMessage />
       <div className="FlexAlignCenter SpaceBetween">
         <h2 className="ScreenHeading">{getScreenTitle(currentScreenState)}</h2>
         {currentScreenState === ScreenStates.LOADING ||
