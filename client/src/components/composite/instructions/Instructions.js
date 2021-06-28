@@ -16,18 +16,29 @@ const InstructionsCmp = ({ uiStore }) => (
       />
     </div> */}
     <div className="Steps">
-      {descriptions[uiStore.flow.id].map((Description, i) => <Step Description={Description} index={i} key={`${uiStore.flow.id}-${i}`} />)}
+      {descriptions[uiStore.flow.id].map((Description, i) => (
+        <Step
+          Description={Description}
+          index={i}
+          key={`${uiStore.flow.id}-${i}`}
+        />
+      ))}
     </div>
   </div>
 );
 
 export default observer(InstructionsCmp);
 
-const Highlighted = ({ color, children }) => <span style={{ color }}>{children}</span>;
+const Highlighted = ({ color, children }) => (
+  <span style={{ color }}>{children}</span>
+);
 
 const Step = ({ Description, index }) => (
   <div className="Step">
-    <p className="StepTitle">{`STEP ${index + 1} `}<span className="Hyphen">----</span></p>
+    <p className="StepTitle">
+      {`STEP ${index + 1} `}
+      <span className="Hyphen">----</span>
+    </p>
     {Description}
   </div>
 );
@@ -38,22 +49,62 @@ const transferColor = Flows.Transfer.primaryColor;
 
 const descriptions = {
   [FlowIds.ONRAMP]: [
-    <p>Add a <Highlighted color={onrampColor}>new user</Highlighted></p>,
-    <p>Create a <Highlighted color={onrampColor}>profile</Highlighted> using a user's KYC data</p>,
-    <p>Create a <Highlighted color={onrampColor}>connection</Highlighted> using the <Highlighted color={onrampColor}>test credentials</Highlighted> provided in the sandbox mode</p>,
-    <p>Link an <Highlighted color={onrampColor}>account</Highlighted> to the connection.</p>,
-    <p>Excecute a <Highlighted color={onrampColor}>transaction</Highlighted> using the account.</p>,  
+    <p>
+      Add a <Highlighted color={onrampColor}>new user</Highlighted>
+    </p>,
+    <p>
+      Create a <Highlighted color={onrampColor}>profile</Highlighted> using a
+      user's KYC data
+    </p>,
+    <p>
+      Create a <Highlighted color={onrampColor}>connection</Highlighted> using
+      the <Highlighted color={onrampColor}>test credentials</Highlighted>{' '}
+      provided in the sandbox mode
+    </p>,
+    <p>
+      Link an <Highlighted color={onrampColor}>account</Highlighted> to the
+      connection.
+    </p>,
+    <p>
+      Excecute a <Highlighted color={onrampColor}>transaction</Highlighted>{' '}
+      using the account.
+    </p>,
   ],
   [FlowIds.CONNECT]: [
-    <p>Add a <Highlighted color={connectColor}>new user</Highlighted></p>,
-    <p>Create a <Highlighted color={connectColor}>connection</Highlighted> using <Highlighted color={connectColor}>exchange credentials</Highlighted></p>,
-    <p>View the <Highlighted color={connectColor}>transaction history</Highlighted> available to the <Highlighted color={connectColor}>connection</Highlighted></p>,
+    <p>
+      Add a <Highlighted color={connectColor}>new user</Highlighted>
+    </p>,
+    <p>
+      Create a <Highlighted color={connectColor}>connection</Highlighted> using{' '}
+      <Highlighted color={connectColor}>exchange credentials</Highlighted>
+    </p>,
+    <p>
+      View exchange <Highlighted color={connectColor}>accounts</Highlighted>{' '}
+      using connected{' '}
+      <Highlighted color={connectColor}>credentials</Highlighted>
+    </p>,
+    <p>
+      View the{' '}
+      <Highlighted color={connectColor}>transaction history</Highlighted>{' '}
+      associated with an <Highlighted color={connectColor}>account</Highlighted>
+    </p>,
   ],
   [FlowIds.TRANSFER]: [
-    <p>Add a <Highlighted color={transferColor}>new user</Highlighted></p>,
-    <p>Create a <Highlighted color={transferColor}>connection</Highlighted> using <Highlighted color={transferColor}>exchange credentials</Highlighted></p>,
-    <p>View the <Highlighted color={transferColor}>accounts</Highlighted> available in the <Highlighted color={transferColor}>connection</Highlighted></p>,
-    <p>Excecute a <Highlighted color={transferColor}>transfer</Highlighted> to a supplied blockchain address.</p>, 
-  ]
+    <p>
+      Add a <Highlighted color={transferColor}>new user</Highlighted>
+    </p>,
+    <p>
+      Create a <Highlighted color={transferColor}>connection</Highlighted> using{' '}
+      <Highlighted color={transferColor}>exchange credentials</Highlighted>
+    </p>,
+    <p>
+      View the <Highlighted color={transferColor}>accounts</Highlighted>{' '}
+      available in the{' '}
+      <Highlighted color={transferColor}>connection</Highlighted>
+    </p>,
+    <p>
+      Excecute a <Highlighted color={transferColor}>transfer</Highlighted> to a
+      supplied blockchain address.
+    </p>,
+  ],
 };
-
