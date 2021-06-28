@@ -74,9 +74,7 @@ class DataStore {
     const users = getPersistedUsers();
     this.usersMap = new Map();
     users.forEach((user) => this.usersMap.set(user.userName, user));
-    console.log('this.selectedUser', this.selectedUser);
     setTimeout(() => {
-      console.log('this.selectedUser', this.selectedUser);
       if (this.selectedUser) {
         this.client.authorizations.BasicAuth = {
           username: this.selectedUser.userName,
@@ -85,8 +83,6 @@ class DataStore {
       }
       console.log(this.client);
     }, 100);
-
-    // return await this.getItems(Endpoints.USER, this.usersMap);
   };
   @action getProfiles = async () => {
     return await this.getItems(
@@ -102,19 +98,11 @@ class DataStore {
   };
   @action getConnections = async () => {
     if (!this.selectedUser) return;
-    // const connections = getPersistedConnectionsForUser(
-    //   this.selectedUser.userName
-    // );
     connections.forEach((connection) =>
       this.connectionsMap.set(connection.id, connection)
     );
-
-    // return this.getItems(
-    //   `${Endpoints.CONNECTIONS}/${this.selectedUser.userName}`,
-    //   this.connectionsMap
-    // );
   };
-  @action getAccounts = async (connectionId) => {
+  @action getAccounts = async () => {
     try {
       this.accountsMap.clear();
       const response = await this.client.apis.Accounts.get_accounts(null, {
@@ -122,7 +110,6 @@ class DataStore {
         parameters: { proxyToken: this.selectedCredential.proxyToken },
       });
       const accounts = response.body.data;
-      console.log('accounts', accounts);
       accounts.forEach((account) =>
         this.accountsMap.set(account.accountId, account)
       );
@@ -132,7 +119,6 @@ class DataStore {
     }
   };
   @action getTransactions = async () => {
-    console.log('getting transactions');
     try {
       this.transactionsMap.clear();
       const response = await this.client.apis.Transactions.get_transactions(
@@ -150,61 +136,9 @@ class DataStore {
       );
     } catch (e) {
       console.error(e);
-      const transactions = [
-        {
-          exchangeId: 'coinbase',
-          accountId: '56ff2fr39-64c1-5316-ae32-5a5394bccac3',
-          transactionId: '71f7f46a-f5d9-5faf-b72d-5d673fcbd680',
-          transactionType: 'TRANSFER',
-          debitCreditMemo: 'DEBIT',
-          amount: 0.00012109,
-          amountCurrency: 'BTC',
-          foreignAmount: 0.91,
-          foreignAmountCurrency: 'USD',
-          description: 'Sent 0.00012109 BTC ($0.91)',
-          status: 'POSTED',
-        },
-      ];
-      transactions.forEach((trx) =>
-        this.transactionsMap.set(trx.transactionId, trx)
-      );
     }
   };
   @action getInstitutions = async () => {
-    // return {
-    //   body: {
-    //     data: [
-    //       {
-    //         id: 'bittrex',
-    //         name: 'Bittrex',
-    //         website: 'bittrex.com',
-    //         phone: '(333) 333-3333',
-    //         logo: `https://gem-widgets-assets.s3-us-west-2.amazonaws.com/institutions/icons/color/bittrex_color_logo%402x.png`,
-    //       },
-    //       {
-    //         id: 'coinbase',
-    //         name: 'Coinbase',
-    //         website: 'coinbase.com',
-    //         phone: '(333) 333-3333',
-    //         logo: `https://gem-widgets-assets.s3-us-west-2.amazonaws.com/institutions/icons/color/coinbase_color_logo%402x.png`,
-    //       },
-    //       {
-    //         id: 'gate-io',
-    //         name: 'Gate.io',
-    //         website: 'gate.io',
-    //         phone: '(333) 333-3333',
-    //         logo: `https://gem-widgets-assets.s3-us-west-2.amazonaws.com/institutions/icons/color/gate-io_color_logo%402x.png`,
-    //       },
-    //       {
-    //         id: 'kraken',
-    //         name: 'Kraken',
-    //         website: 'kraken.com',
-    //         phone: '(333) 333-3333',
-    //         logo: `https://gem-widgets-assets.s3-us-west-2.amazonaws.com/institutions/icons/color/kraken_color_logo%402x.png`,
-    //       },
-    //     ],
-    //   },
-    // };
     try {
       const response = await this.client.apis.Exchanges.get_exchanges(null, {
         server: SERVER_URL,
@@ -224,7 +158,6 @@ class DataStore {
           server: SERVER_URL,
         }
       );
-      console.log('coinbase auth uri', response);
       return response;
     } catch (e) {
       console.error(e);
@@ -237,7 +170,6 @@ class DataStore {
         parameters: { exchangeId },
         server: SERVER_URL,
       });
-      console.log('sdk uri', response);
       return response;
     } catch (e) {
       console.error(e);
@@ -253,11 +185,9 @@ class DataStore {
           server: SERVER_URL,
         }
       );
-      console.log('credentials', response);
       response.body.data.forEach((credential) =>
         this.credentialMap.set(credential.proxyToken, credential)
       );
-      console.log('credentials', this.credentials);
     } catch (e) {
       console.error(e);
       throw e;
@@ -320,11 +250,6 @@ class DataStore {
     if (!this.selectedUser) return;
     this.connectionsMap.set(connection.id, connection);
     persistConnection(this.selectedUser.userName, connection);
-    // const connectionBody = formatConnectionRequest({
-    //   credentialId,
-    //   userId: this.selectedUser.userName,
-    // });
-    // this.createItem(Endpoints.CONNECTIONS, connectionBody, this.connectionsMap);
   };
   @action createAccount = async (account) => {
     this.createItem(Endpoints.ACCOUNT, account, this.accountsMap);
@@ -353,15 +278,11 @@ class DataStore {
   };
 
   // item selector methods with flow store cleanup management
-  @action selectUser = (userName, nextScreen) => {
+  @action selectUser = (userName) => {
     const user = this.usersMap.get(userName);
     this.selectedUser = user;
-    // this.clearProfiles();
-    // this.clearInstitutionUsers();
     this.clearConnections();
     this.clearAccounts();
-    // if (nextScreen === ScreenNames.PROFILE) this.getProfiles();
-    // if (nextScreen === ScreenNames.CONNECTION) this.getConnections();
     this.client.authorizations.BasicAuth = {
       username: userName,
       password: user.password,
@@ -393,7 +314,6 @@ class DataStore {
     if (this.selectedAccount && id === this.selectedAccount.id) return;
     this.selectedAccount = this.accountsMap.get(id);
     this.clearTransactions();
-    // this.getTransactions();
   };
   @action selectCredential = (credential) => {
     this.selectedCredential = credential;
@@ -403,7 +323,6 @@ class DataStore {
   @action removeUser = (id) => {
     this.usersMap.delete(id);
     deletePersistedUser(id);
-    // httpDelete(`${Endpoints.USER}/${id}`);
   };
   @action removeProfile = (id) => {
     this.profilesMap.delete(id);
