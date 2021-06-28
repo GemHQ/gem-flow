@@ -1,11 +1,6 @@
 import { observable, action, computed } from 'mobx';
 import { FlowIds, Flows, ScreenNames } from './Constants';
-import {
-  persistSelectedFlowId,
-  getPersistedFlowId,
-  // getPersistedScreen,
-  // persistCurrentScreen,
-} from '../util/PersistUtil';
+import { persistSelectedFlowId, getPersistedFlowId } from '../util/PersistUtil';
 
 class UIStore {
   @observable flow = Flows[FlowIds.CONNECT];
@@ -17,12 +12,10 @@ class UIStore {
   constructor() {
     const persistedFlowId = getPersistedFlowId();
     if (persistedFlowId) this.setFlow(persistedFlowId);
-    // this.determineScreen();
     this.currentScreen = window.location.pathname;
   }
 
   setHistory(history) {
-    console.log('setting history', history);
     this.history = history;
   }
 
@@ -37,7 +30,6 @@ class UIStore {
     this.history.push(screen);
     this.currentScreen = screen;
     initialState && this.initialScreenStates.set(screen, initialState);
-    // persistCurrentScreen(screen);
   };
 
   // each flow has it's own color
