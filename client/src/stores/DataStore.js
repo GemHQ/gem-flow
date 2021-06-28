@@ -215,7 +215,7 @@ class DataStore {
       this.usersMap.set(user.userName, user);
       persistNewUser(user);
     } catch (e) {
-      this.setError(error.message);
+      this.setError('Failed to create user. Try a longer password.');
       throw e;
     }
   };
@@ -402,6 +402,7 @@ class DataStore {
     this.errorMessage = '';
   };
   @action setError = (errorMessage) => {
+    console.log('set error:', errorMessage);
     // errorMessage may be null, hence default value in the params (message = 'Unknown Error') will not work
     this.errorMessage = errorMessage || 'Unknown Error';
   };
