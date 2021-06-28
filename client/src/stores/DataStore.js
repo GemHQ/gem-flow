@@ -104,6 +104,7 @@ class DataStore {
   };
   @action getAccounts = async () => {
     try {
+      if (!this.client) return;
       this.accountsMap.clear();
       const response = await this.client.apis.Accounts.get_accounts(null, {
         server: SERVER_URL,
@@ -115,11 +116,13 @@ class DataStore {
       );
       return response;
     } catch (e) {
+      this.setError('Failed to fetch accounts.');
       console.error(e);
     }
   };
   @action getTransactions = async () => {
     try {
+      if (!this.client) return;
       this.transactionsMap.clear();
       const response = await this.client.apis.Transactions.get_transactions(
         null,
@@ -135,6 +138,7 @@ class DataStore {
         this.transactionsMap.set(trx.transactionId, trx)
       );
     } catch (e) {
+      this.setError('Failed to fetch transaction history.');
       console.error(e);
     }
   };
