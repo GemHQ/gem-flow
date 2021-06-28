@@ -15,13 +15,9 @@ export const persistSelectedFlowId = (flowId) => {
 
 export const persistNewUser = (user) => {
   try {
-    console.log('persiting new user', user);
     const usersJson = localStorage.getItem(USERS_STORAGE_KEY);
-    console.log('usersJson', usersJson);
     let users = usersJson ? JSON.parse(usersJson) : [];
-    console.log('users', users);
     users = [...users, JSON.stringify(user)];
-    console.log('users', users);
     localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(users));
   } catch (e) {
     console.error(e);
@@ -54,14 +50,10 @@ export const getPersistedFlowId = () => {
 
 export const getPersistedUsers = () => {
   try {
-    console.log('getting users');
     const usersJson = localStorage.getItem(USERS_STORAGE_KEY);
-    console.log('usersJson', usersJson);
     if (!usersJson) return [];
     let users = JSON.parse(usersJson);
-    console.log('users', users);
     users = users.map((user) => JSON.parse(user));
-    console.log('users', users);
     return users;
   } catch (e) {
     console.error(e);
@@ -81,18 +73,14 @@ export const getPersistedConnectionsForUser = (userId) => {
 
 export const deletePersistedUser = (userName) => {
   try {
-    console.log('deleting user', userName);
     const usersJson = localStorage.getItem(USERS_STORAGE_KEY);
-    console.log('usersJson', usersJson);
     if (!usersJson) throw new Error(`No user of with username ${userName}`);
     let users = JSON.parse(usersJson);
-    console.log('users', users);
     users = users.filter((userJson) => {
       const user = JSON.parse(userJson);
-      return user.id !== userName;
+      return user.userName !== userName;
     });
-    console.log('users', users);
-    localStorage.setItem(USERS_STORAGE_KEY, users);
+    localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(users));
   } catch (e) {
     console.error(e);
   }
