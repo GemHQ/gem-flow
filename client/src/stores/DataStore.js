@@ -145,6 +145,7 @@ class DataStore {
       });
       return response;
     } catch (e) {
+      this.setError('Failed to fetch exchanges list.');
       console.error(e);
       throw e;
     }
@@ -160,6 +161,7 @@ class DataStore {
       );
       return response;
     } catch (e) {
+      this.setError('Failed to fetch Coinbase Authorization URI.');
       console.error(e);
       throw e;
     }
@@ -172,6 +174,7 @@ class DataStore {
       });
       return response;
     } catch (e) {
+      this.setError('Failed to fetch SDK token.');
       console.error(e);
       throw e;
     }
@@ -189,7 +192,7 @@ class DataStore {
         this.credentialMap.set(credential.proxyToken, credential)
       );
     } catch (e) {
-      console.error(e);
+      this.setError('Failed to fetch credentails.');
       throw e;
     }
   };
