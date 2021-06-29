@@ -1,27 +1,40 @@
-@import url('https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,700&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Nunito+Sans:400,700&display=swap');
 
 * {
   box-sizing: border-box;
 }
 
-p, h1, h2, h3, h4, h5, h6, button, input, form, div, header {
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+button,
+input,
+form,
+div,
+header {
   font-family: 'Nunito Sans', sans-serif;
   color: #424242;
-  font-weight: 300;
+  font-weight: 400;
   padding: 0;
   margin: 0;
   font-size: 14px;
-  line-height: 1.4
+  line-height: 1.4;
 }
 
 h1 {
   font-size: 24px;
-  font-weight: 400;
+  /* font-weight: 400; */
 }
 
-h2, h2, h3 {
+/* h2,
+h2,
+h3 {
   font-weight: 400;
-}
+} */
 
 .AppContainer {
   display: flex;
@@ -36,18 +49,18 @@ h2, h2, h3 {
 
 .ScreenHeading {
   font-size: 20px;
-  font-weight: 400;
+  /* font-weight: 400; */
   padding: 8px 0;
 }
 
 .OnrampColor {
-  color: #9C27B0 !important;
+  color: #9c27b0 !important;
 }
 .TransferColor {
-  color: #478FCC !important;
+  color: #478fcc !important;
 }
 .ConnectColor {
-  color: #C0CA33 !important;
+  color: #c0ca33 !important;
 }
 
 .MediumTextSize {
@@ -69,10 +82,10 @@ h2, h2, h3 {
   color: #424242 !important;
 }
 .GreyText {
-  color: #8E8E8E !important;
+  color: #8e8e8e !important;
 }
 .LightGreyText {
-  color: #C0C0C0 !important;
+  color: #c0c0c0 !important;
 }
 .Pointer {
   cursor: pointer;
@@ -82,6 +95,9 @@ h2, h2, h3 {
 }
 .TextCenter {
   text-align: center;
+}
+.Capitalize {
+  text-transform: capitalize;
 }
 .LineHeight {
   line-height: 1.4;
@@ -116,14 +132,14 @@ h2, h2, h3 {
 }
 
 .Loading {
-  color: #8E8E8E;
+  color: #8e8e8e;
   font-weight: 400;
   padding: 12px 0;
   font-size: 16px;
 }
 
 .Creating {
-  color: #8E8E8E;
+  color: #8e8e8e;
   font-weight: 400;
   padding: 24px 0;
   font-size: 16px;

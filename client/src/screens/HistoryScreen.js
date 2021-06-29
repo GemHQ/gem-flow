@@ -4,6 +4,7 @@ import { withStores } from '../stores/StoresUtil';
 import { ScreenNames } from '../stores/Constants';
 import { ExchangeAccountCard } from '../components/cards/AccountCard';
 import ErrorMessage from '../components/basic/errorMessage/ErrorMessage';
+import { formatTrxDay, formatTrxTime } from '../util/TextUtil';
 
 const HistoryScreen = ({ dataStore, uiStore }) => {
   const account = dataStore.selectedAccount;
@@ -21,7 +22,7 @@ const HistoryScreen = ({ dataStore, uiStore }) => {
   };
 
   useEffect(() => {
-    dataStore.clearTransactions();
+    // dataStore.clearTransactions();
     loadTransactions();
   }, []);
 
@@ -49,20 +50,71 @@ const HistoryScreen = ({ dataStore, uiStore }) => {
 const TransactionTable = ({ transactions }) => {
   return (
     <div className="transaction-table">
-      <p className="header-title-text">transaction id</p>
-      <p className="header-title-text">type</p>
-      <p className="header-title-text">amount</p>
-      <p className="header-title-text">asset</p>
-      <p className="header-title-text">usd value</p>
-      <p className="header-title-text">status</p>
+      <div className="center-cell">
+        <p className="header-title-text">date</p>
+      </div>
+      <div className="center-cell">
+        <p className="header-title-text">type</p>
+      </div>
+      <div className="right-align-cell">
+        <p className="header-title-text">
+          source
+          <br />
+          amount
+        </p>
+      </div>
+      <div className="left-align-cell">
+        <p className="header-title-text">
+          source
+          <br />
+          currency
+        </p>
+      </div>
+      <div className="right-align-cell">
+        <p className="header-title-text">
+          dest.
+          <br />
+          amount
+        </p>
+      </div>
+      <div className="left-align-cell">
+        <p className="header-title-text">
+          dest.
+          <br />
+          currency
+        </p>
+      </div>
+      <div className="center-cell">
+        <p className="header-title-text">fees</p>
+      </div>
+      <div className="left-align-cell">
+        <p className="header-title-text">transaction id</p>
+      </div>
       {transactions.map((trx) => (
         <React.Fragment key={trx.transactionId}>
-          <p>{trx.transactionId}</p>
-          <p>{trx.transactionType}</p>
-          <p>{trx.amount}</p>
-          <p>{trx.amountCurrency}</p>
-          <p>{`${trx.foreignAmount} ${trx.foreignAmountCurrency}`}</p>
-          <p>{trx.status}</p>
+          <div className="left-align-cell">
+            <p>{formatTrxDay(trx.transactionTimestamp)}</p>
+            <p>{formatTrxTime(trx.transactionTimestamp)}</p>
+          </div>
+          <div className="left-align-cell">
+            <p className="Capitalize">{trx.transactionType}</p>
+          </div>
+          <div className="right-align-cell">
+            <p>{trx.amount}</p>
+          </div>
+          <div className="left-align-cell">
+            <p>{trx.amountCurrency}</p>
+          </div>
+          <div className="right-align-cell">
+            <p>{trx.amount}</p>
+          </div>
+          <div className="left-align-cell">
+            <p>{trx.amountCurrency}</p>
+          </div>
+          <div className="center-cell">
+            <p>{trx.amountCurrency}</p>
+          </div>
+          <p className="left-align-cell">{trx.transactionId}</p>
         </React.Fragment>
       ))}
     </div>
