@@ -129,6 +129,7 @@ const CredentialsScreen = ({ dataStore, uiStore }) => {
           />
         )}
       {currentScreenState !== ScreenStates.LOADING &&
+        !isTransferring &&
         dataStore.credentials.map((credential) => (
           <ConnectionCard
             key={credential.proxyToken}
@@ -139,6 +140,9 @@ const CredentialsScreen = ({ dataStore, uiStore }) => {
                 proxyToken: credential.proxyToken,
               });
               uiStore.setCurrentScreen(ScreenNames.ACCOUNT);
+            }}
+            removeConnection={() => {
+              dataStore.removeCredential(credential);
             }}
           />
         ))}

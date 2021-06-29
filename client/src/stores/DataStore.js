@@ -56,6 +56,9 @@ class DataStore {
 
   @action init = async () => {
     this.client = await setupClient();
+    if (this.selectedUser) {
+      this.setClientBasicAuth(this.selectedUser);
+    }
     this.getUsers();
   };
 
@@ -116,8 +119,9 @@ class DataStore {
       );
       return response;
     } catch (e) {
-      this.setError('Failed to fetch accounts.');
-      console.error(e);
+      this.setError(
+        `Failed to fetch accounts: ${e.response.body.error.message}`
+      );
     }
   };
   @action getTransactions = async () => {
@@ -138,8 +142,9 @@ class DataStore {
         this.transactionsMap.set(trx.transactionId, trx)
       );
     } catch (e) {
-      this.setError('Failed to fetch transaction history.');
-      console.error(e);
+      this.setError(
+        `Failed to fetch transaction history: ${e.response.body.error.message}`
+      );
     }
   };
   @action getInstitutions = async () => {
@@ -149,8 +154,9 @@ class DataStore {
       });
       return response;
     } catch (e) {
-      this.setError('Failed to fetch exchanges list.');
-      console.error(e);
+      this.setError(
+        `Failed to fetch exchanges list: ${e.response.body.error.message}`
+      );
       throw e;
     }
   };
@@ -165,8 +171,9 @@ class DataStore {
       );
       return response;
     } catch (e) {
-      this.setError('Failed to fetch Coinbase Authorization URI.');
-      console.error(e);
+      this.setError(
+        `Failed to fetch Coinbase Authorization URI: ${e.response.body.error.message}`
+      );
       throw e;
     }
   };
@@ -178,8 +185,9 @@ class DataStore {
       });
       return response;
     } catch (e) {
-      this.setError('Failed to fetch SDK token.');
-      console.error(e);
+      this.setError(
+        `Failed to fetch SDK token: ${e.response.body.error.message}`
+      );
       throw e;
     }
   };
@@ -197,7 +205,9 @@ class DataStore {
         this.credentialMap.set(credential.proxyToken, credential)
       );
     } catch (e) {
-      this.setError('Failed to fetch credentails.');
+      this.setError(
+        `Failed to fetch credentails: ${e.response.body.error.message}`
+      );
       throw e;
     }
   };
@@ -281,22 +291,26 @@ class DataStore {
       );
       console.log('coinbase credential', body.data);
     } catch (e) {
-      this.setError('There was a problem connecting your Coinbase account.');
-      console.error(e);
+      this.setError(
+        `There was a problem connecting your Coinbase account: ${e.response.body.error.message}`
+      );
       throw e;
     }
   };
 
+  @action setClientBasicAuth = (user) => {
+    this.client.authorizations.BasicAuth = {
+      username: user.userName,
+      password: user.password,
+    };
+  };
   // item selector methods with flow store cleanup management
   @action selectUser = (userName) => {
     const user = this.usersMap.get(userName);
     this.selectedUser = user;
     this.clearConnections();
     this.clearAccounts();
-    this.client.authorizations.BasicAuth = {
-      username: userName,
-      password: user.password,
-    };
+    this.setClientBasicAuth(user);
   };
   @action selectProfile = (id) => {
     if (this.selectedProfile && id === this.selectedProfile.id) return;
@@ -343,6 +357,22 @@ class DataStore {
   };
   @action removeAccount = (id) => {
     this.accountsMap.delete(id);
+  };
+  @action removeCredential = async ({ exchangeId, proxyToken }) => {
+    try {
+      await this.client.apis.Credentials.delete_credentials(null, {
+        server: SERVER_URL,
+        parameters: {
+          exchangeId,
+          proxyToken,
+        },
+      });
+      this.credentialMap.delete(proxyToken);
+    } catch (e) {
+      this.setError(
+        `Failed to delete credential: ${e.response.body.error.message}`
+      );
+    }
   };
 
   // flow store cleanup methods
