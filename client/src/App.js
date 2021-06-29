@@ -35,8 +35,9 @@ const Screens = withStores(({ uiStore, dataStore }) => {
   let history = useHistory();
   useEffect(() => {
     uiStore.setHistory(history);
-    history.listen(() => {
+    history.listen((location) => {
       dataStore.clearError();
+      dataStore.clearItemsOnScreenChange(location.pathname);
     });
   }, []);
   return (

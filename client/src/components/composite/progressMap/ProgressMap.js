@@ -80,7 +80,6 @@ class ProgressMap extends Component {
               isCompleted={currentScreenIndex > i}
               color={primaryColor}
               onClick={() => {
-                dataStore.clearItemsOnScreenChange(screen);
                 setCurrentScreen(screen, { withOpenForm: false });
               }}
             />

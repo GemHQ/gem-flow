@@ -384,15 +384,7 @@ class DataStore {
           password: process.env.REACT_APP_DEMO_APP_PASSWORD,
         };
         break;
-      case ScreenNames.PROFILE:
-        this.selectedProfile = null;
-        this.selectedConnection = null;
-        this.clearInstitutionUsers();
-        this.clearCredentials();
-        this.clearAccounts();
-        this.clearTransactions();
-        break;
-      case ScreenNames.CONNECTION:
+      case ScreenNames.CREDENTIALS:
         this.selectedInstitutionUser = null;
         this.selectedConnection = null;
         this.clearAccounts();
