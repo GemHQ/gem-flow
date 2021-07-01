@@ -1,6 +1,6 @@
 .transaction-table {
   display: grid;
-  grid-template-columns: auto auto auto auto auto auto auto auto;
+  grid-template-columns: auto auto auto auto auto auto auto auto auto;
   margin-top: 50px;
   .header-title-text {
     color: #8e8e8e;
@@ -11,6 +11,7 @@
     // padding: 25px 0;
     font-size: 12px;
     // border-bottom: 1px solid #d9d9d9;
+    font-weight: 600;
   }
 
   .center-cell {
@@ -19,6 +20,7 @@
     align-items: center;
     justify-content: center;
     height: 74px;
+    background-color: white;
     p {
       text-align: center;
     }

@@ -17,3 +17,12 @@ export const formatTrxTime = (rawDateString) => {
   const date = new Date(rawDateString);
   return dateformat(date, 'HH:MM:ss');
 };
+
+export const formatLocalCurrencyAmount = (amount, localCurrency = 'USD') => {
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: localCurrency,
+    maximumFractionDigits: 2,
+    minimumFractionDigits: 2,
+  }).format(amount);
+};

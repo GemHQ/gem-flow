@@ -4,7 +4,11 @@ import { withStores } from '../stores/StoresUtil';
 import { ScreenNames } from '../stores/Constants';
 import { ExchangeAccountCard } from '../components/cards/AccountCard';
 import ErrorMessage from '../components/basic/errorMessage/ErrorMessage';
-import { formatTrxDay, formatTrxTime } from '../util/TextUtil';
+import {
+  formatLocalCurrencyAmount,
+  formatTrxDay,
+  formatTrxTime,
+} from '../util/TextUtil';
 
 const HistoryScreen = ({ dataStore, uiStore }) => {
   const account = dataStore.selectedAccount;
@@ -84,37 +88,58 @@ const TransactionTable = ({ transactions }) => {
           currency
         </p>
       </div>
-      <div className="center-cell">
+      <div className="right-align-cell">
         <p className="header-title-text">fees</p>
       </div>
-      <div className="left-align-cell">
+      <div className="center-cell" />
+      <div className="center-cell">
         <p className="header-title-text">transaction id</p>
       </div>
       {transactions.map((trx) => (
         <React.Fragment key={trx.transactionId}>
           <div className="left-align-cell">
             <p>{formatTrxDay(trx.transactionTimestamp)}</p>
-            <p>{formatTrxTime(trx.transactionTimestamp)}</p>
-          </div>
-          <div className="left-align-cell">
-            <p className="Capitalize">{trx.transactionType}</p>
-          </div>
-          <div className="right-align-cell">
-            <p>{trx.amount}</p>
-          </div>
-          <div className="left-align-cell">
-            <p>{trx.amountCurrency}</p>
-          </div>
-          <div className="right-align-cell">
-            <p>{trx.amount}</p>
-          </div>
-          <div className="left-align-cell">
-            <p>{trx.amountCurrency}</p>
+            <p className="LightGreyText">
+              {formatTrxTime(trx.transactionTimestamp)}
+            </p>
           </div>
           <div className="center-cell">
-            <p>{trx.amountCurrency}</p>
+            <p className="Capitalize">{trx.transactionType.toLowerCase()}</p>
           </div>
-          <p className="left-align-cell">{trx.transactionId}</p>
+          <div className="right-align-cell">
+            <p>{trx.amount}</p>
+            <p className="LightGreyText">
+              {formatLocalCurrencyAmount(trx.amountLocal, trx.localCurrency)}
+            </p>
+          </div>
+          <div className="left-align-cell">
+            <p>{trx.amountCurrency}</p>
+            <p className="LightGreyText">{trx.localCurrency}</p>
+          </div>
+          <div className="right-align-cell">
+            <p>{trx.foreignAmount}</p>
+            <p className="LightGreyText">
+              {formatLocalCurrencyAmount(
+                trx.foreignAmountLocal,
+                trx.localCurrency
+              )}
+            </p>
+          </div>
+          <div className="left-align-cell">
+            <p>{trx.foreignAmountCurrency}</p>
+            <p className="LightGreyText">{trx.localCurrency}</p>
+          </div>
+          <div className="right-align-cell">
+            <p>{trx.fees}</p>
+            <p className="LightGreyText">
+              {formatLocalCurrencyAmount(trx.feesLocal, trx.localCurrency)}
+            </p>
+          </div>
+          <div className="left-align-cell">
+            <p>{trx.feesCurrency}</p>
+            <p className="LightGreyText">{trx.localCurrency}</p>
+          </div>
+          <p className="right-align-cell">{trx.transactionId}</p>
         </React.Fragment>
       ))}
     </div>
