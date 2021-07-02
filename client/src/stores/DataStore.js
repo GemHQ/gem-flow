@@ -229,7 +229,6 @@ class DataStore {
         server: SERVER_URL,
       });
       const user = { ...body.data, password };
-      console.log(user);
       this.usersMap.set(user.userName, user);
       persistNewUser(user);
     } catch (e) {
