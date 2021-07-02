@@ -6,7 +6,7 @@ export const SERVER_URL = 'https://api.dev.us-west-2.gem.co/flux/v1';
 
 export const setupClient = async () => {
   const client = await SwaggerClient({
-    url: 'https://gem-api.dev.us-west-2.gem.co/flux/swagger',
+    url: 'https://api.dev.us-west-2.gem.co/flux/swagger',
     authorizations: {
       BasicAuth: {
         username: process.env.REACT_APP_DEMO_APP_USERNAME,
