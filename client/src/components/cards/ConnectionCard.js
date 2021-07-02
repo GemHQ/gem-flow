@@ -9,6 +9,7 @@ const ConnectionCard = ({
   onViewClick,
   removeConnection,
   primaryColor,
+  hideButton,
 }) => (
   <GenericCard
     titlesAndValues={[
@@ -27,6 +28,7 @@ const ConnectionCard = ({
       { title: 'Remove connection', onClick: removeConnection },
     ]}
     iconUrl={buildExchangeIconEndpoint(connection.exchangeId)}
+    hideButton={hideButton}
   />
 );
 

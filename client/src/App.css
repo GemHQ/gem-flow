@@ -145,6 +145,12 @@ h3 {
   font-size: 16px;
 }
 
+.NestedDivider {
+  height: 32px;
+  margin: 16px 0 8px 32px;
+  border-left: 1px solid #c0c0c0;
+}
+
 @media (min-width: 1000px) {
   .AppContainer {
     justify-content: center;

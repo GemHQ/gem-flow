@@ -3,6 +3,7 @@ import { ExchangeAccountCard } from '../components/cards/AccountCard';
 import { withStores } from '../stores/StoresUtil';
 import { ScreenNames } from '../stores/Constants';
 import ErrorMessage from '../components/basic/errorMessage/ErrorMessage';
+import ConnectionCard from '../components/cards/ConnectionCard';
 
 const AccountScreen = ({ dataStore, uiStore }) => {
   const [loading, setLoading] = useState(false);
@@ -16,7 +17,7 @@ const AccountScreen = ({ dataStore, uiStore }) => {
     }
   };
   useEffect(() => {
-    dataStore.clearAccounts();
+    // dataStore.clearAccounts();
     loadAccounts();
   }, []);
 
@@ -24,6 +25,8 @@ const AccountScreen = ({ dataStore, uiStore }) => {
   return (
     <>
       <ErrorMessage />
+      <ConnectionCard connection={dataStore.selectedCredential} hideButton />
+      <div className="NestedDivider" />
       <h2 className="ScreenHeading noPadding">
         {loading
           ? `Loading Accounts...`

@@ -135,10 +135,7 @@ const CredentialsScreen = ({ dataStore, uiStore }) => {
             key={credential.proxyToken}
             connection={credential}
             onButtonClick={() => {
-              dataStore.selectCredential({
-                exchangeId: credential.exchangeId,
-                proxyToken: credential.proxyToken,
-              });
+              dataStore.selectCredential(credential);
               uiStore.setCurrentScreen(ScreenNames.ACCOUNT);
             }}
             removeConnection={() => {
@@ -189,10 +186,7 @@ const ExchangeForm = ({ exchanges, dataStore, uiStore, setIsTransferring }) => {
       }
       if (data.eventType === 'connection-success') {
         console.log('[Gem Flow] connection-success received', data);
-        dataStore.selectCredential({
-          exchangeId: data.exchangeId,
-          proxyToken: data.code,
-        });
+        dataStore.selectCredential(credential);
         dataStore.getAccounts();
         uiStore.setCurrentScreen(ScreenNames.ACCOUNT);
       }

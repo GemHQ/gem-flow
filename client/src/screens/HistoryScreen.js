@@ -9,6 +9,7 @@ import {
   formatTrxDay,
   formatTrxTime,
 } from '../util/TextUtil';
+import ConnectionCard from '../components/cards/ConnectionCard';
 
 const HistoryScreen = ({ dataStore, uiStore }) => {
   const account = dataStore.selectedAccount;
@@ -33,12 +34,16 @@ const HistoryScreen = ({ dataStore, uiStore }) => {
   return (
     <>
       <ErrorMessage />
+      <ConnectionCard connection={dataStore.selectedCredential} hideButton />
+      <div className="NestedDivider" />
+      <ExchangeAccountCard account={dataStore.selectedAccount} hideButton />
+      <div className="NestedDivider" />
       <h2 className="ScreenHeading noPadding">
         {loading
           ? 'Loading Transaction History...'
           : `${dataStore.transactionsMap.size} Transactions`}
       </h2>
-      <ExchangeAccountCard
+      {/* <ExchangeAccountCard
         borderedButton
         buttonText="Back to Accounts"
         account={account}
@@ -47,7 +52,7 @@ const HistoryScreen = ({ dataStore, uiStore }) => {
           dataStore.selectAccount(null);
           uiStore.setCurrentScreen(ScreenNames.ACCOUNT);
         }}
-      />
+      /> */}
       {dataStore.transactionsMap.size > 0 && (
         <TransactionTable transactions={dataStore.transactions} />
       )}
