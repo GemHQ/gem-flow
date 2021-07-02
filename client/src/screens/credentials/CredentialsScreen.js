@@ -193,14 +193,13 @@ const ExchangeForm = ({ exchanges, dataStore, uiStore, setIsTransferring }) => {
           exchangeId: data.exchangeId,
           proxyToken: data.code,
         });
-        console.log('[GemFlow] credential', toJS(dataStore.selectedCredential));
         dataStore.getAccounts();
         uiStore.setCurrentScreen(ScreenNames.ACCOUNT);
       }
     };
 
     window.addEventListener('message', messageEventListener);
-    // return window.removeEventListener('message', messageEventListener);
+    return () => window.removeEventListener('message', messageEventListener);
   }, []);
 
   if (currentFormState === FormStates.LOADING_EXCHANGES) {
@@ -257,7 +256,6 @@ const ExchangeForm = ({ exchanges, dataStore, uiStore, setIsTransferring }) => {
                     setCurrentFormState(FormStates.TRANSFERRING);
                     const { body } =
                       await dataStore.getCoinbaseAuthorizationURI();
-                    console.log('authorizationUri', body.authorizationUri);
                     setTimeout(
                       () => (window.location = body.authorizationUri),
                       1000
@@ -270,7 +268,6 @@ const ExchangeForm = ({ exchanges, dataStore, uiStore, setIsTransferring }) => {
                     });
                     const sdkUri = queryString.extract(body.data.sdkUri);
                     setSdkUri(sdkUri);
-                    console.log('sdy uri', sdkUri);
                     setSelectedExchange(exchange);
                     setCurrentFormState(FormStates.ENTER_CREDENTIALS);
                   } catch (e) {
