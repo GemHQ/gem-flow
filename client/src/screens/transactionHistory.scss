@@ -1,6 +1,6 @@
 .transaction-table {
   display: grid;
-  grid-template-columns: auto auto auto auto auto auto auto auto auto;
+  grid-template-columns: repeat(9, auto) max-content;
   margin-top: 50px;
   .header-title-text {
     color: #8e8e8e;
@@ -19,7 +19,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 74px;
+    height: 72px;
     background-color: white;
     p {
       text-align: center;
@@ -30,8 +30,8 @@
     flex-direction: column;
     align-items: flex-end;
     justify-content: center;
-    height: 74px;
-    padding-right: 12px;
+    height: 72px;
+    padding-right: 6px;
     p {
       text-align: right;
     }
@@ -41,9 +41,21 @@
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
-    height: 74px;
+    height: 72px;
+    padding-left: 6px;
     p {
       text-align: left;
     }
+  }
+  .header-cell {
+    height: 48px;
+  }
+
+  .line {
+    grid-column-start: 1;
+    grid-column-end: 11;
+    height: 1px;
+    border-bottom: 1px solid #d9d9d9;
+    width: 100%;
   }
 }

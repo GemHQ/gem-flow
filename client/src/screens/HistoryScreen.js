@@ -34,7 +34,9 @@ const HistoryScreen = ({ dataStore, uiStore }) => {
     <>
       <ErrorMessage />
       <h2 className="ScreenHeading noPadding">
-        {loading ? 'Loading Transaction History...' : 'Transaction History'}
+        {loading
+          ? 'Loading Transaction History...'
+          : `${dataStore.transactionsMap.size} Transactions`}
       </h2>
       <ExchangeAccountCard
         borderedButton
@@ -46,7 +48,9 @@ const HistoryScreen = ({ dataStore, uiStore }) => {
           uiStore.setCurrentScreen(ScreenNames.ACCOUNT);
         }}
       />
-      <TransactionTable transactions={dataStore.transactions} />
+      {dataStore.transactionsMap.size > 0 && (
+        <TransactionTable transactions={dataStore.transactions} />
+      )}
     </>
   );
 };
@@ -54,49 +58,50 @@ const HistoryScreen = ({ dataStore, uiStore }) => {
 const TransactionTable = ({ transactions }) => {
   return (
     <div className="transaction-table">
-      <div className="center-cell">
+      <div className="center-cell header-cell">
         <p className="header-title-text">date</p>
       </div>
-      <div className="center-cell">
+      <div className="center-cell header-cell">
         <p className="header-title-text">type</p>
       </div>
-      <div className="right-align-cell">
+      <div className="right-align-cell header-cell">
         <p className="header-title-text">
           source
           <br />
           amount
         </p>
       </div>
-      <div className="left-align-cell">
+      <div className="left-align-cell header-cell">
         <p className="header-title-text">
           source
           <br />
           currency
         </p>
       </div>
-      <div className="right-align-cell">
+      <div className="right-align-cell header-cell">
         <p className="header-title-text">
           dest.
           <br />
           amount
         </p>
       </div>
-      <div className="left-align-cell">
+      <div className="left-align-cell header-cell">
         <p className="header-title-text">
           dest.
           <br />
           currency
         </p>
       </div>
-      <div className="right-align-cell">
+      <div className="right-align-cell header-cell">
         <p className="header-title-text">fees</p>
       </div>
-      <div className="center-cell" />
-      <div className="center-cell">
+      <div className="center-cell header-cell" />
+      <div className="center-cell header-cell">
         <p className="header-title-text">transaction id</p>
       </div>
       {transactions.map((trx) => (
         <React.Fragment key={trx.transactionId}>
+          <div className="line" />
           <div className="left-align-cell">
             <p>{formatTrxDay(trx.transactionTimestamp)}</p>
             <p className="LightGreyText">
