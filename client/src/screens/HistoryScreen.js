@@ -71,28 +71,28 @@ const TransactionTable = ({ transactions }) => {
       </div>
       <div className="right-align-cell header-cell">
         <p className="header-title-text">
-          source
+          foreign
           <br />
           amount
         </p>
       </div>
       <div className="left-align-cell header-cell">
         <p className="header-title-text">
-          source
+          foreign
           <br />
           currency
         </p>
       </div>
       <div className="right-align-cell header-cell">
         <p className="header-title-text">
-          dest.
+          source
           <br />
           amount
         </p>
       </div>
       <div className="left-align-cell header-cell">
         <p className="header-title-text">
-          dest.
+          source
           <br />
           currency
         </p>
@@ -117,16 +117,6 @@ const TransactionTable = ({ transactions }) => {
             <p className="Capitalize">{trx.transactionType.toLowerCase()}</p>
           </div>
           <div className="right-align-cell">
-            <p>{trx.amount}</p>
-            <p className="LightGreyText">
-              {formatLocalCurrencyAmount(trx.amountLocal, trx.localCurrency)}
-            </p>
-          </div>
-          <div className="left-align-cell">
-            <p>{trx.amountCurrency}</p>
-            <p className="LightGreyText">{trx.localCurrency}</p>
-          </div>
-          <div className="right-align-cell">
             <p>{trx.foreignAmount}</p>
             <p className="LightGreyText">
               {formatLocalCurrencyAmount(
@@ -137,6 +127,16 @@ const TransactionTable = ({ transactions }) => {
           </div>
           <div className="left-align-cell">
             <p>{trx.foreignAmountCurrency}</p>
+            <p className="LightGreyText">{trx.localCurrency}</p>
+          </div>
+          <div className="right-align-cell">
+            <p>{trx.amount}</p>
+            <p className="LightGreyText">
+              {formatLocalCurrencyAmount(trx.amountLocal, trx.localCurrency)}
+            </p>
+          </div>
+          <div className="left-align-cell">
+            <p>{trx.amountCurrency}</p>
             <p className="LightGreyText">{trx.localCurrency}</p>
           </div>
           <div className="right-align-cell">
