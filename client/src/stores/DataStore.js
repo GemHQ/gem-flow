@@ -84,7 +84,6 @@ class DataStore {
           password: this.selectedUser.password,
         };
       }
-      console.log(this.client);
     }, 100);
   };
   @action getProfiles = async () => {
