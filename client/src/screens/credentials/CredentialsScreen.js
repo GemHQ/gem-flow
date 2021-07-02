@@ -186,7 +186,12 @@ const ExchangeForm = ({ exchanges, dataStore, uiStore, setIsTransferring }) => {
       }
       if (data.eventType === 'connection-success') {
         console.log('[Gem Flow] connection-success received', data);
-        dataStore.selectCredential(credential);
+        const now = new Date();
+        dataStore.selectCredential({
+          proxyToken: data.code,
+          exchangeId: data.exchangeId,
+          createdAt: now.toISOString(),
+        });
         dataStore.getAccounts();
         uiStore.setCurrentScreen(ScreenNames.ACCOUNT);
       }
