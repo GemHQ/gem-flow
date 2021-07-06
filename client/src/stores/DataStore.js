@@ -1,20 +1,13 @@
 import { observable, action, computed } from 'mobx';
 import { persist } from 'mobx-persist';
-import {
-  ScreenNames,
-  Endpoints,
-  InstitutionIcons,
-  InstitutionIds,
-} from './Constants';
+import { ScreenNames, Endpoints } from './Constants';
 import { httpGet, httpPost, httpDelete } from '../util/RequestUtil';
 import {
   formatProfileRequestBody,
   formatInstitutionUserRequestBody,
-  formatConnectionRequest,
 } from '../util/RequestFormatter';
 import {
   deletePersistedUser,
-  getPersistedConnectionsForUser,
   getPersistedUsers,
   persistConnection,
   persistNewUser,

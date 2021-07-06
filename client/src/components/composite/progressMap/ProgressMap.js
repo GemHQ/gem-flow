@@ -3,8 +3,7 @@ import './progressMap.css';
 import RectangleTitle from './rectangleTitle/RectangleTitle';
 import FlowDots from './flowDots/FlowDots';
 import { withStores } from '../../../stores/StoresUtil';
-import { ScreenNames, FlowIds, ScreenTitles } from '../../../stores/Constants';
-import { filterPaymentInstitutions } from '../../../util/PartnerUtil';
+import { ScreenNames, ScreenTitles } from '../../../stores/Constants';
 import { capitalizeFirstLetter } from '../../../util/TextUtil';
 
 class ProgressMap extends Component {
@@ -19,21 +18,7 @@ class ProgressMap extends Component {
   };
 
   getMarkerSubtitles = () => {
-    const { uiStore, dataStore } = this.props;
-    const connectionSubtitle =
-      uiStore.flowId === FlowIds.ONRAMP
-        ? this.determineSubtitle(
-            'Connection',
-            'connection_id',
-            dataStore.selectedInstitutionUser,
-            dataStore.institutionUsersMap.size
-          )
-        : this.determineSubtitle(
-            'Connection',
-            'id',
-            dataStore.selectedConnection,
-            filterPaymentInstitutions(dataStore.connections).length
-          );
+    const { dataStore } = this.props;
     return {
       [ScreenNames.USER]: dataStore.selectedUser
         ? `${dataStore.selectedUser.userName.substr(0, 27)}...`

@@ -38,7 +38,7 @@ const UserScreen = ({ dataStore, uiStore }) => {
         {dataStore.users.map((user) => (
           <UserCard
             user={user}
-            key={user.id}
+            key={user.userName}
             removeUser={() => dataStore.removeUser(user.userName)}
             onButtonClick={() => {
               dataStore.selectUser(user.userName, nextScreen);
