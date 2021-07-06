@@ -1,6 +1,6 @@
 .transaction-table {
   display: grid;
-  grid-template-columns: repeat(9, auto) max-content;
+  grid-template-columns: repeat(10, auto) max-content;
   margin-top: 8px;
   .header-title-text {
     color: #8e8e8e;
@@ -53,7 +53,7 @@
 
   .line {
     grid-column-start: 1;
-    grid-column-end: 11;
+    grid-column-end: 12;
     height: 1px;
     border-bottom: 1px solid #d9d9d9;
     width: 100%;

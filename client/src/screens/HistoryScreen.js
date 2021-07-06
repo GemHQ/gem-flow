@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './transactionHistory.scss';
 import { withStores } from '../stores/StoresUtil';
-import { ScreenNames } from '../stores/Constants';
 import { ExchangeAccountCard } from '../components/cards/AccountCard';
 import ErrorMessage from '../components/basic/errorMessage/ErrorMessage';
 import {
@@ -10,6 +9,8 @@ import {
   formatTrxTime,
 } from '../util/TextUtil';
 import ConnectionCard from '../components/cards/ConnectionCard';
+import EastSVG from '../assets/east.svg';
+import WestSVG from '../assets/west.svg';
 
 const HistoryScreen = ({ dataStore, uiStore }) => {
   const account = dataStore.selectedAccount;
@@ -83,6 +84,7 @@ const TransactionTable = ({ transactions }) => {
           currency
         </p>
       </div>
+      <div className="center-cell" />
       <div className="right-align-cell header-cell">
         <p className="header-title-text">
           source
@@ -128,6 +130,14 @@ const TransactionTable = ({ transactions }) => {
           <div className="left-align-cell">
             <p>{trx.foreignAmountCurrency}</p>
             <p className="LightGreyText">{trx.localCurrency}</p>
+          </div>
+          <div className="left-align-cell" style={{ paddingLeft: 0 }}>
+            {trx.transactionType === 'PURCHASED' && (
+              <img alt="trx.trx.transactionType" src={WestSVG} />
+            )}
+            {trx.transactionType === 'SOLD' && (
+              <img alt="trx.trx.transactionType" src={EastSVG} />
+            )}
           </div>
           <div className="right-align-cell">
             <p>{trx.amount}</p>
