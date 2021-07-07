@@ -159,6 +159,7 @@ const ExchangeForm = ({ exchanges, dataStore, uiStore, setIsTransferring }) => {
   const [exchangeSearchValue, setExchangeSearchValue] = useState('');
   const [sdkUri, setSdkUri] = useState();
   const [currentFormState, setCurrentFormState] = useState(FormStates.DEFAULT);
+  const [isContinuing, setIsContinuing] = useState(false);
 
   const Titles = {
     [FormStates.DEFAULT]: `Let's get a picture of your profits`,
@@ -185,6 +186,7 @@ const ExchangeForm = ({ exchanges, dataStore, uiStore, setIsTransferring }) => {
       if (data.eventType === 'connection-error') {
         console.log('[Gem Flow] connection-error received', data);
         setCurrentFormState(FormStates.ERROR);
+        setIsContinuing(false);
       }
       if (data.eventType === 'connection-success') {
         console.log('[Gem Flow] connection-success received', data);
@@ -296,7 +298,15 @@ const ExchangeForm = ({ exchanges, dataStore, uiStore, setIsTransferring }) => {
               >
                 Back
               </Button>
-              <Button onClick={sendContinueMessage}>Continue</Button>
+              <Button
+                onClick={() => {
+                  setIsContinuing(true);
+                  sendContinueMessage();
+                }}
+                disabled={isContinuing}
+              >
+                {isContinuing ? 'Continuing...' : 'Continue'}
+              </Button>
             </div>
           </>
         )}

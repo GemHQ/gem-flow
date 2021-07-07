@@ -13,7 +13,6 @@ export const setMessageSharedData = (newData) => {
 };
 
 export const sendContinueMessage = () => {
-  // console.log('sending continue message', window.frames[0]);
   const frame = document.getElementById('inuit-connect');
   frame.contentWindow.postMessage(
     JSON.stringify({ eventType: 'continue', ...data }),
