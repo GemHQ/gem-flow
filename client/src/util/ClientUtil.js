@@ -25,7 +25,7 @@ export const CoinbaseOAuthParams = {
   provider_name: 'coinbase',
   provider_id:
     '93d7d07b5618cc48c2b2281b500641a716ce206422a5e6ef881465a2d9097ff8',
-  offering_redirect_uri: 'http://localhost:3000/oauth/coinbase/callback',
+  offering_redirect_uri: process.env.REACT_APP_COINBASE_REDIRECT_URI,
   oauth2_scopes:
     'wallet:user:read,wallet:accounts:read,wallet:deposits:read,wallet:withdrawals:read,wallet:buys:read,wallet:sells:read,wallet:orders:read,wallet:transactions:read',
 };
