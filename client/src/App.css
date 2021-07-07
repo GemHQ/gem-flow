@@ -145,10 +145,25 @@ h3 {
   font-size: 16px;
 }
 
-.NestedDivider {
-  height: 32px;
-  margin: 16px 0 8px 32px;
-  border-left: 1px solid #c0c0c0;
+.nested-title-padding {
+  padding: 0;
+  padding-top: 40px;
+}
+
+.nested-cards {
+  display: flex;
+}
+
+.nested-cards-line {
+  border-right: 2px solid #d9d9d9;
+  margin-top: 48px;
+  margin-bottom: 53px;
+}
+.nested-horizontal-line {
+  border-bottom: 2px solid #d9d9d9;
+  width: 24px;
+  margin-right: 20px;
+  margin-top: 16px;
 }
 
 @media (min-width: 1000px) {

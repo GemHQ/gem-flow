@@ -42,16 +42,19 @@ export const ExchangeAccountCard = withPrimaryColor(
     ];
 
     return (
-      <GenericCard
-        titlesAndValues={titlesAndValues}
-        buttonText={buttonText || 'View Transactions'}
-        onButtonClick={onButtonClick}
-        primaryColor={primaryColor}
-        iconUrl={`https://gem-widgets-assets.s3-us-west-2.amazonaws.com/currencies/crypto/${account.currency.currencyCode.toLowerCase()}.svg`}
-        fallbackIconUrl="https://gem-widgets-assets.s3-us-west-2.amazonaws.com/currencies/crypto/placeholder.svg"
-        dots={false}
-        hideButton={hideButton}
-      />
+      <div className="FlexAlignCenter">
+        <div className="nested-horizontal-line" />
+        <GenericCard
+          titlesAndValues={titlesAndValues}
+          buttonText={buttonText || 'View Transactions'}
+          onButtonClick={onButtonClick}
+          primaryColor={primaryColor}
+          iconUrl={`https://gem-widgets-assets.s3-us-west-2.amazonaws.com/currencies/crypto/${account.currency.currencyCode.toLowerCase()}.svg`}
+          fallbackIconUrl="https://gem-widgets-assets.s3-us-west-2.amazonaws.com/currencies/crypto/placeholder.svg"
+          dots={false}
+          hideButton={hideButton}
+        />
+      </div>
     );
   }
 );

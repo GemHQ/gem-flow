@@ -26,22 +26,27 @@ const AccountScreen = ({ dataStore, uiStore }) => {
     <>
       <ErrorMessage />
       <ConnectionCard connection={dataStore.selectedCredential} hideButton />
-      <div className="NestedDivider" />
-      <h2 className="ScreenHeading noPadding">
+      {/* <div className="NestedDivider" /> */}
+      <h2 className="ScreenHeading nested-title-padding">
         {loading
           ? `Loading Accounts...`
           : `${numberOfItems} Account${numberOfItems > 1 ? 's' : ''}`}
       </h2>
-      {dataStore.accounts.map((account) => (
-        <ExchangeAccountCard
-          account={account}
-          key={account.accountId}
-          onButtonClick={() => {
-            dataStore.selectAccount(account.accountId);
-            uiStore.setCurrentScreen(ScreenNames.HISTORY);
-          }}
-        />
-      ))}
+      <div className="nested-cards">
+        <div className="nested-cards-line" />
+        <div>
+          {dataStore.accounts.map((account) => (
+            <ExchangeAccountCard
+              account={account}
+              key={account.accountId}
+              onButtonClick={() => {
+                dataStore.selectAccount(account.accountId);
+                uiStore.setCurrentScreen(ScreenNames.HISTORY);
+              }}
+            />
+          ))}
+        </div>
+      </div>
     </>
   );
 };

@@ -37,9 +37,15 @@ const HistoryScreen = ({ dataStore, uiStore }) => {
       <ErrorMessage />
       <ConnectionCard connection={dataStore.selectedCredential} hideButton />
       <div className="NestedDivider" />
-      <ExchangeAccountCard account={dataStore.selectedAccount} hideButton />
+      <div className="nested-cards">
+        <div className="nested-cards-line" />
+        <ExchangeAccountCard account={dataStore.selectedAccount} hideButton />
+      </div>
       <div className="NestedDivider" />
-      <h2 className="ScreenHeading noPadding">
+      <h2
+        className="ScreenHeading nested-title-padding"
+        style={{ marginLeft: 47 }}
+      >
         {loading
           ? 'Loading Transaction History...'
           : `${dataStore.transactionsMap.size} Transactions`}
