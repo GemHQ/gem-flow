@@ -22,7 +22,6 @@ const ConnectionCompleteScreen = ({ uiStore, dataStore }) => {
           isLoading = true;
           let params = new URL(document.location).searchParams;
           let coinbaseCode = params.get('code');
-          console.log('coinbase code:', coinbaseCode);
           await dataStore.createCredentialWithOAuthCode(coinbaseCode);
           setCurrentScreenState(ScreenStates.SUCCESS);
           setTimeout(() => uiStore.setCurrentScreen(ScreenNames.ACCOUNT), 1000);
@@ -57,7 +56,9 @@ const ConnectionCompleteScreen = ({ uiStore, dataStore }) => {
             <h2
               className="Underline Pointer"
               onClick={() => {
-                uiStore.setCurrentScreen(ScreenNames.CREDENTIALS);
+                uiStore.setCurrentScreen(ScreenNames.CREDENTIALS, {
+                  withOpenForm: true,
+                });
               }}
             >
               Try again
