@@ -169,7 +169,10 @@ const ExchangeForm = ({ exchanges, dataStore, uiStore, setIsTransferring }) => {
 
   useEffect(() => {
     const messageEventListener = (event) => {
-      if (event.origin !== IntuiConnectURL) return;
+      if (event.origin !== IntuiConnectURL) {
+        console.log(event.origin, IntuiConnectURL);
+        return;
+      }
       const data = JSON.parse(event.data);
       setIframeHeight(data.height);
       if (data.eventType === 'form-ready') {
