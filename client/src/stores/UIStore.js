@@ -26,7 +26,6 @@ class UIStore {
   };
 
   @action setCurrentScreen = (screen, initialState) => {
-    console.log(screen, this.history);
     this.history.push(screen);
     this.currentScreen = screen;
     initialState && this.initialScreenStates.set(screen, initialState);
