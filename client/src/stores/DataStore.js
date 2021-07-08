@@ -280,7 +280,7 @@ class DataStore {
           server: SERVER_URL,
         }
       );
-      console.log('coinbase credential', body.data);
+      return body.partnerAuthTokens[0].partnerAuthTokenId;
     } catch (e) {
       this.setError(
         `There was a problem connecting your Coinbase account: ${e.response.body.error.message}`

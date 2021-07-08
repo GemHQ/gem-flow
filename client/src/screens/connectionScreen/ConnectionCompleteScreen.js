@@ -22,9 +22,14 @@ const ConnectionCompleteScreen = ({ uiStore, dataStore }) => {
           isLoading = true;
           let params = new URL(document.location).searchParams;
           let coinbaseCode = params.get('code');
-          await dataStore.createCredentialWithOAuthCode(coinbaseCode);
+          const proxyToken = await dataStore.createCredentialWithOAuthCode(
+            coinbaseCode
+          );
           setCurrentScreenState(ScreenStates.SUCCESS);
-          setTimeout(() => uiStore.setCurrentScreen(ScreenNames.ACCOUNT), 1000);
+          await dataStore.getCredentials();
+          const coinbaseCredential = dataStore.credentialMap.get(proxyToken);
+          dataStore.selectCredential(coinbaseCredential);
+          setTimeout(() => uiStore.setCurrentScreen(ScreenNames.ACCOUNT), 300);
           clearInterval(interval);
         }
       } catch (e) {
