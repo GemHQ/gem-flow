@@ -18,10 +18,11 @@ const GenericCard = ({
   fallbackIconUrl,
   hideButton,
   borderedButton,
+  className = '',
 }) => {
   const [iconSrc, setIconSrc] = useState(iconUrl);
   return (
-    <div className="Card">
+    <div className={`Card ${className}`}>
       <div className="FlexAlignCenter">
         {iconUrl && (
           <img

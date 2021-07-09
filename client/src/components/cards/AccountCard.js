@@ -45,6 +45,7 @@ export const ExchangeAccountCard = withPrimaryColor(
       <div className="FlexAlignCenter">
         <div className="nested-horizontal-line" />
         <GenericCard
+          className="ExchangeAccountCard"
           titlesAndValues={titlesAndValues}
           buttonText={buttonText || 'View Transactions'}
           onButtonClick={onButtonClick}

@@ -460,7 +460,14 @@ class DataStore {
     return [...this.connectionsMap.values()].reverse();
   }
   @computed get accounts() {
-    return [...this.accountsMap.values()].reverse();
+    const allAccounts = [...this.accountsMap.values()];
+    const withBalances = allAccounts.filter((account) =>
+      Boolean(account.availableBalance)
+    );
+    const withoutBalances = allAccounts.filter(
+      (account) => !account.availableBalance
+    );
+    return [...withBalances, ...withoutBalances];
   }
   @computed get transactions() {
     return [...this.transactionsMap.values()].reverse();
