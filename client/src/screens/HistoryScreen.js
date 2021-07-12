@@ -4,6 +4,7 @@ import { withStores } from '../stores/StoresUtil';
 import { ExchangeAccountCard } from '../components/cards/AccountCard';
 import ErrorMessage from '../components/basic/errorMessage/ErrorMessage';
 import {
+  formatAmount,
   formatLocalCurrencyAmount,
   formatTrxDay,
   formatTrxTime,
@@ -125,7 +126,7 @@ const TransactionTable = ({ transactions }) => {
             <p className="Capitalize">{trx.transactionType.toLowerCase()}</p>
           </div>
           <div className="right-align-cell">
-            <p>{trx.foreignAmount}</p>
+            <p>{formatAmount(trx.foreignAmount)}</p>
             <p className="LightGreyText">
               {formatLocalCurrencyAmount(
                 trx.foreignAmountLocal,
@@ -146,7 +147,7 @@ const TransactionTable = ({ transactions }) => {
             )}
           </div>
           <div className="right-align-cell">
-            <p>{trx.amount}</p>
+            <p>{formatAmount(trx.amount)}</p>
             <p className="LightGreyText">
               {formatLocalCurrencyAmount(trx.amountLocal, trx.localCurrency)}
             </p>

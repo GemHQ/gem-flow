@@ -30,3 +30,15 @@ export const formatLocalCurrencyAmount = (amount, localCurrency = 'USD') => {
     minimumFractionDigits: 2,
   }).format(amount);
 };
+
+export const formatAmount = (amount) => {
+  let amountString = amount.toString();
+  if (amountString.includes('-')) {
+    const hIndex = amountString.split('-');
+    const exp = hIndex[1];
+    if (exp) {
+      amountString = amount.toFixed(exp);
+    }
+  }
+  return amountString;
+};
